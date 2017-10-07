@@ -4,11 +4,10 @@
 /*------------------------------------------------------------------------------
 < Macross >
 ------------------------------------------------------------------------------*/
-#define PIXEL_SCALE (2.0f)
 #define PIXEL_TO_UNIT (0.01f)
 #define UNIT_TO_PIXEL (100)
-#define SCREEN_WIDTH (25 * 16 * PIXEL_SCALE)
-#define SCREEN_HEIGHT (15 * 16 * PIXEL_SCALE)
+#define SCREEN_WIDTH (800)
+#define SCREEN_HEIGHT (600)
 #define PI (3.141593f)
 
 
@@ -33,18 +32,17 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-// Include stbi Library
+// Include FMOD
+#include <fmod.hpp>
+// Include assimp
+#include <assimp/Importer.hpp>
+// Include stbi
 #include "stb_image.h"
-// Include FMOD Library
-#include "fmod.hpp"
 
 
 /*------------------------------------------------------------------------------
 < Core >
 ------------------------------------------------------------------------------*/
-class GameObject;
-class SceneManager;
-
 
 /*------------------------------------------------------------------------------
 < Engine >

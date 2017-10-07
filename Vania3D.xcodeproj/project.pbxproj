@@ -23,6 +23,7 @@
 		602434431F88EA8600DA6CA4 /* libGLEW.2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A351F88C83400AE4BEB /* libGLEW.2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602434441F88EA8600DA6CA4 /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A311F88C83000AE4BEB /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602434451F88EA8600DA6CA4 /* libfmodL.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A321F88C83000AE4BEB /* libfmodL.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		602434481F88F04600DA6CA4 /* libassimp.3.3.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				602434481F88F04600DA6CA4 /* libassimp.3.3.1.dylib in CopyFiles */,
 				602434421F88EA8600DA6CA4 /* libglfw.3.2.dylib in CopyFiles */,
 				602434431F88EA8600DA6CA4 /* libGLEW.2.0.0.dylib in CopyFiles */,
 				602434441F88EA8600DA6CA4 /* libfmod.dylib in CopyFiles */,
@@ -70,6 +72,7 @@
 		602434391F88E70B00DA6CA4 /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		6024343B1F88E79A00DA6CA4 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		6024343C1F88E79A00DA6CA4 /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
+		602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = Frameworks/assimp/lib/libassimp.3.3.1.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +130,7 @@
 		60070A2C1F88C67C00AE4BEB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */,
 				60070A3E1F88C86700AE4BEB /* OpenGL.framework */,
 				60070A371F88C83B00AE4BEB /* libglfw.3.2.dylib */,
 				60070A351F88C83400AE4BEB /* libGLEW.2.0.0.dylib */,
@@ -372,6 +376,7 @@
 					./Frameworks/FMOD/inc,
 					./Frameworks/glew/inc,
 					./Frameworks/glm/inc,
+					./Frameworks/assimp/inc,
 				);
 				INFOPLIST_FILE = Cocoa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -380,11 +385,13 @@
 					"$(PROJECT_DIR)/Frameworks/FMOD/lib",
 					"$(PROJECT_DIR)/Frameworks/glew/lib",
 					"$(PROJECT_DIR)/Frameworks/glfw/lib",
+					"$(PROJECT_DIR)/Frameworks/assimp/lib",
 				);
 				OTHER_LDFLAGS = (
 					./Frameworks/glew/lib/libGLEW.2.0.0.dylib,
 					./Frameworks/glfw/lib/libglfw.3.2.dylib,
 					./Frameworks/FMOD/lib/libfmodL.dylib,
+					./Frameworks/assimp/lib/libassimp.3.3.1.dylib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = haijian.Cocoa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -407,6 +414,7 @@
 					./Frameworks/FMOD/inc,
 					./Frameworks/glew/inc,
 					./Frameworks/glm/inc,
+					./Frameworks/assimp/inc,
 				);
 				INFOPLIST_FILE = Cocoa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -415,11 +423,13 @@
 					"$(PROJECT_DIR)/Frameworks/FMOD/lib",
 					"$(PROJECT_DIR)/Frameworks/glew/lib",
 					"$(PROJECT_DIR)/Frameworks/glfw/lib",
+					"$(PROJECT_DIR)/Frameworks/assimp/lib",
 				);
 				OTHER_LDFLAGS = (
 					./Frameworks/glew/lib/libGLEW.2.0.0.dylib,
 					./Frameworks/glfw/lib/libglfw.3.2.dylib,
 					./Frameworks/FMOD/lib/libfmod.dylib,
+					./Frameworks/assimp/lib/libassimp.3.3.1.dylib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = haijian.Cocoa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
