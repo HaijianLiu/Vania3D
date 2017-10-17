@@ -36,6 +36,8 @@
 #include <fmod.hpp>
 // include assimp
 #include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 // include stbi
 #include "stb_image.h"
 
@@ -48,24 +50,13 @@
 < Engine >
 ------------------------------------------------------------------------------*/
 #include "Window.hpp"
-//#include "Input.hpp"
 #include "Shader.hpp"
-//#include "Timer.hpp"
-// #include "Quad.hpp"
-// #include "Audio.hpp"
-// #include "Texture.hpp"
-// #include "TiledMap.hpp"
-// #include "Transform.hpp"
+#include "Texture.hpp"
+#include "Mesh.hpp"
+#include "Model.hpp"
 #include "Resources.hpp"
 #include "RenderPass.hpp"
-// #include "Sprite.hpp"
-// #include "Animation.hpp"
 #include "Camera.hpp"
-// #include "BoxCollider.hpp"
-// #include "Status.hpp"
-// #include "GameObject.hpp"
-// #include "Particle.hpp"
-// #include "ParticleSystem.hpp"
 
 
 /*------------------------------------------------------------------------------

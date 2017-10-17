@@ -24,6 +24,9 @@
 		602434441F88EA8600DA6CA4 /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A311F88C83000AE4BEB /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602434451F88EA8600DA6CA4 /* libfmodL.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A321F88C83000AE4BEB /* libfmodL.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602434481F88F04600DA6CA4 /* libassimp.3.3.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		604B57821F945A84009DE302 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57801F945A84009DE302 /* Model.cpp */; };
+		604B57851F945A92009DE302 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57831F945A92009DE302 /* Mesh.cpp */; };
+		604B57881F94928A009DE302 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57861F94928A009DE302 /* Texture.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,6 +76,12 @@
 		6024343B1F88E79A00DA6CA4 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		6024343C1F88E79A00DA6CA4 /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
 		602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = Frameworks/assimp/lib/libassimp.3.3.1.dylib; sourceTree = "<group>"; };
+		604B57801F945A84009DE302 /* Model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		604B57811F945A84009DE302 /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Model.hpp; sourceTree = "<group>"; };
+		604B57831F945A92009DE302 /* Mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
+		604B57841F945A92009DE302 /* Mesh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
+		604B57861F94928A009DE302 /* Texture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		604B57871F94928A009DE302 /* Texture.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +167,12 @@
 				602434391F88E70B00DA6CA4 /* Camera.hpp */,
 				6024343B1F88E79A00DA6CA4 /* Game.cpp */,
 				6024343C1F88E79A00DA6CA4 /* Game.hpp */,
+				604B57801F945A84009DE302 /* Model.cpp */,
+				604B57811F945A84009DE302 /* Model.hpp */,
+				604B57831F945A92009DE302 /* Mesh.cpp */,
+				604B57841F945A92009DE302 /* Mesh.hpp */,
+				604B57861F94928A009DE302 /* Texture.cpp */,
+				604B57871F94928A009DE302 /* Texture.hpp */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -235,14 +250,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				604B57821F945A84009DE302 /* Model.cpp in Sources */,
 				602434371F88DCBC00DA6CA4 /* RenderPass.cpp in Sources */,
 				60070A301F88C82A00AE4BEB /* main.cpp in Sources */,
 				6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */,
+				604B57851F945A92009DE302 /* Mesh.cpp in Sources */,
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
 				6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */,
 				602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */,
 				602434311F88DA2300DA6CA4 /* Shader.cpp in Sources */,
 				6024342D1F88D89200DA6CA4 /* Engine.cpp in Sources */,
+				604B57881F94928A009DE302 /* Texture.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -36,12 +36,18 @@ void Resources::loadShader(const char* name, const char* vertexPath, const char*
 Shader* Resources::getShader(const char* name) {
 	return this->shaders[name];
 }
-// void Resources::loadTexture(const char* name, const char* path) {
-// 	this->textures.insert(std::make_pair(name, new Texture(path)));
-// }
-// Texture* Resources::getTexture(const char* name) {
-// 	return this->textures[name];
-// }
+void Resources::loadTexture(const char* name, const char* path) {
+	this->textures.insert(std::make_pair(name, new Texture(path)));
+}
+Texture* Resources::getTexture(const char* name) {
+	return this->textures[name];
+}
+void Resources::loadModel(const char* name, const char* path) {
+	this->models.insert(std::make_pair(name, new Model(path)));
+}
+Model* Resources::getModel(const char* name) {
+	return this->models[name];
+}
 // void Resources::loadAudio(const char* name, const char* path) {
 // 	this->audios.insert(std::make_pair(name, new Audio(path)));
 // }
