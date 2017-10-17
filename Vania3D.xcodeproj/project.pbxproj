@@ -27,6 +27,7 @@
 		604B57821F945A84009DE302 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57801F945A84009DE302 /* Model.cpp */; };
 		604B57851F945A92009DE302 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57831F945A92009DE302 /* Mesh.cpp */; };
 		604B57881F94928A009DE302 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57861F94928A009DE302 /* Texture.cpp */; };
+		604B578B1F95CA40009DE302 /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57891F95CA40009DE302 /* Transform.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -82,6 +83,8 @@
 		604B57841F945A92009DE302 /* Mesh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
 		604B57861F94928A009DE302 /* Texture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		604B57871F94928A009DE302 /* Texture.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
+		604B57891F95CA40009DE302 /* Transform.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
+		604B578A1F95CA40009DE302 /* Transform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +176,8 @@
 				604B57841F945A92009DE302 /* Mesh.hpp */,
 				604B57861F94928A009DE302 /* Texture.cpp */,
 				604B57871F94928A009DE302 /* Texture.hpp */,
+				604B57891F95CA40009DE302 /* Transform.cpp */,
+				604B578A1F95CA40009DE302 /* Transform.hpp */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -256,6 +261,7 @@
 				6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */,
 				604B57851F945A92009DE302 /* Mesh.cpp in Sources */,
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
+				604B578B1F95CA40009DE302 /* Transform.cpp in Sources */,
 				6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */,
 				602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */,
 				602434311F88DA2300DA6CA4 /* Shader.cpp in Sources */,
