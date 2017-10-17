@@ -4,12 +4,11 @@
 
 class Window {
 private:
-	/* data */
+	GLFWwindow* createWindow(const char* name, int screenWidth, int screenHeight);
 
 public:
 	// GLFWwindow
 	GLFWwindow* window;
-
 	// window information
 	int screenWidth, screenHeight;
 	float retina;
@@ -17,7 +16,6 @@ public:
 	Window(const char* name, int screenWidth, int screenHeight);
 	~Window();
 
-	GLFWwindow* createWindow(const char* name, int screenWidth, int screenHeight);
 	void getWindowSize();
 };
 

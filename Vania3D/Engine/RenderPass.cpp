@@ -38,18 +38,10 @@ RenderPass::~RenderPass() {
 < start >
 ------------------------------------------------------------------------------*/
 void RenderPass::init(int number) {
-
-
-
-
-
-
-
-
-
-	// getWindow
-	this->window = getWindow();
-	this->resources = getGame()->resources;
+	// get game
+	Game* game = Game::getInstance();
+	this->window = game->window;
+	this->resources = game->resources;
 
 	// configure (floating point) framebuffers
 	glGenFramebuffers(1, &this->fbo);

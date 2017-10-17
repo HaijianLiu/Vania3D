@@ -1,51 +1,5 @@
 #include "Engine.hpp"
 
-/*------------------------------------------------------------------------------
-< globals >
-------------------------------------------------------------------------------*/
-Window* window = new Window("vania", SCREEN_WIDTH, SCREEN_HEIGHT);
-RenderPass* renderPass = new RenderPass();
-Game* game = new Game();
-
-
-/*------------------------------------------------------------------------------
-< clear >
-------------------------------------------------------------------------------*/
-void clear() {
-	delete window;
-	delete renderPass;
-	delete game;
-	glfwTerminate(); // glfw: terminate, clearing all previously allocated GLFW resources.
-}
-
-
-/*------------------------------------------------------------------------------
-< start >
-------------------------------------------------------------------------------*/
-void start() {
-	game->start();
-	renderPass->init(1);
-}
-
-
-/*------------------------------------------------------------------------------
-< update >
-------------------------------------------------------------------------------*/
-void update() {
-	game->update();
-}
-
-
-/*------------------------------------------------------------------------------
-< get functions >
-------------------------------------------------------------------------------*/
-Window* getWindow() {
-	return window;
-}
-Game* getGame() {
-	return game;
-}
-
 
 /*==============================================================================
 < main >
@@ -80,32 +34,34 @@ int main() {
 		sound_to_play = sound;
 	}
 
-result = system->playSound(sound_to_play, 0, false, &channel);
+	result = system->playSound(sound_to_play, 0, false, &channel);
 
 
 
 
 
-	// Start
-	start();
+	Game* game = Game::getInstance();
+	game->start();
 
-	Model* model = new Model("./Assets/Models/WPN_AKM/WPN_AKM.obj");
+	RenderPass* renderPass = new RenderPass();
+	renderPass->init(1);
+
+	// Model* model = new Model("./Assets/Models/WPN_AKM/WPN_AKM.obj");
 
 	// Game Loop
-	while (!glfwWindowShouldClose(window->window)) {
-		if (glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window->window, true);
-		// Update
+	while (!glfwWindowShouldClose(game->window->window)) {
+		if (glfwGetKey(game->window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(game->window->window, true);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		model->draw();
-		// renderPass->begin();
-		// 	update();
-		// renderPass->end();
-		// renderPass->render();
-		glfwSwapBuffers(window->window);
+		renderPass->begin();
+		game->update();
+		renderPass->end();
+		renderPass->render();
+		glfwSwapBuffers(game->window->window);
 		glfwPollEvents();
 	}
 
-	// clear
-	clear();
+	delete game;
+	delete renderPass;
+	glfwTerminate(); // glfw: terminate, clearing all previously allocated GLFW resources.
 	return 0;
 }

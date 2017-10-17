@@ -77,10 +77,6 @@
 /*------------------------------------------------------------------------------
 < Global Functions >
 ------------------------------------------------------------------------------*/
-// main.cpp
-Window* getWindow();
-Game* getGame();
-
 // Engine.cpp
 // void instantiate(GameObject* gameObject, Transform* transform);
 // float randomRange(float min, float max);
