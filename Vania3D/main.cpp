@@ -89,15 +89,18 @@ result = system->playSound(sound_to_play, 0, false, &channel);
 	// Start
 	start();
 
+	Model* model = new Model("./Assets/Models/WPN_AKM/WPN_AKM.obj");
+
 	// Game Loop
 	while (!glfwWindowShouldClose(window->window)) {
 		if (glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window->window, true);
 		// Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderPass->begin();
-			update();
-		renderPass->end();
-		renderPass->render();
+		model->draw();
+		// renderPass->begin();
+		// 	update();
+		// renderPass->end();
+		// renderPass->render();
 		glfwSwapBuffers(window->window);
 		glfwPollEvents();
 	}
