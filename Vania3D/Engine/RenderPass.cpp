@@ -83,9 +83,9 @@ void RenderPass::init(int number) {
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
 
 	// Set Shader
-	this->resources->getShader("RenderPass")->use();
+	this->resources->getShader("renderPass")->use();
 	for (unsigned i = 0; i < number; i++) {
-		this->resources->getShader("RenderPass")->setInt(("pass[" + std::to_string(i) + "]").c_str(), i);
+		this->resources->getShader("renderPass")->setInt(("pass[" + std::to_string(i) + "]").c_str(), i);
 	}
 }
 
@@ -111,7 +111,7 @@ void RenderPass::end() {
 < draw >
 ------------------------------------------------------------------------------*/
 void RenderPass::render() {
-	this->resources->getShader("RenderPass")->use();
+	this->resources->getShader("renderPass")->use();
 	for (unsigned int i = 0; i < this->pass.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, this->pass[i]);

@@ -14,6 +14,8 @@ Resources::Resources() {
 ------------------------------------------------------------------------------*/
 Resources::~Resources() {
 	deleteMap(this->shaders);
+	deleteMap(this->models);
+	deleteMap(this->textures);
 }
 
 
@@ -23,7 +25,25 @@ Resources::~Resources() {
 void Resources::start() {
 	/* Shader
 	..............................................................................*/
-	Resources::loadShader("RenderPass", "./Assets/Shaders/RenderPass.vs.glsl",  "./Assets/Shaders/RenderPass.fs.glsl");
+	this->loadShader("renderPass", "./Assets/Shaders/renderPass.vs.glsl",  "./Assets/Shaders/renderPass.fs.glsl");
+	this->loadShader("deferredPBR", "./Assets/Shaders/deferredPBR.vs.glsl",  "./Assets/Shaders/deferredPBR.fs.glsl");
+	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
+	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
+	this->loadShader("prefilter", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/prefilter.fs.glsl");
+	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
+	this->loadShader("background", "./Assets/Shaders/background.vs.glsl",  "./Assets/Shaders/background.fs.glsl");
+
+	/* Model
+	..............................................................................*/
+	this->loadModel("WPN_AKM", "./Assets/Models/WPN_AKM/WPN_AKM.obj");
+
+	/* Texture
+	..............................................................................*/
+	this->loadTexture("WPN_AKM_albedo", "./Assets/Models/WPN_AKM/WPNT_AKM_Base_Color.tga");
+	this->loadTexture("WPN_AKM_normal", "./Assets/Models/WPN_AKM/WPNT_AKM_DirectX.tga");
+	this->loadTexture("WPN_AKM_metallic", "./Assets/Models/WPN_AKM/WPNT_AKM_Metallic.tga");
+	this->loadTexture("WPN_AKM_roughness", "./Assets/Models/WPN_AKM/WPNT_AKM_Roughness.tga");
+	this->loadTexture("WPN_AKM_ao", "./Assets/Models/WPN_AKM/WPNT_AKM_Ambient_occlusion.tga");
 }
 
 

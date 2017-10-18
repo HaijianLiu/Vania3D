@@ -44,8 +44,6 @@ int main() {
 	RenderPass* renderPass = new RenderPass();
 	renderPass->init(1);
 
-	// Model* model = new Model("./Assets/Models/WPN_AKM/WPN_AKM.obj");
-
 	// Game Loop
 	while (!glfwWindowShouldClose(game->window->window)) {
 		if (glfwGetKey(game->window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(game->window->window, true);
