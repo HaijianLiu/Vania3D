@@ -19,9 +19,12 @@
 #include <thread>
 #include <random>
 #include <vector>
+#include <typeindex>
 #include <map>
+#include <unordered_map>
 #include <fstream>
 #include <sstream>
+
 
 // include GLEW (include before gl.h and glfw.h)
 #include <GL/glew.h>
@@ -45,6 +48,8 @@
 /*------------------------------------------------------------------------------
 < Engine >
 ------------------------------------------------------------------------------*/
+class GameObject;
+
 #include "Window.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
@@ -54,24 +59,20 @@
 #include "RenderPass.hpp"
 #include "Camera.hpp"
 #include "Transform.hpp"
+#include "Component.hpp"
+#include "GameObject.hpp"
+#include "Game.hpp"
 
 
 /*------------------------------------------------------------------------------
-< GameObject >
+< Component >
 ------------------------------------------------------------------------------*/
-// #include "NoneObject.hpp"
-// #include "OffsetObject.hpp"
-// #include "TileObject.hpp"
-// #include "Player.hpp"
 
 
 /*------------------------------------------------------------------------------
 < Scene >
 ------------------------------------------------------------------------------*/
-#include "Game.hpp"
-// #include "Scene.hpp"
-// #include "SceneManager.hpp"
-// #include "Scene00.hpp"
+#include "SceneManager.hpp"
 
 
 /*------------------------------------------------------------------------------

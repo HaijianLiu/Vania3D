@@ -9,6 +9,11 @@ Game::Game() {
 	this->resources = new Resources();
 }
 
+Game* Game::getInstance() {
+	static Game* game = new Game();
+	return game;
+}
+
 
 /*------------------------------------------------------------------------------
 < Destructor >
@@ -16,12 +21,6 @@ Game::Game() {
 Game::~Game() {
 	delete this->window;
 	delete this->resources;
-}
-
-
-Game* Game::getInstance() {
-	static Game* game = new Game();
-	return game;
 }
 
 

@@ -28,6 +28,9 @@
 		604B57851F945A92009DE302 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57831F945A92009DE302 /* Mesh.cpp */; };
 		604B57881F94928A009DE302 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57861F94928A009DE302 /* Texture.cpp */; };
 		604B578B1F95CA40009DE302 /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57891F95CA40009DE302 /* Transform.cpp */; };
+		604B578E1F95F61A009DE302 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B578C1F95F61A009DE302 /* SceneManager.cpp */; };
+		604B57921F95FAB9009DE302 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57901F95FAB9009DE302 /* Component.cpp */; };
+		604B57951F95FAD0009DE302 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57931F95FAD0009DE302 /* GameObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,6 +88,12 @@
 		604B57871F94928A009DE302 /* Texture.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
 		604B57891F95CA40009DE302 /* Transform.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
 		604B578A1F95CA40009DE302 /* Transform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
+		604B578C1F95F61A009DE302 /* SceneManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManager.cpp; sourceTree = "<group>"; };
+		604B578D1F95F61A009DE302 /* SceneManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SceneManager.hpp; sourceTree = "<group>"; };
+		604B57901F95FAB9009DE302 /* Component.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
+		604B57911F95FAB9009DE302 /* Component.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
+		604B57931F95FAD0009DE302 /* GameObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
+		604B57941F95FAD0009DE302 /* GameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameObject.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				600709FD1F88C49A00AE4BEB /* main.cpp */,
+				604B578F1F95FA63009DE302 /* Component */,
 				602434271F88D86400DA6CA4 /* Engine */,
 			);
 			path = Vania3D;
@@ -178,8 +188,21 @@
 				604B57871F94928A009DE302 /* Texture.hpp */,
 				604B57891F95CA40009DE302 /* Transform.cpp */,
 				604B578A1F95CA40009DE302 /* Transform.hpp */,
+				604B578C1F95F61A009DE302 /* SceneManager.cpp */,
+				604B578D1F95F61A009DE302 /* SceneManager.hpp */,
+				604B57931F95FAD0009DE302 /* GameObject.cpp */,
+				604B57941F95FAD0009DE302 /* GameObject.hpp */,
 			);
 			path = Engine;
+			sourceTree = "<group>";
+		};
+		604B578F1F95FA63009DE302 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				604B57901F95FAB9009DE302 /* Component.cpp */,
+				604B57911F95FAB9009DE302 /* Component.hpp */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,9 +287,12 @@
 				604B578B1F95CA40009DE302 /* Transform.cpp in Sources */,
 				6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */,
 				602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */,
+				604B57921F95FAB9009DE302 /* Component.cpp in Sources */,
 				602434311F88DA2300DA6CA4 /* Shader.cpp in Sources */,
 				6024342D1F88D89200DA6CA4 /* Engine.cpp in Sources */,
+				604B578E1F95F61A009DE302 /* SceneManager.cpp in Sources */,
 				604B57881F94928A009DE302 /* Texture.cpp in Sources */,
+				604B57951F95FAD0009DE302 /* GameObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
