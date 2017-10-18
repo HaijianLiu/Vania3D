@@ -5,6 +5,9 @@
 < main >
 ==============================================================================*/
 int main() {
+	Game* game = Game::getInstance();
+	game->start();
+
 	FMOD::System     *system;
 	FMOD::Sound      *sound, *sound_to_play;
 	FMOD::Channel    *channel = 0;
@@ -37,11 +40,6 @@ int main() {
 	result = system->playSound(sound_to_play, 0, false, &channel);
 
 
-
-
-
-	Game* game = Game::getInstance();
-	game->start();
 
 	RenderPass* renderPass = new RenderPass();
 	renderPass->init(1);
