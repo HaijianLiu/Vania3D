@@ -5,16 +5,19 @@
 class Resources {
 private:
 	// Resource storage
-	std::map<const char*, Shader*> shaders;
-	std::map<const char*, Texture*> textures;
+	std::unordered_map<const char*, Shader*> shaders;
+	std::unordered_map<const char*, Texture*> textures;
+	std::unordered_map<const char*, Model*> models;
 	// std::map<const char*, Audio*> audios;
-	std::map<const char*, Model*> models;
 
 public:
 	Resources();
 	~Resources();
 
 	void start();
+
+	Quad* quad;
+	Skybox* skybox;
 
 	// Loads (and generates) a shader program from file loading vertex, fragment
 	void loadShader(const char* name, const char* vertexPath, const char* fragmentPath);

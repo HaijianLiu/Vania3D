@@ -31,6 +31,9 @@
 		604B578E1F95F61A009DE302 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B578C1F95F61A009DE302 /* SceneManager.cpp */; };
 		604B57921F95FAB9009DE302 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57901F95FAB9009DE302 /* Component.cpp */; };
 		604B57951F95FAD0009DE302 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57931F95FAD0009DE302 /* GameObject.cpp */; };
+		604B57981F9723AE009DE302 /* LightProbe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57961F9723AE009DE302 /* LightProbe.cpp */; };
+		604B579C1F973F94009DE302 /* Skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B579A1F973F94009DE302 /* Skybox.cpp */; };
+		604B579F1F973FBC009DE302 /* Quad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B579D1F973FBC009DE302 /* Quad.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,6 +97,12 @@
 		604B57911F95FAB9009DE302 /* Component.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 		604B57931F95FAD0009DE302 /* GameObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
 		604B57941F95FAD0009DE302 /* GameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameObject.hpp; sourceTree = "<group>"; };
+		604B57961F9723AE009DE302 /* LightProbe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LightProbe.cpp; sourceTree = "<group>"; };
+		604B57971F9723AE009DE302 /* LightProbe.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LightProbe.hpp; sourceTree = "<group>"; };
+		604B579A1F973F94009DE302 /* Skybox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Skybox.cpp; sourceTree = "<group>"; };
+		604B579B1F973F94009DE302 /* Skybox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Skybox.hpp; sourceTree = "<group>"; };
+		604B579D1F973FBC009DE302 /* Quad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad.cpp; sourceTree = "<group>"; };
+		604B579E1F973FBC009DE302 /* Quad.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quad.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				600709FD1F88C49A00AE4BEB /* main.cpp */,
+				604B57991F973F70009DE302 /* Mesh */,
 				604B578F1F95FA63009DE302 /* Component */,
 				602434271F88D86400DA6CA4 /* Engine */,
 			);
@@ -192,6 +202,8 @@
 				604B578D1F95F61A009DE302 /* SceneManager.hpp */,
 				604B57931F95FAD0009DE302 /* GameObject.cpp */,
 				604B57941F95FAD0009DE302 /* GameObject.hpp */,
+				604B57961F9723AE009DE302 /* LightProbe.cpp */,
+				604B57971F9723AE009DE302 /* LightProbe.hpp */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -203,6 +215,17 @@
 				604B57911F95FAB9009DE302 /* Component.hpp */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		604B57991F973F70009DE302 /* Mesh */ = {
+			isa = PBXGroup;
+			children = (
+				604B579A1F973F94009DE302 /* Skybox.cpp */,
+				604B579B1F973F94009DE302 /* Skybox.hpp */,
+				604B579D1F973FBC009DE302 /* Quad.cpp */,
+				604B579E1F973FBC009DE302 /* Quad.hpp */,
+			);
+			path = Mesh;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,6 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				604B579F1F973FBC009DE302 /* Quad.cpp in Sources */,
 				604B57821F945A84009DE302 /* Model.cpp in Sources */,
 				602434371F88DCBC00DA6CA4 /* RenderPass.cpp in Sources */,
 				60070A301F88C82A00AE4BEB /* main.cpp in Sources */,
@@ -285,6 +309,7 @@
 				604B57851F945A92009DE302 /* Mesh.cpp in Sources */,
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
 				604B578B1F95CA40009DE302 /* Transform.cpp in Sources */,
+				604B579C1F973F94009DE302 /* Skybox.cpp in Sources */,
 				6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */,
 				602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */,
 				604B57921F95FAB9009DE302 /* Component.cpp in Sources */,
@@ -293,6 +318,7 @@
 				604B578E1F95F61A009DE302 /* SceneManager.cpp in Sources */,
 				604B57881F94928A009DE302 /* Texture.cpp in Sources */,
 				604B57951F95FAD0009DE302 /* GameObject.cpp in Sources */,
+				604B57981F9723AE009DE302 /* LightProbe.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,8 @@ Resources::~Resources() {
 	deleteMap(this->shaders);
 	deleteMap(this->models);
 	deleteMap(this->textures);
+	delete this->quad;
+	delete this->skybox;
 }
 
 
@@ -23,6 +25,11 @@ Resources::~Resources() {
 < start > before GameObject defaultStart()
 ------------------------------------------------------------------------------*/
 void Resources::start() {
+	/* Meshes
+	..............................................................................*/
+	this->quad = new Quad();
+	this->skybox = new Skybox();
+
 	/* Shader
 	..............................................................................*/
 	this->loadShader("renderPass", "./Assets/Shaders/renderPass.vs.glsl",  "./Assets/Shaders/renderPass.fs.glsl");

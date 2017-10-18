@@ -10,6 +10,19 @@
 #define SCREEN_HEIGHT (600)
 #define PI (3.141593f)
 
+#define UNIFORM_TEX_ALBEDO "albedo"
+#define UNIFORM_TEX_NORMAL "normal"
+#define UNIFORM_TEX_METALLIC "metallic"
+#define UNIFORM_TEX_ROUGHNESS "roughness"
+#define UNIFORM_TEX_AO "ao"
+#define UNIFORM_TEX_EQUIRECTANGULAR "equirectangular"
+#define UNIFORM_TEX_ENVIRONMENT "environment"
+#define UNIFORM_MATRIX_MVP "matrixMVP"
+#define UNIFORM_MATRIX_MODEL "model"
+#define UNIFORM_MATRIX_VIEW "view"
+#define UNIFORM_MATRIX_PROJECTION "projection"
+#define UNIFORM_EYE_WORLDSPACE "eyeWorldspace"
+
 
 /*------------------------------------------------------------------------------
 < Libraries >
@@ -18,8 +31,8 @@
 #include <iostream>
 #include <thread>
 #include <random>
-#include <vector>
 #include <typeindex>
+#include <vector>
 #include <map>
 #include <unordered_map>
 #include <fstream>
@@ -52,8 +65,11 @@ class GameObject;
 #include "Window.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
+#include "Skybox.hpp"
+#include "Quad.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
+#include "LightProbe.hpp"
 #include "Resources.hpp"
 #include "RenderPass.hpp"
 #include "Camera.hpp"
