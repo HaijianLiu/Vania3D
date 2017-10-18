@@ -25,7 +25,6 @@
 #include <fstream>
 #include <sstream>
 
-
 // include GLEW (include before gl.h and glfw.h)
 #include <GL/glew.h>
 // include GLFW
@@ -78,12 +77,6 @@ class GameObject;
 /*------------------------------------------------------------------------------
 < Global Functions >
 ------------------------------------------------------------------------------*/
-// Engine.cpp
-// void instantiate(GameObject* gameObject, Transform* transform);
-// float randomRange(float min, float max);
-// void destroyByTime(GameObject* gameObject, float time);
-// float distancePow(glm::vec3 a, glm::vec3 b);
-
 template <typename T, typename U> void doMap(T map, void (*function)(U)) {
 	for (typename T::iterator it = map.begin(); it != map.end(); it++) {
 		function(it->first);
