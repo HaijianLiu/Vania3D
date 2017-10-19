@@ -4,8 +4,12 @@
 /*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
-LightProbe::LightProbe(const char* path) {
-
+LightProbe::LightProbe(Texture* hdr) {
+	this->cubemap = genCubemap(hdr->id, 2048, true);
+	this->irradiance = genIrradianceMap(this->cubemap, 32);
+	this->prefilter = genPrefilterMap(this->cubemap, 1280);
+	this->brdfLUT = genBRDFLUTTexture(512);
+	glDeleteTextures(1, &this->cubemap);
 }
 
 
@@ -13,11 +17,9 @@ LightProbe::LightProbe(const char* path) {
 < Destructor >
 ------------------------------------------------------------------------------*/
 LightProbe::~LightProbe() {
-	glDeleteTextures(1, &this->hdr);
-	glDeleteTextures(1, &this->cubemap);
 	glDeleteTextures(1, &this->irradiance);
 	glDeleteTextures(1, &this->prefilter);
-	glDeleteTextures(1, &this->brdflut);
+	glDeleteTextures(1, &this->brdfLUT);
 }
 
 

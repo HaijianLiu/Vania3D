@@ -4,11 +4,12 @@
 
 class LightProbe {
 private:
-	unsigned int hdr, cubemap, irradiance, prefilter, brdflut;
 
 public:
-	LightProbe(const char* path);
+	LightProbe(Texture* hdr);
 	~LightProbe();
+
+	unsigned int cubemap, irradiance, prefilter, brdfLUT;
 
 	static unsigned int loadHDR(const char* path);
 	static unsigned int genCubemap(unsigned int hdr, int size, bool mipmap);

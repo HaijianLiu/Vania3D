@@ -51,6 +51,10 @@ void Resources::start() {
 	this->loadTexture("WPN_AKM_metallic", "./Assets/Models/WPN_AKM/WPNT_AKM_Metallic.tga");
 	this->loadTexture("WPN_AKM_roughness", "./Assets/Models/WPN_AKM/WPNT_AKM_Roughness.tga");
 	this->loadTexture("WPN_AKM_ao", "./Assets/Models/WPN_AKM/WPNT_AKM_Ambient_occlusion.tga");
+
+	/* HDR
+	..............................................................................*/
+	this->loadTexture("hdr", "./Assets/Textures/HDR/Arches_E_PineTree_8k.jpg");
 }
 
 

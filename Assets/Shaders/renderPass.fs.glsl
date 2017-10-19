@@ -6,7 +6,10 @@ in vec2 texCoord;
 
 uniform sampler2D pass[1];
 
+uniform sampler2D test;
+
 void main() {
 	vec4 colorPass = texture(pass[0],texCoord);
+	colorPass = texture(test,texCoord);
 	fragColor = colorPass;
 }
