@@ -42,12 +42,6 @@ int main() {
 	RenderPass* renderPass = new RenderPass();
 	renderPass->init(1);
 
-	game->resources->getShader("renderPass")->use();
-	game->resources->getShader("renderPass")->setInt("test", 1);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, game->resources->getLightProbe("hdr")->brdf);
-
-
 	// Game Loop
 	while (!glfwWindowShouldClose(game->window->window)) {
 		if (glfwGetKey(game->window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(game->window->window, true);

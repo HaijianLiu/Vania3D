@@ -61,7 +61,7 @@
 < Engine >
 ------------------------------------------------------------------------------*/
 class GameObject;
-
+class Game;
 
 #include "Window.hpp"
 #include "Shader.hpp"

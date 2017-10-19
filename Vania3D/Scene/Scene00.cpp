@@ -21,7 +21,11 @@ Scene00::~Scene00() {
 < start >
 ------------------------------------------------------------------------------*/
 void Scene00::start() {
-
+	Game* game = Game::getInstance();
+	game->resources->getShader("renderPass")->use();
+	game->resources->getShader("renderPass")->setInt("test", 1);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, game->resources->getLightProbe("hdr")->brdf);
 }
 
 
