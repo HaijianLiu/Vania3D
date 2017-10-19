@@ -35,6 +35,7 @@
 		604B579C1F973F94009DE302 /* Skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B579A1F973F94009DE302 /* Skybox.cpp */; };
 		604B579F1F973FBC009DE302 /* Quad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B579D1F973FBC009DE302 /* Quad.cpp */; };
 		604B57A31F9890AF009DE302 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57A11F9890AF009DE302 /* Scene.cpp */; };
+		604B57A61F98A251009DE302 /* Scene00.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57A41F98A251009DE302 /* Scene00.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -106,6 +107,8 @@
 		604B579E1F973FBC009DE302 /* Quad.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quad.hpp; sourceTree = "<group>"; };
 		604B57A11F9890AF009DE302 /* Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		604B57A21F9890AF009DE302 /* Scene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
+		604B57A41F98A251009DE302 /* Scene00.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene00.cpp; sourceTree = "<group>"; };
+		604B57A51F98A251009DE302 /* Scene00.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene00.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +240,8 @@
 			children = (
 				604B57A11F9890AF009DE302 /* Scene.cpp */,
 				604B57A21F9890AF009DE302 /* Scene.hpp */,
+				604B57A41F98A251009DE302 /* Scene00.cpp */,
+				604B57A51F98A251009DE302 /* Scene00.hpp */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -316,6 +321,7 @@
 			files = (
 				604B579F1F973FBC009DE302 /* Quad.cpp in Sources */,
 				604B57821F945A84009DE302 /* Model.cpp in Sources */,
+				604B57A61F98A251009DE302 /* Scene00.cpp in Sources */,
 				602434371F88DCBC00DA6CA4 /* RenderPass.cpp in Sources */,
 				60070A301F88C82A00AE4BEB /* main.cpp in Sources */,
 				6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */,

@@ -62,6 +62,7 @@
 ------------------------------------------------------------------------------*/
 class GameObject;
 
+
 #include "Window.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
@@ -77,6 +78,9 @@ class GameObject;
 #include "Component.hpp"
 #include "GameObject.hpp"
 #include "Scene.hpp"
+
+#include "Scene00.hpp"
+
 #include "SceneManager.hpp"
 #include "Game.hpp"
 

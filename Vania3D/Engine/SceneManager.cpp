@@ -46,3 +46,12 @@ void SceneManager::update() {
 void SceneManager::add(const char* name, Scene* scene) {
 	this->scenes.insert(std::make_pair(name, scene));
 }
+
+
+/*------------------------------------------------------------------------------
+< set active scene >
+------------------------------------------------------------------------------*/
+void SceneManager::setActiveScene(const char* name) {
+	// this->scenes[this->currentScene]->reset();
+	this->currentScene = name;
+}

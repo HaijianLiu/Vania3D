@@ -4,43 +4,30 @@
 /*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
-Game::Game() {
-	this->window = new Window("vania", SCREEN_WIDTH, SCREEN_HEIGHT);
-	this->resources = new Resources();
-	this->sceneManager = new SceneManager();
-}
+Scene00::Scene00() {
 
-Game* Game::getInstance() {
-	static Game* game = new Game();
-	return game;
 }
 
 
 /*------------------------------------------------------------------------------
 < Destructor >
 ------------------------------------------------------------------------------*/
-Game::~Game() {
-	delete this->window;
-	delete this->resources;
-	delete this->sceneManager;
+Scene00::~Scene00() {
+
 }
 
 
 /*------------------------------------------------------------------------------
 < start >
 ------------------------------------------------------------------------------*/
-void Game::start() {
-	this->resources->start();
+void Scene00::start() {
 
-	// create scene ????
-	this->sceneManager->add("Scene00", new Scene00());
-	this->sceneManager->setActiveScene("Scene00");
 }
 
 
 /*------------------------------------------------------------------------------
 < update >
 ------------------------------------------------------------------------------*/
-void Game::update() {
-	this->sceneManager->update();
+void Scene00::update() {
+
 }
