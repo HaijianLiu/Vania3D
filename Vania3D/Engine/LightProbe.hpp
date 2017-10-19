@@ -9,7 +9,7 @@ public:
 	LightProbe(Texture* hdr);
 	~LightProbe();
 
-	unsigned int cubemap, irradiance, prefilter, brdfLUT;
+	unsigned int cubemap, irradiance, prefilter, brdf;
 
 	static unsigned int loadHDR(const char* path);
 	static unsigned int genCubemap(unsigned int hdr, int size, bool mipmap);

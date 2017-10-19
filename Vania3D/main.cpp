@@ -49,7 +49,7 @@ int main() {
 	game->resources->getShader("renderPass")->use();
 	game->resources->getShader("renderPass")->setInt("test", 1);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, lightProbe->brdfLUT);
+	glBindTexture(GL_TEXTURE_2D, lightProbe->brdf);
 
 
 	// Game Loop

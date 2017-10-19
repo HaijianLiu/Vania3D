@@ -8,7 +8,7 @@ LightProbe::LightProbe(Texture* hdr) {
 	this->cubemap = genCubemap(hdr->id, 2048, true);
 	this->irradiance = genIrradianceMap(this->cubemap, 32);
 	this->prefilter = genPrefilterMap(this->cubemap, 1280);
-	this->brdfLUT = genBRDFLUTTexture(512);
+	this->brdf = genBRDFLUTTexture(512);
 	glDeleteTextures(1, &this->cubemap);
 }
 
@@ -19,7 +19,7 @@ LightProbe::LightProbe(Texture* hdr) {
 LightProbe::~LightProbe() {
 	glDeleteTextures(1, &this->irradiance);
 	glDeleteTextures(1, &this->prefilter);
-	glDeleteTextures(1, &this->brdfLUT);
+	glDeleteTextures(1, &this->brdf);
 }
 
 
