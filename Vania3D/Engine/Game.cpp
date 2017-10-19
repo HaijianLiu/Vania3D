@@ -7,6 +7,7 @@
 Game::Game() {
 	this->window = new Window("vania", SCREEN_WIDTH, SCREEN_HEIGHT);
 	this->resources = new Resources();
+	this->sceneManager = new SceneManager();
 }
 
 Game* Game::getInstance() {
@@ -21,6 +22,7 @@ Game* Game::getInstance() {
 Game::~Game() {
 	delete this->window;
 	delete this->resources;
+	delete this->sceneManager;
 }
 
 
@@ -36,5 +38,5 @@ void Game::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Game::update() {
-
+	this->sceneManager->update();
 }

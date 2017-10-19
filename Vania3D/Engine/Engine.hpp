@@ -17,7 +17,7 @@
 #define UNIFORM_TEX_AO "ao"
 #define UNIFORM_TEX_EQUIRECTANGULAR "equirectangular"
 #define UNIFORM_TEX_ENVIRONMENT "environment"
-#define UNIFORM_MATRIX_MVP "matrixMVP"
+#define UNIFORM_MATRIX_MVP "mvp"
 #define UNIFORM_MATRIX_MODEL "model"
 #define UNIFORM_MATRIX_VIEW "view"
 #define UNIFORM_MATRIX_PROJECTION "projection"
@@ -76,6 +76,8 @@ class GameObject;
 #include "Transform.hpp"
 #include "Component.hpp"
 #include "GameObject.hpp"
+#include "Scene.hpp"
+#include "SceneManager.hpp"
 #include "Game.hpp"
 
 

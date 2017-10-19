@@ -12,6 +12,7 @@ public:
 
 	Window* window;
 	Resources* resources;
+	SceneManager* sceneManager;
 
 	void start();
 	void update();

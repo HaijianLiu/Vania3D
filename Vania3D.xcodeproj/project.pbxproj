@@ -34,6 +34,7 @@
 		604B57981F9723AE009DE302 /* LightProbe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57961F9723AE009DE302 /* LightProbe.cpp */; };
 		604B579C1F973F94009DE302 /* Skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B579A1F973F94009DE302 /* Skybox.cpp */; };
 		604B579F1F973FBC009DE302 /* Quad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B579D1F973FBC009DE302 /* Quad.cpp */; };
+		604B57A31F9890AF009DE302 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57A11F9890AF009DE302 /* Scene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,6 +104,8 @@
 		604B579B1F973F94009DE302 /* Skybox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Skybox.hpp; sourceTree = "<group>"; };
 		604B579D1F973FBC009DE302 /* Quad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad.cpp; sourceTree = "<group>"; };
 		604B579E1F973FBC009DE302 /* Quad.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quad.hpp; sourceTree = "<group>"; };
+		604B57A11F9890AF009DE302 /* Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		604B57A21F9890AF009DE302 /* Scene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				600709FD1F88C49A00AE4BEB /* main.cpp */,
+				604B57A01F98908C009DE302 /* Scene */,
 				604B57991F973F70009DE302 /* Mesh */,
 				604B578F1F95FA63009DE302 /* Component */,
 				602434271F88D86400DA6CA4 /* Engine */,
@@ -228,6 +232,15 @@
 			path = Mesh;
 			sourceTree = "<group>";
 		};
+		604B57A01F98908C009DE302 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				604B57A11F9890AF009DE302 /* Scene.cpp */,
+				604B57A21F9890AF009DE302 /* Scene.hpp */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -313,6 +326,7 @@
 				6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */,
 				602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */,
 				604B57921F95FAB9009DE302 /* Component.cpp in Sources */,
+				604B57A31F9890AF009DE302 /* Scene.cpp in Sources */,
 				602434311F88DA2300DA6CA4 /* Shader.cpp in Sources */,
 				6024342D1F88D89200DA6CA4 /* Engine.cpp in Sources */,
 				604B578E1F95F61A009DE302 /* SceneManager.cpp in Sources */,
