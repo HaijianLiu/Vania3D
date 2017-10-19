@@ -39,17 +39,13 @@ int main() {
 	//
 	// result = system->playSound(sound_to_play, 0, false, &channel);
 
-
-	LightProbe* lightProbe = new LightProbe(game->resources->getTexture("hdr"));
-
-
 	RenderPass* renderPass = new RenderPass();
 	renderPass->init(1);
 
 	game->resources->getShader("renderPass")->use();
 	game->resources->getShader("renderPass")->setInt("test", 1);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, lightProbe->brdf);
+	glBindTexture(GL_TEXTURE_2D, game->resources->getLightProbe("hdr")->brdf);
 
 
 	// Game Loop

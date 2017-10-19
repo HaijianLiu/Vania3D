@@ -8,6 +8,7 @@ private:
 	std::unordered_map<const char*, Shader*> shaders;
 	std::unordered_map<const char*, Texture*> textures;
 	std::unordered_map<const char*, Model*> models;
+	std::unordered_map<const char*, LightProbe*> lightProbes;
 	// std::map<const char*, Audio*> audios;
 
 public:
@@ -28,6 +29,9 @@ public:
 	// Loads (and generates) a model from file
 	void loadModel(const char* name, const char* path);
 	Model* getModel(const char* name);
+	// Loads (and generates) a light probe from hdr file then delete the hdr
+	void loadLightProbe(const char* name, const char* path);
+	LightProbe* getLightProbe(const char* name);
 	// Create a Audio with path
 	// void loadAudio(const char* name, const char* path);
 	// Audio* getAudio(const char* name);

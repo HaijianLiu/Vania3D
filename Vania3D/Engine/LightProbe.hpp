@@ -6,7 +6,7 @@ class LightProbe {
 private:
 
 public:
-	LightProbe(Texture* hdr);
+	LightProbe(const char* path);
 	~LightProbe();
 
 	unsigned int cubemap, irradiance, prefilter, brdf;

@@ -52,9 +52,10 @@ void Resources::start() {
 	this->loadTexture("WPN_AKM_roughness", "./Assets/Models/WPN_AKM/WPNT_AKM_Roughness.tga");
 	this->loadTexture("WPN_AKM_ao", "./Assets/Models/WPN_AKM/WPNT_AKM_Ambient_occlusion.tga");
 
-	/* HDR
+	/* LightProbe
 	..............................................................................*/
-	this->loadTexture("hdr", "./Assets/Textures/HDR/Arches_E_PineTree_8k.jpg");
+	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Arches_E_PineTree_8k.jpg");
+	// this->loadTexture("hdr", "./Assets/Textures/HDR/Arches_E_PineTree_8k.jpg");
 }
 
 
@@ -78,6 +79,12 @@ void Resources::loadModel(const char* name, const char* path) {
 }
 Model* Resources::getModel(const char* name) {
 	return this->models[name];
+}
+void Resources::loadLightProbe(const char* name, const char* path) {
+	this->lightProbes.insert(std::make_pair(name, new LightProbe(path)));
+}
+LightProbe* Resources::getLightProbe(const char* name) {
+	return this->lightProbes[name];
 }
 // void Resources::loadAudio(const char* name, const char* path) {
 // 	this->audios.insert(std::make_pair(name, new Audio(path)));
