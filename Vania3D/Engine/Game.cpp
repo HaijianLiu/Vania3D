@@ -6,7 +6,7 @@
 ------------------------------------------------------------------------------*/
 Game::Game() {
 	this->window = new Window("vania", SCREEN_WIDTH, SCREEN_HEIGHT);
-	this->resources = new Resources();
+	this->resources = Resources::getInstance();
 	this->sceneManager = new SceneManager();
 }
 

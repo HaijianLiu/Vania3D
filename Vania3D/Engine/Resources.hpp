@@ -11,8 +11,10 @@ private:
 	std::unordered_map<const char*, LightProbe*> lightProbes;
 	// std::map<const char*, Audio*> audios;
 
-public:
 	Resources();
+
+public:
+	static Resources* getInstance();
 	~Resources();
 
 	void start();

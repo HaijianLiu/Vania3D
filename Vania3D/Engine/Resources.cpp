@@ -8,6 +8,11 @@ Resources::Resources() {
 
 }
 
+Resources* Resources::getInstance() {
+	static Resources* resources = new Resources();
+	return resources;
+}
+
 
 /*------------------------------------------------------------------------------
 < Destructor >
