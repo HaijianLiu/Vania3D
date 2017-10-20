@@ -20,8 +20,9 @@ in vec3 ViewNormal;
 // material parameters
 uniform sampler2D albedoMap;
 uniform sampler2D normalMap;
-uniform sampler2D mraMap;
-
+uniform sampler2D metallicMap;
+uniform sampler2D roughnessMap;
+uniform sampler2D aoMap;
 
 vec3 getNormalFromMap()
 {
@@ -44,7 +45,7 @@ void main() {
 	albedoColor = vec4(texture(albedoMap, TexCoords).rgb, 1.0);
 	albedoColor = pow(albedoColor, vec4(2.2));
 	normalColor = vec4(getNormalFromMap(), 1.0);
-	mraColor    = vec4(texture(mraMap, TexCoords).rgb, 1.0);
+	mraColor    = vec4(texture(metallicMap, TexCoords).r, texture(roughnessMap, TexCoords).r, texture(aoMap, TexCoords).r, 1.0);
 	worldPos    = vec4(WorldPos, 1.0);
 	alpha       = vec4(1.0,1.0,1.0,1.0);
 	// viewPos     = vec4(ViewPos, 1.0);

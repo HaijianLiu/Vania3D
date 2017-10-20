@@ -40,7 +40,7 @@ int main() {
 	// result = system->playSound(sound_to_play, 0, false, &channel);
 
 	RenderPass* renderPass = new RenderPass();
-	renderPass->init(1);
+	renderPass->init(5);
 
 	// Game Loop
 	while (!glfwWindowShouldClose(game->window->window)) {

@@ -4,7 +4,15 @@
 
 class Scene00 : public Scene {
 private:
-	/* data */
+	Camera* camera;
+
+	// lights
+	glm::vec3 lightPositions[4];
+	glm::vec3 lightColors[4];
+
+	// timing
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
 
 public:
 	Scene00();
