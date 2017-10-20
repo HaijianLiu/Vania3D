@@ -35,7 +35,7 @@ RenderPass::~RenderPass() {
 
 
 /*------------------------------------------------------------------------------
-< start >
+< init >
 ------------------------------------------------------------------------------*/
 void RenderPass::init(int number) {
 	// get game
@@ -91,7 +91,7 @@ void RenderPass::init(int number) {
 
 
 /*------------------------------------------------------------------------------
-< use >
+< begin >
 ------------------------------------------------------------------------------*/
 void RenderPass::begin() {
 	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
@@ -100,7 +100,7 @@ void RenderPass::begin() {
 
 
 /*------------------------------------------------------------------------------
-< finish >
+< end >
 ------------------------------------------------------------------------------*/
 void RenderPass::end() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -108,7 +108,7 @@ void RenderPass::end() {
 
 
 /*------------------------------------------------------------------------------
-< draw >
+< render >
 ------------------------------------------------------------------------------*/
 void RenderPass::render() {
 	this->resources->getShader("renderPass")->use();
@@ -119,4 +119,12 @@ void RenderPass::render() {
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glBindVertexArray(0);
+}
+
+
+/*------------------------------------------------------------------------------
+< set active light probe >
+------------------------------------------------------------------------------*/
+void RenderPass::setActiveLightProbe(const char* name) {
+
 }

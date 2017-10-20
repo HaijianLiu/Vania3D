@@ -39,23 +39,17 @@ int main() {
 	//
 	// result = system->playSound(sound_to_play, 0, false, &channel);
 
-	RenderPass* renderPass = new RenderPass();
-	renderPass->init(5);
 
 	// Game Loop
 	while (!glfwWindowShouldClose(game->window->window)) {
 		if (glfwGetKey(game->window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(game->window->window, true);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderPass->begin();
 		game->update();
-		renderPass->end();
-		renderPass->render();
 		glfwSwapBuffers(game->window->window);
 		glfwPollEvents();
 	}
 
 	delete game;
-	delete renderPass;
 	glfwTerminate(); // glfw: terminate, clearing all previously allocated GLFW resources.
 	return 0;
 }

@@ -8,6 +8,7 @@ Game::Game() {
 	this->window = new Window("vania", SCREEN_WIDTH, SCREEN_HEIGHT);
 	this->resources = Resources::getInstance();
 	this->sceneManager = new SceneManager();
+	this->renderPass = new RenderPass();
 }
 
 Game* Game::getInstance() {
@@ -23,6 +24,7 @@ Game::~Game() {
 	delete this->window;
 	delete this->resources;
 	delete this->sceneManager;
+	delete this->renderPass;
 }
 
 
@@ -31,6 +33,7 @@ Game::~Game() {
 ------------------------------------------------------------------------------*/
 void Game::start() {
 	this->resources->start();
+	this->renderPass->init(5);
 
 	// create scene ????
 	this->sceneManager->add("Scene00", new Scene00());
@@ -42,5 +45,8 @@ void Game::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Game::update() {
+	this->renderPass->begin();
 	this->sceneManager->update();
+	this->renderPass->end();
+	this->renderPass->render();
 }

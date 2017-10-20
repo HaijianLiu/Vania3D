@@ -13,6 +13,7 @@ public:
 	Window* window;
 	Resources* resources;
 	SceneManager* sceneManager;
+	RenderPass* renderPass;
 
 	void start();
 	void update();

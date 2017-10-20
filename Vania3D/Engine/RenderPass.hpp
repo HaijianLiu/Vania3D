@@ -18,6 +18,8 @@ public:
 	void begin();
 	void end();
 	void render();
+
+	void setActiveLightProbe(const char* name);
 };
 
 #endif /* RenderPass_hpp */
