@@ -37,11 +37,10 @@ RenderPass::~RenderPass() {
 /*------------------------------------------------------------------------------
 < init >
 ------------------------------------------------------------------------------*/
-void RenderPass::init(int number) {
+void RenderPass::init(Shader* shader, unsigned int number) {
 	// get game
 	Game* game = Game::getInstance();
-	this->window = game->window;
-	this->resources = game->resources;
+	this->shader = shader;
 
 	// configure (floating point) framebuffers
 	glGenFramebuffers(1, &this->fbo);
@@ -52,7 +51,7 @@ void RenderPass::init(int number) {
 	glGenTextures(number, colorBuffers);
 	for (unsigned int i = 0; i < number; i++) {
 		glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, this->window->screenWidth, this->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -73,7 +72,7 @@ void RenderPass::init(int number) {
 	unsigned int depthRBO;
 	glGenRenderbuffers(1, &depthRBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, this->window->screenWidth, this->window->screenHeight);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, game->window->screenWidth, game->window->screenHeight);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
 
 	// check if framebuffer is complete
@@ -83,9 +82,9 @@ void RenderPass::init(int number) {
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
 
 	// Set Shader
-	this->resources->getShader("renderPass")->use();
+	this->shader->use();
 	for (unsigned i = 0; i < number; i++) {
-		this->resources->getShader("renderPass")->setInt(("pass[" + std::to_string(i) + "]").c_str(), i);
+		this->shader->setInt(("pass[" + std::to_string(i) + "]").c_str(), i);
 	}
 }
 
@@ -111,7 +110,7 @@ void RenderPass::end() {
 < render >
 ------------------------------------------------------------------------------*/
 void RenderPass::render() {
-	this->resources->getShader("renderPass")->use();
+	this->shader->use();
 	for (unsigned int i = 0; i < this->pass.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, this->pass[i]);
@@ -125,6 +124,16 @@ void RenderPass::render() {
 /*------------------------------------------------------------------------------
 < set active light probe >
 ------------------------------------------------------------------------------*/
-void RenderPass::setActiveLightProbe(const char* name) {
-
+void RenderPass::setActiveLightProbe(LightProbe* lightProbe) {
+	this->shader->use();
+	// IBL
+	this->shader->setInt("irradianceMap", 10);
+	this->shader->setInt("prefilterMap", 11);
+	this->shader->setInt("brdfLUT", 12);
+	glActiveTexture(GL_TEXTURE10);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->irradiance);
+	glActiveTexture(GL_TEXTURE11);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->prefilter);
+	glActiveTexture(GL_TEXTURE12);
+	glBindTexture(GL_TEXTURE_2D, lightProbe->brdf);
 }

@@ -4,22 +4,20 @@
 
 class RenderPass {
 private:
-	Window* window;
-	Resources* resources;
-
-public:
+	Shader* shader;
 	unsigned int fbo, vao;
 	std::vector<unsigned int> pass;
 
+public:
 	RenderPass();
 	~RenderPass();
 
-	void init(int number);
+	void init(Shader* shader, unsigned int number);
 	void begin();
 	void end();
 	void render();
 
-	void setActiveLightProbe(const char* name);
+	void setActiveLightProbe(LightProbe* lightProbe);
 };
 
 #endif /* RenderPass_hpp */

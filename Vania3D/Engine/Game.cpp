@@ -33,7 +33,7 @@ Game::~Game() {
 ------------------------------------------------------------------------------*/
 void Game::start() {
 	this->resources->start();
-	this->renderPass->init(5);
+	this->renderPass->init(this->resources->getShader("renderPass"), 5);
 
 	// create scene ????
 	this->sceneManager->add("Scene00", new Scene00());

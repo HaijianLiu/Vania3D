@@ -50,19 +50,12 @@ void Scene00::start() {
 		game->resources->getShader("deferredPBR")->setInt("aoMap", 4);
 
 
+	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
+
 	game->resources->getShader("renderPass")->use();
 		// matrix
 		game->resources->getShader("renderPass")->setMat4("projection", projection);
-		// IBL
-		game->resources->getShader("renderPass")->setInt("irradianceMap", 10);
-		game->resources->getShader("renderPass")->setInt("prefilterMap", 11);
-		game->resources->getShader("renderPass")->setInt("brdfLUT", 12);
-		glActiveTexture(GL_TEXTURE10);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, game->resources->getLightProbe("hdr")->irradiance);
-		glActiveTexture(GL_TEXTURE11);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, game->resources->getLightProbe("hdr")->prefilter);
-		glActiveTexture(GL_TEXTURE12);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getLightProbe("hdr")->brdf);
+	// IBL
 		// lights
 		for (unsigned int i = 0; i < sizeof(this->lightPositions) / sizeof(this->lightPositions[0]); ++i) {
 			game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lightPositions[i]);
