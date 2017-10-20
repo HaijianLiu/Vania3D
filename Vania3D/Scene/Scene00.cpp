@@ -53,14 +53,14 @@ void Scene00::start() {
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
 
 	game->resources->getShader("renderPass")->use();
-		// matrix
-		game->resources->getShader("renderPass")->setMat4("projection", projection);
+	// matrix
+	game->resources->getShader("renderPass")->setMat4("projection", projection);
 	// IBL
-		// lights
-		for (unsigned int i = 0; i < sizeof(this->lightPositions) / sizeof(this->lightPositions[0]); ++i) {
-			game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lightPositions[i]);
-			game->resources->getShader("renderPass")->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lightColors[i]);
-		}
+	// lights
+	for (unsigned int i = 0; i < sizeof(this->lightPositions) / sizeof(this->lightPositions[0]); ++i) {
+		game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lightPositions[i]);
+		game->resources->getShader("renderPass")->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lightColors[i]);
+	}
 }
 
 
