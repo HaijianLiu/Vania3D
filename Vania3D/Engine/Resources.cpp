@@ -21,6 +21,8 @@ Resources::~Resources() {
 	deleteMap(this->shaders);
 	deleteMap(this->models);
 	deleteMap(this->textures);
+	deleteMap(this->lightProbes);
+	deleteMap(this->materials);
 	delete this->quad;
 	delete this->skybox;
 }
@@ -57,10 +59,12 @@ void Resources::start() {
 	this->loadTexture("WPN_AKM_roughness", "./Assets/Models/WPN_AKM/WPNT_AKM_Roughness.tga");
 	this->loadTexture("WPN_AKM_ao", "./Assets/Models/WPN_AKM/WPNT_AKM_Ambient_occlusion.tga");
 
+	/* Material
+	..............................................................................*/
+
 	/* LightProbe
 	..............................................................................*/
 	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Arches_E_PineTree_8k.jpg");
-	// this->loadTexture("hdr", "./Assets/Textures/HDR/Arches_E_PineTree_8k.jpg");
 }
 
 
@@ -91,9 +95,12 @@ void Resources::loadLightProbe(const char* name, const char* path) {
 LightProbe* Resources::getLightProbe(const char* name) {
 	return this->lightProbes[name];
 }
-// void Resources::loadAudio(const char* name, const char* path) {
-// 	this->audios.insert(std::make_pair(name, new Audio(path)));
-// }
-// Audio* Resources::getAudio(const char* name) {
-// 	return this->audios[name];
-// }
+void Resources::createMaterial(const char* name, Shader* shader) {
+	this->materials.insert(std::make_pair(name, new Material(shader)));
+}
+void Resources::addTextureToMaterial(Material* material, const char* textureUniform, Texture* texture) {
+	material->addTexture(textureUniform, texture);
+}
+Material* Resources::getMaterial(const char* name) {
+	return this->materials[name];
+}

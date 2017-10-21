@@ -57,12 +57,14 @@
 #include "stb_image.h"
 
 
+class GameObject;
+class Game;
+class SceneManager;
+class Component;
+
 /*------------------------------------------------------------------------------
 < Engine >
 ------------------------------------------------------------------------------*/
-class GameObject;
-class Game;
-
 #include "Window.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
@@ -70,29 +72,28 @@ class Game;
 #include "Quad.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
+#include "Material.hpp"
 #include "LightProbe.hpp"
 #include "Resources.hpp"
 #include "RenderPass.hpp"
 #include "Camera.hpp"
-#include "Transform.hpp"
-#include "Component.hpp"
 #include "GameObject.hpp"
-#include "Scene.hpp"
-
-#include "Scene00.hpp"
-
-#include "SceneManager.hpp"
 #include "Game.hpp"
 
 
 /*------------------------------------------------------------------------------
 < Component >
 ------------------------------------------------------------------------------*/
+#include "Transform.hpp"
+#include "MeshRenderer.hpp"
+#include "Component.hpp"
 
 
 /*------------------------------------------------------------------------------
 < Scene >
 ------------------------------------------------------------------------------*/
+#include "Scene.hpp"
+#include "Scene00.hpp"
 #include "SceneManager.hpp"
 
 
