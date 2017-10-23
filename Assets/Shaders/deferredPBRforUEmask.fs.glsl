@@ -4,6 +4,9 @@ layout (location = 1) out vec4 normalColor;
 layout (location = 2) out vec4 mraColor;
 layout (location = 3) out vec4 worldPos;
 layout (location = 4) out vec4 alpha;
+// for ao
+layout (location = 5) out vec4 viewPos;
+layout (location = 6) out vec4 viewNormal;
 
 
 // out vec4 FragColor;
@@ -47,4 +50,7 @@ void main() {
 	mraColor    = vec4(texture(maskMap, TexCoords).b, texture(maskMap, TexCoords).g, texture(maskMap, TexCoords).r, texture(maskMap, TexCoords).a);
 	worldPos    = vec4(WorldPos, texture(maskMap, TexCoords).a);
 	alpha       = vec4(1.0,1.0,1.0, texture(maskMap, TexCoords).a);
+	// for ao
+	viewPos     = vec4(ViewPos, texture(maskMap, TexCoords).a);
+	viewNormal  = vec4(ViewNormal, texture(maskMap, TexCoords).a);
 }

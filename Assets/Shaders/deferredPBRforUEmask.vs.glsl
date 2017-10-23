@@ -7,6 +7,11 @@ layout (location = 2) in vec3 aNormal;
 out vec2 TexCoords;
 out vec3 WorldPos;
 out vec3 Normal;
+// for ao
+out vec3 ViewPos;
+out vec3 ViewNormal;
+
+
 
 uniform mat4 projection;
 uniform mat4 view;
@@ -17,8 +22,11 @@ void main()
     TexCoords = aTexCoords;
     WorldPos = vec3(model * vec4(aPos, 1.0));
     Normal = mat3(model) * aNormal;
-
-		mat3 normalMatrix = transpose(inverse(mat3(view * model)));
+// for ao
+		ViewPos = vec3(view * model * vec4(aPos, 1.0));
+		// mat3 normalMatrix = transpose(inverse(mat3(view * model)));
+		mat3 normalMatrix = transpose(mat3(view * model));
+		ViewNormal = normalMatrix * aNormal;
 
     gl_Position =  projection * view * vec4(WorldPos, 1.0);
 }

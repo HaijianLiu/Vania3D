@@ -6,8 +6,8 @@
 ------------------------------------------------------------------------------*/
 #define PIXEL_TO_UNIT (0.01f)
 #define UNIT_TO_PIXEL (100)
-#define SCREEN_WIDTH (800)
-#define SCREEN_HEIGHT (600)
+#define SCREEN_WIDTH (960)
+#define SCREEN_HEIGHT (540)
 #define PI (3.141593f)
 
 #define UNIFORM_TEX_ALBEDO "albedo"

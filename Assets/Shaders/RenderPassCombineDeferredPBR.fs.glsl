@@ -19,8 +19,8 @@ uniform sampler2D texNoise;
 uniform vec3 samples[4];
 // parameters (you'd probably want to use them as uniforms to more easily tweak the effect)
 int kernelSize = 4;
-float radius = 5.0;
-float bias = 0.025;
+float radius = 1.0;
+float bias = 0.25;
 // tile noise texture over screen based on screen dimensions divided by noise size
 const vec2 noiseScale = vec2(1600.0/4.0, 1200.0/4.0);
 uniform mat4 projection;
@@ -112,10 +112,10 @@ void main() {
 	// vec3 color = ambient + 3 * Lo;
 	// color = max(color,vec3(0));
 
-	// float ssao = ambientOcclusion();
 
 	color *= 5 * mra.b;
 
+	// float ssao = ambientOcclusion();
 	// color *= ssao;
 
 	// HDR tonemapping
@@ -127,8 +127,8 @@ void main() {
 	// vec3 final = albedo * alpha + color;
 
 	FragColor = vec4(mix(albedo, color, alpha), 1.0);
-	// FragColor = vec4(albedo, 1.0);
-	// FragColor = vec4(texture(pass[2], TexCoords).a);
+	// FragColor = vec4(ssao);
+	// FragColor = vec4(texture(pass[6], TexCoords).rgb, 1.0);
 }
 
 

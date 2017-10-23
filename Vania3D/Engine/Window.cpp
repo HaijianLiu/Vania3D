@@ -62,7 +62,7 @@ GLFWwindow* Window::createWindow(const char* name, int screenWidth, int screenHe
 
 	// Other Default settings
 	// background
-	glClearColor(0.0,0.0,0.0,1.0);
+	glClearColor(0.0,0.0,0.0,0.0);
 	// Set input mode GLFW_STICKY_KEYS
 	glfwSetInputMode(window,GLFW_STICKY_KEYS,GL_TRUE);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
