@@ -41,6 +41,7 @@ void Resources::start() {
 	..............................................................................*/
 	this->loadShader("renderPass", "./Assets/Shaders/RenderPassCombineDeferredPBR.vs.glsl",  "./Assets/Shaders/RenderPassCombineDeferredPBR.fs.glsl");
 	this->loadShader("deferredPBR", "./Assets/Shaders/deferredPBR.vs.glsl",  "./Assets/Shaders/deferredPBR.fs.glsl");
+	this->loadShader("deferredPBRforUEmask", "./Assets/Shaders/deferredPBRforUEmask.vs.glsl",  "./Assets/Shaders/deferredPBRforUEmask.fs.glsl");
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
 	this->loadShader("prefilter", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/prefilter.fs.glsl");
@@ -49,22 +50,36 @@ void Resources::start() {
 
 	/* Model
 	..............................................................................*/
-	this->loadModel("WPN_AKM", "./Assets/Models/WPN_AKM/WPN_AKM.obj");
+	// this->loadModel("WPN_AKM", "./Assets/Models/WPN_AKM/WPN_AKM.obj");
+	this->loadModel("Maw_J_Laygo", "./Assets/Models/Mixamo_Maw/Maw_J_Laygo.FBX");
 
 	/* Texture
 	..............................................................................*/
-	this->loadTexture("WPN_AKM_albedo", "./Assets/Models/WPN_AKM/WPNT_AKM_Base_Color.tga");
-	this->loadTexture("WPN_AKM_normal", "./Assets/Models/WPN_AKM/WPNT_AKM_DirectX.tga");
-	this->loadTexture("WPN_AKM_metallic", "./Assets/Models/WPN_AKM/WPNT_AKM_Metallic.tga");
-	this->loadTexture("WPN_AKM_roughness", "./Assets/Models/WPN_AKM/WPNT_AKM_Roughness.tga");
-	this->loadTexture("WPN_AKM_ao", "./Assets/Models/WPN_AKM/WPNT_AKM_Ambient_occlusion.tga");
+	// this->loadTexture("WPN_AKM_albedo", "./Assets/Models/WPN_AKM/WPNT_AKM_Base_Color.tga");
+	// this->loadTexture("WPN_AKM_normal", "./Assets/Models/WPN_AKM/WPNT_AKM_DirectX.tga");
+	// this->loadTexture("WPN_AKM_metallic", "./Assets/Models/WPN_AKM/WPNT_AKM_Metallic.tga");
+	// this->loadTexture("WPN_AKM_roughness", "./Assets/Models/WPN_AKM/WPNT_AKM_Roughness.tga");
+	// this->loadTexture("WPN_AKM_ao", "./Assets/Models/WPN_AKM/WPNT_AKM_Ambient_occlusion.tga");
+	this->loadTexture("Maw_J_Laygo_albedo", "./Assets/Models/Mixamo_Maw/MAW_diffuse.TGA");
+	this->loadTexture("Maw_J_Laygo_normal", "./Assets/Models/Mixamo_Maw/MAW_normal.TGA");
+	this->loadTexture("Maw_J_Laygo_mask", "./Assets/Models/Mixamo_Maw/MAW_mask.TGA");
 
 	/* Material
 	..............................................................................*/
+	// this->createMaterial("WPN_AKM", getShader("deferredPBR"));
+	// this->materials["WPN_AKM"]->addTexture("albedoMap", this->textures["WPN_AKM_albedo"]);
+	// this->materials["WPN_AKM"]->addTexture("normalMap", this->textures["WPN_AKM_normal"]);
+	// this->materials["WPN_AKM"]->addTexture("metallicMap", this->textures["WPN_AKM_metallic"]);
+	// this->materials["WPN_AKM"]->addTexture("roughnessMap", this->textures["WPN_AKM_roughness"]);
+	// this->materials["WPN_AKM"]->addTexture("aoMap", this->textures["WPN_AKM_ao"]);
+	// this->createMaterial("Maw_J_Laygo", getShader("deferredPBRforUEmask"));
+	// this->materials["Maw_J_Laygo"]->addTexture("albedoMap", this->textures["Maw_J_Laygo_albedo"]);
+	// this->materials["Maw_J_Laygo"]->addTexture("normalMap", this->textures["Maw_J_Laygo_normal"]);
+	// this->materials["Maw_J_Laygo"]->addTexture("maskMap", this->textures["Maw_J_Laygo_mask"]);
 
 	/* LightProbe
 	..............................................................................*/
-	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Arches_E_PineTree_8k.jpg");
+	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Road_to_MonumentValley_8k.jpg");
 }
 
 
@@ -97,9 +112,6 @@ LightProbe* Resources::getLightProbe(const char* name) {
 }
 void Resources::createMaterial(const char* name, Shader* shader) {
 	this->materials.insert(std::make_pair(name, new Material(shader)));
-}
-void Resources::addTextureToMaterial(Material* material, const char* textureUniform, Texture* texture) {
-	material->addTexture(textureUniform, texture);
 }
 Material* Resources::getMaterial(const char* name) {
 	return this->materials[name];

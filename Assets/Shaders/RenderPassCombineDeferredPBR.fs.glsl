@@ -104,26 +104,31 @@ void main() {
 	vec2 brdf  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), mra.g)).rg;
 	vec3 specular = prefilteredColor * (F * brdf.x + brdf.y);
 
-	vec3 ambient = (kD * diffuse + (mra.r + kS) * specular) * mra.b;
+	vec3 ambient = (kD * diffuse + (mra.r + kS) * specular * diffuse * 5);
+	// vec3 ambient = (kD * diffuse + (mra.r + kS) * specular * diffuse * 5);
 
-	vec3 color = ambient + Lo - 0.05 * (1.0 - mra.b);
-	color = max(color,vec3(0));
+	// vec3 color = ambient + Lo - 0.01 * (1.0 - mra.b);
+	vec3 color = ambient + 3 * Lo;
+	// vec3 color = ambient + 3 * Lo;
+	// color = max(color,vec3(0));
 
 	// float ssao = ambientOcclusion();
 
-	color *= 4;
+	color *= 5 * mra.b;
 
 	// color *= ssao;
 
-	// // HDR tonemapping
+	// HDR tonemapping
 	color = color / (color + vec3(1.0));
 	// gamma correct
-	color = pow(color, vec3(1.0/2.2));
+	// color = pow(color, vec3(1.0/2.2));
 
 
 	// vec3 final = albedo * alpha + color;
 
 	FragColor = vec4(mix(albedo, color, alpha), 1.0);
+	// FragColor = vec4(albedo, 1.0);
+	// FragColor = vec4(texture(pass[2], TexCoords).a);
 }
 
 

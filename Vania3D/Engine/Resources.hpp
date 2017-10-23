@@ -36,7 +36,6 @@ public:
 	LightProbe* getLightProbe(const char* name);
 	// material
 	void createMaterial(const char* name, Shader* shader);
-	void addTextureToMaterial(Material* material, const char* textureUniform, Texture* texture);
 	Material* getMaterial(const char* name);
 };
 

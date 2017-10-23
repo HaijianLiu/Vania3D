@@ -32,22 +32,27 @@ void Scene00::start() {
 	this->lightColors[1] = glm::vec3(100.0f, 100.0f, 100.0f);
 	this->lightColors[2] = glm::vec3(100.0f, 100.0f, 100.0f);
 	this->lightColors[3] = glm::vec3(100.0f, 100.0f, 100.0f);
+	// this->lightColors[0] = glm::vec3(0.0f, 0.0f, 0.0f);
+	// this->lightColors[1] = glm::vec3(0.0f, 0.0f, 0.0f);
+	// this->lightColors[2] = glm::vec3(0.0f, 0.0f, 0.0f);
+	// this->lightColors[3] = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	// initialize static shader uniforms before rendering
-	game->resources->getShader("deferredPBR")->use();
+	game->resources->getShader("deferredPBRforUEmask")->use();
 		// camera
-		game->resources->getShader("deferredPBR")->setMat4("projection", this->camera->getMatrixProjection());
+		game->resources->getShader("deferredPBRforUEmask")->setMat4("projection", this->camera->getMatrixProjection());
 		// transform
 		glm::mat4 model = glm::mat4();
-		model = glm::scale(model, glm::vec3(1.0f));
+		model = glm::rotate(-PI/2, glm::vec3(1,0,0)) * model;
+		model = glm::scale(model, glm::vec3(0.05f));
 		model = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
 		// texture
-		game->resources->getShader("deferredPBR")->setMat4("model", model);
-		game->resources->getShader("deferredPBR")->setInt("albedoMap", 0);
-		game->resources->getShader("deferredPBR")->setInt("normalMap", 1);
-		game->resources->getShader("deferredPBR")->setInt("metallicMap", 2);
-		game->resources->getShader("deferredPBR")->setInt("roughnessMap", 3);
-		game->resources->getShader("deferredPBR")->setInt("aoMap", 4);
+		game->resources->getShader("deferredPBRforUEmask")->setMat4("model", model);
+		game->resources->getShader("deferredPBRforUEmask")->setInt("albedoMap", 0);
+		game->resources->getShader("deferredPBRforUEmask")->setInt("normalMap", 1);
+		game->resources->getShader("deferredPBRforUEmask")->setInt("maskMap", 2);
+		// game->resources->getShader("deferredPBRforUEmask")->setInt("roughnessMap", 3);
+		// game->resources->getShader("deferredPBRforUEmask")->setInt("aoMap", 4);
 
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
@@ -60,6 +65,10 @@ void Scene00::start() {
 		game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lightPositions[i]);
 		game->resources->getShader("renderPass")->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lightColors[i]);
 	}
+	// Enable alpha channel
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+
 }
 
 
@@ -79,25 +88,25 @@ void Scene00::update() {
 
 // object
 	// shader
-	game->resources->getShader("deferredPBR")->use();
+	game->resources->getShader("deferredPBRforUEmask")->use();
 		// camera
-		game->resources->getShader("deferredPBR")->setMat4("view", this->camera->getMatrixView());
+		game->resources->getShader("deferredPBRforUEmask")->setMat4("view", this->camera->getMatrixView());
 		// transform
-		model = glm::scale(glm::vec3(0.8f));
-		model = glm::translate(glm::vec3(0.0, 0.0, 0.0));
-		game->resources->getShader("deferredPBR")->setMat4("model", model);
+		// model = glm::scale(glm::vec3(0.1f));
+		// model = glm::translate(glm::vec3(0.0, 0.0, 0.0));
+		// game->resources->getShader("deferredPBRforUEmask")->setMat4("model", model);
 		// texture
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_albedo")->id);
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("Maw_J_Laygo_albedo")->id);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_normal")->id);
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("Maw_J_Laygo_normal")->id);
 		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_metallic")->id);
-		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_roughness")->id);
-		glActiveTexture(GL_TEXTURE4);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_ao")->id);
-	game->resources->getModel("WPN_AKM")->draw();
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("Maw_J_Laygo_mask")->id);
+		// glActiveTexture(GL_TEXTURE3);
+		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_roughness")->id);
+		// glActiveTexture(GL_TEXTURE4);
+		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_ao")->id);
+	game->resources->getModel("Maw_J_Laygo")->draw();
 
 
 // renderPass
