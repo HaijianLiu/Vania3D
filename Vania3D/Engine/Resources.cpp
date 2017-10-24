@@ -40,7 +40,7 @@ void Resources::start() {
 	/* Shader
 	..............................................................................*/
 	this->loadShader("renderPass", "./Assets/Shaders/RenderPassCombineDeferredPBR.vs.glsl",  "./Assets/Shaders/RenderPassCombineDeferredPBR.fs.glsl");
-	this->loadShader("deferredPBR", "./Assets/Shaders/deferredPBR.vs.glsl",  "./Assets/Shaders/deferredPBR.fs.glsl");
+	// this->loadShader("deferredPBR", "./Assets/Shaders/deferredPBR.vs.glsl",  "./Assets/Shaders/deferredPBR.fs.glsl");
 	this->loadShader("deferredPBRforUEmask", "./Assets/Shaders/deferredPBRforUEmask.vs.glsl",  "./Assets/Shaders/deferredPBRforUEmask.fs.glsl");
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
@@ -51,7 +51,7 @@ void Resources::start() {
 	/* Model
 	..............................................................................*/
 	// this->loadModel("WPN_AKM", "./Assets/Models/WPN_AKM/WPN_AKM.obj");
-	this->loadModel("Maw_J_Laygo", "./Assets/Models/Mixamo_Maw/Maw_J_Laygo.FBX");
+	this->loadModel("Maw_J_Laygo", "./Assets/Models/Mixamo_Maw/Maw_J_Laygo_blender.FBX");
 
 	/* Texture
 	..............................................................................*/

@@ -9,6 +9,7 @@
 #define SCREEN_WIDTH (960)
 #define SCREEN_HEIGHT (540)
 #define PI (3.141593f)
+#define NUM_BONES_PER_VEREX (4)
 
 #define UNIFORM_TEX_ALBEDO "albedo"
 #define UNIFORM_TEX_NORMAL "normal"
@@ -71,6 +72,8 @@ class Component;
 #include "Skybox.hpp"
 #include "Quad.hpp"
 #include "Mesh.hpp"
+#include "Bone.hpp"
+#include "Pose.hpp"
 #include "Model.hpp"
 #include "Material.hpp"
 #include "LightProbe.hpp"

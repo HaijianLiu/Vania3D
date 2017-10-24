@@ -57,6 +57,11 @@ void Model::processNode(aiNode* node, const aiScene* scene) {
 	}
 }
 
+struct BoneInfo {
+	aiMatrix4x4 offset;
+};
+
+
 Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 	// data to fill
 	std::vector<Vertex> vertices;
@@ -108,6 +113,48 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 		// retrieve all indices of the face and store them in the indices vector
 		for(unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
+	}
+
+	/* bones */
+	std::map<const char*, unsigned int> boneMapping;
+	std::vector<BoneInfo> boneInfo;
+	unsigned int m_NumBones = 0;
+
+	// set bones
+	for (unsigned int i = 0 ; i < mesh->mNumBones ; i++) {
+		unsigned int boneIndex = 0;
+		const char* boneName = mesh->mBones[i]->mName.data;
+
+		// index
+		if (boneMapping.find(boneName) == boneMapping.end()) {
+			boneIndex = m_NumBones;
+			m_NumBones++;
+			BoneInfo bi;
+			boneInfo.push_back(bi);
+		}
+		else {
+			boneIndex = boneMapping[boneName];
+		}
+		boneMapping[boneName] = boneIndex;
+		boneInfo[boneIndex].offset = mesh->mBones[i]->mOffsetMatrix;
+
+		// set vertices
+		for (unsigned int j = 0 ; j < mesh->mBones[i]->mNumWeights ; j++) {
+			unsigned int vertexID = mesh->mBones[i]->mWeights[j].mVertexId;
+			float weight = mesh->mBones[i]->mWeights[j].mWeight;
+
+			for (int k = 0 ; k < NUM_BONES_PER_VEREX ; k++) {
+				if (vertices[vertexID].weight[k] == 0.0) {
+					vertices[vertexID].boneID[k] = boneIndex;
+					vertices[vertexID].weight[k] = weight;
+					break;
+				}
+				if (k == NUM_BONES_PER_VEREX - 1) {
+					printf("[WARNNING]vertex: %d weight: %f out of the number of NUM_BONES_PER_VEREX!\n", vertexID, weight);
+				}
+			}
+
+		}
 	}
 
 	// return a mesh object created from the extracted mesh data

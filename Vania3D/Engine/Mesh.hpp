@@ -8,6 +8,8 @@ struct Vertex {
 	glm::vec2 uv;
 	glm::vec3 tangent;
 	glm::vec3 bitangent;
+	unsigned int boneID[NUM_BONES_PER_VEREX] = {NULL};
+	float weight[NUM_BONES_PER_VEREX] = {0.0};
 };
 
 class Mesh {
