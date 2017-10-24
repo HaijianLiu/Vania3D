@@ -61,7 +61,6 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 	// data to fill
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
 
 	/* vertices */
 	// Walk through each of the mesh's vertices
