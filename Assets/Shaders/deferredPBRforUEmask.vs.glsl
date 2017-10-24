@@ -15,7 +15,7 @@ out vec3 Normal;
 out vec3 ViewPos;
 out vec3 ViewNormal;
 
-
+// out float weight0;
 
 uniform mat4 projection;
 uniform mat4 view;
@@ -34,4 +34,6 @@ void main()
 
     // gl_Position =  projection * view * vec4(WorldPos, 1.0);
 		gl_Position =  projection * view * vec4(WorldPos, 1.0);
+
+		// weight0 = aWeight[0];
 }

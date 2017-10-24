@@ -150,7 +150,7 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 					break;
 				}
 				if (k == NUM_BONES_PER_VEREX - 1) {
-					printf("[WARNNING]vertex: %d weight: %f out of the number of NUM_BONES_PER_VEREX!\n", vertexID, weight);
+					printf("[WARNNING] vertex: %d weight: %f out of the number of NUM_BONES_PER_VEREX!\n", vertexID, weight);
 				}
 			}
 
