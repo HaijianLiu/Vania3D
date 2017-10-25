@@ -17,6 +17,45 @@ public:
 
 	// draws the model, and thus all its meshes
 	void draw();
+
+
+
+
+
+
+	std::vector<Matrix4f> Transforms;
+
+
+	struct BoneInfo
+	{
+			Matrix4f BoneOffset;
+			Matrix4f FinalTransformation;
+
+			BoneInfo()
+			{
+					BoneOffset.SetZero();
+					FinalTransformation.SetZero();
+			}
+	};
+
+
+
+	std::map<std::string,uint> m_BoneMapping; // maps a bone name to its index
+	uint m_NumBones = 0;
+	std::vector<BoneInfo> m_BoneInfo;
+	const aiScene* m_pScene;
+	Matrix4f m_GlobalInverseTransform;
+
+	void BoneTransform(float TimeInSeconds, std::vector<Matrix4f>& Transforms);
+	void ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Matrix4f& ParentTransform);
+	const aiNodeAnim* FindNodeAnim(const aiAnimation* pAnimation, const std::string NodeName);
+	void CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	void CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	void CalcInterpolatedPosition(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	uint FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
+	uint FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
+	uint FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim);
+
 };
 
 #endif /* Model_hpp */

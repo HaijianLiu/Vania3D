@@ -40,6 +40,7 @@
 		604B57AC1F99C148009DE302 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57AA1F99C148009DE302 /* Material.cpp */; };
 		609F90701F9EFF2400238D61 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 609F906E1F9EFF2400238D61 /* Bone.cpp */; };
 		609F90731F9EFF3100238D61 /* Pose.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 609F90711F9EFF3100238D61 /* Pose.cpp */; };
+		609F90771F9F557D00238D61 /* ogldev_math_3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 609F90751F9F557D00238D61 /* ogldev_math_3d.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -121,6 +122,8 @@
 		609F906F1F9EFF2400238D61 /* Bone.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bone.hpp; sourceTree = "<group>"; };
 		609F90711F9EFF3100238D61 /* Pose.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Pose.cpp; sourceTree = "<group>"; };
 		609F90721F9EFF3100238D61 /* Pose.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Pose.hpp; sourceTree = "<group>"; };
+		609F90751F9F557D00238D61 /* ogldev_math_3d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ogldev_math_3d.cpp; sourceTree = "<group>"; };
+		609F90761F9F557D00238D61 /* ogldev_math_3d.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ogldev_math_3d.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +230,8 @@
 				609F906F1F9EFF2400238D61 /* Bone.hpp */,
 				609F90711F9EFF3100238D61 /* Pose.cpp */,
 				609F90721F9EFF3100238D61 /* Pose.hpp */,
+				609F90751F9F557D00238D61 /* ogldev_math_3d.cpp */,
+				609F90761F9F557D00238D61 /* ogldev_math_3d.hpp */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
 				604B579C1F973F94009DE302 /* Skybox.cpp in Sources */,
 				6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */,
+				609F90771F9F557D00238D61 /* ogldev_math_3d.cpp in Sources */,
 				602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */,
 				604B57921F95FAB9009DE302 /* Component.cpp in Sources */,
 				604B57A31F9890AF009DE302 /* Scene.cpp in Sources */,

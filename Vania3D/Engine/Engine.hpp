@@ -57,6 +57,8 @@
 // include stbi
 #include "stb_image.h"
 
+#include "ogldev_math_3d.hpp"
+
 
 class GameObject;
 class Game;

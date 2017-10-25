@@ -17,7 +17,7 @@ in vec3 Normal;
 in vec3 ViewPos;
 in vec3 ViewNormal;
 
-// in float weight0;
+in float weight0;
 
 // material parameters
 uniform sampler2D albedoMap;
