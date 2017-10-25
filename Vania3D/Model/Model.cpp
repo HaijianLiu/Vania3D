@@ -12,10 +12,10 @@ void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms)
 
     ReadNodeHeirarchy(AnimationTime, m_pScene->mRootNode, Identity);
 
-    Transforms.resize(m_NumBones);
+    Transforms.resize(this->numBones);
 
-    for (uint i = 0 ; i < m_NumBones ; i++) {
-			Transforms[i] = this->bones[i].transformation;
+    for (uint i = 0 ; i < this->numBones ; i++) {
+			Transforms[i] = this->bones[i]->transformation;
     }
 }
 
@@ -26,12 +26,7 @@ void Model::ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Ma
 
     const aiAnimation* pAnimation = m_pScene->mAnimations[0];
 
-	Matrix4* NodeTransformation = new Matrix4(pNode->mTransformation);
-	aiMatrix4x4 test = pNode->mTransformation * pNode->mTransformation;
-//	NodeTransformation.m[0][0] = pNode->mTransformation.a1; NodeTransformation.m[0][1] = pNode->mTransformation.a2; NodeTransformation.m[0][2] = pNode->mTransformation.a3; NodeTransformation.m[0][3] = pNode->mTransformation.a4;
-//	NodeTransformation.m[1][0] = pNode->mTransformation.b1; NodeTransformation.m[1][1] = pNode->mTransformation.b2; NodeTransformation.m[1][2] = pNode->mTransformation.b3; NodeTransformation.m[1][3] = pNode->mTransformation.b4;
-//	NodeTransformation.m[2][0] = pNode->mTransformation.c1; NodeTransformation.m[2][1] = pNode->mTransformation.c2; NodeTransformation.m[2][2] = pNode->mTransformation.c3; NodeTransformation.m[2][3] = pNode->mTransformation.c4;
-//	NodeTransformation.m[3][0] = pNode->mTransformation.d1; NodeTransformation.m[3][1] = pNode->mTransformation.d2; NodeTransformation.m[3][2] = pNode->mTransformation.d3; NodeTransformation.m[3][3] = pNode->mTransformation.d4;
+	Matrix4 NodeTransformation = pNode->mTransformation;
 
     const aiNodeAnim* pNodeAnim = FindNodeAnim(pAnimation, NodeName);
 
@@ -54,15 +49,15 @@ void Model::ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Ma
 			TranslationM.setTranslationTransform(Translation.x, Translation.y, Translation.z);
 
         // Combine the above transformations
-        *NodeTransformation = TranslationM * RotationM * ScalingM;
+        NodeTransformation = TranslationM * RotationM * ScalingM;
     }
 
-	Matrix4 GlobalTransformation = ParentTransform * *NodeTransformation;
+	Matrix4 GlobalTransformation = ParentTransform * NodeTransformation;
 
 
-    if (m_BoneMapping.find(NodeName) != m_BoneMapping.end()) {
-        uint BoneIndex = m_BoneMapping[NodeName];
-        this->bones[BoneIndex].transformation = m_GlobalInverseTransform * GlobalTransformation * this->bones[BoneIndex].offset;
+    if (this->boneMapping.find(NodeName) != this->boneMapping.end()) {
+        uint BoneIndex = this->boneMapping[NodeName];
+        this->bones[BoneIndex]->transformation = this->globalInverseTransform * GlobalTransformation * this->bones[BoneIndex]->offset;
 				// m_BoneInfo[BoneIndex].FinalTransformation = GlobalTransformation * m_BoneInfo[BoneIndex].BoneOffset;
 
     }
@@ -205,7 +200,8 @@ Model::Model(const char* path) {
 < Destructor >
 ------------------------------------------------------------------------------*/
 Model::~Model() {
-
+	deleteVector(this->meshes);
+	deleteVector(this->bones);
 }
 
 
@@ -230,7 +226,7 @@ void Model::load(const char* path) {
 		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
 		return;
 	}
-	m_GlobalInverseTransform = m_pScene->mRootNode->mTransformation;
+	this->globalInverseTransform = m_pScene->mRootNode->mTransformation;
 //	m_GlobalInverseTransform.Inverse();
 	// process ASSIMP's root node recursively
 	Model::processNode(this->m_pScene->mRootNode, this->m_pScene);
@@ -313,17 +309,17 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 		const char* boneName = mesh->mBones[i]->mName.data;
 
 		// index
-		if (m_BoneMapping.find(boneName) == m_BoneMapping.end()) {
-			boneIndex = m_NumBones;
-			m_NumBones++;
+		if (this->boneMapping.find(boneName) == this->boneMapping.end()) {
+			boneIndex = this->numBones;
+			this->numBones++;
 			Bone bone;
-			this->bones.push_back(bone);
+			this->bones.push_back(new Bone());
 		}
 		else {
-			boneIndex = m_BoneMapping[boneName];
+			boneIndex = this->boneMapping[boneName];
 		}
-		m_BoneMapping[boneName] = boneIndex;
-		this->bones[boneIndex].offset = mesh->mBones[i]->mOffsetMatrix;
+		this->boneMapping[boneName] = boneIndex;
+		this->bones[boneIndex]->offset = mesh->mBones[i]->mOffsetMatrix;
 
 		// set vertices
 		for (unsigned int j = 0 ; j < mesh->mBones[i]->mNumWeights ; j++) {
