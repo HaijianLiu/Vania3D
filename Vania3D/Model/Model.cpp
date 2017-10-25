@@ -255,6 +255,7 @@ void Model::processNode(aiNode* ainode, Node<aiMatrix4x4>* node, const aiScene* 
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
 		node->children.push_back(new Node<aiMatrix4x4>(ainode->mChildren[i]->mName.data));
+		node->children[i]->parent = node;
 		Model::processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
 }
