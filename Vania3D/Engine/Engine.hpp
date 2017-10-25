@@ -81,7 +81,7 @@ class Component;
 
 #include "Mesh.hpp"
 #include "Bone.hpp"
-#include "Pose.hpp"
+#include "Keyframe.hpp"
 #include "Animation.hpp"
 #include "Model.hpp"
 

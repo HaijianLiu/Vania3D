@@ -10,6 +10,7 @@ private:
 	std::vector<Bone*> bones;
 	std::map<std::string, unsigned int> boneMapping; // maps a bone name to its index
 
+	// mRootNode transformation
 	Matrix4 globalInverseTransform;
 
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
