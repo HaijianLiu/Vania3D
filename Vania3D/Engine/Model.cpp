@@ -1,10 +1,10 @@
 
 #include "Engine.hpp"
 
-void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4f>& Transforms)
+void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms)
 {
-    Matrix4f Identity;
-    Identity.InitIdentity();
+	Matrix4 Identity;
+	Identity.setIdentity();
 
     float TicksPerSecond = m_pScene->mAnimations[0]->mTicksPerSecond != 0 ? m_pScene->mAnimations[0]->mTicksPerSecond : 25.0f;
     float TimeInTicks = TimeInSeconds * TicksPerSecond;
@@ -20,13 +20,13 @@ void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4f>& Transforms
 }
 
 
-void Model::ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Matrix4f& ParentTransform)
+void Model::ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Matrix4& ParentTransform)
 {
 	std::string NodeName(pNode->mName.data);
 
     const aiAnimation* pAnimation = m_pScene->mAnimations[0];
 
-	Matrix4f* NodeTransformation = new Matrix4f(pNode->mTransformation);
+	Matrix4* NodeTransformation = new Matrix4(pNode->mTransformation);
 	aiMatrix4x4 test = pNode->mTransformation * pNode->mTransformation;
 //	NodeTransformation.m[0][0] = pNode->mTransformation.a1; NodeTransformation.m[0][1] = pNode->mTransformation.a2; NodeTransformation.m[0][2] = pNode->mTransformation.a3; NodeTransformation.m[0][3] = pNode->mTransformation.a4;
 //	NodeTransformation.m[1][0] = pNode->mTransformation.b1; NodeTransformation.m[1][1] = pNode->mTransformation.b2; NodeTransformation.m[1][2] = pNode->mTransformation.b3; NodeTransformation.m[1][3] = pNode->mTransformation.b4;
@@ -39,25 +39,25 @@ void Model::ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Ma
         // Interpolate scaling and generate scaling transformation matrix
         aiVector3D Scaling;
         CalcInterpolatedScaling(Scaling, AnimationTime, pNodeAnim);
-        Matrix4f ScalingM;
-        ScalingM.InitScaleTransform(Scaling.x, Scaling.y, Scaling.z);
+			Matrix4 ScalingM;
+			ScalingM.setScaleTransform(Scaling.x, Scaling.y, Scaling.z);
 
         // Interpolate rotation and generate rotation transformation matrix
         aiQuaternion RotationQ;
         CalcInterpolatedRotation(RotationQ, AnimationTime, pNodeAnim);
-        Matrix4f RotationM = Matrix4f(RotationQ.GetMatrix());
+        Matrix4 RotationM = Matrix4(RotationQ.GetMatrix());
 
         // Interpolate translation and generate translation transformation matrix
         aiVector3D Translation;
         CalcInterpolatedPosition(Translation, AnimationTime, pNodeAnim);
-        Matrix4f TranslationM;
-        TranslationM.InitTranslationTransform(Translation.x, Translation.y, Translation.z);
+			Matrix4 TranslationM;
+			TranslationM.setTranslationTransform(Translation.x, Translation.y, Translation.z);
 
         // Combine the above transformations
         *NodeTransformation = TranslationM * RotationM * ScalingM;
     }
 
-    Matrix4f GlobalTransformation = ParentTransform * *NodeTransformation;
+	Matrix4 GlobalTransformation = ParentTransform * *NodeTransformation;
 
 
     if (m_BoneMapping.find(NodeName) != m_BoneMapping.end()) {
@@ -231,7 +231,7 @@ void Model::load(const char* path) {
 		return;
 	}
 	m_GlobalInverseTransform = m_pScene->mRootNode->mTransformation;
-	m_GlobalInverseTransform.Inverse();
+//	m_GlobalInverseTransform.Inverse();
 	// process ASSIMP's root node recursively
 	Model::processNode(this->m_pScene->mRootNode, this->m_pScene);
 	this->BoneTransform(1.0, this->Transforms);

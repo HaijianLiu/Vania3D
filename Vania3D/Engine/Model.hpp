@@ -23,18 +23,18 @@ public:
 
 
 
-	std::vector<Matrix4f> Transforms;
+	std::vector<Matrix4> Transforms;
 
 
 	struct BoneInfo
 	{
-			Matrix4f BoneOffset;
-			Matrix4f FinalTransformation;
+		Matrix4 BoneOffset;
+		Matrix4 FinalTransformation;
 
 			BoneInfo()
 			{
-					BoneOffset.SetZero();
-					FinalTransformation.SetZero();
+				BoneOffset.setZero();
+				FinalTransformation.setZero();
 			}
 	};
 
@@ -44,10 +44,10 @@ public:
 	uint m_NumBones = 0;
 	std::vector<BoneInfo> m_BoneInfo;
 	const aiScene* m_pScene;
-	Matrix4f m_GlobalInverseTransform;
+	Matrix4 m_GlobalInverseTransform;
 
-	void BoneTransform(float TimeInSeconds, std::vector<Matrix4f>& Transforms);
-	void ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Matrix4f& ParentTransform);
+	void BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms);
+	void ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Matrix4& ParentTransform);
 	const aiNodeAnim* FindNodeAnim(const aiAnimation* pAnimation, const std::string NodeName);
 	void CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
 	void CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);

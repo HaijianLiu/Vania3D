@@ -31,6 +31,7 @@
 // Include standard libraries
 #include <iostream>
 #include <thread>
+#include <math.h>
 #include <random>
 #include <typeindex>
 #include <vector>
@@ -57,13 +58,17 @@
 // include stbi
 #include "stb_image.h"
 
-#include "ogldev_math_3d.hpp"
-
-
 class GameObject;
 class Game;
 class SceneManager;
 class Component;
+
+/*------------------------------------------------------------------------------
+< Engine >
+------------------------------------------------------------------------------*/
+#include "Quaternion.hpp"
+#include "Matrix.hpp"
+
 
 /*------------------------------------------------------------------------------
 < Engine >

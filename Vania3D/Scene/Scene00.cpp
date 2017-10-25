@@ -99,23 +99,11 @@ void Scene00::start() {
 		// game->resources->getShader("deferredPBRforUEmask")->setInt("roughnessMap", 3);
 		// game->resources->getShader("deferredPBRforUEmask")->setInt("aoMap", 4);
 
-		std::vector<Matrix4f> Transforms = game->resources->getModel("Maw_J_Laygo")->Transforms;
+	std::vector<Matrix4> Transforms = game->resources->getModel("Maw_J_Laygo")->Transforms;
 		// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
 		for (uint i = 0 ; i < Transforms.size() ; i++) {
-				// m_pEffect->SetBoneTransform(i, Transforms[i]);
-//			glm::mat4 boneTransform = {
-//				Transforms[i].m[0][0],Transforms[i].m[0][1],Transforms[i].m[0][2],Transforms[i].m[0][3],
-//				Transforms[i].m[1][0],Transforms[i].m[1][1],Transforms[i].m[1][2],Transforms[i].m[1][3],
-//				Transforms[i].m[2][0],Transforms[i].m[2][1],Transforms[i].m[2][2],Transforms[i].m[2][3],
-//				Transforms[i].m[3][0],Transforms[i].m[3][1],Transforms[i].m[3][2],Transforms[i].m[3][3]
-//			};
-			glm::mat4 boneTransform = {
-				Transforms[i].m[0][0],Transforms[i].m[1][0],Transforms[i].m[2][0],Transforms[i].m[3][0],
-				Transforms[i].m[0][1],Transforms[i].m[1][1],Transforms[i].m[2][1],Transforms[i].m[3][1],
-				Transforms[i].m[0][2],Transforms[i].m[1][2],Transforms[i].m[2][2],Transforms[i].m[3][2],
-				Transforms[i].m[0][3],Transforms[i].m[1][3],Transforms[i].m[2][3],Transforms[i].m[3][3]
-			};
-			
+			glm::mat4 boneTransform = Transforms[i].getGLM();
+
 				game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
 		}
 
