@@ -26,23 +26,23 @@ public:
 	std::vector<Matrix4> Transforms;
 
 
-	struct BoneInfo
-	{
-		Matrix4 BoneOffset;
-		Matrix4 FinalTransformation;
-
-			BoneInfo()
-			{
-				BoneOffset.setZero();
-				FinalTransformation.setZero();
-			}
-	};
+	// struct BoneInfo
+	// {
+	// 	Matrix4 BoneOffset;
+	// 	Matrix4 FinalTransformation;
+	//
+	// 		BoneInfo()
+	// 		{
+	// 			BoneOffset.setZero();
+	// 			FinalTransformation.setZero();
+	// 		}
+	// };
 
 
 
 	std::map<std::string,uint> m_BoneMapping; // maps a bone name to its index
 	uint m_NumBones = 0;
-	std::vector<BoneInfo> m_BoneInfo;
+	std::vector<Bone> bones;
 	const aiScene* m_pScene;
 	Matrix4 m_GlobalInverseTransform;
 

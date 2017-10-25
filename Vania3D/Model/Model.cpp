@@ -15,7 +15,7 @@ void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms)
     Transforms.resize(m_NumBones);
 
     for (uint i = 0 ; i < m_NumBones ; i++) {
-        Transforms[i] = m_BoneInfo[i].FinalTransformation;
+			Transforms[i] = this->bones[i].transformation;
     }
 }
 
@@ -62,7 +62,7 @@ void Model::ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Ma
 
     if (m_BoneMapping.find(NodeName) != m_BoneMapping.end()) {
         uint BoneIndex = m_BoneMapping[NodeName];
-        m_BoneInfo[BoneIndex].FinalTransformation = m_GlobalInverseTransform * GlobalTransformation * m_BoneInfo[BoneIndex].BoneOffset;
+        this->bones[BoneIndex].transformation = m_GlobalInverseTransform * GlobalTransformation * this->bones[BoneIndex].offset;
 				// m_BoneInfo[BoneIndex].FinalTransformation = GlobalTransformation * m_BoneInfo[BoneIndex].BoneOffset;
 
     }
@@ -316,14 +316,14 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 		if (m_BoneMapping.find(boneName) == m_BoneMapping.end()) {
 			boneIndex = m_NumBones;
 			m_NumBones++;
-			BoneInfo bi;
-			m_BoneInfo.push_back(bi);
+			Bone bone;
+			this->bones.push_back(bone);
 		}
 		else {
 			boneIndex = m_BoneMapping[boneName];
 		}
 		m_BoneMapping[boneName] = boneIndex;
-		m_BoneInfo[boneIndex].BoneOffset = mesh->mBones[i]->mOffsetMatrix;
+		this->bones[boneIndex].offset = mesh->mBones[i]->mOffsetMatrix;
 
 		// set vertices
 		for (unsigned int j = 0 ; j < mesh->mBones[i]->mNumWeights ; j++) {
