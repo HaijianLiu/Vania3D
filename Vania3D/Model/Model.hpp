@@ -10,14 +10,11 @@ private:
 	std::vector<Bone*> bones;
 	std::map<std::string, unsigned int> boneMapping; // maps a bone name to its index
 
-	// mRootNode transformation
-	Matrix4 globalInverseTransform;
-
-	Node<aiMatrix4x4>* rootNode;
+	Node<Matrix4>* rootNode;
 
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
 	void load(const char* path);
-	void processNode(aiNode* ainode, Node<aiMatrix4x4>* node, const aiScene* aiscene);
+	void processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aiscene);
 	Mesh* processMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
@@ -29,7 +26,7 @@ public:
 
 
 
-	void ReadNodeHeirarchy(float AnimationTime, const Node<aiMatrix4x4>* node, const Matrix4& ParentTransform);
+	void ReadNodeHeirarchy(float AnimationTime, const Node<Matrix4>* node, const Matrix4& ParentTransform);
 
 
 

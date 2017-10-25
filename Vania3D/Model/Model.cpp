@@ -20,7 +20,7 @@ void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms)
 }
 
 
-void Model::ReadNodeHeirarchy(float AnimationTime, const Node<aiMatrix4x4>* node, const Matrix4& ParentTransform)
+void Model::ReadNodeHeirarchy(float AnimationTime, const Node<Matrix4>* node, const Matrix4& ParentTransform)
 {
 	std::string NodeName = node->name;
 
@@ -57,7 +57,7 @@ void Model::ReadNodeHeirarchy(float AnimationTime, const Node<aiMatrix4x4>* node
 
     if (this->boneMapping.find(NodeName) != this->boneMapping.end()) {
         uint BoneIndex = this->boneMapping[NodeName];
-        this->bones[BoneIndex]->transformation = this->globalInverseTransform * GlobalTransformation * this->bones[BoneIndex]->offset;
+        this->bones[BoneIndex]->transformation = this->rootNode->data * GlobalTransformation * this->bones[BoneIndex]->offset;
 				// m_BoneInfo[BoneIndex].FinalTransformation = GlobalTransformation * m_BoneInfo[BoneIndex].BoneOffset;
 
     }
@@ -192,7 +192,7 @@ void Model::CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const 
 < Constructor >
 ------------------------------------------------------------------------------*/
 Model::Model(const char* path) {
-	this->rootNode = new Node<aiMatrix4x4>("root");
+	this->rootNode = new Node<Matrix4>("root");
 	this->load(path);
 }
 
@@ -228,7 +228,7 @@ void Model::load(const char* path) {
 		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
 		return;
 	}
-	this->globalInverseTransform = m_pScene->mRootNode->mTransformation;
+	this->rootNode->data = m_pScene->mRootNode->mTransformation;
 	// process ASSIMP's root node recursively
 	this->processNode(this->m_pScene->mRootNode, this->rootNode, this->m_pScene);
 	this->BoneTransform(1.0, this->Transforms);
@@ -243,7 +243,7 @@ the scene contains all the data
 Processes each individual mesh located at the node and repeats this process on its children nodes (if any)
 Processes the bone node heirarchy located at the node and calculate the final transformation
 ------------------------------------------------------------------------------*/
-void Model::processNode(aiNode* ainode, Node<aiMatrix4x4>* node, const aiScene* aiscene) {
+void Model::processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aiscene) {
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < ainode->mNumMeshes; i++) {
 		aiMesh* mesh = aiscene->mMeshes[ainode->mMeshes[i]];
@@ -254,7 +254,7 @@ void Model::processNode(aiNode* ainode, Node<aiMatrix4x4>* node, const aiScene* 
 
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
-		node->children.push_back(new Node<aiMatrix4x4>(ainode->mChildren[i]->mName.data));
+		node->children.push_back(new Node<Matrix4>(ainode->mChildren[i]->mName.data));
 		node->children[i]->parent = node;
 		Model::processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
