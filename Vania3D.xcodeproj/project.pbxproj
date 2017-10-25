@@ -164,11 +164,12 @@
 			isa = PBXGroup;
 			children = (
 				600709FD1F88C49A00AE4BEB /* main.cpp */,
+				604B578F1F95FA63009DE302 /* Component */,
+				602434271F88D86400DA6CA4 /* Engine */,
 				6083D8621FA02BD400AF017C /* Math */,
 				604B57991F973F70009DE302 /* Mesh */,
-				602434271F88D86400DA6CA4 /* Engine */,
+				602DDFD11FA05F1800D64A7C /* Model */,
 				604B57A01F98908C009DE302 /* Scene */,
-				604B578F1F95FA63009DE302 /* Component */,
 			);
 			path = Vania3D;
 			sourceTree = "<group>";
@@ -216,10 +217,6 @@
 				602434391F88E70B00DA6CA4 /* Camera.hpp */,
 				6024343B1F88E79A00DA6CA4 /* Game.cpp */,
 				6024343C1F88E79A00DA6CA4 /* Game.hpp */,
-				604B57801F945A84009DE302 /* Model.cpp */,
-				604B57811F945A84009DE302 /* Model.hpp */,
-				604B57831F945A92009DE302 /* Mesh.cpp */,
-				604B57841F945A92009DE302 /* Mesh.hpp */,
 				604B57861F94928A009DE302 /* Texture.cpp */,
 				604B57871F94928A009DE302 /* Texture.hpp */,
 				604B578C1F95F61A009DE302 /* SceneManager.cpp */,
@@ -230,12 +227,23 @@
 				604B57971F9723AE009DE302 /* LightProbe.hpp */,
 				604B57AA1F99C148009DE302 /* Material.cpp */,
 				604B57AB1F99C148009DE302 /* Material.hpp */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
+		602DDFD11FA05F1800D64A7C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				604B57801F945A84009DE302 /* Model.cpp */,
+				604B57811F945A84009DE302 /* Model.hpp */,
+				604B57831F945A92009DE302 /* Mesh.cpp */,
+				604B57841F945A92009DE302 /* Mesh.hpp */,
 				609F906E1F9EFF2400238D61 /* Bone.cpp */,
 				609F906F1F9EFF2400238D61 /* Bone.hpp */,
 				609F90711F9EFF3100238D61 /* Pose.cpp */,
 				609F90721F9EFF3100238D61 /* Pose.hpp */,
 			);
-			path = Engine;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		604B578F1F95FA63009DE302 /* Component */ = {
