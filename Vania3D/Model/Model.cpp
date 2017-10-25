@@ -20,13 +20,13 @@ void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms)
 }
 
 
-void Model::ReadNodeHeirarchy(float AnimationTime, const Node* node, const Matrix4& ParentTransform)
+void Model::ReadNodeHeirarchy(float AnimationTime, const Node<aiMatrix4x4>* node, const Matrix4& ParentTransform)
 {
 	std::string NodeName = node->name;
 
     const aiAnimation* pAnimation = m_pScene->mAnimations[0];
 
-	Matrix4 NodeTransformation = node->transformation;
+	Matrix4 NodeTransformation = node->data;
 
     const aiNodeAnim* pNodeAnim = FindNodeAnim(pAnimation, NodeName);
 
@@ -192,7 +192,7 @@ void Model::CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const 
 < Constructor >
 ------------------------------------------------------------------------------*/
 Model::Model(const char* path) {
-	this->rootNode = new Node("root");
+	this->rootNode = new Node<aiMatrix4x4>("root");
 	this->load(path);
 }
 
@@ -243,18 +243,18 @@ the scene contains all the data
 Processes each individual mesh located at the node and repeats this process on its children nodes (if any)
 Processes the bone node heirarchy located at the node and calculate the final transformation
 ------------------------------------------------------------------------------*/
-void Model::processNode(aiNode* ainode, Node* node, const aiScene* aiscene) {
+void Model::processNode(aiNode* ainode, Node<aiMatrix4x4>* node, const aiScene* aiscene) {
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < ainode->mNumMeshes; i++) {
 		aiMesh* mesh = aiscene->mMeshes[ainode->mMeshes[i]];
 		this->meshes.push_back(processMesh(mesh, aiscene));
 	}
 	// save the node heirarchy and all the transformation matrices and names
-	node->transformation = ainode->mTransformation;
+	node->data = ainode->mTransformation;
 
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
-		node->children.push_back(new Node(ainode->mChildren[i]->mName.data));
+		node->children.push_back(new Node<aiMatrix4x4>(ainode->mChildren[i]->mName.data));
 		Model::processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
 }

@@ -131,7 +131,7 @@
 		60E579F71FA0B34700690EC1 /* Animation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
 		60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Keyframe.cpp; sourceTree = "<group>"; };
 		60E579FA1FA0BB9B00690EC1 /* Keyframe.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyframe.hpp; sourceTree = "<group>"; };
-		60E579FC1FA0C35100690EC1 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		60E579FC1FA0C35100690EC1 /* Node.cpp */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		60E579FD1FA0C35100690EC1 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

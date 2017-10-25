@@ -13,11 +13,11 @@ private:
 	// mRootNode transformation
 	Matrix4 globalInverseTransform;
 
-	Node* rootNode;
+	Node<aiMatrix4x4>* rootNode;
 
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
 	void load(const char* path);
-	void processNode(aiNode* ainode, Node* node, const aiScene* aiscene);
+	void processNode(aiNode* ainode, Node<aiMatrix4x4>* node, const aiScene* aiscene);
 	Mesh* processMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
@@ -29,7 +29,7 @@ public:
 
 
 
-	void ReadNodeHeirarchy(float AnimationTime, const Node* node, const Matrix4& ParentTransform);
+	void ReadNodeHeirarchy(float AnimationTime, const Node<aiMatrix4x4>* node, const Matrix4& ParentTransform);
 
 
 
