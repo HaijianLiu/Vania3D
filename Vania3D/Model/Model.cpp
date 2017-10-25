@@ -10,7 +10,7 @@ void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms)
     float TimeInTicks = TimeInSeconds * TicksPerSecond;
     float AnimationTime = fmod(TimeInTicks, m_pScene->mAnimations[0]->mDuration);
 
-    ReadNodeHeirarchy(AnimationTime, m_pScene->mRootNode, Identity);
+    ReadNodeHeirarchy(AnimationTime, this->rootNode, Identity);
 
     Transforms.resize(this->numBones);
 
@@ -20,13 +20,13 @@ void Model::BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms)
 }
 
 
-void Model::ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Matrix4& ParentTransform)
+void Model::ReadNodeHeirarchy(float AnimationTime, const Node* node, const Matrix4& ParentTransform)
 {
-	std::string NodeName(pNode->mName.data);
+	std::string NodeName = node->name;
 
     const aiAnimation* pAnimation = m_pScene->mAnimations[0];
 
-	Matrix4 NodeTransformation = pNode->mTransformation;
+	Matrix4 NodeTransformation = node->transformation;
 
     const aiNodeAnim* pNodeAnim = FindNodeAnim(pAnimation, NodeName);
 
@@ -62,8 +62,8 @@ void Model::ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Ma
 
     }
 
-    for (uint i = 0 ; i < pNode->mNumChildren ; i++) {
-        ReadNodeHeirarchy(AnimationTime, pNode->mChildren[i], GlobalTransformation);
+    for (unsigned int i = 0 ; i < node->children.size() ; i++) {
+        ReadNodeHeirarchy(AnimationTime, node->children[i], GlobalTransformation);
     }
 }
 
@@ -250,7 +250,7 @@ void Model::processNode(aiNode* node, Node* nodeData, const aiScene* scene) {
 		this->meshes.push_back(processMesh(mesh, scene));
 	}
 	// save the node heirarchy and all the transformation matrices and names
-	nodeData->tranformation = node->mTransformation;
+	nodeData->transformation = node->mTransformation;
 
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
 	for (unsigned int i = 0; i < node->mNumChildren; i++) {

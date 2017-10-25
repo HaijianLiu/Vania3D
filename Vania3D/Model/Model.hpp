@@ -30,6 +30,7 @@ public:
 
 
 
+	void ReadNodeHeirarchy(float AnimationTime, const Node* node, const Matrix4& ParentTransform);
 
 
 
@@ -39,7 +40,6 @@ public:
 	const aiScene* m_pScene;
 
 	void BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms);
-	void ReadNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Matrix4& ParentTransform);
 	const aiNodeAnim* FindNodeAnim(const aiAnimation* pAnimation, const std::string NodeName);
 	void CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
 	void CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);

@@ -5,7 +5,7 @@
 class Node {
 public:
 	std::string name;
-	aiMatrix4x4 tranformation;
+	aiMatrix4x4 transformation;
 	std::vector<Node*> children;
 
 	Node(std::string name);
