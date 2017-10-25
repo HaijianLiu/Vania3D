@@ -243,19 +243,19 @@ the scene contains all the data
 Processes each individual mesh located at the node and repeats this process on its children nodes (if any)
 Processes the bone node heirarchy located at the node and calculate the final transformation
 ------------------------------------------------------------------------------*/
-void Model::processNode(aiNode* node, Node* nodeData, const aiScene* scene) {
+void Model::processNode(aiNode* ainode, Node* node, const aiScene* aiscene) {
 	// process each mesh located at the current node
-	for (unsigned int i = 0; i < node->mNumMeshes; i++) {
-		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		this->meshes.push_back(processMesh(mesh, scene));
+	for (unsigned int i = 0; i < ainode->mNumMeshes; i++) {
+		aiMesh* mesh = aiscene->mMeshes[ainode->mMeshes[i]];
+		this->meshes.push_back(processMesh(mesh, aiscene));
 	}
 	// save the node heirarchy and all the transformation matrices and names
-	nodeData->transformation = node->mTransformation;
+	node->transformation = ainode->mTransformation;
 
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
-	for (unsigned int i = 0; i < node->mNumChildren; i++) {
-		nodeData->children.push_back(new Node(node->mChildren[i]->mName.data));
-		Model::processNode(node->mChildren[i], nodeData->children[i], scene);
+	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
+		node->children.push_back(new Node(ainode->mChildren[i]->mName.data));
+		Model::processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
 }
 
