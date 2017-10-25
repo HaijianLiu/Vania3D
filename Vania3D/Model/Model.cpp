@@ -192,6 +192,7 @@ void Model::CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const 
 < Constructor >
 ------------------------------------------------------------------------------*/
 Model::Model(const char* path) {
+	this->rootNode = new Node("root");
 	this->load(path);
 }
 
@@ -202,6 +203,7 @@ Model::Model(const char* path) {
 Model::~Model() {
 	deleteVector(this->meshes);
 	deleteVector(this->bones);
+	delete this->rootNode;
 }
 
 
@@ -228,27 +230,41 @@ void Model::load(const char* path) {
 	}
 	this->globalInverseTransform = m_pScene->mRootNode->mTransformation;
 	// process ASSIMP's root node recursively
-	Model::processNode(this->m_pScene->mRootNode, this->m_pScene);
+	this->processNode(this->m_pScene->mRootNode, this->rootNode, this->m_pScene);
 	this->BoneTransform(1.0, this->Transforms);
 }
 
-// processes a node in a recursive function
-// the node object only contains indices to index the actual objects in the scene
-// the scene contains all the data
-// Processes each individual mesh located at the node and repeats this process on its children nodes (if any)
-// Processes the bone node heirarchy located at the node and calculate the final transformation
-void Model::processNode(aiNode* node, const aiScene* scene) {
+
+/*------------------------------------------------------------------------------
+< process node >
+processes a node in a recursive function
+the node object only contains indices to index the actual objects in the scene
+the scene contains all the data
+Processes each individual mesh located at the node and repeats this process on its children nodes (if any)
+Processes the bone node heirarchy located at the node and calculate the final transformation
+------------------------------------------------------------------------------*/
+void Model::processNode(aiNode* node, Node* nodeData, const aiScene* scene) {
 	// process each mesh located at the current node
-	for(unsigned int i = 0; i < node->mNumMeshes; i++) {
+	for (unsigned int i = 0; i < node->mNumMeshes; i++) {
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		this->meshes.push_back(processMesh(mesh, scene));
 	}
+	// save the node heirarchy and all the transformation matrices and names
+	nodeData->tranformation = node->mTransformation;
+
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
-	for(unsigned int i = 0; i < node->mNumChildren; i++) {
-		Model::processNode(node->mChildren[i], scene);
+	for (unsigned int i = 0; i < node->mNumChildren; i++) {
+		nodeData->children.push_back(new Node(node->mChildren[i]->mName.data));
+		Model::processNode(node->mChildren[i], nodeData->children[i], scene);
 	}
 }
 
+
+/*------------------------------------------------------------------------------
+< process mesh>
+load mesh vertices data to vao
+if vertices have bone weights then load them to vao too
+------------------------------------------------------------------------------*/
 Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 	// data to fill
 	std::vector<Vertex> vertices;

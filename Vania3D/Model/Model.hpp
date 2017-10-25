@@ -13,11 +13,12 @@ private:
 	// mRootNode transformation
 	Matrix4 globalInverseTransform;
 
-	Node* rootNode = nullptr;
+	Node* rootNode;
 
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
 	void load(const char* path);
-	void processNode(aiNode* node, const aiScene* scene);
+	void processNode(aiNode* node, Node* nodeData, const aiScene* scene);
+	void copyNode(aiNode* node);
 	Mesh* processMesh(aiMesh* mesh, const aiScene* scene);
 
 public:

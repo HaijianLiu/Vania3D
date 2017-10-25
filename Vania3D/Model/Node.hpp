@@ -3,11 +3,12 @@
 #define Node_hpp
 
 class Node {
-private:
-	/* data */
-
 public:
-	Node();
+	std::string name;
+	aiMatrix4x4 tranformation;
+	std::vector<Node*> children;
+
+	Node(std::string name);
 	~Node();
 };
 
