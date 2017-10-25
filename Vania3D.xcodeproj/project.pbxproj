@@ -43,6 +43,7 @@
 		609F90701F9EFF2400238D61 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 609F906E1F9EFF2400238D61 /* Bone.cpp */; };
 		60E579F81FA0B34700690EC1 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F61FA0B34700690EC1 /* Animation.cpp */; };
 		60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */; };
+		60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579FC1FA0C35100690EC1 /* Node.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -130,6 +131,8 @@
 		60E579F71FA0B34700690EC1 /* Animation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
 		60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Keyframe.cpp; sourceTree = "<group>"; };
 		60E579FA1FA0BB9B00690EC1 /* Keyframe.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyframe.hpp; sourceTree = "<group>"; };
+		60E579FC1FA0C35100690EC1 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		60E579FD1FA0C35100690EC1 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +240,8 @@
 		602DDFD11FA05F1800D64A7C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				60E579FC1FA0C35100690EC1 /* Node.cpp */,
+				60E579FD1FA0C35100690EC1 /* Node.hpp */,
 				609F906E1F9EFF2400238D61 /* Bone.cpp */,
 				609F906F1F9EFF2400238D61 /* Bone.hpp */,
 				604B57831F945A92009DE302 /* Mesh.cpp */,
@@ -385,6 +390,7 @@
 				6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */,
 				604B57851F945A92009DE302 /* Mesh.cpp in Sources */,
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
+				60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */,
 				604B579C1F973F94009DE302 /* Skybox.cpp in Sources */,
 				6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */,
 				602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */,

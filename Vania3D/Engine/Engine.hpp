@@ -79,6 +79,7 @@ class Component;
 #include "Skybox.hpp"
 #include "Quad.hpp"
 
+#include "Node.hpp"
 #include "Mesh.hpp"
 #include "Bone.hpp"
 #include "Keyframe.hpp"
