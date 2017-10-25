@@ -78,10 +78,13 @@ class Component;
 #include "Texture.hpp"
 #include "Skybox.hpp"
 #include "Quad.hpp"
+
 #include "Mesh.hpp"
 #include "Bone.hpp"
 #include "Pose.hpp"
+#include "Animation.hpp"
 #include "Model.hpp"
+
 #include "Material.hpp"
 #include "LightProbe.hpp"
 #include "Resources.hpp"
