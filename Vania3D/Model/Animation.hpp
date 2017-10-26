@@ -11,6 +11,8 @@ public:
 
 	Animation();
 	~Animation();
+
+	const Keyframe* findKeyframe(const std::string nodeName) const;
 };
 
 #endif /* Animation_hpp */

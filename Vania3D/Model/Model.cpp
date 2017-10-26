@@ -17,7 +17,7 @@ void Model::processPose(const Animation* animation, float animationTimeInTicks, 
 
 	Matrix4 nodeTransformation = node->data;
 
-	const Keyframe* keyframe = FindNodeAnim(animation, node->name);
+	const Keyframe* keyframe = animation->findKeyframe(node->name);
 
 	if (keyframe) {
 		// Interpolate scaling and generate scaling transformation matrix
@@ -53,20 +53,6 @@ void Model::processPose(const Animation* animation, float animationTimeInTicks, 
 	for (unsigned int i = 0 ; i < node->children.size() ; i++) {
 		this->processPose(animation, animationTimeInTicks, node->children[i], globalTransformation);
 	}
-}
-
-
-const Keyframe* Model::FindNodeAnim(const Animation* animation, const std::string nodeName)
-{
-    for (unsigned int i = 0 ; i < animation->keyframes.size() ; i++) {
-        const Keyframe* keyframe = animation->keyframes[i];
-
-			if (keyframe->nodeName == nodeName) {
-            return keyframe;
-        }
-    }
-
-    return nullptr;
 }
 
 

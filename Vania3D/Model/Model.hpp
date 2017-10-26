@@ -8,7 +8,7 @@ private:
 	std::vector<Mesh*> meshes;
 	std::vector<Animation*> animations;
 
-	std::map<std::string, Bone> bones;
+	std::unordered_map<std::string, Bone> bones;
 
 
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
@@ -25,7 +25,6 @@ public:
 	~Model();
 
 	void updatePose(unsigned int animationIndex, float time); // time in seconds
-	const Keyframe* FindNodeAnim(const Animation* animation, const std::string nodeName);
 
 	// draws the model, and thus all its meshes
 	void draw();
