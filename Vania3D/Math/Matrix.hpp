@@ -4,6 +4,7 @@
 
 class Matrix4 {
 public:
+	// value
 	float value[4][4];
 
 	// constructor
