@@ -19,6 +19,9 @@ public:
 	void normalize();
 	glm::vec3 degrees();
 
+	// get functions
+	aiQuaternion getAissmp() const;
+
 	// operators
 	Quaternion operator*(const Quaternion& right) const;
 	Quaternion operator*(const glm::vec3& vector) const;

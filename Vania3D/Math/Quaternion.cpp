@@ -69,6 +69,16 @@ glm::vec3 Quaternion::degrees() {
 }
 
 
+aiQuaternion Quaternion::getAissmp() const {
+	aiQuaternion aiquaternion;
+	aiquaternion.x = this->x;
+	aiquaternion.y = this->y;
+	aiquaternion.z = this->z;
+	aiquaternion.w = this->w;
+	return aiquaternion;
+}
+
+
 /*------------------------------------------------------------------------------
 < operator* >
 ------------------------------------------------------------------------------*/

@@ -99,7 +99,7 @@ void Scene00::start() {
 		// game->resources->getShader("deferredPBRforUEmask")->setInt("roughnessMap", 3);
 		// game->resources->getShader("deferredPBRforUEmask")->setInt("aoMap", 4);
 
-	std::vector<Matrix4> Transforms = game->resources->getModel("Maw_J_Laygo")->Transforms;
+	std::vector<Matrix4> Transforms = game->resources->getModel("Maw_J_Laygo")->pose;
 		// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
 		for (uint i = 0 ; i < Transforms.size() ; i++) {
 			glm::mat4 boneTransform = Transforms[i].getGLM();
