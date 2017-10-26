@@ -15,11 +15,11 @@ void Model::updatePose(unsigned int animationIndex, float time) {
 	this->processPose(this->animations[animationIndex], animationTimeInTicks, this->rootNode, identity);
 
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	this->pose.resize(this->bones.size());
-
-	for (uint i = 0 ; i < this->bones.size() ; i++) {
-		this->pose[i] = this->bones[i]->transformation;
-	}
+//	this->pose.resize(this->bones.size());
+//
+//	for (uint i = 0 ; i < this->bones.size() ; i++) {
+//		this->pose[i] = this->bones[i]->transformation;
+//	}
 }
 
 
@@ -62,7 +62,7 @@ void Model::processPose(const Animation* animation, float animationTimeInTicks, 
 
     if (this->boneMapping.find(node->name) != this->boneMapping.end()) {
         unsigned int boneIndex = this->boneMapping[node->name];
-        this->bones[boneIndex]->transformation = this->rootNode->data * globalTransformation * this->bones[boneIndex]->offset;
+        this->pose[boneIndex] = this->rootNode->data * globalTransformation * this->bones[boneIndex];
     }
 
     for (unsigned int i = 0 ; i < node->children.size() ; i++) {
@@ -206,9 +206,8 @@ Model::Model(const char* path) {
 < Destructor >
 ------------------------------------------------------------------------------*/
 Model::~Model() {
-	deleteVector(this->meshes);
-	deleteVector(this->bones);
 	delete this->rootNode;
+	deleteVector(this->meshes);
 	deleteVector(this->animations);
 }
 
@@ -381,13 +380,14 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 		if (this->boneMapping.find(boneName) == this->boneMapping.end()) {
 			boneIndex = counter;
 			counter++;
-			this->bones.push_back(new Bone());
+			this->bones.push_back(Matrix4());
+			this->pose.push_back(Matrix4());
+			this->boneMapping[boneName] = boneIndex;
 		}
 		else {
 			boneIndex = this->boneMapping[boneName];
 		}
-		this->boneMapping[boneName] = boneIndex;
-		this->bones[boneIndex]->offset = mesh->mBones[i]->mOffsetMatrix;
+		this->bones[boneIndex] = mesh->mBones[i]->mOffsetMatrix;
 
 		// set vertices
 		for (unsigned int j = 0 ; j < mesh->mBones[i]->mNumWeights ; j++) {

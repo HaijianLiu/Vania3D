@@ -5,7 +5,6 @@
 class Bone {
 public:
 	Matrix4 offset;
-	Matrix4 transformation;
 
 	Bone();
 	~Bone ();
