@@ -14,9 +14,10 @@ void Model::updatePose(unsigned int animationIndex, float time) {
 	identity.setIdentity();
 	this->processPose(this->animations[animationIndex], animationTimeInTicks, this->rootNode, identity);
 
-	this->pose.resize(this->numBones);
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	this->pose.resize(this->bones.size());
 
-	for (uint i = 0 ; i < this->numBones ; i++) {
+	for (uint i = 0 ; i < this->bones.size() ; i++) {
 		this->pose[i] = this->bones[i]->transformation;
 	}
 }
@@ -371,15 +372,15 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 	/* bones */
 
 	// set bones
+	unsigned int counter = 0;
 	for (unsigned int i = 0 ; i < mesh->mNumBones ; i++) {
 		unsigned int boneIndex = 0;
-		const char* boneName = mesh->mBones[i]->mName.data;
+		std::string boneName = mesh->mBones[i]->mName.data;
 
 		// index
 		if (this->boneMapping.find(boneName) == this->boneMapping.end()) {
-			boneIndex = this->numBones;
-			this->numBones++;
-			Bone bone;
+			boneIndex = counter;
+			counter++;
 			this->bones.push_back(new Bone());
 		}
 		else {

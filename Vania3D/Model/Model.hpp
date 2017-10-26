@@ -8,7 +8,6 @@ private:
 	std::vector<Mesh*> meshes;
 	std::vector<Animation*> animations;
 
-	unsigned int numBones = 0;
 	std::vector<Bone*> bones;
 	std::map<std::string, unsigned int> boneMapping; // maps a bone name to its index
 
