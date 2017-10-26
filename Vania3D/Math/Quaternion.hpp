@@ -11,9 +11,9 @@ public:
 
 	void normalize();
 	glm::vec3 degrees();
-};
 
-Quaternion operator*(const Quaternion& l, const Quaternion& r);
-Quaternion operator*(const Quaternion& q, const glm::vec3& v);
+	Quaternion operator*(const Quaternion& right) const;
+	Quaternion operator*(const glm::vec3& vector) const;
+};
 
 #endif /* Quaternion_hpp */
