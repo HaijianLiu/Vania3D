@@ -9,9 +9,9 @@ Matrix4::Matrix4() {
 }
 
 Matrix4::Matrix4(float a00, float a01, float a02, float a03,
-                 float a10, float a11, float a12, float a13,
-                 float a20, float a21, float a22, float a23,
-                 float a30, float a31, float a32, float a33) {
+	               float a10, float a11, float a12, float a13,
+	               float a20, float a21, float a22, float a23,
+	               float a30, float a31, float a32, float a33) {
 	this->value[0][0] = a00; this->value[0][1] = a01; this->value[0][2] = a02; this->value[0][3] = a03;
 	this->value[1][0] = a10; this->value[1][1] = a11; this->value[1][2] = a12; this->value[1][3] = a13;
 	this->value[2][0] = a20; this->value[2][1] = a21; this->value[2][2] = a22; this->value[2][3] = a23;

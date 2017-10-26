@@ -11,6 +11,7 @@ private:
 	std::map<std::string, unsigned int> boneMapping; // maps a bone name to its index
 
 	Node<Matrix4>* rootNode;
+	std::vector<Animation*> animations;
 
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
 	void load(const char* path);

@@ -1,19 +1,24 @@
-//
-//  Keyframe.hpp
-//  Cocoa
-//
-//  Created by haijian on 2017/10/25.
-//  Copyright © 2017年 haijian. All rights reserved.
-//
 
 #ifndef Keyframe_hpp
 #define Keyframe_hpp
 
-class Keyframe {
-private:
-	/* data */
+struct VectorKey {
+	float time;
+	Vector3 value;
+};
 
+struct QuaternionKey {
+	float time;
+	Quaternion value;
+};
+
+class Keyframe {
 public:
+	std::string nodeName;
+	std::vector<VectorKey> positionKeys;
+	std::vector<QuaternionKey> rotationKeys;
+	std::vector<VectorKey> scalingKeys;
+
 	Keyframe();
 	~Keyframe();
 };
