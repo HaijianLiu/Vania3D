@@ -14,9 +14,9 @@ private:
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
 	void load(const char* path);
 	void processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aiscene);
-	Mesh* processMesh(aiMesh* aimesh, const aiScene* aiscene);
 	void processAnimation(const aiScene* aiscene);
 	void processPose(const Animation* animation, float animationTimeInTicks, const Node<Matrix4>* node, const Matrix4& parentTransformation);
+	Mesh* createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
 	std::vector<Matrix4> pose;

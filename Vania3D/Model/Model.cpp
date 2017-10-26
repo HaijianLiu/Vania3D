@@ -221,6 +221,7 @@ void Model::load(const char* path) {
 	this->rootNode->data = aiscene->mRootNode->mTransformation;
 	// process assimp root node recursively
 	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
+	// copy all assimp animation data
 	this->processAnimation(aiscene);
 
 	// for test
@@ -240,16 +241,16 @@ void Model::processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aisc
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < ainode->mNumMeshes; i++) {
 		aiMesh* mesh = aiscene->mMeshes[ainode->mMeshes[i]];
-		this->meshes.push_back(processMesh(mesh, aiscene));
+		this->meshes.push_back(createMesh(mesh, aiscene));
 	}
 	// save the node heirarchy and all the transformation matrices and names
 	node->data = ainode->mTransformation;
 
-	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
+	// recursively process each of the children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
 		node->children.push_back(new Node<Matrix4>(ainode->mChildren[i]->mName.data));
 		node->children[i]->parent = node;
-		Model::processNode(ainode->mChildren[i], node->children[i], aiscene);
+		this->processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
 }
 
@@ -296,11 +297,11 @@ void Model::processAnimation(const aiScene* aiscene) {
 
 
 /*------------------------------------------------------------------------------
-< process mesh>
+< create mesh>
 load mesh vertices data to vao
 if vertices have bone weights then load them to vao too
 ------------------------------------------------------------------------------*/
-Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
+Mesh* Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	// data to fill
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
