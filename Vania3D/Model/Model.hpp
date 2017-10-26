@@ -28,19 +28,6 @@ public:
 
 	// draws the model, and thus all its meshes
 	void draw();
-
-
-
-	// const aiScene* m_pScene;
-
-	// void BoneTransform(float TimeInSeconds, std::vector<Matrix4>& Transforms);
-	void CalcInterpolatedScaling(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe);
-	void CalcInterpolatedRotation(Quaternion& Out, float animationTimeInTicks, const Keyframe* keyframe);
-	void CalcInterpolatedPosition(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe);
-	uint FindScaling(float animationTimeInTicks, const Keyframe* keyframe);
-	uint FindRotation(float animationTimeInTicks, const Keyframe* keyframe);
-	uint FindPosition(float animationTimeInTicks, const Keyframe* keyframe);
-
 };
 
 #endif /* Model_hpp */
