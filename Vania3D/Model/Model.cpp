@@ -204,6 +204,7 @@ Model::~Model() {
 	deleteVector(this->meshes);
 	deleteVector(this->bones);
 	delete this->rootNode;
+	deleteVector(this->animations);
 }
 
 
@@ -229,8 +230,9 @@ void Model::load(const char* path) {
 		return;
 	}
 	this->rootNode->data = m_pScene->mRootNode->mTransformation;
-	// process ASSIMP's root node recursively
+	// process assimp root node recursively
 	this->processNode(this->m_pScene->mRootNode, this->rootNode, this->m_pScene);
+	this->processAnimation(this->m_pScene);
 	this->BoneTransform(1.0, this->Transforms);
 }
 
@@ -257,6 +259,47 @@ void Model::processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aisc
 		node->children.push_back(new Node<Matrix4>(ainode->mChildren[i]->mName.data));
 		node->children[i]->parent = node;
 		Model::processNode(ainode->mChildren[i], node->children[i], aiscene);
+	}
+}
+
+
+/*------------------------------------------------------------------------------
+< process Animation >
+processes each individual aiAnimation located at the aiScene
+processes each individual channel (aiNodeAnim) located at the aiAnimation
+copy all the keyframe data to the animations member
+------------------------------------------------------------------------------*/
+void Model::processAnimation(const aiScene* aiscene) {
+	// copy aiAnimation
+	for (unsigned int i = 0; i < aiscene->mNumAnimations; i++) {
+		this->animations.push_back(new Animation());
+		this->animations[i]->name = aiscene->mAnimations[i]->mName.data;
+		this->animations[i]->duration = aiscene->mAnimations[i]->mDuration;
+		this->animations[i]->ticksPerSecond = aiscene->mAnimations[i]->mTicksPerSecond;
+		// copy aiNodeAnim
+		for (unsigned int j = 0; j < aiscene->mAnimations[i]->mNumChannels; j++) {
+			this->animations[i]->keyframes.push_back(new Keyframe());
+			this->animations[i]->keyframes[j]->nodeName = aiscene->mAnimations[i]->mChannels[j]->mNodeName.data;
+			// copy keyframes
+			for (unsigned int k = 0; k < aiscene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++) {
+				VectorKey vectorKey;
+				vectorKey.time = aiscene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+				vectorKey.value = aiscene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue;
+				this->animations[i]->keyframes[j]->positionKeys.push_back(vectorKey);
+			}
+			for (unsigned int k = 0; k < aiscene->mAnimations[i]->mChannels[j]->mNumRotationKeys; k++) {
+				QuaternionKey quaternionKey;
+				quaternionKey.time = aiscene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mTime;
+				quaternionKey.value = aiscene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mValue;
+				this->animations[i]->keyframes[j]->rotationKeys.push_back(quaternionKey);
+			}
+			for (unsigned int k = 0; k < aiscene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++) {
+				VectorKey vectorKey;
+				vectorKey.time = aiscene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mTime;
+				vectorKey.value = aiscene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
+				this->animations[i]->keyframes[j]->scalingKeys.push_back(vectorKey);
+			}
+		}
 	}
 }
 

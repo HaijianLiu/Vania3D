@@ -10,7 +10,7 @@ public:
 	std::vector<Keyframe*> keyframes;
 
 	Animation();
-	~Animation ();
+	~Animation();
 };
 
 #endif /* Animation_hpp */

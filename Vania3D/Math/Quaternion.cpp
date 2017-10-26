@@ -4,6 +4,22 @@
 /*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
+Quaternion::Quaternion() {
+
+}
+
+
+/*------------------------------------------------------------------------------
+< Destructor >
+------------------------------------------------------------------------------*/
+Quaternion::~Quaternion() {
+
+}
+
+
+/*------------------------------------------------------------------------------
+< Constructor from values >
+------------------------------------------------------------------------------*/
 Quaternion::Quaternion(float x, float y, float z, float w) {
 	this->x = x;
 	this->y = y;
@@ -13,10 +29,13 @@ Quaternion::Quaternion(float x, float y, float z, float w) {
 
 
 /*------------------------------------------------------------------------------
-< Destructor >
+< Constructor from Assimp quaternion >
 ------------------------------------------------------------------------------*/
-Quaternion::~Quaternion() {
-
+Quaternion::Quaternion(const aiQuaternion& assimpQuaternion) {
+	this->x = assimpQuaternion.x;
+	this->y = assimpQuaternion.y;
+	this->z = assimpQuaternion.z;
+	this->w = assimpQuaternion.w;
 }
 
 

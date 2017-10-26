@@ -8,8 +8,12 @@ public:
 	float x, y, z, w;
 
 	// constructor
-	Quaternion(float x, float y, float z, float w);
+	Quaternion();
 	~Quaternion ();
+	// constructor from values
+	Quaternion(float x, float y, float z, float w);
+	// constructor from Assimp Quaternion
+	Quaternion(const aiQuaternion& assimpQuaternion);
 
 	// functions
 	void normalize();

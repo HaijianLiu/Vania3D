@@ -17,6 +17,7 @@ private:
 	void load(const char* path);
 	void processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aiscene);
 	Mesh* processMesh(aiMesh* aimesh, const aiScene* aiscene);
+	void processAnimation(const aiScene* aiscene);
 
 public:
 	Model(const char* path);

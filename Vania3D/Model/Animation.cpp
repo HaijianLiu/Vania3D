@@ -13,5 +13,5 @@ Animation::Animation() {
 < Destructor >
 ------------------------------------------------------------------------------*/
 Animation::~Animation() {
-
+	deleteVector(this->keyframes);
 }

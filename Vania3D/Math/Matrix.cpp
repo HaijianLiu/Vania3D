@@ -8,6 +8,17 @@ Matrix4::Matrix4() {
 
 }
 
+/*------------------------------------------------------------------------------
+< Destructor >
+------------------------------------------------------------------------------*/
+Matrix4::~Matrix4() {
+
+}
+
+
+/*------------------------------------------------------------------------------
+< Constructor from values >
+------------------------------------------------------------------------------*/
 Matrix4::Matrix4(float a00, float a01, float a02, float a03,
 	               float a10, float a11, float a12, float a13,
 	               float a20, float a21, float a22, float a23,
@@ -34,14 +45,6 @@ Matrix4::Matrix4(const aiMatrix3x3& assimpMatrix) {
 	this->value[1][0] = assimpMatrix.b1; this->value[1][1] = assimpMatrix.b2; this->value[1][2] = assimpMatrix.b3; this->value[1][3] = 0.0f;
 	this->value[2][0] = assimpMatrix.c1; this->value[2][1] = assimpMatrix.c2; this->value[2][2] = assimpMatrix.c3; this->value[2][3] = 0.0f;
 	this->value[3][0] = 0.0f           ; this->value[3][1] = 0.0f           ; this->value[3][2] = 0.0f           ; this->value[3][3] = 1.0f;
-}
-
-
-/*------------------------------------------------------------------------------
-< Destructor >
-------------------------------------------------------------------------------*/
-Matrix4::~Matrix4() {
-
 }
 
 

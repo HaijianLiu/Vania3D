@@ -15,3 +15,13 @@ Vector3::Vector3() {
 Vector3::~Vector3() {
 
 }
+
+
+/*------------------------------------------------------------------------------
+< Constructor from Assimp matrix >
+------------------------------------------------------------------------------*/
+Vector3::Vector3(const aiVector3D& assimpVector) {
+	this->x = assimpVector.x;
+	this->y = assimpVector.y;
+	this->z = assimpVector.z;
+}
