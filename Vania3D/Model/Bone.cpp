@@ -15,3 +15,12 @@ Bone::Bone() {
 Bone::~Bone () {
 
 }
+
+
+/*------------------------------------------------------------------------------
+< Constructor from values >
+------------------------------------------------------------------------------*/
+Bone::Bone(unsigned int index, Matrix4 offset) {
+	this->index = index;
+	this->offset = offset;
+}

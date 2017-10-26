@@ -9,65 +9,50 @@ via animations keyframes data and the given time in seconds
 void Model::updatePose(unsigned int animationIndex, float time) {
 	float timeInTicks = time * this->animations[animationIndex]->ticksPerSecond;
 	float animationTimeInTicks = fmod(timeInTicks, this->animations[animationIndex]->duration);
-
-	Matrix4 identity;
-	identity.setIdentity();
-	this->processPose(this->animations[animationIndex], animationTimeInTicks, this->rootNode, identity);
-
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//	this->pose.resize(this->bones.size());
-//
-//	for (uint i = 0 ; i < this->bones.size() ; i++) {
-//		this->pose[i] = this->bones[i]->transformation;
-//	}
+	this->processPose(this->animations[animationIndex], animationTimeInTicks, this->rootNode, Matrix4::identity());
 }
 
 
 void Model::processPose(const Animation* animation, float animationTimeInTicks, const Node<Matrix4>* node, const Matrix4& parentTransformation) {
-//	std::string NodeName = node->name;
 
-    Matrix4 nodeTransformation = node->data;
+	Matrix4 nodeTransformation = node->data;
 
-    const Keyframe* keyframe = FindNodeAnim(animation, node->name);
+	const Keyframe* keyframe = FindNodeAnim(animation, node->name);
 
-    if (keyframe) {
-        // Interpolate scaling and generate scaling transformation matrix
-        Vector3 Scaling;
-        CalcInterpolatedScaling(Scaling, animationTimeInTicks, keyframe);
-			Matrix4 ScalingM;
-			ScalingM.setScaleTransform(Scaling.x, Scaling.y, Scaling.z);
+	if (keyframe) {
+		// Interpolate scaling and generate scaling transformation matrix
+		Vector3 Scaling;
+		CalcInterpolatedScaling(Scaling, animationTimeInTicks, keyframe);
+		Matrix4 ScalingM;
+		ScalingM.setScaleTransform(Scaling.x, Scaling.y, Scaling.z);
 
-        // Interpolate rotation and generate rotation transformation matrix
-        Quaternion RotationQ;
-        CalcInterpolatedRotation(RotationQ, animationTimeInTicks, keyframe);
-			aiQuaternion qt;
-			qt.x = RotationQ.x;
-			qt.y = RotationQ.y;
-			qt.z = RotationQ.z;
-			qt.w = RotationQ.w;
-        Matrix4 RotationM = Matrix4(qt.GetMatrix());
+		// Interpolate rotation and generate rotation transformation matrix
+		Quaternion RotationQ;
+		CalcInterpolatedRotation(RotationQ, animationTimeInTicks, keyframe);
+		// aiQuaternion qt = RotationQ.getAissmp();
+		Matrix4 RotationM = Matrix4(RotationQ.getAissmp().GetMatrix());
 
-        // Interpolate translation and generate translation transformation matrix
-        Vector3 Translation;
-        CalcInterpolatedPosition(Translation, animationTimeInTicks, keyframe);
-			Matrix4 TranslationM;
-			TranslationM.setTranslationTransform(Translation.x, Translation.y, Translation.z);
+		// Interpolate translation and generate translation transformation matrix
+		Vector3 Translation;
+		CalcInterpolatedPosition(Translation, animationTimeInTicks, keyframe);
+		Matrix4 TranslationM;
+		TranslationM.setTranslationTransform(Translation.x, Translation.y, Translation.z);
 
-        // Combine the above transformations
-        nodeTransformation = TranslationM * RotationM * ScalingM;
-    }
+		// Combine the above transformations
+		nodeTransformation = TranslationM * RotationM * ScalingM;
+	}
 
 	Matrix4 globalTransformation = parentTransformation * nodeTransformation;
 
 
-    if (this->boneMapping.find(node->name) != this->boneMapping.end()) {
-        unsigned int boneIndex = this->boneMapping[node->name];
-        this->pose[boneIndex] = this->rootNode->data * globalTransformation * this->bones[boneIndex];
-    }
+	if (this->bones.find(node->name) != this->bones.end()) {
+		unsigned int boneIndex = this->bones[node->name].index;
+		this->pose[boneIndex] = this->rootNode->data * globalTransformation * this->bones[node->name].offset;
+	}
 
-    for (unsigned int i = 0 ; i < node->children.size() ; i++) {
-			this->processPose(animation, animationTimeInTicks, node->children[i], globalTransformation);
-    }
+	for (unsigned int i = 0 ; i < node->children.size() ; i++) {
+		this->processPose(animation, animationTimeInTicks, node->children[i], globalTransformation);
+	}
 }
 
 
@@ -321,10 +306,10 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 	std::vector<unsigned int> indices;
 
 	/* vertices */
-	// Walk through each of the mesh's vertices
+	// walk through each of the mesh's vertices
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex;
-		glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
+		glm::vec3 vector;
 		// positions
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
@@ -339,23 +324,23 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 		// does the mesh contain texture coordinates?
 		if(mesh->mTextureCoords[0]) {
 			glm::vec2 vec;
-			// a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't
-			// use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+			// a vertex can contain up to 8 different texture coordinates
+			// use models where a vertex can have multiple texture coordinates
 			vec.x = mesh->mTextureCoords[0][i].x;
 			vec.y = mesh->mTextureCoords[0][i].y;
 			vertex.uv = vec;
 		}
 		else vertex.uv = glm::vec2(0.0f, 0.0f);
 		// tangent
-//		vector.x = mesh->mTangents[i].x;
-//		vector.y = mesh->mTangents[i].y;
-//		vector.z = mesh->mTangents[i].z;
-//		vertex.tangent = vector;
+		// vector.x = mesh->mTangents[i].x;
+		// vector.y = mesh->mTangents[i].y;
+		// vector.z = mesh->mTangents[i].z;
+		// vertex.tangent = vector;
 		// bitangent
-//		vector.x = mesh->mBitangents[i].x;
-//		vector.y = mesh->mBitangents[i].y;
-//		vector.z = mesh->mBitangents[i].z;
-//		vertex.bitangent = vector;
+		// vector.x = mesh->mBitangents[i].x;
+		// vector.y = mesh->mBitangents[i].y;
+		// vector.z = mesh->mBitangents[i].z;
+		// vertex.bitangent = vector;
 		vertices.push_back(vertex);
 	}
 
@@ -369,25 +354,24 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 	}
 
 	/* bones */
-
-	// set bones
 	unsigned int counter = 0;
 	for (unsigned int i = 0 ; i < mesh->mNumBones ; i++) {
 		unsigned int boneIndex = 0;
 		std::string boneName = mesh->mBones[i]->mName.data;
 
-		// index
-		if (this->boneMapping.find(boneName) == this->boneMapping.end()) {
+		// calculate bone index
+		// get bone offset from mesh
+		// create bones and a default pose
+		if (this->bones.find(boneName) == this->bones.end()) {
 			boneIndex = counter;
 			counter++;
-			this->bones.push_back(Matrix4());
-			this->pose.push_back(Matrix4());
-			this->boneMapping[boneName] = boneIndex;
+			Bone bone = Bone(boneIndex, mesh->mBones[i]->mOffsetMatrix);
+			this->bones[boneName] = bone;
+			this->pose.push_back(Matrix4::identity());
 		}
 		else {
-			boneIndex = this->boneMapping[boneName];
+			boneIndex = this->bones[boneName].index;
 		}
-		this->bones[boneIndex] = mesh->mBones[i]->mOffsetMatrix;
 
 		// set vertices
 		for (unsigned int j = 0 ; j < mesh->mBones[i]->mNumWeights ; j++) {

@@ -8,8 +8,7 @@ private:
 	std::vector<Mesh*> meshes;
 	std::vector<Animation*> animations;
 
-	std::vector<Matrix4> bones;
-	std::map<std::string, unsigned int> boneMapping; // maps a bone name to its index
+	std::map<std::string, Bone> bones;
 
 
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.

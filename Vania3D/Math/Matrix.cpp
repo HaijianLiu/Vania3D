@@ -195,15 +195,11 @@ Matrix4 Matrix4::operator*(const Matrix4& right) const {
 }
 
 
-// /*------------------------------------------------------------------------------
-// < operator= >
-// ------------------------------------------------------------------------------*/
-// glm::mat4 Matrix4::operator=(const Matrix4& matrix4) const {
-// 	glm::mat4 result = {
-// 		matrix4.value[0][0], matrix4.value[1][0], matrix4.value[2][0], matrix4.value[3][0],
-// 		matrix4.value[0][1], matrix4.value[1][1], matrix4.value[2][1], matrix4.value[3][1],
-// 		matrix4.value[0][2], matrix4.value[1][2], matrix4.value[2][2], matrix4.value[3][2],
-// 		matrix4.value[0][3], matrix4.value[1][3], matrix4.value[2][3], matrix4.value[3][3]
-// 	};
-// 	return result;
-// }
+/*------------------------------------------------------------------------------
+< identity >
+------------------------------------------------------------------------------*/
+Matrix4 Matrix4::identity() {
+	Matrix4 identity;
+	identity.setIdentity();
+	return identity;
+}
