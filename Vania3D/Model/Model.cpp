@@ -6,26 +6,8 @@
 update pose data
 via animations keyframes data and the given time in seconds
 ------------------------------------------------------------------------------*/
-void Model::updatePose(unsigned int animationIndex, float time) {
-	float timeInTicks = time * this->animations[animationIndex]->ticksPerSecond;
-	float animationTimeInTicks = fmod(timeInTicks, this->animations[animationIndex]->duration);
-	this->processPose(this->animations[animationIndex], animationTimeInTicks, this->rootNode, Matrix4::identity());
-}
-
-
-void Model::processPose(const Animation* animation, float animationTimeInTicks, const Node<Matrix4>* node, const Matrix4& parentTransformation) {
-
-	Matrix4 nodeTransformation = animation->getNodeTransformation(node, animationTimeInTicks);
-	Matrix4 globalTransformation = parentTransformation * nodeTransformation;
-
-	if (this->bones.find(node->name) != this->bones.end()) {
-		unsigned int boneIndex = this->bones[node->name].index;
-		this->pose[boneIndex] = this->rootNode->data * globalTransformation * this->bones[node->name].offset;
-	}
-
-	for (unsigned int i = 0 ; i < node->children.size() ; i++) {
-		this->processPose(animation, animationTimeInTicks, node->children[i], globalTransformation);
-	}
+void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
+	this->animations[animationIndex]->updatePose(this->pose, this->rootNode, &this->bones, timeInSeconds);
 }
 
 
@@ -120,33 +102,6 @@ void Model::processAnimation(const aiScene* aiscene) {
 		this->animations[i]->duration = aiscene->mAnimations[i]->mDuration;
 		this->animations[i]->ticksPerSecond = aiscene->mAnimations[i]->mTicksPerSecond;
 		this->animations[i]->copyNodeTree(this->rootNode, aiscene->mAnimations[i]);
-
-
-
-		// copy aiNodeAnim
-		for (unsigned int j = 0; j < aiscene->mAnimations[i]->mNumChannels; j++) {
-			this->animations[i]->keyframes.push_back(new Keyframe());
-			this->animations[i]->keyframes[j]->nodeName = aiscene->mAnimations[i]->mChannels[j]->mNodeName.data;
-			// copy keyframes
-			for (unsigned int k = 0; k < aiscene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++) {
-				VectorKey vectorKey;
-				vectorKey.time = aiscene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
-				vectorKey.value = aiscene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue;
-				this->animations[i]->keyframes[j]->positionKeys.push_back(vectorKey);
-			}
-			for (unsigned int k = 0; k < aiscene->mAnimations[i]->mChannels[j]->mNumRotationKeys; k++) {
-				QuaternionKey quaternionKey;
-				quaternionKey.time = aiscene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mTime;
-				quaternionKey.value = aiscene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mValue;
-				this->animations[i]->keyframes[j]->rotationKeys.push_back(quaternionKey);
-			}
-			for (unsigned int k = 0; k < aiscene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++) {
-				VectorKey vectorKey;
-				vectorKey.time = aiscene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mTime;
-				vectorKey.value = aiscene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
-				this->animations[i]->keyframes[j]->scalingKeys.push_back(vectorKey);
-			}
-		}
 	}
 }
 

@@ -4,7 +4,6 @@
 
 class Animation {
 private:
-	const Keyframe* findKeyframe(const std::string nodeName) const;
 	void CalcInterpolatedScaling(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe) const;
 	void CalcInterpolatedRotation(Quaternion& Out, float animationTimeInTicks, const Keyframe* keyframe) const;
 	void CalcInterpolatedPosition(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe) const;
@@ -27,8 +26,8 @@ public:
 	void processNode(Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node, const aiAnimation* aianimation);
 	void copyNodeTree(const Node<Matrix4>* rootNode, const aiAnimation* aianimation);
 
-
-	Matrix4 getNodeTransformation(const Node<Matrix4>* node, float animationTimeInTicks) const;
+	void processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node, const std::unordered_map<std::string, Bone>* bones, Matrix4 parentTransformation, float animationTimeInTicks);
+	void updatePose(std::vector<Matrix4>& pose, const Node<Matrix4>* rootNode, const std::unordered_map<std::string, Bone>* bones, float timeInSeconds);
 };
 
 #endif /* Animation_hpp */

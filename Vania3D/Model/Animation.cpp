@@ -66,51 +66,60 @@ void Animation::copyNodeTree(const Node<Matrix4>* rootNode, const aiAnimation* a
 
 
 
-Matrix4 Animation::getNodeTransformation(const Node<Matrix4>* node, float animationTimeInTicks) const {
-	const Keyframe* keyframe = this->findKeyframe(node->name);
 
-	if (keyframe) {
+
+
+void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node, const std::unordered_map<std::string, Bone>* bones, Matrix4 parentTransformation, float animationTimeInTicks) {
+
+	Matrix4 nodeTransformation;
+
+	if (keyframeNode->data) {
 		// Interpolate scaling and generate scaling transformation matrix
 		Vector3 Scaling;
-		CalcInterpolatedScaling(Scaling, animationTimeInTicks, keyframe);
+		CalcInterpolatedScaling(Scaling, animationTimeInTicks, keyframeNode->data);
 		Matrix4 ScalingM;
 		ScalingM.setScaleTransform(Scaling.x, Scaling.y, Scaling.z);
 
 		// Interpolate rotation and generate rotation transformation matrix
 		Quaternion RotationQ;
-		CalcInterpolatedRotation(RotationQ, animationTimeInTicks, keyframe);
+		CalcInterpolatedRotation(RotationQ, animationTimeInTicks, keyframeNode->data);
 		// aiQuaternion qt = RotationQ.getAissmp();
 		Matrix4 RotationM = Matrix4(RotationQ.getAissmp().GetMatrix());
 
 		// Interpolate translation and generate translation transformation matrix
 		Vector3 Translation;
-		CalcInterpolatedPosition(Translation, animationTimeInTicks, keyframe);
+		CalcInterpolatedPosition(Translation, animationTimeInTicks, keyframeNode->data);
 		Matrix4 TranslationM;
 		TranslationM.setTranslationTransform(Translation.x, Translation.y, Translation.z);
 
 		// Combine the above transformations
-		Matrix4 nodeTransformation = TranslationM * RotationM * ScalingM;
-		return nodeTransformation;
+		nodeTransformation = TranslationM * RotationM * ScalingM;
+	}
+	else {
+		nodeTransformation = node->data;
 	}
 
-	return node->data;
+	Matrix4 globalTransformation = parentTransformation * nodeTransformation;
+
+	// set pose
+	auto it = bones->find(node->name);
+	if (it != bones->end()) {
+		pose[it->second.index] = globalTransformation * it->second.offset; // may multiply rootNode->data * before?
+	}
+
+	for (unsigned int i = 0 ; i < node->children.size() ; i++) {
+		this->processPose(pose, keyframeNode->children[i], node->children[i], bones, globalTransformation, animationTimeInTicks);
+	}
 }
 
 
-
-
-
-const Keyframe* Animation::findKeyframe(const std::string nodeName) const {
-    for (unsigned int i = 0 ; i < this->keyframes.size() ; i++) {
-        const Keyframe* keyframe = this->keyframes[i];
-
-			if (keyframe->nodeName == nodeName) {
-            return keyframe;
-        }
-    }
-
-    return nullptr;
+void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Matrix4>* rootNode, const std::unordered_map<std::string, Bone>* bones, float timeInSeconds) {
+	float timeInTicks = timeInSeconds * this->ticksPerSecond;
+	float animationTimeInTicks = fmod(timeInTicks, this->duration);
+	this->processPose(pose, this->keyframeNode, rootNode, bones, Matrix4::identity(), animationTimeInTicks);
 }
+
+
 
 
 uint Animation::FindPosition(float animationTimeInTicks, const Keyframe* keyframe) const {

@@ -15,7 +15,6 @@ private:
 	void load(const char* path);
 	void processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aiscene);
 	void processAnimation(const aiScene* aiscene);
-	void processPose(const Animation* animation, float animationTimeInTicks, const Node<Matrix4>* node, const Matrix4& parentTransformation);
 	Mesh* createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
