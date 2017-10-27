@@ -74,6 +74,9 @@ void Model::load(const char* path) {
 	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
 	// copy all assimp animation data
 	this->processAnimation(aiscene);
+	for (unsigned int i = 0; i < this->animations.size(); i++) {
+		this->animations[i]->copyNodeTree(this->rootNode);
+	}
 
 	// for test
 	this->updatePose(0, 1.0);

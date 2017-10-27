@@ -5,7 +5,7 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 Animation::Animation() {
-
+	this->keyframeNode = new Node<Keyframe*>();
 }
 
 
@@ -14,9 +14,23 @@ Animation::Animation() {
 ------------------------------------------------------------------------------*/
 Animation::~Animation() {
 	deleteVector(this->keyframes);
+	delete this->keyframeNode;
 }
 
 
+
+
+void Animation::processNode(Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node) {
+	for (unsigned int i = 0; i < node->children.size(); i++) {
+		keyframeNode->children.push_back(new Node<Keyframe*>(node->children[i]->name));
+		processNode(keyframeNode->children[i], node->children[i]);
+	}
+}
+
+void Animation::copyNodeTree(const Node<Matrix4>* rootNode) {
+	this->keyframeNode->name = rootNode->name;
+	this->processNode(this->keyframeNode, rootNode);
+}
 
 
 

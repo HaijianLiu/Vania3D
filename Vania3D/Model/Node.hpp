@@ -10,6 +10,7 @@ public:
 	std::vector<Node*> children;
 	T data;
 
+	Node() {}
 	Node(std::string name) { this->name = name; }
 	~Node() { deleteVector(this->children); }
 };

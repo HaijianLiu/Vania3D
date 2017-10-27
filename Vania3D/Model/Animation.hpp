@@ -16,11 +16,18 @@ public:
 	std::string name;
 	float duration = 1.0;
 	float ticksPerSecond = 25.0;
+
+	Node<Keyframe*>* keyframeNode;
+
 	std::vector<Keyframe*> keyframes;
 
 	Animation();
 	~Animation();
 
+	void processNode(Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node);
+	void copyNodeTree(const Node<Matrix4>* rootNode);
+
+	
 	Matrix4 getNodeTransformation(const Node<Matrix4>* node, float animationTimeInTicks) const;
 };
 
