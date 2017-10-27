@@ -24,10 +24,10 @@ public:
 	Animation();
 	~Animation();
 
-	void processNode(Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node);
-	void copyNodeTree(const Node<Matrix4>* rootNode);
+	void processNode(Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node, const aiAnimation* aianimation);
+	void copyNodeTree(const Node<Matrix4>* rootNode, const aiAnimation* aianimation);
 
-	
+
 	Matrix4 getNodeTransformation(const Node<Matrix4>* node, float animationTimeInTicks) const;
 };
 

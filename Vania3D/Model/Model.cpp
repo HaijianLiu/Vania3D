@@ -119,7 +119,10 @@ void Model::processAnimation(const aiScene* aiscene) {
 		this->animations[i]->name = aiscene->mAnimations[i]->mName.data;
 		this->animations[i]->duration = aiscene->mAnimations[i]->mDuration;
 		this->animations[i]->ticksPerSecond = aiscene->mAnimations[i]->mTicksPerSecond;
-		this->animations[i]->copyNodeTree(this->rootNode);
+		this->animations[i]->copyNodeTree(this->rootNode, aiscene->mAnimations[i]);
+
+
+
 		// copy aiNodeAnim
 		for (unsigned int j = 0; j < aiscene->mAnimations[i]->mNumChannels; j++) {
 			this->animations[i]->keyframes.push_back(new Keyframe());

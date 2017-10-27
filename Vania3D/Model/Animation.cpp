@@ -20,16 +20,48 @@ Animation::~Animation() {
 
 
 
-void Animation::processNode(Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node) {
+void Animation::processNode(Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node, const aiAnimation* aianimation) {
+	// check every aiNodeAnim if mNodeName matches keyframeNode name
+	// if match then copy the aiNodeAnim data (mNumPositionKeys mNumRotationKeys mNumScalingKeys) to keyframeNode data
+	for (unsigned int i = 0; i < aianimation->mNumChannels; i++) {
+		if (keyframeNode->name == aianimation->mChannels[i]->mNodeName.data) {
+			keyframeNode->data = new Keyframe();
+			// copy keyframes
+			for (unsigned int j = 0; j < aianimation->mChannels[i]->mNumPositionKeys; j++) {
+				VectorKey vectorKey;
+				vectorKey.time = aianimation->mChannels[i]->mPositionKeys[j].mTime;
+				vectorKey.value = aianimation->mChannels[i]->mPositionKeys[j].mValue;
+				keyframeNode->data->positionKeys.push_back(vectorKey);
+			}
+			for (unsigned int j = 0; j < aianimation->mChannels[i]->mNumRotationKeys; j++) {
+				QuaternionKey quaternionKey;
+				quaternionKey.time = aianimation->mChannels[i]->mRotationKeys[j].mTime;
+				quaternionKey.value = aianimation->mChannels[i]->mRotationKeys[j].mValue;
+				keyframeNode->data->rotationKeys.push_back(quaternionKey);
+			}
+			for (unsigned int j = 0; j < aianimation->mChannels[i]->mNumScalingKeys; j++) {
+				VectorKey vectorKey;
+				vectorKey.time = aianimation->mChannels[i]->mScalingKeys[j].mTime;
+				vectorKey.value = aianimation->mChannels[i]->mScalingKeys[j].mValue;
+				keyframeNode->data->scalingKeys.push_back(vectorKey);
+			}
+			break;
+		}
+		else {
+			keyframeNode->data = nullptr;
+		}
+	}
+
+	// check children nodes
 	for (unsigned int i = 0; i < node->children.size(); i++) {
 		keyframeNode->children.push_back(new Node<Keyframe*>(node->children[i]->name));
-		processNode(keyframeNode->children[i], node->children[i]);
+		processNode(keyframeNode->children[i], node->children[i], aianimation);
 	}
 }
 
-void Animation::copyNodeTree(const Node<Matrix4>* rootNode) {
+void Animation::copyNodeTree(const Node<Matrix4>* rootNode, const aiAnimation* aianimation) {
 	this->keyframeNode->name = rootNode->name;
-	this->processNode(this->keyframeNode, rootNode);
+	this->processNode(this->keyframeNode, rootNode, aianimation);
 }
 
 
