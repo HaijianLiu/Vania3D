@@ -74,9 +74,6 @@ void Model::load(const char* path) {
 	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
 	// copy all assimp animation data
 	this->processAnimation(aiscene);
-	for (unsigned int i = 0; i < this->animations.size(); i++) {
-		this->animations[i]->copyNodeTree(this->rootNode);
-	}
 
 	// for test
 	this->updatePose(0, 1.0);
@@ -122,6 +119,7 @@ void Model::processAnimation(const aiScene* aiscene) {
 		this->animations[i]->name = aiscene->mAnimations[i]->mName.data;
 		this->animations[i]->duration = aiscene->mAnimations[i]->mDuration;
 		this->animations[i]->ticksPerSecond = aiscene->mAnimations[i]->mTicksPerSecond;
+		this->animations[i]->copyNodeTree(this->rootNode);
 		// copy aiNodeAnim
 		for (unsigned int j = 0; j < aiscene->mAnimations[i]->mNumChannels; j++) {
 			this->animations[i]->keyframes.push_back(new Keyframe());
