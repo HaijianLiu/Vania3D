@@ -52,7 +52,7 @@ void Resources::start() {
 	..............................................................................*/
 	// this->loadModel("WPN_AKM", "./Assets/Models/WPN_AKM/WPN_AKM.obj");
 	this->loadModel("Maw_J_Laygo", "./Assets/Models/Mixamo_Maw/Maw_J_Laygo_blender.FBX");
-	// this->loadModel("Maw_J_Laygo_Walk", "./Assets/Models/Mixamo_Maw/Maw_J_Laygo_Walk.blend");
+	// this->loadModel("Maw_J_Laygo_Walk", "./Assets/Models/Mixamo_Maw/Maw_J_Laygo_Walk_blender.FBX");
 
 	/* Texture
 	..............................................................................*/

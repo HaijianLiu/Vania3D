@@ -169,6 +169,15 @@ void Scene00::update() {
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_roughness")->id);
 		// glActiveTexture(GL_TEXTURE4);
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_ao")->id);
+	game->resources->getModel("Maw_J_Laygo")->updatePose(0, currentFrame);
+	std::vector<Matrix4> Transforms = game->resources->getModel("Maw_J_Laygo")->pose;
+		// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
+		for (uint i = 0 ; i < Transforms.size() ; i++) {
+			glm::mat4 boneTransform = Transforms[i].getGLM();
+
+				game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
+		}
+
 	game->resources->getModel("Maw_J_Laygo")->draw();
 
 

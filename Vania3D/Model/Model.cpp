@@ -7,7 +7,7 @@ update pose data
 via animations keyframes data and the given time in seconds
 ------------------------------------------------------------------------------*/
 void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
-	this->animations[animationIndex]->updatePose(this->pose, this->rootNode, &this->bones, timeInSeconds);
+		this->animations[animationIndex]->updatePose(this->pose, this->rootNode, &this->bones, timeInSeconds);
 }
 
 

@@ -79,6 +79,7 @@ class Component;
 #include "Texture.hpp"
 #include "Skybox.hpp"
 #include "Quad.hpp"
+#include "Time.hpp"
 
 #include "Node.hpp"
 #include "Mesh.hpp"

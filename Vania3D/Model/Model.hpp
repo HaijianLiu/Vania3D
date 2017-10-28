@@ -11,7 +11,7 @@ private:
 	std::unordered_map<std::string, Bone> bones;
 
 
-	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
+	// loads a model with supported assimp extensions from file and stores the resulting data
 	void load(const char* path);
 	void processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aiscene);
 	void processAnimation(const aiScene* aiscene);
@@ -23,7 +23,7 @@ public:
 	Model(const char* path);
 	~Model();
 
-	void updatePose(unsigned int animationIndex, float time); // time in seconds
+	void updatePose(unsigned int animationIndex, float timeInSeconds);
 
 	// draws the model, and thus all its meshes
 	void draw();
