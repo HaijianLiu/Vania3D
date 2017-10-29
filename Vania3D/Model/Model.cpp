@@ -29,6 +29,15 @@ void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
 
 
 /*------------------------------------------------------------------------------
+< load animation >
+loads a model with supported ASSIMP extensions from file and stores the resulting animation keyframes in a node tree.
+------------------------------------------------------------------------------*/
+void Model::addAnimation(Animation* animation) {
+	this->animations.push_back(animation);
+}
+
+
+/*------------------------------------------------------------------------------
 < draw >
 ------------------------------------------------------------------------------*/
 void Model::draw() {

@@ -51,7 +51,6 @@ void Animation::load(const char* path) {
 
 
 
-
 void Animation::processNode(Node<Keyframe*>* keyframeNode, const aiNode* ainode, const aiScene* aiscene) {
 	// check every aiNodeAnim if mNodeName matches keyframeNode name
 	// if match then copy the aiNodeAnim data (mNumPositionKeys mNumRotationKeys mNumScalingKeys) to keyframeNode data
@@ -91,12 +90,6 @@ void Animation::processNode(Node<Keyframe*>* keyframeNode, const aiNode* ainode,
 		processNode(keyframeNode->children[i], ainode->mChildren[i], aiscene);
 	}
 }
-
-//void Animation::copyNodeTree(const Node<Matrix4>* rootNode, const aiAnimation* aianimation) {
-//    this->keyframeNode->name = rootNode->name;
-//    this->processNode(this->keyframeNode, rootNode, aianimation);
-//}
-
 
 
 

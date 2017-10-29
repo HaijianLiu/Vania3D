@@ -20,7 +20,7 @@ public:
 	Model(const char* path);
 	~Model();
 
-	void addAnimation(std::string name, Animation* animation);
+	void addAnimation(Animation* animation);
 	void updatePose(unsigned int animationIndex, float timeInSeconds);
 
 	// draws the model, and thus all its meshes
