@@ -4,8 +4,16 @@
 
 class Bone {
 public:
+	// bone info
 	unsigned int index;
+	Matrix4 nodeTransformation;
 	Matrix4 offset;
+
+	// animation transform
+	Matrix4 finalTransformation;
+	Vector3 scaling;
+	Quaternion rotation;
+	Vector3 translation;
 
 	Bone();
 	~Bone ();

@@ -67,7 +67,8 @@ void Model::load(const char* path) {
 
 	// process assimp root node recursively
 	this->rootNode = new Node<Matrix4>(aiscene->mRootNode->mName.data);
-	this->rootNode->data = aiscene->mRootNode->mTransformation;
+	this->rootNode->data = new Matrix4();
+	*this->rootNode->data = aiscene->mRootNode->mTransformation;
 	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
 }
 
@@ -87,12 +88,13 @@ void Model::processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aisc
 		this->createMesh(mesh, aiscene);
 	}
 	// save the node heirarchy and all the transformation matrices and names
-	node->data = ainode->mTransformation;
+	*node->data = ainode->mTransformation;
 
 	// recursively process each of the children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
 		node->children.push_back(new Node<Matrix4>(ainode->mChildren[i]->mName.data));
 		node->children[i]->parent = node;
+		node->children[i]->data = new Matrix4();
 		this->processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
 }

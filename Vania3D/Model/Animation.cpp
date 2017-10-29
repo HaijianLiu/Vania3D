@@ -42,7 +42,7 @@ void Animation::load(const char* path) {
 	}
 
 	// process assimp root node recursively
-	this->keyframeNode = new Node<Keyframe*>(aiscene->mRootNode->mName.data);
+	this->keyframeNode = new Node<Keyframe>(aiscene->mRootNode->mName.data);
 	this->keyframeNode->data = nullptr;
 	this->processNode(this->keyframeNode, aiscene->mRootNode, aiscene);
 }
@@ -53,7 +53,7 @@ void Animation::load(const char* path) {
 check every aiNodeAnim if mNodeName matches keyframeNode name
 if match then copy the aiNodeAnim data (mPositionKeys mRotationKeys mScalingKeys) to keyframeNode data
 ------------------------------------------------------------------------------*/
-void Animation::processNode(Node<Keyframe*>* keyframeNode, const aiNode* ainode, const aiScene* aiscene) {
+void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, const aiScene* aiscene) {
 	// check every aiNodeAnim if mNodeName matches keyframeNode name
 	// if match then copy the aiNodeAnim data (mNumPositionKeys mNumRotationKeys mNumScalingKeys) to keyframeNode data
 	for (unsigned int i = 0; i < aiscene->mAnimations[0]->mNumChannels; i++) {
@@ -87,7 +87,7 @@ void Animation::processNode(Node<Keyframe*>* keyframeNode, const aiNode* ainode,
 
 	// check children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
-		keyframeNode->children.push_back(new Node<Keyframe*>(ainode->mChildren[i]->mName.data));
+		keyframeNode->children.push_back(new Node<Keyframe>(ainode->mChildren[i]->mName.data));
 		keyframeNode->children[i]->data = nullptr;
 		processNode(keyframeNode->children[i], ainode->mChildren[i], aiscene);
 	}
@@ -97,7 +97,7 @@ void Animation::processNode(Node<Keyframe*>* keyframeNode, const aiNode* ainode,
 
 
 
-void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyframeNode, const Node<Matrix4>* node, const std::unordered_map<std::string, Bone>* bones, Matrix4 parentTransformation, float animationTimeInTicks) {
+void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Matrix4>* node, const std::unordered_map<std::string, Bone>* bones, Matrix4 parentTransformation, float animationTimeInTicks) {
 
 	Matrix4 nodeTransformation;
 
@@ -124,7 +124,7 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyfram
 		nodeTransformation = TranslationM * RotationM * ScalingM;
 	}
 	else {
-		nodeTransformation = node->data;
+		nodeTransformation = *node->data;
 	}
 
 	Matrix4 globalTransformation = parentTransformation * nodeTransformation;

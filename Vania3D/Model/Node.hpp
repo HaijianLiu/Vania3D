@@ -8,11 +8,19 @@ public:
 	std::string name;
 	Node* parent = nullptr;
 	std::vector<Node*> children;
-	T data;
+	T* data;
 
 	Node() {}
-	Node(std::string name) { this->name = name; }
-	~Node() { deleteVector(this->children); }
+
+	Node(std::string name) {
+		this->name = name;
+		this->data = nullptr;
+	}
+
+	~Node() {
+		if (this->data) delete this->data;
+		deleteVector(this->children);
+	}
 };
 
 #endif /* Node_hpp */
