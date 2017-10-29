@@ -88,8 +88,7 @@ void Scene00::start() {
 		game->resources->getShader("deferredPBRforUEmask")->setMat4("projection", this->camera->getMatrixProjection());
 		// transform
 		glm::mat4 model = glm::mat4();
-		model = glm::rotate(-PI/2, glm::vec3(1,0,0)) * model;
-		// model = glm::rotate(-PI/2, glm::vec3(0,1,0)) * model;
+		// model = glm::rotate(-PI/2, glm::vec3(1,0,0)) * model; // for unreal engine
 		model = glm::scale(model, glm::vec3(0.05f));
 		model = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
 		// texture
@@ -170,9 +169,14 @@ void Scene00::update() {
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_roughness")->id);
 		// glActiveTexture(GL_TEXTURE4);
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_ao")->id);
-	if (game->resources->getModel("vampire")->animations.size() != 0) {
-		game->resources->getModel("vampire")->updatePose(0, currentFrame);
-	}
+	if (glfwGetKey(game->window->window, GLFW_KEY_0) == GLFW_PRESS) this->animation = 0;
+	if (glfwGetKey(game->window->window, GLFW_KEY_1) == GLFW_PRESS) this->animation = 1;
+	if (glfwGetKey(game->window->window, GLFW_KEY_2) == GLFW_PRESS) this->animation = 2;
+
+
+	game->resources->getModel("vampire")->updatePose(this->animation, currentFrame);
+
+
 	std::vector<Matrix4> Transforms = game->resources->getModel("vampire")->pose;
 		// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
 		for (uint i = 0 ; i < Transforms.size() ; i++) {

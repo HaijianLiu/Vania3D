@@ -21,7 +21,7 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 
-uniform mat4 bones[50];
+uniform mat4 bones[52];
 
 void main()
 {

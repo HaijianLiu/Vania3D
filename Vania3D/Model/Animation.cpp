@@ -43,6 +43,7 @@ void Animation::load(const char* path) {
 
 	// process assimp root node recursively
 	this->keyframeNode = new Node<Keyframe*>(aiscene->mRootNode->mName.data);
+	this->keyframeNode->data = nullptr;
 	this->processNode(this->keyframeNode, aiscene->mRootNode, aiscene);
 }
 
@@ -78,14 +79,15 @@ void Animation::processNode(Node<Keyframe*>* keyframeNode, const aiNode* ainode,
 			}
 			break;
 		}
-//        else {
-//            keyframeNode->data = nullptr;
-//        }
+		else {
+			keyframeNode->data = nullptr;
+		}
 	}
 
 	// check children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
 		keyframeNode->children.push_back(new Node<Keyframe*>(ainode->mChildren[i]->mName.data));
+		keyframeNode->children[i]->data = nullptr;
 		processNode(keyframeNode->children[i], ainode->mChildren[i], aiscene);
 	}
 }
@@ -147,8 +149,12 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyfram
 void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Matrix4>* rootNode, const std::unordered_map<std::string, Bone>* bones, float timeInSeconds) {
 	float timeInTicks = timeInSeconds * this->ticksPerSecond;
 	float animationTimeInTicks = fmod(timeInTicks, this->duration);
-	
-	this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
+
+	// for unreal engine
+	// this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
+
+	// for mixamo
+	this->processPose(pose, this->keyframeNode, rootNode, bones, Matrix4::identity(), animationTimeInTicks);
 }
 
 

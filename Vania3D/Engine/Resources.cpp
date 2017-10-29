@@ -58,9 +58,13 @@ void Resources::start() {
 	// this->loadModel("vampire_walk", "./Assets/Models/Maria/Maria_J_J_Ong_Walk.FBX");
 	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
 
-	this->loadModel("vampire", "./Assets/Models/Ganfaul/Mixamo_Ganfault_Aure.FBX");
-	Animation* animation = new Animation("./Assets/Models/Ganfaul/Mixamo_Ganfault_idle.FBX");
-	this->getModel("vampire")->animations.push_back(animation);
+	// this->loadModel("vampire", "./Assets/Models/Ganfaul/Mixamo_Ganfault_Aure.FBX");
+	// Animation* animation = new Animation("./Assets/Models/Ganfaul/Mixamo_Ganfault_idle.FBX");
+	this->loadModel("vampire", "./Assets/Models/Ganfaul/mixamo_model.fbx");
+	this->getModel("vampire")->animations.push_back(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
+	this->getModel("vampire")->animations.push_back(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
+	this->getModel("vampire")->animations.push_back(new Animation("./Assets/Models/Ganfaul/mixamo_run.fbx"));
+
 
 	// this->loadModel("vampire", "./Assets/Models/Heraklios/Mixamo_Heraklios.FBX");
 	// Animation* animation = new Animation("./Assets/Models/Heraklios/Mixamo_Heraklios_Walk.FBX");
