@@ -48,9 +48,11 @@ void Animation::load(const char* path) {
 }
 
 
-
-
-
+/*------------------------------------------------------------------------------
+< process keyframe node >
+check every aiNodeAnim if mNodeName matches keyframeNode name
+if match then copy the aiNodeAnim data (mPositionKeys mRotationKeys mScalingKeys) to keyframeNode data
+------------------------------------------------------------------------------*/
 void Animation::processNode(Node<Keyframe*>* keyframeNode, const aiNode* ainode, const aiScene* aiscene) {
 	// check every aiNodeAnim if mNodeName matches keyframeNode name
 	// if match then copy the aiNodeAnim data (mNumPositionKeys mNumRotationKeys mNumScalingKeys) to keyframeNode data
@@ -102,19 +104,19 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyfram
 	if (keyframeNode->data) {
 		// Interpolate scaling and generate scaling transformation matrix
 		Vector3 Scaling;
-		CalcInterpolatedScaling(Scaling, animationTimeInTicks, keyframeNode->data);
+		calcInterpolatedScaling(Scaling, animationTimeInTicks, keyframeNode->data);
 		Matrix4 ScalingM;
 		ScalingM.setScaleTransform(Scaling.x, Scaling.y, Scaling.z);
 
 		// Interpolate rotation and generate rotation transformation matrix
 		Quaternion RotationQ;
-		CalcInterpolatedRotation(RotationQ, animationTimeInTicks, keyframeNode->data);
+		calcInterpolatedRotation(RotationQ, animationTimeInTicks, keyframeNode->data);
 		// aiQuaternion qt = RotationQ.getAissmp();
 		Matrix4 RotationM = Matrix4(RotationQ.getAissmp().GetMatrix());
 
 		// Interpolate translation and generate translation transformation matrix
 		Vector3 Translation;
-		CalcInterpolatedPosition(Translation, animationTimeInTicks, keyframeNode->data);
+		calcInterpolatedPosition(Translation, animationTimeInTicks, keyframeNode->data);
 		Matrix4 TranslationM;
 		TranslationM.setTranslationTransform(Translation.x, Translation.y, Translation.z);
 
@@ -127,11 +129,29 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyfram
 
 	Matrix4 globalTransformation = parentTransformation * nodeTransformation;
 
+
+
+
+
+
+	// animation blending
+//	float blendFactor = (timeInSeconds - lastStartTimeInSeconds) / this->blendTimeInSeconds;
+//	blendFactor > 1.0 ? blendFactor : 1.0;
+//
+//	aiMatrix4x4 x1, x2;
+//	x1 = x1 - x2;
+
+
+
+
 	// set pose
 	auto it = bones->find(node->name);
 	if (it != bones->end()) {
 		pose[it->second.index] = globalTransformation * it->second.offset; // may multiply rootNode->data * before?
 	}
+
+
+
 
 	for (unsigned int i = 0 ; i < keyframeNode->children.size() ; i++) {
 		this->processPose(pose, keyframeNode->children[i], node->children[i], bones, globalTransformation, animationTimeInTicks);
@@ -154,7 +174,7 @@ void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Matrix4>* root
 
 
 
-uint Animation::FindPosition(float animationTimeInTicks, const Keyframe* keyframe) const {
+uint Animation::findPosition(float animationTimeInTicks, const Keyframe* keyframe) const {
     for (unsigned int i = 0 ; i < keyframe->positionKeys.size() - 1 ; i++) {
         if (animationTimeInTicks < keyframe->positionKeys[i + 1].time) {
             return i;
@@ -167,7 +187,7 @@ uint Animation::FindPosition(float animationTimeInTicks, const Keyframe* keyfram
 }
 
 
-uint Animation::FindRotation(float animationTimeInTicks, const Keyframe* keyframe) const {
+uint Animation::findRotation(float animationTimeInTicks, const Keyframe* keyframe) const {
     assert(keyframe->rotationKeys.size() > 0);
 
     for (unsigned int i = 0 ; i < keyframe->rotationKeys.size() - 1 ; i++) {
@@ -182,7 +202,7 @@ uint Animation::FindRotation(float animationTimeInTicks, const Keyframe* keyfram
 }
 
 
-uint Animation::FindScaling(float animationTimeInTicks, const Keyframe* keyframe) const {
+uint Animation::findScaling(float animationTimeInTicks, const Keyframe* keyframe) const {
     assert(keyframe->scalingKeys.size() > 0);
 
     for (unsigned int i = 0 ; i < keyframe->scalingKeys.size() - 1 ; i++) {
@@ -197,13 +217,13 @@ uint Animation::FindScaling(float animationTimeInTicks, const Keyframe* keyframe
 }
 
 
-void Animation::CalcInterpolatedPosition(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
+void Animation::calcInterpolatedPosition(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
     if (keyframe->positionKeys.size() == 1) {
         Out = keyframe->positionKeys[0].value;
         return;
     }
 
-    uint PositionIndex = FindPosition(animationTimeInTicks, keyframe);
+	uint PositionIndex = findPosition(animationTimeInTicks, keyframe);
     uint NextPositionIndex = (PositionIndex + 1);
     assert(NextPositionIndex < keyframe->positionKeys.size());
     float DeltaTime = keyframe->positionKeys[NextPositionIndex].time - keyframe->positionKeys[PositionIndex].time;
@@ -216,14 +236,14 @@ void Animation::CalcInterpolatedPosition(Vector3& Out, float animationTimeInTick
 }
 
 
-void Animation::CalcInterpolatedRotation(Quaternion& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
+void Animation::calcInterpolatedRotation(Quaternion& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
 	// we need at least two values to interpolate...
     if (keyframe->rotationKeys.size() == 1) {
         Out = keyframe->rotationKeys[0].value;
         return;
     }
 
-    uint RotationIndex = FindRotation(animationTimeInTicks, keyframe);
+	uint RotationIndex = findRotation(animationTimeInTicks, keyframe);
     uint NextRotationIndex = (RotationIndex + 1);
     assert(NextRotationIndex < keyframe->rotationKeys.size());
     float DeltaTime = keyframe->rotationKeys[NextRotationIndex].time - keyframe->rotationKeys[RotationIndex].time;
@@ -238,13 +258,13 @@ void Animation::CalcInterpolatedRotation(Quaternion& Out, float animationTimeInT
 }
 
 
-void Animation::CalcInterpolatedScaling(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
+void Animation::calcInterpolatedScaling(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
     if (keyframe->scalingKeys.size() == 1) {
         Out = keyframe->scalingKeys[0].value;
         return;
     }
 
-    uint ScalingIndex = FindScaling(animationTimeInTicks, keyframe);
+	uint ScalingIndex = findScaling(animationTimeInTicks, keyframe);
     uint NextScalingIndex = (ScalingIndex + 1);
     assert(NextScalingIndex < keyframe->scalingKeys.size());
     float DeltaTime = keyframe->scalingKeys[NextScalingIndex].time - keyframe->scalingKeys[ScalingIndex].time;
