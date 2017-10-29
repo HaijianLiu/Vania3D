@@ -50,9 +50,32 @@ void Resources::start() {
 
 	/* Model
 	..............................................................................*/
-	// this->loadModel("WPN_AKM", "./Assets/Models/WPN_AKM/WPN_AKM.obj");
-	this->loadModel("Maw_J_Laygo", "./Assets/Models/Mixamo_Maw/Maw_J_Laygo_blender.FBX");
-	// this->loadModel("Maw_J_Laygo_Walk", "./Assets/Models/Mixamo_Maw/Maw_J_Laygo_Walk_blender.FBX");
+	// this->loadModel("vampire", "./Assets/Models/Maw/Maw_J_Laygo.FBX");
+	// this->loadModel("vampire_walk", "./Assets/Models/Maw/Maw_J_Laygo_Walk.FBX");
+	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
+
+	// this->loadModel("vampire", "./Assets/Models/Maria/Maximo_Maria.FBX");
+	// this->loadModel("vampire_walk", "./Assets/Models/Maria/Maria_J_J_Ong_Walk.FBX");
+	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
+
+	this->loadModel("vampire", "./Assets/Models/Ganfaul/Mixamo_Ganfault_Aure.FBX");
+	this->loadModel("vampire_walk", "./Assets/Models/Ganfaul/Mixamo_Ganfault_Walk.FBX");
+	this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
+
+	// this->loadModel("vampire", "./Assets/Models/Heraklios/Mixamo_Heraklios.FBX");
+	// this->loadModel("vampire_walk", "./Assets/Models/Heraklios/Mixamo_Heraklios_idle.FBX");
+	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
+
+	// this->loadModel("vampire", "./Assets/Models/Vanguard/Vanguard_by_T__Choonyung.FBX");
+	// this->loadModel("vampire_walk", "./Assets/Models/Vanguard/Vanguard_by_T__Choonyung_Walk.FBX");
+	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
+
+	// this->loadModel("vampire", "./Assets/Models/Goblin/Mixamo_Goblin.FBX");
+	// this->loadModel("vampire_walk", "./Assets/Models/Goblin/Mixamo_Goblin_Walk.FBX");
+	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
+
+
+
 
 	/* Texture
 	..............................................................................*/
@@ -61,9 +84,31 @@ void Resources::start() {
 	// this->loadTexture("WPN_AKM_metallic", "./Assets/Models/WPN_AKM/WPNT_AKM_Metallic.tga");
 	// this->loadTexture("WPN_AKM_roughness", "./Assets/Models/WPN_AKM/WPNT_AKM_Roughness.tga");
 	// this->loadTexture("WPN_AKM_ao", "./Assets/Models/WPN_AKM/WPNT_AKM_Ambient_occlusion.tga");
-	this->loadTexture("Maw_J_Laygo_albedo", "./Assets/Models/Mixamo_Maw/MAW_diffuse.TGA");
-	this->loadTexture("Maw_J_Laygo_normal", "./Assets/Models/Mixamo_Maw/MAW_normal.TGA");
-	this->loadTexture("Maw_J_Laygo_mask", "./Assets/Models/Mixamo_Maw/MAW_mask.TGA");
+
+	// this->loadTexture("vampire_albedo", "./Assets/Models/Maw/MAW_diffuse.TGA");
+	// this->loadTexture("vampire_normal", "./Assets/Models/Maw/MAW_normal.TGA");
+	// this->loadTexture("vampire_mask", "./Assets/Models/Maw/MAW_mask.TGA");
+
+	// this->loadTexture("vampire_albedo", "./Assets/Models/Maria/maria_diffuse.TGA");
+	// this->loadTexture("vampire_normal", "./Assets/Models/Maria/maria_normal.TGA");
+	// this->loadTexture("vampire_mask", "./Assets/Models/Maria/maria_mask.TGA");
+
+	this->loadTexture("vampire_albedo", "./Assets/Models/Ganfaul/Ganfaul_diffuse.TGA");
+	this->loadTexture("vampire_normal", "./Assets/Models/Ganfaul/Ganfaul_normal.TGA");
+	this->loadTexture("vampire_mask", "./Assets/Models/Ganfaul/Ganfaul_mask.TGA");
+
+	// this->loadTexture("vampire_albedo", "./Assets/Models/Heraklios/battalion-leader-heraklios_diffuse.TGA");
+	// this->loadTexture("vampire_normal", "./Assets/Models/Heraklios/battalion-leader-heraklios_normal.TGA");
+	// this->loadTexture("vampire_mask", "./Assets/Models/Heraklios/battalion-leader-heraklios_mask.TGA");
+
+	// this->loadTexture("vampire_albedo", "./Assets/Models/Vanguard/vanguard_diffuse.TGA");
+	// this->loadTexture("vampire_normal", "./Assets/Models/Vanguard/vanguard_normal.TGA");
+	// this->loadTexture("vampire_mask", "./Assets/Models/Vanguard/vanguard_mask.TGA");
+
+	// this->loadTexture("vampire_albedo", "./Assets/Models/Goblin/goblin_diffuse.TGA");
+	// this->loadTexture("vampire_normal", "./Assets/Models/Goblin/goblin_normal.TGA");
+	// this->loadTexture("vampire_mask", "./Assets/Models/Goblin/goblin_mask.TGA");
+
 
 	/* Material
 	..............................................................................*/

@@ -6,7 +6,6 @@ class Model {
 private:
 	Node<Matrix4>* rootNode;
 	std::vector<Mesh*> meshes;
-	std::vector<Animation*> animations;
 
 	std::unordered_map<std::string, Bone> bones;
 
@@ -18,6 +17,7 @@ private:
 	Mesh* createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
+	std::vector<Animation*> animations;
 	std::vector<Matrix4> pose;
 
 	Model(const char* path);

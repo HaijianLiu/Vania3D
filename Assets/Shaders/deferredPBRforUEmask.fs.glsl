@@ -43,9 +43,9 @@ vec3 getNormalFromMap()
 
 void main() {
 	// albedoColor = vec4(texture(albedoMap, TexCoords).rgb, 1.0);
-	albedoColor = vec4(texture(albedoMap, TexCoords).rgb, texture(maskMap, TexCoords).a);
+	// albedoColor = vec4(texture(albedoMap, TexCoords).rgb, texture(maskMap, TexCoords).a);
 	// albedoColor = vec4(vec3(weight0), texture(maskMap, TexCoords).a);
-	// albedoColor = vec4(pow(texture(albedoMap, TexCoords).rgb, vec3(2.2)), texture(maskMap, TexCoords).a);
+	albedoColor = vec4(pow(texture(albedoMap, TexCoords).rgb, vec3(2.2)), texture(maskMap, TexCoords).a);
 	// albedoColor = pow(albedoColor, vec4(2.2));
 	// normalColor = vec4(normalize(Normal), 1.0);
 	normalColor = vec4(getNormalFromMap(), texture(maskMap, TexCoords).a);

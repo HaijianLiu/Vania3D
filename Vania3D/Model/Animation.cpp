@@ -116,7 +116,7 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyfram
 void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Matrix4>* rootNode, const std::unordered_map<std::string, Bone>* bones, float timeInSeconds) {
 	float timeInTicks = timeInSeconds * this->ticksPerSecond;
 	float animationTimeInTicks = fmod(timeInTicks, this->duration);
-	this->processPose(pose, this->keyframeNode, rootNode, bones, Matrix4::identity(), animationTimeInTicks);
+	this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
 }
 
 

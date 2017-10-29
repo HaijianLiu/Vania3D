@@ -88,7 +88,7 @@ void Scene00::start() {
 		game->resources->getShader("deferredPBRforUEmask")->setMat4("projection", this->camera->getMatrixProjection());
 		// transform
 		glm::mat4 model = glm::mat4();
-//		model = glm::rotate(-PI, glm::vec3(1,0,0)) * model;
+		model = glm::rotate(-PI/2, glm::vec3(1,0,0)) * model;
 		model = glm::scale(model, glm::vec3(0.05f));
 		model = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
 		// texture
@@ -99,13 +99,13 @@ void Scene00::start() {
 		// game->resources->getShader("deferredPBRforUEmask")->setInt("roughnessMap", 3);
 		// game->resources->getShader("deferredPBRforUEmask")->setInt("aoMap", 4);
 
-	std::vector<Matrix4> Transforms = game->resources->getModel("Maw_J_Laygo")->pose;
-		// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
-		for (uint i = 0 ; i < Transforms.size() ; i++) {
-			glm::mat4 boneTransform = Transforms[i].getGLM();
-
-				game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
-		}
+	// std::vector<Matrix4> Transforms = game->resources->getModel("vampire")->pose;
+	// 	// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
+	// 	for (uint i = 0 ; i < Transforms.size() ; i++) {
+	// 		glm::mat4 boneTransform = Transforms[i].getGLM();
+	//
+	// 			game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
+	// 	}
 
 
 	// IBL
@@ -160,17 +160,19 @@ void Scene00::update() {
 		// game->resources->getShader("deferredPBRforUEmask")->setMat4("model", model);
 		// texture
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("Maw_J_Laygo_albedo")->id);
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_albedo")->id);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("Maw_J_Laygo_normal")->id);
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_normal")->id);
 		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("Maw_J_Laygo_mask")->id);
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_mask")->id);
 		// glActiveTexture(GL_TEXTURE3);
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_roughness")->id);
 		// glActiveTexture(GL_TEXTURE4);
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_ao")->id);
-	game->resources->getModel("Maw_J_Laygo")->updatePose(0, currentFrame);
-	std::vector<Matrix4> Transforms = game->resources->getModel("Maw_J_Laygo")->pose;
+	if (game->resources->getModel("vampire")->animations.size() != 0) {
+		game->resources->getModel("vampire")->updatePose(0, currentFrame);
+	}
+	std::vector<Matrix4> Transforms = game->resources->getModel("vampire")->pose;
 		// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
 		for (uint i = 0 ; i < Transforms.size() ; i++) {
 			glm::mat4 boneTransform = Transforms[i].getGLM();
@@ -178,7 +180,7 @@ void Scene00::update() {
 				game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
 		}
 
-	game->resources->getModel("Maw_J_Laygo")->draw();
+	game->resources->getModel("vampire")->draw();
 
 
 // renderPass

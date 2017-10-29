@@ -26,7 +26,7 @@ Model::Model(const char* path) {
 Model::~Model() {
 	delete this->rootNode;
 	deleteVector(this->meshes);
-	deleteVector(this->animations);
+	if (this->animations[0] != nullptr) deleteVector(this->animations);
 }
 
 
@@ -45,12 +45,13 @@ void Model::draw() {
 void Model::load(const char* path) {
 	// read file via ASSIMP
 	Assimp::Importer importer;
-	const aiScene* aiscene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene* aiscene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_LimitBoneWeights);
 	// check for errors
-	if(!aiscene || aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !aiscene->mRootNode) {
-		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-		return;
-	}
+//	if(!aiscene || aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !aiscene->mRootNode) {
+//	if(!aiscene || aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !aiscene->mRootNode) {
+//		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+//		return;
+//	}
 	this->rootNode->data = aiscene->mRootNode->mTransformation;
 	// process assimp root node recursively
 	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
@@ -58,7 +59,7 @@ void Model::load(const char* path) {
 	this->processAnimation(aiscene);
 
 	// for test
-	this->updatePose(0, 1.0);
+//	this->updatePose(0, 1.0);
 }
 
 
