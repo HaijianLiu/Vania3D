@@ -104,7 +104,7 @@ void main() {
 	vec2 brdf  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), mra.g)).rg;
 	vec3 specular = prefilteredColor * (F * brdf.x + brdf.y);
 
-	vec3 ambient = (kD * diffuse + kS * specular * diffuse );
+	vec3 ambient = kD * diffuse + kS * specular * diffuse;
 	// vec3 ambient = (kD * diffuse + (mra.r + kS) * specular * diffuse * 5);
 
 	// vec3 color = ambient + Lo - 0.01 * (1.0 - mra.b);
@@ -127,7 +127,7 @@ void main() {
 	// vec3 final = albedo * alpha + color;
 
 	FragColor = vec4(mix(albedo, color, alpha), 1.0);
-	// FragColor = vec4(specular, 1.0);
+	// FragColor = vec4(kS, 1.0);
 	// FragColor = vec4(texture(pass[0], TexCoords).rgb, 1.0);
 }
 

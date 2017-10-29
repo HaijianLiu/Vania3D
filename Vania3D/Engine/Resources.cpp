@@ -64,6 +64,7 @@ void Resources::start() {
 	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
 	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
 	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_run.fbx"));
+	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_swiping.fbx"));
 
 
 	// this->loadModel("vampire", "./Assets/Models/Heraklios/Mixamo_Heraklios.FBX");

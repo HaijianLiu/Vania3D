@@ -97,7 +97,7 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 
 
 
-void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Matrix4>* node, const std::unordered_map<std::string, Bone>* bones, Matrix4 parentTransformation, float animationTimeInTicks) {
+void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* node, Matrix4 parentTransformation, float animationTimeInTicks) {
 
 	Matrix4 nodeTransformation;
 
@@ -111,7 +111,6 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 		// Interpolate rotation and generate rotation transformation matrix
 		Quaternion RotationQ;
 		calcInterpolatedRotation(RotationQ, animationTimeInTicks, keyframeNode->data);
-		// aiQuaternion qt = RotationQ.getAissmp();
 		Matrix4 RotationM = Matrix4(RotationQ.getAissmp().GetMatrix());
 
 		// Interpolate translation and generate translation transformation matrix
@@ -124,7 +123,7 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 		nodeTransformation = TranslationM * RotationM * ScalingM;
 	}
 	else {
-		nodeTransformation = *node->data;
+		nodeTransformation = node->data->nodeTransformation;
 	}
 
 	Matrix4 globalTransformation = parentTransformation * nodeTransformation;
@@ -145,21 +144,17 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 
 
 	// set pose
-	auto it = bones->find(node->name);
-	if (it != bones->end()) {
-		pose[it->second.index] = globalTransformation * it->second.offset; // may multiply rootNode->data * before?
+	if(node->data->haveBone) {
+		pose[node->data->index] = globalTransformation * node->data->offset;
 	}
 
-
-
-
 	for (unsigned int i = 0 ; i < keyframeNode->children.size() ; i++) {
-		this->processPose(pose, keyframeNode->children[i], node->children[i], bones, globalTransformation, animationTimeInTicks);
+		this->processPose(pose, keyframeNode->children[i], node->children[i], globalTransformation, animationTimeInTicks);
 	}
 }
 
 
-void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Matrix4>* rootNode, const std::unordered_map<std::string, Bone>* bones, float timeInSeconds) {
+void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNode, float timeInSeconds) {
 	timeInSeconds = timeInSeconds - lastStartTimeInSeconds; // animation always starts from the beginning
 	float timeInTicks = timeInSeconds * this->ticksPerSecond;
 	float animationTimeInTicks = fmod(timeInTicks, this->duration);
@@ -168,7 +163,7 @@ void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Matrix4>* root
 	// this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
 
 	// for mixamo
-	this->processPose(pose, this->keyframeNode, rootNode, bones, Matrix4::identity(), animationTimeInTicks);
+	this->processPose(pose, this->keyframeNode, rootNode, Matrix4::identity(), animationTimeInTicks);
 }
 
 

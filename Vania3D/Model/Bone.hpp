@@ -5,6 +5,7 @@
 class Bone {
 public:
 	// bone info
+	bool haveBone = false;
 	unsigned int index;
 	Matrix4 nodeTransformation;
 	Matrix4 offset;

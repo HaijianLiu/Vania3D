@@ -172,6 +172,7 @@ void Scene00::update() {
 	if (glfwGetKey(game->window->window, GLFW_KEY_0) == GLFW_PRESS) this->animation = 0;
 	if (glfwGetKey(game->window->window, GLFW_KEY_1) == GLFW_PRESS) this->animation = 1;
 	if (glfwGetKey(game->window->window, GLFW_KEY_2) == GLFW_PRESS) this->animation = 2;
+	if (glfwGetKey(game->window->window, GLFW_KEY_3) == GLFW_PRESS) this->animation = 3;
 
 
 	game->resources->getModel("vampire")->updatePose(this->animation, currentFrame);

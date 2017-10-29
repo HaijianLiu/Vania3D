@@ -30,7 +30,7 @@ void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
 		this->currentAnimation = animationIndex;
 	}
 
-	this->animations[animationIndex]->updatePose(this->pose, this->rootNode, &this->bones, timeInSeconds);
+	this->animations[animationIndex]->updatePose(this->pose, this->rootNode, timeInSeconds);
 }
 
 
@@ -66,9 +66,9 @@ void Model::load(const char* path) {
 	}
 
 	// process assimp root node recursively
-	this->rootNode = new Node<Matrix4>(aiscene->mRootNode->mName.data);
-	this->rootNode->data = new Matrix4();
-	*this->rootNode->data = aiscene->mRootNode->mTransformation;
+	this->rootNode = new Node<Bone>(aiscene->mRootNode->mName.data);
+	this->rootNode->data = new Bone();
+	this->rootNode->data->nodeTransformation = aiscene->mRootNode->mTransformation;
 	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
 }
 
@@ -81,20 +81,29 @@ the scene contains all the data
 Processes each individual mesh located at the node and repeats this process on its children nodes (if any)
 Processes the bone node heirarchy located at the node and calculate the final transformation
 ------------------------------------------------------------------------------*/
-void Model::processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aiscene) {
+void Model::processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene) {
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < ainode->mNumMeshes; i++) {
 		aiMesh* mesh = aiscene->mMeshes[ainode->mMeshes[i]];
 		this->createMesh(mesh, aiscene);
 	}
 	// save the node heirarchy and all the transformation matrices and names
-	*node->data = ainode->mTransformation;
+	node->data->nodeTransformation = ainode->mTransformation;
+	// only support one mesh model !
+	for (unsigned int i = 0; i < aiscene->mMeshes[0]->mNumBones; i ++) {
+		if (node->name == aiscene->mMeshes[0]->mBones[i]->mName.data) {
+			node->data->haveBone = true;
+			node->data->index = i;
+			node->data->offset = aiscene->mMeshes[0]->mBones[i]->mOffsetMatrix;
+			break;
+		}
+	}
 
 	// recursively process each of the children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
-		node->children.push_back(new Node<Matrix4>(ainode->mChildren[i]->mName.data));
+		node->children.push_back(new Node<Bone>(ainode->mChildren[i]->mName.data));
 		node->children[i]->parent = node;
-		node->children[i]->data = new Matrix4();
+		node->children[i]->data = new Bone();
 		this->processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
 }
@@ -159,6 +168,7 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	}
 
 	/* bones */
+	std::unordered_map<std::string, Bone> boneMapping;
 	unsigned int counter = 0;
 	for (unsigned int i = 0 ; i < mesh->mNumBones ; i++) {
 		unsigned int boneIndex = 0;
@@ -167,15 +177,15 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 		// calculate bone index
 		// get bone offset from mesh
 		// create bones and a default pose
-		if (this->bones.find(boneName) == this->bones.end()) {
+		if (boneMapping.find(boneName) == boneMapping.end()) {
 			boneIndex = counter;
 			counter++;
 			Bone bone = Bone(boneIndex, mesh->mBones[i]->mOffsetMatrix);
-			this->bones[boneName] = bone;
+			boneMapping[boneName] = bone;
 			this->pose.push_back(Matrix4::identity());
 		}
 		else {
-			boneIndex = this->bones[boneName].index;
+			boneIndex = boneMapping[boneName].index;
 		}
 
 		// set vertices
@@ -193,7 +203,6 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 					printf("[WARNNING] vertex: %d weight: %f out of the number of NUM_BONES_PER_VEREX!\n", vertexID, weight);
 				}
 			}
-
 		}
 	}
 	// return a mesh object created from the extracted mesh data

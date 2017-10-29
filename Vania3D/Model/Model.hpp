@@ -4,15 +4,15 @@
 
 class Model {
 private:
-	Node<Matrix4>* rootNode;
+	Node<Bone>* rootNode;
 	std::vector<Mesh*> meshes;
-	std::unordered_map<std::string, Bone> bones; // *********to be in boneNode
 	std::vector<Animation*> animations;
+	
 	unsigned int currentAnimation = 0;
 
 	// loads a model with supported assimp extensions from file and stores the resulting data
 	void load(const char* path);
-	void processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aiscene);
+	void processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene);
 	void createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
