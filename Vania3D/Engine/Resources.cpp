@@ -59,12 +59,12 @@ void Resources::start() {
 	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
 
 	this->loadModel("vampire", "./Assets/Models/Ganfaul/Mixamo_Ganfault_Aure.FBX");
-	this->loadModel("vampire_walk", "./Assets/Models/Ganfaul/Mixamo_Ganfault_Walk.FBX");
-	this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
+	Animation* animation = new Animation("./Assets/Models/Ganfaul/Mixamo_Ganfault_idle.FBX");
+	this->getModel("vampire")->animations.push_back(animation);
 
 	// this->loadModel("vampire", "./Assets/Models/Heraklios/Mixamo_Heraklios.FBX");
-	// this->loadModel("vampire_walk", "./Assets/Models/Heraklios/Mixamo_Heraklios_idle.FBX");
-	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
+	// Animation* animation = new Animation("./Assets/Models/Heraklios/Mixamo_Heraklios_Walk.FBX");
+	// this->getModel("vampire")->animations.push_back(animation);
 
 	// this->loadModel("vampire", "./Assets/Models/Vanguard/Vanguard_by_T__Choonyung.FBX");
 	// this->loadModel("vampire_walk", "./Assets/Models/Vanguard/Vanguard_by_T__Choonyung_Walk.FBX");

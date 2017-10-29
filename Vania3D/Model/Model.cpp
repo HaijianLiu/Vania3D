@@ -2,20 +2,9 @@
 #include "Engine.hpp"
 
 /*------------------------------------------------------------------------------
-< update pose >
-update pose data
-via animations keyframes data and the given time in seconds
-------------------------------------------------------------------------------*/
-void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
-		this->animations[animationIndex]->updatePose(this->pose, this->rootNode, &this->bones, timeInSeconds);
-}
-
-
-/*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
 Model::Model(const char* path) {
-	this->rootNode = new Node<Matrix4>("root");
 	this->load(path);
 }
 
@@ -26,7 +15,16 @@ Model::Model(const char* path) {
 Model::~Model() {
 	delete this->rootNode;
 	deleteVector(this->meshes);
-	if (this->animations[0] != nullptr) deleteVector(this->animations);
+}
+
+
+/*------------------------------------------------------------------------------
+< update pose >
+update pose data
+via animations keyframes data and the given time in seconds
+------------------------------------------------------------------------------*/
+void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
+	this->animations[animationIndex]->updatePose(this->pose, this->rootNode, &this->bones, timeInSeconds);
 }
 
 
@@ -47,19 +45,15 @@ void Model::load(const char* path) {
 	Assimp::Importer importer;
 	const aiScene* aiscene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_LimitBoneWeights);
 	// check for errors
-//	if(!aiscene || aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !aiscene->mRootNode) {
-//	if(!aiscene || aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !aiscene->mRootNode) {
-//		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-//		return;
-//	}
-	this->rootNode->data = aiscene->mRootNode->mTransformation;
-	// process assimp root node recursively
-	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
-	// copy all assimp animation data
-	this->processAnimation(aiscene);
+	if(!aiscene || aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !aiscene->mRootNode) {
+		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+		return;
+	}
 
-	// for test
-//	this->updatePose(0, 1.0);
+	// process assimp root node recursively
+	this->rootNode = new Node<Matrix4>(aiscene->mRootNode->mName.data);
+	this->rootNode->data = aiscene->mRootNode->mTransformation;
+	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
 }
 
 
@@ -75,7 +69,7 @@ void Model::processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aisc
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < ainode->mNumMeshes; i++) {
 		aiMesh* mesh = aiscene->mMeshes[ainode->mMeshes[i]];
-		this->meshes.push_back(createMesh(mesh, aiscene));
+		this->createMesh(mesh, aiscene);
 	}
 	// save the node heirarchy and all the transformation matrices and names
 	node->data = ainode->mTransformation;
@@ -90,29 +84,11 @@ void Model::processNode(aiNode* ainode, Node<Matrix4>* node, const aiScene* aisc
 
 
 /*------------------------------------------------------------------------------
-< process Animation >
-processes each individual aiAnimation located at the aiScene
-processes each individual channel (aiNodeAnim) located at the aiAnimation
-copy all the keyframe data to the animations member
-------------------------------------------------------------------------------*/
-void Model::processAnimation(const aiScene* aiscene) {
-	// copy aiAnimation
-	for (unsigned int i = 0; i < aiscene->mNumAnimations; i++) {
-		this->animations.push_back(new Animation());
-		this->animations[i]->name = aiscene->mAnimations[i]->mName.data;
-		this->animations[i]->duration = aiscene->mAnimations[i]->mDuration;
-		this->animations[i]->ticksPerSecond = aiscene->mAnimations[i]->mTicksPerSecond;
-		this->animations[i]->copyNodeTree(this->rootNode, aiscene->mAnimations[i]);
-	}
-}
-
-
-/*------------------------------------------------------------------------------
 < create mesh>
 load mesh vertices data to vao
 if vertices have bone weights then load them to vao too
 ------------------------------------------------------------------------------*/
-Mesh* Model::createMesh(aiMesh* mesh, const aiScene* scene) {
+void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	// data to fill
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -203,7 +179,6 @@ Mesh* Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 
 		}
 	}
-
 	// return a mesh object created from the extracted mesh data
-	return new Mesh(vertices, indices);
+	this->meshes.push_back(new Mesh(vertices, indices));
 }

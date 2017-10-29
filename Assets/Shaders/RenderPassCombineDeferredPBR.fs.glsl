@@ -127,8 +127,8 @@ void main() {
 	// vec3 final = albedo * alpha + color;
 
 	FragColor = vec4(mix(albedo, color, alpha), 1.0);
-	// FragColor = vec4(F * specular, 1.0);
-	// FragColor = vec4(texture(pass[6], TexCoords).rgb, 1.0);
+	// FragColor = vec4(specular, 1.0);
+	// FragColor = vec4(texture(pass[0], TexCoords).rgb, 1.0);
 }
 
 

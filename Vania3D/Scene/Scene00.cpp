@@ -74,12 +74,12 @@ void Scene00::start() {
 	this->lightPositions[2] = glm::vec3(-10.0f, -10.0f, 20.0f);
 	this->lightPositions[3] = glm::vec3( 10.0f, -10.0f, 20.0f);
 	this->lightColors[0] = glm::vec3(100.0f, 100.0f, 100.0f);
-	// this->lightColors[1] = glm::vec3(100.0f, 100.0f, 100.0f);
-	// this->lightColors[2] = glm::vec3(100.0f, 100.0f, 100.0f);
+	this->lightColors[1] = glm::vec3(100.0f, 100.0f, 100.0f);
+	this->lightColors[2] = glm::vec3(100.0f, 100.0f, 100.0f);
 	this->lightColors[3] = glm::vec3(100.0f, 100.0f, 100.0f);
 	// this->lightColors[0] = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->lightColors[1] = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->lightColors[2] = glm::vec3(0.0f, 0.0f, 0.0f);
+	// this->lightColors[1] = glm::vec3(0.0f, 0.0f, 0.0f);
+	// this->lightColors[2] = glm::vec3(0.0f, 0.0f, 0.0f);
 	// this->lightColors[3] = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	// initialize static shader uniforms before rendering
@@ -89,6 +89,7 @@ void Scene00::start() {
 		// transform
 		glm::mat4 model = glm::mat4();
 		model = glm::rotate(-PI/2, glm::vec3(1,0,0)) * model;
+		// model = glm::rotate(-PI/2, glm::vec3(0,1,0)) * model;
 		model = glm::scale(model, glm::vec3(0.05f));
 		model = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
 		// texture
