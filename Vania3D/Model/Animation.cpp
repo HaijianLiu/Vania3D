@@ -140,6 +140,7 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe*>* keyfram
 
 
 void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Matrix4>* rootNode, const std::unordered_map<std::string, Bone>* bones, float timeInSeconds) {
+	timeInSeconds = timeInSeconds - lastStartTimeInSeconds; // animation always starts from the beginning
 	float timeInTicks = timeInSeconds * this->ticksPerSecond;
 	float animationTimeInTicks = fmod(timeInTicks, this->duration);
 

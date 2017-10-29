@@ -20,6 +20,7 @@ private:
 public:
 	float duration;
 	float ticksPerSecond;
+	float lastStartTimeInSeconds = 0;
 
 	Animation(const char* path);
 	~Animation();

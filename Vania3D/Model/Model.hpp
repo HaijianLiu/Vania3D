@@ -6,7 +6,9 @@ class Model {
 private:
 	Node<Matrix4>* rootNode;
 	std::vector<Mesh*> meshes;
-	std::unordered_map<std::string, Bone> bones; // to be in boneNode
+	std::unordered_map<std::string, Bone> bones; // *********to be in boneNode
+	std::vector<Animation*> animations;
+	unsigned int currentAnimation = 0;
 
 	// loads a model with supported assimp extensions from file and stores the resulting data
 	void load(const char* path);
@@ -15,7 +17,6 @@ private:
 
 public:
 	std::vector<Matrix4> pose;
-	std::vector<Animation*> animations;
 
 	Model(const char* path);
 	~Model();

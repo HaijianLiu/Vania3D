@@ -24,6 +24,12 @@ update pose data
 via animations keyframes data and the given time in seconds
 ------------------------------------------------------------------------------*/
 void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
+	// animation always starts from the beginning
+	if (this->currentAnimation != animationIndex) {
+		this->animations[animationIndex]->lastStartTimeInSeconds = timeInSeconds;
+		this->currentAnimation = animationIndex;
+	}
+
 	this->animations[animationIndex]->updatePose(this->pose, this->rootNode, &this->bones, timeInSeconds);
 }
 
