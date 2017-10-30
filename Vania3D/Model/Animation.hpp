@@ -4,23 +4,7 @@
 
 class Animation {
 private:
-	Node<Keyframe>* keyframeNode;
-
-	// load
-	void load(const char* path);
-	void processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, const aiScene* aiscene);
-	// update
-	void processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, Matrix4 parentTransformation);
-	// animation
-	Vector3 calcInterpolatedScaling(Keyframe* keyframe);
-	Quaternion calcInterpolatedRotation(Keyframe* keyframe);
-	Vector3 calcInterpolatedPosition(Keyframe* keyframe);
-	void findScaling(Keyframe* keyframe);
-	void findRotation(Keyframe* keyframe);
-	void findPosition(Keyframe* keyframe);
-
-public:
-	// animation
+	// animation info
 	float duration;
 	float ticksPerSecond;
 	// playback
@@ -29,11 +13,29 @@ public:
 	// blend
 	float blendTimeInSeconds = 1.0;
 	float blendFactor = 1.0;
+	// keyframe node tree
+	Node<Keyframe>* keyframeNode;
 
+	// load
+	void load(const char* path);
+	void processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, const aiScene* aiscene);
+	// update pose
+	void processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, Matrix4 parentTransformation);
+	// animation
+	void findScaling(Keyframe* keyframe);
+	void findRotation(Keyframe* keyframe);
+	void findPosition(Keyframe* keyframe);
+	Vector3 calcInterpolatedScaling(Keyframe* keyframe);
+	Quaternion calcInterpolatedRotation(Keyframe* keyframe);
+	Vector3 calcInterpolatedPosition(Keyframe* keyframe);
+
+public:
 	Animation(const char* path);
 	~Animation();
-
+	// update model pose data according to time in seconds
 	void updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNode, float timeInSeconds);
+	// restart animation from beginning
+	void reset(float timeInSeconds);
 };
 
 #endif /* Animation_hpp */

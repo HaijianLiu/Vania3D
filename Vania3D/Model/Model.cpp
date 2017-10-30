@@ -26,7 +26,7 @@ via animations keyframes data and the given time in seconds
 void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
 	// animation always starts from the beginning
 	if (this->currentAnimation != animationIndex) {
-		this->animations[animationIndex]->lastStartTimeInSeconds = timeInSeconds;
+		this->animations[animationIndex]->reset(timeInSeconds);
 		this->currentAnimation = animationIndex;
 	}
 

@@ -18,6 +18,33 @@ Animation::~Animation() {
 
 
 /*------------------------------------------------------------------------------
+< update pose >
+------------------------------------------------------------------------------*/
+void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNode, float timeInSeconds) {
+	timeInSeconds = timeInSeconds - lastStartTimeInSeconds; // animation always starts from the beginning
+	float timeInTicks = timeInSeconds * this->ticksPerSecond;
+	this->animationTimeInTicks = fmod(timeInTicks, this->duration);
+
+	// animation blending
+	this->blendFactor = timeInSeconds / this->blendTimeInSeconds;
+
+	/* for mixamo models */
+	this->processPose(pose, this->keyframeNode, rootNode, Matrix4::identity());
+	/* for unreal engine models */
+	// this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
+}
+
+
+/*------------------------------------------------------------------------------
+< reset >
+restart animation from beginning
+------------------------------------------------------------------------------*/
+void Animation::reset(float timeInSeconds) {
+	this->lastStartTimeInSeconds = timeInSeconds;
+}
+
+
+/*------------------------------------------------------------------------------
 < load animation >
 loads a model with supported ASSIMP extensions from file and stores the resulting animation keyframes in a node tree.
 ------------------------------------------------------------------------------*/
@@ -89,9 +116,10 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 }
 
 
-
-
-
+/*------------------------------------------------------------------------------
+< process pose >
+go through the keyframe node tree
+-----------------------------------------------------------------------------*/
 void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, Matrix4 parentTransformation) {
 
 	if (keyframeNode->data && this->blendFactor >= 1.0) {
@@ -150,21 +178,9 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 }
 
 
-void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNode, float timeInSeconds) {
-	timeInSeconds = timeInSeconds - lastStartTimeInSeconds; // animation always starts from the beginning
-	float timeInTicks = timeInSeconds * this->ticksPerSecond;
-	this->animationTimeInTicks = fmod(timeInTicks, this->duration);
-
-	// animation blending
-	this->blendFactor = timeInSeconds / this->blendTimeInSeconds;
-
-	/* for mixamo models */
-	this->processPose(pose, this->keyframeNode, rootNode, Matrix4::identity());
-	/* for unreal engine models */
-	// this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
-}
-
-
+/*------------------------------------------------------------------------------
+< find current keyframe index >
+-----------------------------------------------------------------------------*/
 void Animation::findPosition(Keyframe* keyframe) {
 	for (unsigned int i = keyframe->currentPositionIndex ; i < keyframe->positionKeys.size() - 1 ; i++) {
 		if (this->animationTimeInTicks >= keyframe->positionKeys[i].time && this->animationTimeInTicks < keyframe->positionKeys[i + 1].time) {
@@ -175,7 +191,6 @@ void Animation::findPosition(Keyframe* keyframe) {
 	keyframe->currentPositionIndex = 0;
 }
 
-
 void Animation::findRotation(Keyframe* keyframe) {
 	for (unsigned int i = keyframe->currentRotationIndex ; i < keyframe->rotationKeys.size() - 1 ; i++) {
 		if (this->animationTimeInTicks >= keyframe->rotationKeys[i].time && this->animationTimeInTicks < keyframe->rotationKeys[i + 1].time) {
@@ -185,7 +200,6 @@ void Animation::findRotation(Keyframe* keyframe) {
 	}
 	keyframe->currentRotationIndex = 0;
 }
-
 
 void Animation::findScaling(Keyframe* keyframe) {
 	for (unsigned int i = keyframe->currentScalingIndex ; i < keyframe->scalingKeys.size() - 1 ; i++) {
@@ -198,6 +212,9 @@ void Animation::findScaling(Keyframe* keyframe) {
 }
 
 
+/*------------------------------------------------------------------------------
+< calculate interpolate transformation >
+-----------------------------------------------------------------------------*/
 Vector3 Animation::calcInterpolatedPosition(Keyframe* keyframe) {
 	// need at least two values to interpolate
 	if (keyframe->positionKeys.size() == 1) {
@@ -216,7 +233,6 @@ Vector3 Animation::calcInterpolatedPosition(Keyframe* keyframe) {
 	return startValue + factor * deltaValue;
 }
 
-
 Quaternion Animation::calcInterpolatedRotation(Keyframe* keyframe) {
 	// need at least two values to interpolate
 	if (keyframe->rotationKeys.size() == 1) {
@@ -233,7 +249,6 @@ Quaternion Animation::calcInterpolatedRotation(Keyframe* keyframe) {
 	Quaternion::interpolate(interpolateValue, keyframe->rotationKeys[keyframe->currentRotationIndex].value, keyframe->rotationKeys[nextRotationIndex].value, factor);
 	return interpolateValue.normalize();
 }
-
 
 Vector3 Animation::calcInterpolatedScaling(Keyframe* keyframe) {
 	// need at least two values to interpolate
