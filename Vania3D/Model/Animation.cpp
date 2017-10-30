@@ -43,7 +43,6 @@ void Animation::load(const char* path) {
 
 	// process assimp root node recursively
 	this->keyframeNode = new Node<Keyframe>(aiscene->mRootNode->mName.data);
-	this->keyframeNode->data = nullptr;
 	this->processNode(this->keyframeNode, aiscene->mRootNode, aiscene);
 }
 
@@ -80,15 +79,11 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 			}
 			break;
 		}
-		else {
-			keyframeNode->data = nullptr;
-		}
 	}
 
 	// check children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
 		keyframeNode->children.push_back(new Node<Keyframe>(ainode->mChildren[i]->mName.data));
-		keyframeNode->children[i]->data = nullptr;
 		processNode(keyframeNode->children[i], ainode->mChildren[i], aiscene);
 	}
 }
@@ -97,30 +92,27 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 
 
 
-void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* node, Matrix4 parentTransformation, float animationTimeInTicks) {
+void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* node, Matrix4 parentTransformation) {
 
 	Matrix4 nodeTransformation;
 
 	if (keyframeNode->data) {
 		// Interpolate scaling and generate scaling transformation matrix
-		Vector3 Scaling;
-		calcInterpolatedScaling(Scaling, animationTimeInTicks, keyframeNode->data);
-		Matrix4 ScalingM;
-		ScalingM.setScaleTransform(Scaling.x, Scaling.y, Scaling.z);
+		Vector3 scaling = calcInterpolatedScaling(keyframeNode->data);
+		Matrix4 scalingMatrix;
+		scalingMatrix.setScaleTransform(scaling.x, scaling.y, scaling.z);
 
 		// Interpolate rotation and generate rotation transformation matrix
-		Quaternion RotationQ;
-		calcInterpolatedRotation(RotationQ, animationTimeInTicks, keyframeNode->data);
-		Matrix4 RotationM = Matrix4(RotationQ.getAissmp().GetMatrix());
+		Quaternion rotation = calcInterpolatedRotation(keyframeNode->data);
+		Matrix4 rotationMatrix = Matrix4(rotation.getAissmp().GetMatrix());
 
 		// Interpolate translation and generate translation transformation matrix
-		Vector3 Translation;
-		calcInterpolatedPosition(Translation, animationTimeInTicks, keyframeNode->data);
-		Matrix4 TranslationM;
-		TranslationM.setTranslationTransform(Translation.x, Translation.y, Translation.z);
+		Vector3 translation = calcInterpolatedPosition(keyframeNode->data);
+		Matrix4 translationMatrix;
+		translationMatrix.setTranslationTransform(translation.x, translation.y, translation.z);
 
 		// Combine the above transformations
-		nodeTransformation = TranslationM * RotationM * ScalingM;
+		nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
 	}
 	else {
 		nodeTransformation = node->data->nodeTransformation;
@@ -149,7 +141,7 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 	}
 
 	for (unsigned int i = 0 ; i < keyframeNode->children.size() ; i++) {
-		this->processPose(pose, keyframeNode->children[i], node->children[i], globalTransformation, animationTimeInTicks);
+		this->processPose(pose, keyframeNode->children[i], node->children[i], globalTransformation);
 	}
 }
 
@@ -157,116 +149,110 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNode, float timeInSeconds) {
 	timeInSeconds = timeInSeconds - lastStartTimeInSeconds; // animation always starts from the beginning
 	float timeInTicks = timeInSeconds * this->ticksPerSecond;
-	float animationTimeInTicks = fmod(timeInTicks, this->duration);
+	this->animationTimeInTicks = fmod(timeInTicks, this->duration);
 
-	// for unreal engine
+	/* for mixamo models */
+	this->processPose(pose, this->keyframeNode, rootNode, Matrix4::identity());
+	/* for unreal engine models */
 	// this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
-
-	// for mixamo
-	this->processPose(pose, this->keyframeNode, rootNode, Matrix4::identity(), animationTimeInTicks);
 }
 
 
-
-
-uint Animation::findPosition(float animationTimeInTicks, const Keyframe* keyframe) const {
-    for (unsigned int i = 0 ; i < keyframe->positionKeys.size() - 1 ; i++) {
-        if (animationTimeInTicks < keyframe->positionKeys[i + 1].time) {
-            return i;
-        }
-    }
-
-    assert(0);
-
-    return 0;
+unsigned int Animation::findPosition(const Keyframe* keyframe) {
+	assert(keyframe->positionKeys.size() > 0);
+	for (unsigned int i = 0 ; i < keyframe->positionKeys.size() - 1 ; i++) {
+		if (this->animationTimeInTicks < keyframe->positionKeys[i + 1].time) {
+			return i;
+		}
+	}
+	assert(0);
+	return 0;
 }
 
 
-uint Animation::findRotation(float animationTimeInTicks, const Keyframe* keyframe) const {
-    assert(keyframe->rotationKeys.size() > 0);
-
-    for (unsigned int i = 0 ; i < keyframe->rotationKeys.size() - 1 ; i++) {
-        if (animationTimeInTicks < keyframe->rotationKeys[i + 1].time) {
-            return i;
-        }
-    }
-
-    assert(0);
-
-    return 0;
+unsigned int Animation::findRotation(const Keyframe* keyframe) {
+	assert(keyframe->rotationKeys.size() > 0);
+	for (unsigned int i = 0 ; i < keyframe->rotationKeys.size() - 1 ; i++) {
+		if (this->animationTimeInTicks < keyframe->rotationKeys[i + 1].time) {
+			return i;
+		}
+	}
+	assert(0);
+	return 0;
 }
 
 
-uint Animation::findScaling(float animationTimeInTicks, const Keyframe* keyframe) const {
-    assert(keyframe->scalingKeys.size() > 0);
-
-    for (unsigned int i = 0 ; i < keyframe->scalingKeys.size() - 1 ; i++) {
-        if (animationTimeInTicks < keyframe->scalingKeys[i + 1].time) {
-            return i;
-        }
-    }
-
-    assert(0);
-
-    return 0;
+unsigned int Animation::findScaling(const Keyframe* keyframe) {
+	assert(keyframe->scalingKeys.size() > 0);
+	for (unsigned int i = 0 ; i < keyframe->scalingKeys.size() - 1 ; i++) {
+		if (this->animationTimeInTicks < keyframe->scalingKeys[i + 1].time) {
+			return i;
+		}
+	}
+	assert(0);
+	return 0;
 }
 
 
-void Animation::calcInterpolatedPosition(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
-    if (keyframe->positionKeys.size() == 1) {
-        Out = keyframe->positionKeys[0].value;
-        return;
-    }
-
-	uint PositionIndex = findPosition(animationTimeInTicks, keyframe);
-    uint NextPositionIndex = (PositionIndex + 1);
-    assert(NextPositionIndex < keyframe->positionKeys.size());
-    float DeltaTime = keyframe->positionKeys[NextPositionIndex].time - keyframe->positionKeys[PositionIndex].time;
-    float Factor = (animationTimeInTicks - keyframe->positionKeys[PositionIndex].time) / DeltaTime;
-    assert(Factor >= 0.0f && Factor <= 1.0f);
-    Vector3 Start = keyframe->positionKeys[PositionIndex].value;
-    Vector3 End = keyframe->positionKeys[NextPositionIndex].value;
-    Vector3 Delta = End - Start;
-    Out = Start + Factor * Delta;
+Vector3 Animation::calcInterpolatedPosition(const Keyframe* keyframe) {
+	// need at least two values to interpolate
+	if (keyframe->positionKeys.size() == 1) {
+		return keyframe->positionKeys[0].value;
+	}
+	// find current keyframe index
+	this->currentPositionIndex = findPosition(keyframe);
+	unsigned int nextPositionIndex = (this->currentPositionIndex + 1);
+	assert(nextPositionIndex < keyframe->positionKeys.size());
+	// calculate blend factor
+	float deltaTime = keyframe->positionKeys[nextPositionIndex].time - keyframe->positionKeys[this->currentPositionIndex].time;
+	float factor = (this->animationTimeInTicks - keyframe->positionKeys[this->currentPositionIndex].time) / deltaTime;
+	assert(factor >= 0.0f && factor <= 1.0f);
+	// interpolate transformation
+	Vector3 startValue = keyframe->positionKeys[this->currentPositionIndex].value;
+	Vector3 endValue = keyframe->positionKeys[nextPositionIndex].value;
+	Vector3 deltaValue = endValue - startValue;
+	return startValue + factor * deltaValue;
 }
 
 
-void Animation::calcInterpolatedRotation(Quaternion& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
-	// we need at least two values to interpolate...
-    if (keyframe->rotationKeys.size() == 1) {
-        Out = keyframe->rotationKeys[0].value;
-        return;
-    }
-
-	uint RotationIndex = findRotation(animationTimeInTicks, keyframe);
-    uint NextRotationIndex = (RotationIndex + 1);
-    assert(NextRotationIndex < keyframe->rotationKeys.size());
-    float DeltaTime = keyframe->rotationKeys[NextRotationIndex].time - keyframe->rotationKeys[RotationIndex].time;
-    float Factor = (animationTimeInTicks - keyframe->rotationKeys[RotationIndex].time) / DeltaTime;
-    assert(Factor >= 0.0f && Factor <= 1.0f);
-    aiQuaternion StartRotationQ = keyframe->rotationKeys[RotationIndex].value.getAissmp();
-    aiQuaternion EndRotationQ   = keyframe->rotationKeys[NextRotationIndex].value.getAissmp();
-	aiQuaternion result;
-    aiQuaternion::Interpolate(result, StartRotationQ, EndRotationQ, Factor);
-	Out = result;
-   Out.normalize();
+Quaternion Animation::calcInterpolatedRotation(const Keyframe* keyframe) {
+	// need at least two values to interpolate
+	if (keyframe->rotationKeys.size() == 1) {
+		return keyframe->rotationKeys[0].value;
+	}
+	// find current keyframe index
+	this->currentRotationIndex = findRotation(keyframe);
+	unsigned int nextRotationIndex = (this->currentRotationIndex + 1);
+	assert(nextRotationIndex < keyframe->rotationKeys.size());
+	// calculate blend factor
+	float DeltaTime = keyframe->rotationKeys[nextRotationIndex].time - keyframe->rotationKeys[this->currentRotationIndex].time;
+	float factor = (this->animationTimeInTicks - keyframe->rotationKeys[this->currentRotationIndex].time) / DeltaTime;
+	assert(factor >= 0.0f && factor <= 1.0f);
+	// interpolate transformation
+	aiQuaternion startValue = keyframe->rotationKeys[this->currentRotationIndex].value.getAissmp();
+	aiQuaternion endValue   = keyframe->rotationKeys[nextRotationIndex].value.getAissmp();
+	aiQuaternion interpolateValue;
+	aiQuaternion::Interpolate(interpolateValue, startValue, endValue, factor);
+	return interpolateValue.Normalize();
 }
 
 
-void Animation::calcInterpolatedScaling(Vector3& Out, float animationTimeInTicks, const Keyframe* keyframe) const {
-    if (keyframe->scalingKeys.size() == 1) {
-        Out = keyframe->scalingKeys[0].value;
-        return;
-    }
-
-	uint ScalingIndex = findScaling(animationTimeInTicks, keyframe);
-    uint NextScalingIndex = (ScalingIndex + 1);
-    assert(NextScalingIndex < keyframe->scalingKeys.size());
-    float DeltaTime = keyframe->scalingKeys[NextScalingIndex].time - keyframe->scalingKeys[ScalingIndex].time;
-    float Factor = (animationTimeInTicks - keyframe->scalingKeys[ScalingIndex].time) / DeltaTime;
-    assert(Factor >= 0.0f && Factor <= 1.0f);
-    Vector3 Start = keyframe->scalingKeys[ScalingIndex].value;
-    Vector3 End   = keyframe->scalingKeys[NextScalingIndex].value;
-    Vector3 Delta = End - Start;
-    Out = Start + Factor * Delta;
+Vector3 Animation::calcInterpolatedScaling(const Keyframe* keyframe) {
+	// need at least two values to interpolate
+	if (keyframe->scalingKeys.size() == 1) {
+		return keyframe->scalingKeys[0].value;
+	}
+	// find current keyframe index
+	this->currentScalingIndex = findScaling(keyframe);
+	unsigned int nextScalingIndex = (this->currentScalingIndex + 1);
+	assert(nextScalingIndex < keyframe->scalingKeys.size());
+	// calculate blend factor
+	float deltaTime = keyframe->scalingKeys[nextScalingIndex].time - keyframe->scalingKeys[this->currentScalingIndex].time;
+	float factor = (this->animationTimeInTicks - keyframe->scalingKeys[this->currentScalingIndex].time) / deltaTime;
+	assert(factor >= 0.0f && factor <= 1.0f);
+	// interpolate transformation
+	Vector3 startValue = keyframe->scalingKeys[this->currentScalingIndex].value;
+	Vector3 endValue   = keyframe->scalingKeys[nextScalingIndex].value;
+	Vector3 deltaValue = endValue - startValue;
+	return startValue + factor * deltaValue;
 }
