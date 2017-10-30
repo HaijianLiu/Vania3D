@@ -156,8 +156,7 @@ void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNod
 	this->animationTimeInTicks = fmod(timeInTicks, this->duration);
 
 	// animation blending
-	this->blendFactor = timeInSeconds/ this->blendTimeInSeconds;
-	this->blendFactor > 1.0 ? 1.0 : this->blendFactor;
+	this->blendFactor = timeInSeconds / this->blendTimeInSeconds;
 
 	/* for mixamo models */
 	this->processPose(pose, this->keyframeNode, rootNode, Matrix4::identity());
@@ -205,7 +204,7 @@ Vector3 Animation::calcInterpolatedPosition(Keyframe* keyframe) {
 		return keyframe->positionKeys[0].value;
 	}
 	// find current keyframe index
-	findPosition(keyframe);
+	this->findPosition(keyframe);
 	unsigned int nextPositionIndex = (keyframe->currentPositionIndex + 1);
 	// calculate blend factor
 	float deltaTime = keyframe->positionKeys[nextPositionIndex].time - keyframe->positionKeys[keyframe->currentPositionIndex].time;
@@ -224,7 +223,7 @@ Quaternion Animation::calcInterpolatedRotation(Keyframe* keyframe) {
 		return keyframe->rotationKeys[0].value;
 	}
 	// find current keyframe index
-	findRotation(keyframe);
+	this->findRotation(keyframe);
 	unsigned int nextRotationIndex = (keyframe->currentRotationIndex + 1);
 	// calculate blend factor
 	float deltaTime = keyframe->rotationKeys[nextRotationIndex].time - keyframe->rotationKeys[keyframe->currentRotationIndex].time;
@@ -242,7 +241,7 @@ Vector3 Animation::calcInterpolatedScaling(Keyframe* keyframe) {
 		return keyframe->scalingKeys[0].value;
 	}
 	// find current keyframe index
-	findScaling(keyframe);
+	this->findScaling(keyframe);
 	unsigned int nextScalingIndex = (keyframe->currentScalingIndex + 1);
 	// calculate blend factor
 	float deltaTime = keyframe->scalingKeys[nextScalingIndex].time - keyframe->scalingKeys[keyframe->currentScalingIndex].time;
