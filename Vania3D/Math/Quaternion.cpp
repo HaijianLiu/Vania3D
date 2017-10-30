@@ -20,6 +20,13 @@ Quaternion::~Quaternion() {
 /*------------------------------------------------------------------------------
 < Constructor from values >
 ------------------------------------------------------------------------------*/
+Quaternion::Quaternion(const Quaternion& quaternion) {
+	this->x = quaternion.x;
+	this->y = quaternion.y;
+	this->z = quaternion.z;
+	this->w = quaternion.w;
+}
+
 Quaternion::Quaternion(float x, float y, float z, float w) {
 	this->x = x;
 	this->y = y;
@@ -42,12 +49,13 @@ Quaternion::Quaternion(const aiQuaternion& assimpQuaternion) {
 /*------------------------------------------------------------------------------
 < normalize >
 ------------------------------------------------------------------------------*/
-void Quaternion::normalize() {
+Quaternion Quaternion::normalize() {
 	float Length = sqrtf(this->x * this->x + this->y * this->y + this->z * this->z + this->w * this->w);
 	this->x /= Length;
 	this->y /= Length;
 	this->z /= Length;
 	this->w /= Length;
+	return *this;
 }
 
 
@@ -100,4 +108,14 @@ Quaternion Quaternion::operator*(const glm::vec3& vector) const {
 
 	Quaternion result = Quaternion(x, y, z, w);
 	return result;
+}
+
+
+/*------------------------------------------------------------------------------
+< interpolate >
+------------------------------------------------------------------------------*/
+void Quaternion::interpolate(Quaternion& result, Quaternion startValue, Quaternion endValue, float factor) {
+	aiQuaternion aiquaternion;
+	aiQuaternion::Interpolate(aiquaternion, startValue.getAissmp(), endValue.getAissmp(), factor);
+	result = aiquaternion;
 }

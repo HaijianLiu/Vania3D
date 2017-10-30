@@ -122,9 +122,9 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 
 		// Interpolate rotation and generate rotation transformation matrix
 		Quaternion rotation = calcInterpolatedRotation(keyframeNode->data);
-		aiQuaternion interpolateValue;
-		aiQuaternion::Interpolate(interpolateValue, boneNode->data->rotation.getAissmp(), rotation.getAissmp(), this->blendFactor);
-		boneNode->data->rotation = interpolateValue.Normalize();
+		Quaternion interpolateValue;
+		Quaternion::interpolate(interpolateValue, boneNode->data->rotation, rotation, this->blendFactor);
+		boneNode->data->rotation = interpolateValue.normalize();
 		Matrix4 rotationMatrix = Matrix4(boneNode->data->rotation.getAissmp().GetMatrix());
 
 		// Interpolate translation and generate translation transformation matrix
@@ -230,11 +230,9 @@ Quaternion Animation::calcInterpolatedRotation(Keyframe* keyframe) {
 	float deltaTime = keyframe->rotationKeys[nextRotationIndex].time - keyframe->rotationKeys[keyframe->currentRotationIndex].time;
 	float factor = (this->animationTimeInTicks - keyframe->rotationKeys[keyframe->currentRotationIndex].time) / deltaTime;
 	// interpolate transformation
-	aiQuaternion startValue = keyframe->rotationKeys[keyframe->currentRotationIndex].value.getAissmp();
-	aiQuaternion endValue   = keyframe->rotationKeys[nextRotationIndex].value.getAissmp();
-	aiQuaternion interpolateValue;
-	aiQuaternion::Interpolate(interpolateValue, startValue, endValue, factor);
-	return interpolateValue.Normalize();
+	Quaternion interpolateValue;
+	Quaternion::interpolate(interpolateValue, keyframe->rotationKeys[keyframe->currentRotationIndex].value, keyframe->rotationKeys[nextRotationIndex].value, factor);
+	return interpolateValue.normalize();
 }
 
 

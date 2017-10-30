@@ -11,12 +11,13 @@ public:
 	Quaternion();
 	~Quaternion ();
 	// constructor from values
+	Quaternion(const Quaternion& quaternion);
 	Quaternion(float x, float y, float z, float w);
 	// constructor from Assimp Quaternion
 	Quaternion(const aiQuaternion& assimpQuaternion);
 
 	// functions
-	void normalize();
+	Quaternion normalize();
 	glm::vec3 degrees();
 
 	// get functions
@@ -25,6 +26,8 @@ public:
 	// operators
 	Quaternion operator*(const Quaternion& right) const;
 	Quaternion operator*(const glm::vec3& vector) const;
+
+	static void interpolate(Quaternion& result, Quaternion startValue, Quaternion endValue, float factor);
 };
 
 #endif /* Quaternion_hpp */
