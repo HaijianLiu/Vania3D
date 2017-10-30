@@ -126,7 +126,7 @@ glm::quat RotateTowards(glm::quat q1, glm::quat q2, float maxAngle){
 
 	// q1 and q2 are already equal.
 	// Force q2 just to be sure
-	if(cosTheta > 0.9999f){
+	if(cosTheta > 0.9f){
 		return q2;
 	}
 
@@ -261,6 +261,7 @@ void Scene00::update() {
 		// input
 		// Compute the desired orientation
 	glm::vec3 desiredDir = this->front;
+//	float currentTimeDead;
 
 	if (currentFrame - this->lastAttack > 3.0) {
 		const float* input = game->input->axis();
@@ -270,19 +271,25 @@ void Scene00::update() {
 				int a = input[i] * 10;
 				axis[i] = a / 10.0;
 			}
+			std::cout << axis[0] << " : " << axis[1] << std::endl;
 			// std::cout << axis[0] << std::endl;
 			if (abs(axis[0]) > 0.5 || abs(axis[1]) > 0.5) {
 				this->position.x += 20 * axis[0] * deltaTime;
 				this->position.z += 20 * axis[1] * deltaTime;
-				desiredDir.x = input[0];
-				desiredDir.z = input[1];
+					desiredDir.x = input[0];
+					desiredDir.z = input[1];
+//					desiredDir = normalize(desiredDir);
+				
 				this->animation = 3;
 			}
 			else if (abs(axis[0]) > 0.0 || abs(axis[1]) > 0.0){
 				this->position.x += 10 * axis[0] * deltaTime;
 				this->position.z += 10 * axis[1] * deltaTime;
-				desiredDir.x = input[0];
-				desiredDir.z = input[1];
+				
+					desiredDir.x = input[0];
+					desiredDir.z = input[1];
+//					desiredDir = normalize(desiredDir);
+				
 				this->animation = 2;
 			}
 			else {
@@ -291,6 +298,9 @@ void Scene00::update() {
 		}
 
 	}
+
+
+
 
 	if (game->input->getJoystickTrigger(JOY_L1)) {
 		this->lastAttack = currentFrame;
@@ -306,17 +316,18 @@ void Scene00::update() {
 
 		// transform
 	glm::quat rotationQuat = RotationBetweenVectors(glm::vec3(0,0,1), desiredDir);
-//	glm::quat finalRotationQ = RotateTowards(this->lastRotation, rotationQuat, 5 * deltaTime);
-//	this->lastRotation = finalRotationQ;
-	glm::mat4 rotation = glm::mat4_cast(rotationQuat);
+	glm::quat finalRotationQ = RotateTowards(this->lastRotation, rotationQuat, 2*PI * deltaTime);
+	this->lastRotation = finalRotationQ;
+	glm::mat4 rotation = glm::mat4_cast(finalRotationQ);
+
+	this->lastRotation = finalRotationQ;
+		this->front = finalRotationQ * glm::vec3(0,0,1);
 	
-	this->lastRotation = rotationQuat;
-	this->front = desiredDir;
 
 //	if ( abs(finalRotationQ.w - rotationQuat.w) > 0.01) {
 //		this->front = finalRotationQ * this->front;
 //	}
-	
+
 
 
 		glm::mat4 scaling = glm::scale(glm::vec3(0.05f));
