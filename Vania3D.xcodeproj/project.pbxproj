@@ -40,6 +40,7 @@
 		604B57A61F98A251009DE302 /* Scene00.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57A41F98A251009DE302 /* Scene00.cpp */; };
 		604B57AC1F99C148009DE302 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57AA1F99C148009DE302 /* Material.cpp */; };
 		6067FB1C1FA1793A00F66769 /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6067FB1A1FA1793A00F66769 /* Vector.cpp */; };
+		6082F4AF1FA737C000B177DA /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4AE1FA737BF00B177DA /* Input.cpp */; };
 		6083D8651FA02BE700AF017C /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6083D8631FA02BE700AF017C /* Quaternion.cpp */; };
 		6083D8681FA0345400AF017C /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6083D8661FA0345400AF017C /* Matrix.cpp */; };
 		609F90701F9EFF2400238D61 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 609F906E1F9EFF2400238D61 /* Bone.cpp */; };
@@ -127,6 +128,8 @@
 		604B57AB1F99C148009DE302 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		6067FB1A1FA1793A00F66769 /* Vector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
 		6067FB1B1FA1793A00F66769 /* Vector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
+		6082F4AD1FA737BF00B177DA /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Input.hpp; sourceTree = "<group>"; };
+		6082F4AE1FA737BF00B177DA /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
 		6083D8631FA02BE700AF017C /* Quaternion.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quaternion.cpp; sourceTree = "<group>"; };
 		6083D8641FA02BE700AF017C /* Quaternion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		6083D8661FA0345400AF017C /* Matrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
@@ -241,6 +244,8 @@
 				604B57AB1F99C148009DE302 /* Material.hpp */,
 				60132DFB1FA38D5900E71962 /* Time.cpp */,
 				60132DFC1FA38D5900E71962 /* Time.hpp */,
+				6082F4AE1FA737BF00B177DA /* Input.cpp */,
+				6082F4AD1FA737BF00B177DA /* Input.hpp */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -389,6 +394,7 @@
 				604B579F1F973FBC009DE302 /* Quad.cpp in Sources */,
 				6083D8651FA02BE700AF017C /* Quaternion.cpp in Sources */,
 				60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */,
+				6082F4AF1FA737C000B177DA /* Input.cpp in Sources */,
 				604B57821F945A84009DE302 /* Model.cpp in Sources */,
 				604B57A61F98A251009DE302 /* Scene00.cpp in Sources */,
 				6067FB1C1FA1793A00F66769 /* Vector.cpp in Sources */,

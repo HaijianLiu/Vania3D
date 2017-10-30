@@ -75,6 +75,7 @@ class Component;
 < Engine >
 ------------------------------------------------------------------------------*/
 #include "Window.hpp"
+#include "Input.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
 #include "Skybox.hpp"
