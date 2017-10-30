@@ -34,7 +34,7 @@ Game::~Game() {
 void Game::start() {
 	this->resources->start();
 	this->renderPass->init(this->resources->getShader("renderPass"), 5);
-
+	this->input = Input::getInstance();
 	// create scene ????
 	this->sceneManager->add("Scene00", new Scene00());
 	this->sceneManager->setActiveScene("Scene00");

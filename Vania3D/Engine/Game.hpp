@@ -12,6 +12,7 @@ public:
 
 	Window* window;
 	Resources* resources;
+	Input* input;
 	SceneManager* sceneManager;
 	RenderPass* renderPass;
 

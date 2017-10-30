@@ -2,7 +2,7 @@
 #ifndef Input_hpp
 #define Input_hpp
 
-enum ps4Controller {
+enum PS4_CONTROLLER {
 	JOY_SQUARE, JOY_CROSS, JOY_CIRCLE, JOY_TRIANGLE,
 	JOY_L1, JOY_R1, JOY_L2, JOY_R2,
 	JOY_SHARE, JOY_OPTION,
@@ -17,20 +17,22 @@ private:
 	int joyButtonCount, joyEvent = GLFW_DISCONNECTED, joyConnect = 0;
 
 	Input();
-	~Input();
 
 	void updateJoystick(int button);
 
 public:
 	static Input* getInstance();
-	void keycallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	void joystickcallback(int joy, int event);
+	~Input();
 
-	// get button action
-	bool getButtonPress(int button);
-	bool getButtonTrigger(int button);
+	// joystick
+	void joystickcallback(int joy, int event);
 	bool getJoystickPress(int button);
 	bool getJoystickTrigger(int button);
+
+	// keyboard
+	void keycallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	bool getButtonPress(int button);
+	bool getButtonTrigger(int button);
 };
 
 #endif /* Input_hpp */
