@@ -94,31 +94,26 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 
 void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, Matrix4 parentTransformation) {
 
-	Matrix4 nodeTransformation;
-
 	if (keyframeNode->data) {
 		// Interpolate scaling and generate scaling transformation matrix
-		Vector3 scaling = calcInterpolatedScaling(keyframeNode->data);
+		boneNode->data->scaling = calcInterpolatedScaling(keyframeNode->data);
 		Matrix4 scalingMatrix;
-		scalingMatrix.setScaleTransform(scaling.x, scaling.y, scaling.z);
+		scalingMatrix.setScaleTransform(boneNode->data->scaling.x, boneNode->data->scaling.y, boneNode->data->scaling.z);
 
 		// Interpolate rotation and generate rotation transformation matrix
-		Quaternion rotation = calcInterpolatedRotation(keyframeNode->data);
-		Matrix4 rotationMatrix = Matrix4(rotation.getAissmp().GetMatrix());
+		boneNode->data->rotation = calcInterpolatedRotation(keyframeNode->data);
+		Matrix4 rotationMatrix = Matrix4(boneNode->data->rotation.getAissmp().GetMatrix());
 
 		// Interpolate translation and generate translation transformation matrix
-		Vector3 translation = calcInterpolatedPosition(keyframeNode->data);
+		boneNode->data->translation = calcInterpolatedPosition(keyframeNode->data);
 		Matrix4 translationMatrix;
-		translationMatrix.setTranslationTransform(translation.x, translation.y, translation.z);
+		translationMatrix.setTranslationTransform(boneNode->data->translation.x, boneNode->data->translation.y, boneNode->data->translation.z);
 
 		// Combine the above transformations
-		nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
-	}
-	else {
-		nodeTransformation = boneNode->data->nodeTransformation;
+		boneNode->data->nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
 	}
 
-	Matrix4 globalTransformation = parentTransformation * nodeTransformation;
+	Matrix4 globalTransformation = parentTransformation * boneNode->data->nodeTransformation;
 
 
 
