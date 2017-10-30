@@ -81,7 +81,6 @@ glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest){
 		rotationAxis.z * invs
 	);
 
-
 }
 
 
@@ -251,6 +250,7 @@ void Scene00::update() {
 	float currentFrame = glfwGetTime();
 	this->deltaTime = currentFrame - this->lastFrame;
 	this->lastFrame = currentFrame;
+	deltaTime > 1.0 ? 1.0 : deltaTime;
 
 // object
 	// shader
@@ -260,39 +260,65 @@ void Scene00::update() {
 
 		// input
 		// Compute the desired orientation
-	glm::vec3 desiredDir;
-	
-		const float* axis = game->input->axis();
-		if (axis != nullptr) {
+	glm::vec3 desiredDir = this->front;
+
+	if (currentFrame - this->lastAttack > 3.0) {
+		const float* input = game->input->axis();
+		float axis[6];
+		if (input != nullptr) {
+			for (int i = 0; i < 6; i++) {
+				int a = input[i] * 10;
+				axis[i] = a / 10.0;
+			}
 			// std::cout << axis[0] << std::endl;
-			if (abs(axis[0]) > 0.1 || abs(axis[1]) > 0.1) {
-				if (abs(axis[0]) > 0.1) {
-					this->position.x += 30 * axis[0] * deltaTime;
-				}
-				if (abs(axis[1]) > 0.1) {
-					this->position.z += 30 * axis[1] * deltaTime;
-				}
-				desiredDir.x = axis[0];
-				desiredDir.z = -axis[1];
-				this->front = -desiredDir;
+			if (abs(axis[0]) > 0.5 || abs(axis[1]) > 0.5) {
+				this->position.x += 20 * axis[0] * deltaTime;
+				this->position.z += 20 * axis[1] * deltaTime;
+				desiredDir.x = input[0];
+				desiredDir.z = input[1];
+				this->animation = 3;
+			}
+			else if (abs(axis[0]) > 0.0 || abs(axis[1]) > 0.0){
+				this->position.x += 10 * axis[0] * deltaTime;
+				this->position.z += 10 * axis[1] * deltaTime;
+				desiredDir.x = input[0];
+				desiredDir.z = input[1];
 				this->animation = 2;
-			} else {
-				desiredDir = -this->front;
+			}
+			else {
 				this->animation = 0;
 			}
-		} else {
-			desiredDir = -this->front;
 		}
-	
+
+	}
+
+	if (game->input->getJoystickTrigger(JOY_L1)) {
+		this->lastAttack = currentFrame;
+		this->animation = 4;
+	}
+
 	// Compute the desired orientation
 //	glm::quat targetOrientation = normalize(LookAt(desiredDir, desiredDir));
-	
+
 	// And interpolate
 //	glm::quat gOrientation2 = RotateTowards(gOrientation2, targetOrientation, 1.0 * deltaTime);
 
 
 		// transform
-	glm::mat4 rotation = glm::lookAt(glm::vec3(0, 0, 0), desiredDir, glm::vec3(0, 1, 0));
+	glm::quat rotationQuat = RotationBetweenVectors(glm::vec3(0,0,1), desiredDir);
+//	glm::quat finalRotationQ = RotateTowards(this->lastRotation, rotationQuat, 5 * deltaTime);
+//	this->lastRotation = finalRotationQ;
+	glm::mat4 rotation = glm::mat4_cast(rotationQuat);
+	
+	this->lastRotation = rotationQuat;
+	this->front = desiredDir;
+
+//	if ( abs(finalRotationQ.w - rotationQuat.w) > 0.01) {
+//		this->front = finalRotationQ * this->front;
+//	}
+	
+
+
 		glm::mat4 scaling = glm::scale(glm::vec3(0.05f));
 		glm::mat4 position = glm::translate(this->position);
 	glm::mat4 model = position * scaling * rotation;
@@ -309,10 +335,6 @@ void Scene00::update() {
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_roughness")->id);
 		// glActiveTexture(GL_TEXTURE4);
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_ao")->id);
-	if (glfwGetKey(game->window->window, GLFW_KEY_0) == GLFW_PRESS) this->animation = 0;
-	if (glfwGetKey(game->window->window, GLFW_KEY_1) == GLFW_PRESS) this->animation = 1;
-	if (glfwGetKey(game->window->window, GLFW_KEY_2) == GLFW_PRESS) this->animation = 2;
-	if (glfwGetKey(game->window->window, GLFW_KEY_3) == GLFW_PRESS) this->animation = 3;
 
 
 	game->resources->getModel("vampire")->updatePose(this->animation, currentFrame);
