@@ -86,6 +86,23 @@ bool Input::getJoystickTrigger(int button) {
 	else return false;
 }
 
+const float* Input::axis() {
+	if (this->joyEvent == GLFW_CONNECTED) {
+		int axesCount;
+		return glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
+		// std::cout << axesCount << '\n';
+		// std::cout << "Left  X : " << axes[0] << std::endl;
+		// std::cout << "Left  Y : " << axes[1] << std::endl;
+		// std::cout << "Right X : " << axes[2] << std::endl;
+		// std::cout << "Right X : " << axes[3] << std::endl;
+		// std::cout << "L2      : " << axes[4] << std::endl;
+		// std::cout << "R2      : " << axes[5] << std::endl;
+	}
+	else {
+		return nullptr;
+	}
+}
+
 void Input::updateJoystick(int button) {
 	if (this->joyEvent == GLFW_CONNECTED) {
 		const unsigned char* buttons = glfwGetJoystickButtons(this->joyConnect, &this->joyButtonCount);
@@ -99,14 +116,3 @@ void Input::updateJoystick(int button) {
 		}
 	}
 }
-
-
-
-// const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1,&count);
-// if (buttons[2] == GLFW_PRESS) {
-// 	 std::cout << "2 is press" << std::endl;
-// }
-// if (buttons[2] == GLFW_RELEASE) {
-// 	std::cout << "2 is release" << std::endl;
-// }
-//    std::cout << buttons[0] << std::endl;

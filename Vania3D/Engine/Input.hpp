@@ -29,6 +29,9 @@ public:
 	bool getJoystickPress(int button);
 	bool getJoystickTrigger(int button);
 
+
+	const float* axis();
+
 	// keyboard
 	void keycallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	bool getButtonPress(int button);
