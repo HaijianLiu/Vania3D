@@ -11,12 +11,12 @@ private:
 
 	void processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* node, Matrix4 parentTransformation);
 
-	Vector3 calcInterpolatedScaling(const Keyframe* keyframe);
-	Quaternion calcInterpolatedRotation(const Keyframe* keyframe);
-	Vector3 calcInterpolatedPosition(const Keyframe* keyframe);
-	unsigned int findScaling(const Keyframe* keyframe);
-	unsigned int findRotation(const Keyframe* keyframe);
-	unsigned int findPosition(const Keyframe* keyframe);
+	Vector3 calcInterpolatedScaling(Keyframe* keyframe);
+	Quaternion calcInterpolatedRotation(Keyframe* keyframe);
+	Vector3 calcInterpolatedPosition(Keyframe* keyframe);
+	void findScaling(Keyframe* keyframe);
+	void findRotation(Keyframe* keyframe);
+	void findPosition(Keyframe* keyframe);
 
 public:
 	// animation

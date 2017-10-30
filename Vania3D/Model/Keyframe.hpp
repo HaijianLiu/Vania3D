@@ -14,7 +14,9 @@ struct QuaternionKey {
 
 class Keyframe {
 public:
-	std::string nodeName;
+	unsigned int currentPositionIndex = 0;
+	unsigned int currentRotationIndex = 0;
+	unsigned int currentScalingIndex = 0;
 	std::vector<VectorKey> positionKeys;
 	std::vector<QuaternionKey> rotationKeys;
 	std::vector<VectorKey> scalingKeys;

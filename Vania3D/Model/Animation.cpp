@@ -158,68 +158,71 @@ void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNod
 }
 
 
-unsigned int Animation::findPosition(const Keyframe* keyframe) {
-	for (unsigned int i = 0 ; i < keyframe->positionKeys.size() - 1 ; i++) {
-		if (this->animationTimeInTicks < keyframe->positionKeys[i + 1].time) {
-			return i;
+void Animation::findPosition(Keyframe* keyframe) {
+	for (unsigned int i = keyframe->currentPositionIndex ; i < keyframe->positionKeys.size() - 1 ; i++) {
+		if (this->animationTimeInTicks >= keyframe->positionKeys[i].time && this->animationTimeInTicks < keyframe->positionKeys[i + 1].time) {
+			keyframe->currentPositionIndex = i;
+			return;
 		}
 	}
-	return 0;
+	keyframe->currentPositionIndex = 0;
 }
 
 
-unsigned int Animation::findRotation(const Keyframe* keyframe) {
-	for (unsigned int i = 0 ; i < keyframe->rotationKeys.size() - 1 ; i++) {
-		if (this->animationTimeInTicks < keyframe->rotationKeys[i + 1].time) {
-			return i;
+void Animation::findRotation(Keyframe* keyframe) {
+	for (unsigned int i = keyframe->currentRotationIndex ; i < keyframe->rotationKeys.size() - 1 ; i++) {
+		if (this->animationTimeInTicks >= keyframe->rotationKeys[i].time && this->animationTimeInTicks < keyframe->rotationKeys[i + 1].time) {
+			keyframe->currentRotationIndex = i;
+			return;
 		}
 	}
-	return 0;
+	keyframe->currentRotationIndex = 0;
 }
 
 
-unsigned int Animation::findScaling(const Keyframe* keyframe) {
-	for (unsigned int i = 0 ; i < keyframe->scalingKeys.size() - 1 ; i++) {
-		if (this->animationTimeInTicks < keyframe->scalingKeys[i + 1].time) {
-			return i;
+void Animation::findScaling(Keyframe* keyframe) {
+	for (unsigned int i = keyframe->currentScalingIndex ; i < keyframe->scalingKeys.size() - 1 ; i++) {
+		if (this->animationTimeInTicks >= keyframe->scalingKeys[i].time && this->animationTimeInTicks < keyframe->scalingKeys[i + 1].time) {
+			keyframe->currentScalingIndex = i;
+			return;
 		}
 	}
-	return 0;
+	keyframe->currentScalingIndex = 0;
 }
 
 
-Vector3 Animation::calcInterpolatedPosition(const Keyframe* keyframe) {
+Vector3 Animation::calcInterpolatedPosition(Keyframe* keyframe) {
 	// need at least two values to interpolate
 	if (keyframe->positionKeys.size() == 1) {
 		return keyframe->positionKeys[0].value;
 	}
 	// find current keyframe index
-	unsigned int currentPositionIndex = findPosition(keyframe);
-	unsigned int nextPositionIndex = (currentPositionIndex + 1);
+	findPosition(keyframe);
+	unsigned int nextPositionIndex = (keyframe->currentPositionIndex + 1);
 	// calculate blend factor
-	float deltaTime = keyframe->positionKeys[nextPositionIndex].time - keyframe->positionKeys[currentPositionIndex].time;
-	float factor = (this->animationTimeInTicks - keyframe->positionKeys[currentPositionIndex].time) / deltaTime;
+	float deltaTime = keyframe->positionKeys[nextPositionIndex].time - keyframe->positionKeys[keyframe->currentPositionIndex].time;
+	float factor = (this->animationTimeInTicks - keyframe->positionKeys[keyframe->currentPositionIndex].time) / deltaTime;
 	// interpolate transformation
-	Vector3 startValue = keyframe->positionKeys[currentPositionIndex].value;
+	Vector3 startValue = keyframe->positionKeys[keyframe->currentPositionIndex].value;
 	Vector3 endValue = keyframe->positionKeys[nextPositionIndex].value;
 	Vector3 deltaValue = endValue - startValue;
 	return startValue + factor * deltaValue;
 }
 
 
-Quaternion Animation::calcInterpolatedRotation(const Keyframe* keyframe) {
+Quaternion Animation::calcInterpolatedRotation(Keyframe* keyframe) {
 	// need at least two values to interpolate
 	if (keyframe->rotationKeys.size() == 1) {
 		return keyframe->rotationKeys[0].value;
 	}
 	// find current keyframe index
-	unsigned int currentRotationIndex = findRotation(keyframe);
-	unsigned int nextRotationIndex = (currentRotationIndex + 1);
+	findRotation(keyframe);
+	unsigned int nextRotationIndex = (keyframe->currentRotationIndex + 1);
 	// calculate blend factor
-	float DeltaTime = keyframe->rotationKeys[nextRotationIndex].time - keyframe->rotationKeys[currentRotationIndex].time;
-	float factor = (this->animationTimeInTicks - keyframe->rotationKeys[currentRotationIndex].time) / DeltaTime;
+	float deltaTime = keyframe->rotationKeys[nextRotationIndex].time - keyframe->rotationKeys[keyframe->currentRotationIndex].time;
+	float factor = (this->animationTimeInTicks - keyframe->rotationKeys[keyframe->currentRotationIndex].time) / deltaTime;
 	// interpolate transformation
-	aiQuaternion startValue = keyframe->rotationKeys[currentRotationIndex].value.getAissmp();
+	aiQuaternion startValue = keyframe->rotationKeys[keyframe->currentRotationIndex].value.getAissmp();
 	aiQuaternion endValue   = keyframe->rotationKeys[nextRotationIndex].value.getAissmp();
 	aiQuaternion interpolateValue;
 	aiQuaternion::Interpolate(interpolateValue, startValue, endValue, factor);
@@ -227,19 +230,19 @@ Quaternion Animation::calcInterpolatedRotation(const Keyframe* keyframe) {
 }
 
 
-Vector3 Animation::calcInterpolatedScaling(const Keyframe* keyframe) {
+Vector3 Animation::calcInterpolatedScaling(Keyframe* keyframe) {
 	// need at least two values to interpolate
 	if (keyframe->scalingKeys.size() == 1) {
 		return keyframe->scalingKeys[0].value;
 	}
 	// find current keyframe index
-	unsigned int currentScalingIndex = findScaling(keyframe);
-	unsigned int nextScalingIndex = (currentScalingIndex + 1);
+	findScaling(keyframe);
+	unsigned int nextScalingIndex = (keyframe->currentScalingIndex + 1);
 	// calculate blend factor
-	float deltaTime = keyframe->scalingKeys[nextScalingIndex].time - keyframe->scalingKeys[currentScalingIndex].time;
-	float factor = (this->animationTimeInTicks - keyframe->scalingKeys[currentScalingIndex].time) / deltaTime;
+	float deltaTime = keyframe->scalingKeys[nextScalingIndex].time - keyframe->scalingKeys[keyframe->currentScalingIndex].time;
+	float factor = (this->animationTimeInTicks - keyframe->scalingKeys[keyframe->currentScalingIndex].time) / deltaTime;
 	// interpolate transformation
-	Vector3 startValue = keyframe->scalingKeys[currentScalingIndex].value;
+	Vector3 startValue = keyframe->scalingKeys[keyframe->currentScalingIndex].value;
 	Vector3 endValue   = keyframe->scalingKeys[nextScalingIndex].value;
 	Vector3 deltaValue = endValue - startValue;
 	return startValue + factor * deltaValue;
