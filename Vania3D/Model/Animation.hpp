@@ -25,9 +25,6 @@ public:
 	// playback
 	float lastStartTimeInSeconds = 0;
 	float animationTimeInTicks = 0;
-	unsigned int currentPositionIndex = 0;
-	unsigned int currentScalingIndex = 0;
-	unsigned int currentRotationIndex = 0;
 	// blend
 	float blendTimeInSeconds = 1.0;
 
