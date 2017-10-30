@@ -92,7 +92,7 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 
 
 
-void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* node, Matrix4 parentTransformation) {
+void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, Matrix4 parentTransformation) {
 
 	Matrix4 nodeTransformation;
 
@@ -115,7 +115,7 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 		nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
 	}
 	else {
-		nodeTransformation = node->data->nodeTransformation;
+		nodeTransformation = boneNode->data->nodeTransformation;
 	}
 
 	Matrix4 globalTransformation = parentTransformation * nodeTransformation;
@@ -136,12 +136,12 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 
 
 	// set pose
-	if(node->data->haveBone) {
-		pose[node->data->index] = globalTransformation * node->data->offset;
+	if(boneNode->data->haveBone) {
+		pose[boneNode->data->index] = globalTransformation * boneNode->data->offset;
 	}
 
 	for (unsigned int i = 0 ; i < keyframeNode->children.size() ; i++) {
-		this->processPose(pose, keyframeNode->children[i], node->children[i], globalTransformation);
+		this->processPose(pose, keyframeNode->children[i], boneNode->children[i], globalTransformation);
 	}
 }
 

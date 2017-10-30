@@ -4,10 +4,10 @@
 
 class Model {
 private:
-	Node<Bone>* rootNode;
+	Node<Bone>* boneNode;
 	std::vector<Mesh*> meshes;
 	std::vector<Animation*> animations;
-	
+
 	unsigned int currentAnimation = 0;
 
 	// loads a model with supported assimp extensions from file and stores the resulting data

@@ -13,7 +13,7 @@ Model::Model(const char* path) {
 < Destructor >
 ------------------------------------------------------------------------------*/
 Model::~Model() {
-	delete this->rootNode;
+	delete this->boneNode;
 	deleteVector(this->meshes);
 }
 
@@ -30,7 +30,7 @@ void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
 		this->currentAnimation = animationIndex;
 	}
 
-	this->animations[animationIndex]->updatePose(this->pose, this->rootNode, timeInSeconds);
+	this->animations[animationIndex]->updatePose(this->pose, this->boneNode, timeInSeconds);
 }
 
 
@@ -66,10 +66,10 @@ void Model::load(const char* path) {
 	}
 
 	// process assimp root node recursively
-	this->rootNode = new Node<Bone>(aiscene->mRootNode->mName.data);
-	this->rootNode->data = new Bone();
-	this->rootNode->data->nodeTransformation = aiscene->mRootNode->mTransformation;
-	this->processNode(aiscene->mRootNode, this->rootNode, aiscene);
+	this->boneNode = new Node<Bone>(aiscene->mRootNode->mName.data);
+	this->boneNode->data = new Bone();
+	this->boneNode->data->nodeTransformation = aiscene->mRootNode->mTransformation;
+	this->processNode(aiscene->mRootNode, this->boneNode, aiscene);
 }
 
 
