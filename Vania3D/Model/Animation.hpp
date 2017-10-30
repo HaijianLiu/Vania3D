@@ -28,6 +28,7 @@ public:
 	float animationTimeInTicks = 0;
 	// blend
 	float blendTimeInSeconds = 1.0;
+	float blendFactor = 1.0;
 
 	Animation(const char* path);
 	~Animation();

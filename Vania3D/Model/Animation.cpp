@@ -94,7 +94,7 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 
 void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, Matrix4 parentTransformation) {
 
-	if (keyframeNode->data) {
+	if (keyframeNode->data && this->blendFactor >= 1.0) {
 		// Interpolate scaling and generate scaling transformation matrix
 		boneNode->data->scaling = calcInterpolatedScaling(keyframeNode->data);
 		Matrix4 scalingMatrix;
@@ -113,22 +113,31 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 		boneNode->data->nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
 	}
 
+	if (keyframeNode->data && this->blendFactor < 1.0) {
+		// Interpolate scaling and generate scaling transformation matrix
+		Vector3 scaling = calcInterpolatedScaling(keyframeNode->data);
+		boneNode->data->scaling = boneNode->data->scaling + this->blendFactor * (scaling - boneNode->data->scaling);
+		Matrix4 scalingMatrix;
+		scalingMatrix.setScaleTransform(boneNode->data->scaling.x, boneNode->data->scaling.y, boneNode->data->scaling.z);
+
+		// Interpolate rotation and generate rotation transformation matrix
+		Quaternion rotation = calcInterpolatedRotation(keyframeNode->data);
+		aiQuaternion interpolateValue;
+		aiQuaternion::Interpolate(interpolateValue, boneNode->data->rotation.getAissmp(), rotation.getAissmp(), this->blendFactor);
+		boneNode->data->rotation = interpolateValue.Normalize();
+		Matrix4 rotationMatrix = Matrix4(boneNode->data->rotation.getAissmp().GetMatrix());
+
+		// Interpolate translation and generate translation transformation matrix
+		Vector3 translation = calcInterpolatedPosition(keyframeNode->data);
+		boneNode->data->translation = boneNode->data->translation + this->blendFactor * (translation - boneNode->data->translation);
+		Matrix4 translationMatrix;
+		translationMatrix.setTranslationTransform(boneNode->data->translation.x, boneNode->data->translation.y, boneNode->data->translation.z);
+
+		// Combine the above transformations
+		boneNode->data->nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
+	}
+
 	Matrix4 globalTransformation = parentTransformation * boneNode->data->nodeTransformation;
-
-
-
-
-
-
-	// animation blending
-//	float blendFactor = (timeInSeconds - lastStartTimeInSeconds) / this->blendTimeInSeconds;
-//	blendFactor > 1.0 ? blendFactor : 1.0;
-//
-//	aiMatrix4x4 x1, x2;
-//	x1 = x1 - x2;
-
-
-
 
 	// set pose
 	if(boneNode->data->haveBone) {
@@ -145,6 +154,10 @@ void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNod
 	timeInSeconds = timeInSeconds - lastStartTimeInSeconds; // animation always starts from the beginning
 	float timeInTicks = timeInSeconds * this->ticksPerSecond;
 	this->animationTimeInTicks = fmod(timeInTicks, this->duration);
+
+	// animation blending
+	this->blendFactor = timeInSeconds/ this->blendTimeInSeconds;
+	this->blendFactor > 1.0 ? 1.0 : this->blendFactor;
 
 	/* for mixamo models */
 	this->processPose(pose, this->keyframeNode, rootNode, Matrix4::identity());
