@@ -20,7 +20,7 @@ private:
 	void load(const char* path);
 	void processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, const aiScene* aiscene);
 	// update pose
-	void processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, Matrix4 parentTransformation);
+	void processPose(std::vector<glm::mat4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, glm::mat4 parentTransformation);
 	// animation
 	void findScaling(Keyframe* keyframe);
 	void findRotation(Keyframe* keyframe);
@@ -33,7 +33,7 @@ public:
 	Animation(const char* path);
 	~Animation();
 	// update model pose data according to time in seconds
-	void updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNode, float timeInSeconds);
+	void updatePose(std::vector<glm::mat4>& pose, const Node<Bone>* rootNode, float timeInSeconds);
 	// restart animation from beginning
 	void reset(float timeInSeconds);
 };

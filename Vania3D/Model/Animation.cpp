@@ -20,7 +20,7 @@ Animation::~Animation() {
 /*------------------------------------------------------------------------------
 < update pose >
 ------------------------------------------------------------------------------*/
-void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNode, float timeInSeconds) {
+void Animation::updatePose(std::vector<glm::mat4>& pose, const Node<Bone>* rootNode, float timeInSeconds) {
 	timeInSeconds = timeInSeconds - lastStartTimeInSeconds; // animation always starts from the beginning
 	float timeInTicks = timeInSeconds * this->ticksPerSecond;
 	this->animationTimeInTicks = fmod(timeInTicks, this->duration);
@@ -29,7 +29,7 @@ void Animation::updatePose(std::vector<Matrix4>& pose, const Node<Bone>* rootNod
 	this->blendFactor = timeInSeconds / this->blendTimeInSeconds;
 
 	/* for mixamo models */
-	this->processPose(pose, this->keyframeNode, rootNode, Matrix4::identity());
+	this->processPose(pose, this->keyframeNode, rootNode, glm::mat4(1.0));
 	/* for unreal engine models */
 	// this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
 }
@@ -120,13 +120,12 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 < process pose >
 go through the keyframe node tree
 -----------------------------------------------------------------------------*/
-void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, Matrix4 parentTransformation) {
+void Animation::processPose(std::vector<glm::mat4>& pose, Node<Keyframe>* keyframeNode, const Node<Bone>* boneNode, glm::mat4 parentTransformation) {
 
 	if (keyframeNode->data && this->blendFactor >= 1.0) {
 		// Interpolate scaling and generate scaling transformation matrix
 		boneNode->data->scaling = calcInterpolatedScaling(keyframeNode->data);
-		Matrix4 scalingMatrix;
-		scalingMatrix.setScaleTransform(boneNode->data->scaling.x, boneNode->data->scaling.y, boneNode->data->scaling.z);
+		glm::mat4 scalingMatrix = scale(boneNode->data->scaling);
 
 		// Interpolate rotation and generate rotation transformation matrix
 		boneNode->data->rotation = calcInterpolatedRotation(keyframeNode->data);
@@ -135,12 +134,11 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 		temp.y = boneNode->data->rotation.y;
 		temp.z = boneNode->data->rotation.z;
 		temp.w = boneNode->data->rotation.w;
-		Matrix4 rotationMatrix = Matrix4(temp.GetMatrix());
+		glm::mat4 rotationMatrix = assignment(temp.GetMatrix());
 
 		// Interpolate translation and generate translation transformation matrix
 		boneNode->data->translation = calcInterpolatedPosition(keyframeNode->data);
-		Matrix4 translationMatrix;
-		translationMatrix.setTranslationTransform(boneNode->data->translation.x, boneNode->data->translation.y, boneNode->data->translation.z);
+		glm::mat4 translationMatrix = translate(boneNode->data->translation);
 
 		// Combine the above transformations
 		boneNode->data->nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
@@ -150,8 +148,7 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 		// Interpolate scaling and generate scaling transformation matrix
 		glm::vec3 scaling = calcInterpolatedScaling(keyframeNode->data);
 		boneNode->data->scaling = boneNode->data->scaling + this->blendFactor * (scaling - boneNode->data->scaling);
-		Matrix4 scalingMatrix;
-		scalingMatrix.setScaleTransform(boneNode->data->scaling.x, boneNode->data->scaling.y, boneNode->data->scaling.z);
+		glm::mat4 scalingMatrix = scale(boneNode->data->scaling);
 
 		// Interpolate rotation and generate rotation transformation matrix
 		glm::quat rotation = calcInterpolatedRotation(keyframeNode->data);
@@ -162,19 +159,18 @@ void Animation::processPose(std::vector<Matrix4>& pose, Node<Keyframe>* keyframe
 		temp.y = boneNode->data->rotation.y;
 		temp.z = boneNode->data->rotation.z;
 		temp.w = boneNode->data->rotation.w;
-		Matrix4 rotationMatrix = Matrix4(temp.GetMatrix());
+		glm::mat4 rotationMatrix = assignment(temp.GetMatrix());
 
 		// Interpolate translation and generate translation transformation matrix
 		glm::vec3 translation = calcInterpolatedPosition(keyframeNode->data);
 		boneNode->data->translation = boneNode->data->translation + this->blendFactor * (translation - boneNode->data->translation);
-		Matrix4 translationMatrix;
-		translationMatrix.setTranslationTransform(boneNode->data->translation.x, boneNode->data->translation.y, boneNode->data->translation.z);
+		glm::mat4 translationMatrix = glm::translate(boneNode->data->translation);
 
 		// Combine the above transformations
 		boneNode->data->nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
 	}
 
-	Matrix4 globalTransformation = parentTransformation * boneNode->data->nodeTransformation;
+	glm::mat4 globalTransformation = parentTransformation * boneNode->data->nodeTransformation;
 
 	// set pose
 	if(boneNode->data->haveBone) {

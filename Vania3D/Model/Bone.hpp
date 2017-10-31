@@ -7,11 +7,11 @@ public:
 	// bone info
 	bool haveBone = false;
 	unsigned int index;
-	Matrix4 nodeTransformation;
-	Matrix4 offset;
+	glm::mat4 nodeTransformation;
+	glm::mat4 offset;
 
 	// animation transform
-	Matrix4 finalTransformation;
+	glm::mat4 finalTransformation;
 	glm::vec3 scaling;
 	glm::quat rotation;
 	glm::vec3 translation;
@@ -19,7 +19,7 @@ public:
 	Bone();
 	~Bone ();
 	// constructor from values
-	Bone(unsigned int index, Matrix4 offset);
+	Bone(unsigned int index, glm::mat4 offset);
 };
 
 #endif /* Bone_hpp */

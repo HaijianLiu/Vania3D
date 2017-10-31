@@ -351,10 +351,10 @@ void Scene00::update() {
 	game->resources->getModel("vampire")->updatePose(this->animation, currentFrame);
 
 
-	std::vector<Matrix4> Transforms = game->resources->getModel("vampire")->pose;
+	std::vector<glm::mat4> Transforms = game->resources->getModel("vampire")->pose;
 		// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
 		for (uint i = 0 ; i < Transforms.size() ; i++) {
-			glm::mat4 boneTransform = Transforms[i].getGLM();
+			glm::mat4 boneTransform = Transforms[i];
 
 				game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
 		}

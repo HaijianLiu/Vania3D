@@ -16,7 +16,7 @@ private:
 	void createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
-	std::vector<Matrix4> pose;
+	std::vector<glm::mat4> pose;
 
 	Model(const char* path);
 	~Model();

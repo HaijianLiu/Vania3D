@@ -10,3 +10,23 @@ glm::vec3 assignment(const aiVector3D& assimpVector) {
 glm::quat assignment(const aiQuaternion& assimpQuaternion) {
 	return glm::quat(assimpQuaternion.w, assimpQuaternion.x, assimpQuaternion.y, assimpQuaternion.z);
 }
+
+glm::mat4 assignment(const aiMatrix4x4& assimpMatrix) {
+	glm::mat4 result = {
+		assimpMatrix.a1, assimpMatrix.b1, assimpMatrix.c1, assimpMatrix.d1,
+		assimpMatrix.a2, assimpMatrix.b2, assimpMatrix.c2, assimpMatrix.d2,
+		assimpMatrix.a3, assimpMatrix.b3, assimpMatrix.c3, assimpMatrix.d3,
+		assimpMatrix.a4, assimpMatrix.b4, assimpMatrix.c4, assimpMatrix.d4
+	};
+	return result;
+}
+
+glm::mat4 assignment(const aiMatrix3x3& assimpMatrix) {
+	glm::mat4 result = {
+		assimpMatrix.a1, assimpMatrix.b1, assimpMatrix.c1, 0.0,
+		assimpMatrix.a2, assimpMatrix.b2, assimpMatrix.c2, 0.0,
+		assimpMatrix.a3, assimpMatrix.b3, assimpMatrix.c3, 0.0,
+		            0.0,             0.0,             0.0, 1.0
+	};
+	return result;
+}

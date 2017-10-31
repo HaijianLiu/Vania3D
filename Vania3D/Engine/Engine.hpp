@@ -67,11 +67,6 @@ class Game;
 class SceneManager;
 class Component;
 
-/*------------------------------------------------------------------------------
-< Engine >
-------------------------------------------------------------------------------*/
-#include "Matrix.hpp"
-
 
 /*------------------------------------------------------------------------------
 < Engine >
@@ -152,5 +147,7 @@ template <typename T> void deleteVectorMap(T map) {
 ------------------------------------------------------------------------------*/
 glm::vec3 assignment(const aiVector3D& assimpVector);
 glm::quat assignment(const aiQuaternion& assimpQuaternion);
+glm::mat4 assignment(const aiMatrix4x4& assimpMatrix);
+glm::mat4 assignment(const aiMatrix3x3& assimpMatrix);
 
 #endif /* Engine_hpp */

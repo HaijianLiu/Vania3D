@@ -68,7 +68,7 @@ void Model::load(const char* path) {
 	// process assimp root node recursively
 	this->boneNode = new Node<Bone>(aiscene->mRootNode->mName.data);
 	this->boneNode->data = new Bone();
-	this->boneNode->data->nodeTransformation = aiscene->mRootNode->mTransformation;
+	this->boneNode->data->nodeTransformation = assignment(aiscene->mRootNode->mTransformation);
 	this->processNode(aiscene->mRootNode, this->boneNode, aiscene);
 }
 
@@ -88,13 +88,13 @@ void Model::processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene
 		this->createMesh(mesh, aiscene);
 	}
 	// save the node heirarchy and all the transformation matrices and names
-	node->data->nodeTransformation = ainode->mTransformation;
+	node->data->nodeTransformation = assignment(ainode->mTransformation);
 	// only support one mesh model !
 	for (unsigned int i = 0; i < aiscene->mMeshes[0]->mNumBones; i ++) {
 		if (node->name == aiscene->mMeshes[0]->mBones[i]->mName.data) {
 			node->data->haveBone = true;
 			node->data->index = i;
-			node->data->offset = aiscene->mMeshes[0]->mBones[i]->mOffsetMatrix;
+			node->data->offset = assignment(aiscene->mMeshes[0]->mBones[i]->mOffsetMatrix);
 			break;
 		}
 	}
@@ -180,9 +180,10 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 		if (boneMapping.find(boneName) == boneMapping.end()) {
 			boneIndex = counter;
 			counter++;
-			Bone bone = Bone(boneIndex, mesh->mBones[i]->mOffsetMatrix);
+			glm::mat4 offset = assignment(mesh->mBones[i]->mOffsetMatrix);
+			Bone bone = Bone(boneIndex, offset);
 			boneMapping[boneName] = bone;
-			this->pose.push_back(Matrix4::identity());
+			this->pose.push_back(glm::mat4(1.0));
 		}
 		else {
 			boneIndex = boneMapping[boneName].index;

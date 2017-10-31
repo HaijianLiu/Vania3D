@@ -20,7 +20,7 @@ Bone::~Bone () {
 /*------------------------------------------------------------------------------
 < Constructor from values >
 ------------------------------------------------------------------------------*/
-Bone::Bone(unsigned int index, Matrix4 offset) {
+Bone::Bone(unsigned int index, glm::mat4 offset) {
 	this->index = index;
 	this->offset = offset;
 }
