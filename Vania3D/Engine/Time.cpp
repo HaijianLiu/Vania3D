@@ -8,7 +8,6 @@ Time::Time() {
 
 }
 
-
 Time* Time::getInstance() {
 	static Time* time = new Time();
 	return time;
@@ -29,6 +28,7 @@ Time::~Time() {
 void Time::update() {
 	this->currentTime = glfwGetTime();
 	this->deltaTime = this->currentTime - this->lastTime;
-	this->deltaTime > 0.04f ? 0.032f : this->deltaTime = 0.032f; // 30 FPS lastest
+	this->deltaTime > 0.032 ? 0.032 : this->deltaTime; // 30 FPS lastest
 	this->lastTime = this->currentTime;
+	// std::cout << this->deltaTime << '\n';
 }

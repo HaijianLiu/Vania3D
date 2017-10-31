@@ -13,8 +13,8 @@ void joystickCallback(int joy, int event) {
 }
 
 Input* Input::getInstance() {
-	static Input instance;
-	return &instance;
+	static Input* instance = new Input();
+	return instance;
 }
 
 void Input::keycallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -72,6 +72,7 @@ bool Input::getButtonTrigger(int button) {
 	}
 	else return false;
 }
+
 
 bool Input::getJoystickPress(int button) {
 	this->updateJoystick(button);

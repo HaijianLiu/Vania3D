@@ -160,13 +160,6 @@ void Scene00::start() {
 void Scene00::update() {
 	Game* game = Game::getInstance();
 
-	/* time */
-	// per-frame time logic
-	float currentFrame = glfwGetTime();
-	this->deltaTime = currentFrame - this->lastFrame;
-	this->lastFrame = currentFrame;
-	deltaTime > 1.0 ? 1.0 : deltaTime;
-
 
 	// shader
 	game->resources->getShader("deferredPBRforUEmask")->use();
@@ -181,7 +174,7 @@ void Scene00::update() {
 
 
 //	controll
-	if (currentFrame - this->lastAttack > 3.0) {
+	if (game->time->currentTime - this->lastAttack > 3.0) {
 		const float* input = game->input->axis();
 		float axis[6];
 		if (input != nullptr) {
@@ -192,8 +185,8 @@ void Scene00::update() {
 			std::cout << axis[0] << " : " << axis[1] << std::endl;
 			// std::cout << axis[0] << std::endl;
 			if (abs(axis[0]) > 0.6 || abs(axis[1]) > 0.6) {
-				this->transform->position.x += 20 * axis[0] * deltaTime;
-				this->transform->position.z += 20 * axis[1] * deltaTime;
+				this->transform->position.x += 20 * axis[0] * game->time->deltaTime;
+				this->transform->position.z += 20 * axis[1] * game->time->deltaTime;
 					desiredDir.x = input[0];
 					desiredDir.z = input[1];
 					desiredDir = glm::normalize(desiredDir);
@@ -201,8 +194,8 @@ void Scene00::update() {
 				this->animation = 3;
 			}
 			else if (abs(axis[0]) > 0.0 || abs(axis[1]) > 0.0){
-				this->transform->position.x += 10 * axis[0] * deltaTime;
-				this->transform->position.z += 10 * axis[1] * deltaTime;
+				this->transform->position.x += 10 * axis[0] * game->time->deltaTime;
+				this->transform->position.z += 10 * axis[1] * game->time->deltaTime;
 
 					desiredDir.x = input[0];
 					desiredDir.z = input[1];
@@ -218,12 +211,12 @@ void Scene00::update() {
 	}
 
 	if (game->input->getJoystickTrigger(JOY_L1)) {
-		this->lastAttack = currentFrame;
+		this->lastAttack = game->time->currentTime;
 		this->animation = 4;
 	}
 
 		// player
-	this->transform->rotate(desiredDir, 2*PI * deltaTime);
+	this->transform->rotate(desiredDir, 2 * PI * game->time->deltaTime);
 
 	this->transform->update();
 
@@ -245,7 +238,7 @@ void Scene00::update() {
 		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_ao")->id);
 
 
-	game->resources->getModel("vampire")->updatePose(this->animation, currentFrame);
+	game->resources->getModel("vampire")->updatePose(this->animation, game->time->currentTime);
 
 
 	std::vector<glm::mat4> Transforms = game->resources->getModel("vampire")->pose;
@@ -265,5 +258,5 @@ void Scene00::update() {
 
 
 
-	this->camera->updateInput(game->window->window, this->deltaTime);
+	this->camera->updateInput(game->window->window, game->time->deltaTime);
 }

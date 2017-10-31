@@ -5,12 +5,7 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 Game::Game() {
-	this->window = new Window("vania", SCREEN_WIDTH, SCREEN_HEIGHT);
-	this->resources = Resources::getInstance();
-	this->sceneManager = new SceneManager();
-	this->renderPass = new RenderPass();
-	this->time = Time::getInstance();
-	this->input = Input::getInstance();
+	
 }
 
 Game* Game::getInstance() {
@@ -36,10 +31,21 @@ Game::~Game() {
 < start >
 ------------------------------------------------------------------------------*/
 void Game::start() {
+	/* create objects */
+	this->window = new Window("vania", SCREEN_WIDTH, SCREEN_HEIGHT);
+	this->resources = Resources::getInstance();
+	this->sceneManager = new SceneManager();
+	this->renderPass = new RenderPass();
+	this->time = Time::getInstance();
+	this->input = Input::getInstance();
+
+	/* start */
+	// resources
 	this->resources->start();
+	// render pass
 	this->renderPass->init(this->resources->getShader("renderPass"), 5);
-	// create scene ????
-	this->sceneManager->add("Scene00", new Scene00());
+	// scene manager ????
+	this->sceneManager->add("Scene00", new Scene00()); // default scene00
 	this->sceneManager->setActiveScene("Scene00");
 }
 
@@ -48,7 +54,7 @@ void Game::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Game::update() {
-	// inorder
+	// keep in order
 	this->time->update();
 	this->renderPass->begin();
 	this->sceneManager->update();

@@ -18,24 +18,14 @@ SceneManager::~SceneManager() {
 
 
 /*------------------------------------------------------------------------------
-< start >
-------------------------------------------------------------------------------*/
-void SceneManager::start() {
-	this->scenes[this->currentScene]->start();
-}
-
-
-/*------------------------------------------------------------------------------
 < update >
 ------------------------------------------------------------------------------*/
 void SceneManager::update() {
-	if (this->scenes.find(this->currentScene) != this->scenes.end()) {
-		if (this->scenes[this->currentScene]->started) {
-			this->scenes[this->currentScene]->update();
-		} else {
-			this->scenes[this->currentScene]->start();
-			this->scenes[this->currentScene]->started = true;
-		}
+	if (this->scenes[this->currentScene]->started) {
+		this->scenes[this->currentScene]->update();
+	} else {
+		this->scenes[this->currentScene]->start();
+		this->scenes[this->currentScene]->started = true;
 	}
 }
 
@@ -52,6 +42,5 @@ void SceneManager::add(const char* name, Scene* scene) {
 < set active scene >
 ------------------------------------------------------------------------------*/
 void SceneManager::setActiveScene(const char* name) {
-	// this->scenes[this->currentScene]->reset();
 	this->currentScene = name;
 }
