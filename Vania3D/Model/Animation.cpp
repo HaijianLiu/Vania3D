@@ -129,12 +129,7 @@ void Animation::processPose(std::vector<glm::mat4>& pose, Node<Keyframe>* keyfra
 
 		// Interpolate rotation and generate rotation transformation matrix
 		boneNode->data->rotation = calcInterpolatedRotation(keyframeNode->data);
-		aiQuaternion temp;
-		temp.x = boneNode->data->rotation.x;
-		temp.y = boneNode->data->rotation.y;
-		temp.z = boneNode->data->rotation.z;
-		temp.w = boneNode->data->rotation.w;
-		glm::mat4 rotationMatrix = assignment(temp.GetMatrix());
+		glm::mat4 rotationMatrix = glm::mat4_cast(boneNode->data->rotation);
 
 		// Interpolate translation and generate translation transformation matrix
 		boneNode->data->translation = calcInterpolatedPosition(keyframeNode->data);
@@ -154,12 +149,7 @@ void Animation::processPose(std::vector<glm::mat4>& pose, Node<Keyframe>* keyfra
 		glm::quat rotation = calcInterpolatedRotation(keyframeNode->data);
 		glm::quat interpolateValue = glm::slerp(boneNode->data->rotation, rotation, this->blendFactor);
 		boneNode->data->rotation = glm::normalize(interpolateValue);
-		aiQuaternion temp;
-		temp.x = boneNode->data->rotation.x;
-		temp.y = boneNode->data->rotation.y;
-		temp.z = boneNode->data->rotation.z;
-		temp.w = boneNode->data->rotation.w;
-		glm::mat4 rotationMatrix = assignment(temp.GetMatrix());
+		glm::mat4 rotationMatrix = glm::mat4_cast(boneNode->data->rotation);
 
 		// Interpolate translation and generate translation transformation matrix
 		glm::vec3 translation = calcInterpolatedPosition(keyframeNode->data);
