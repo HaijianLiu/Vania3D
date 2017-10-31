@@ -21,6 +21,12 @@ private:
 	void updateJoystick(int button);
 
 public:
+	// controller properties
+	float gravity; // speed in units per second that the axis falls toward neutral when no buttons are pressed
+	float dead; // size of the analog dead zone, all analog device values within this range result map to neutral
+	float sensitivity; // speed in units per second that the the axis will move toward the target value, this is for digital devices only
+	float snap // if enabled, the axis value will reset to zero when pressing a button of the opposite direction
+
 	static Input* getInstance();
 	~Input();
 
