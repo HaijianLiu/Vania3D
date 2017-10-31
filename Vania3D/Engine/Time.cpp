@@ -9,6 +9,12 @@ Time::Time() {
 }
 
 
+Time* Time::getInstance() {
+	static Time* time = new Time();
+	return time;
+}
+
+
 /*------------------------------------------------------------------------------
 < Destructor >
 ------------------------------------------------------------------------------*/
@@ -18,44 +24,11 @@ Time::~Time() {
 
 
 /*------------------------------------------------------------------------------
-< start >
-------------------------------------------------------------------------------*/
-void Time::start() {
-	this->lastTime = glfwGetTime();
-}
-
-
-/*------------------------------------------------------------------------------
-< set >
-------------------------------------------------------------------------------*/
-// in a game loop but not in FPS check loop
-void Time::setTime() {
-	this->currentTime = glfwGetTime();
-}
-
-
-/*------------------------------------------------------------------------------
 < update >
 ------------------------------------------------------------------------------*/
-// in FPS check loop
 void Time::update() {
 	this->currentTime = glfwGetTime();
 	this->deltaTime = this->currentTime - this->lastTime;
-	if (this->deltaTime > 0.04f) {
-		this->deltaTime = 0.032f;
-	}
+	this->deltaTime > 0.04f ? 0.032f : this->deltaTime = 0.032f; // 30 FPS lastest
 	this->lastTime = this->currentTime;
-}
-
-
-/*------------------------------------------------------------------------------
-< checkFPS >
-------------------------------------------------------------------------------*/
-bool Time::checkFPS(int frameRate) {
-	if (this->currentTime - this->lastTime >= 1.0f / frameRate) {
-		return true;
-	}
-	else {
-		return false;
-	}
 }

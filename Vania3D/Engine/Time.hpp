@@ -6,16 +6,16 @@ class Time {
 private:
 	float lastTime = 0;
 
+	Time();
+
 public:
 	float currentTime = 0;
 	float deltaTime = 0;
 
-	Time();
+	static Time* getInstance();
 	~Time();
 
-	void start();
-	void setTime();
 	void update();
-	bool checkFPS(int frameRate);
 };
+
 #endif /* Time_hpp */

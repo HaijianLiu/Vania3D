@@ -85,7 +85,6 @@
 		60132DFC1FA38D5900E71962 /* Time.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
 		602434281F88D89200DA6CA4 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
 		602434291F88D89200DA6CA4 /* Window.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
-		6024342A1F88D89200DA6CA4 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		6024342B1F88D89200DA6CA4 /* Engine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Engine.hpp; sourceTree = "<group>"; };
 		6024342C1F88D89200DA6CA4 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		6024342F1F88DA2300DA6CA4 /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
@@ -172,7 +171,6 @@
 				600709FD1F88C49A00AE4BEB /* main.cpp */,
 				604B578F1F95FA63009DE302 /* Component */,
 				602434271F88D86400DA6CA4 /* Engine */,
-				6083D8621FA02BD400AF017C /* Math */,
 				604B57991F973F70009DE302 /* Mesh */,
 				602DDFD11FA05F1800D64A7C /* Model */,
 				604B57A01F98908C009DE302 /* Scene */,
@@ -210,7 +208,6 @@
 			children = (
 				602434281F88D89200DA6CA4 /* Engine.cpp */,
 				6024342B1F88D89200DA6CA4 /* Engine.hpp */,
-				6024342A1F88D89200DA6CA4 /* stb_image.h */,
 				6024342C1F88D89200DA6CA4 /* Window.cpp */,
 				602434291F88D89200DA6CA4 /* Window.hpp */,
 				6024342F1F88DA2300DA6CA4 /* Shader.cpp */,
@@ -293,13 +290,6 @@
 				604B57A51F98A251009DE302 /* Scene00.hpp */,
 			);
 			path = Scene;
-			sourceTree = "<group>";
-		};
-		6083D8621FA02BD400AF017C /* Math */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Math;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -542,6 +532,7 @@
 					./Frameworks/glew/inc,
 					./Frameworks/glm/inc,
 					./Frameworks/assimp/inc,
+					./Frameworks/stb/inc,
 				);
 				INFOPLIST_FILE = Cocoa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -580,6 +571,7 @@
 					./Frameworks/glew/inc,
 					./Frameworks/glm/inc,
 					./Frameworks/assimp/inc,
+					./Frameworks/stb/inc,
 				);
 				INFOPLIST_FILE = Cocoa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

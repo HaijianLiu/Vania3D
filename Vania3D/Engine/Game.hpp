@@ -15,6 +15,7 @@ public:
 	Input* input;
 	SceneManager* sceneManager;
 	RenderPass* renderPass;
+	Time* time;
 
 	void start();
 	void update();

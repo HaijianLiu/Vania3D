@@ -9,6 +9,8 @@ Game::Game() {
 	this->resources = Resources::getInstance();
 	this->sceneManager = new SceneManager();
 	this->renderPass = new RenderPass();
+	this->time = Time::getInstance();
+	this->input = Input::getInstance();
 }
 
 Game* Game::getInstance() {
@@ -25,6 +27,8 @@ Game::~Game() {
 	delete this->resources;
 	delete this->sceneManager;
 	delete this->renderPass;
+	delete this->time;
+	delete this->input;
 }
 
 
@@ -34,7 +38,6 @@ Game::~Game() {
 void Game::start() {
 	this->resources->start();
 	this->renderPass->init(this->resources->getShader("renderPass"), 5);
-	this->input = Input::getInstance();
 	// create scene ????
 	this->sceneManager->add("Scene00", new Scene00());
 	this->sceneManager->setActiveScene("Scene00");
@@ -45,6 +48,8 @@ void Game::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Game::update() {
+	// inorder
+	this->time->update();
 	this->renderPass->begin();
 	this->sceneManager->update();
 	this->renderPass->end();
