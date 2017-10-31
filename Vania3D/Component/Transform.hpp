@@ -4,20 +4,14 @@
 
 class Transform {
 public:
-	// original transformations
-	glm::vec3 initFront = glm::vec3(0.0, 0.0, 1.0);
-	// glm::vec3 up = glm::vec3(0.0, 1.0, 0.0);
-	// glm::vec3 right = glm::vec3(-1.0, 0.0, 0.0);
-	// glm::vec3 position = glm::vec3(0.0);
-	glm::vec3 initScaling = glm::vec3(1.0);
-	// glm::quat rotation = glm::quat(1.0, 0.0, 0.0, 0.0);
+	// original transform properties
+	glm::vec3 modelFront = glm::vec3(0.0, 0.0, 1.0);
+	glm::vec3 modelUp = glm::vec3(0.0, 1.0, 0.0);
+	glm::vec3 modelScale = glm::vec3(1.0);
 
-	// current transformations
-	glm::vec3 front = glm::vec3(0.0, 0.0, 1.0);
-	glm::vec3 up = glm::vec3(0.0, 1.0, 0.0);
-	glm::vec3 right = glm::vec3(-1.0, 0.0, 0.0);
+	// current transform properties
 	glm::vec3 position = glm::vec3(0.0);
-	glm::vec3 scaling = glm::vec3(1.0);
+	glm::vec3 scale = glm::vec3(1.0);
 	glm::quat rotation = glm::quat(1.0, 0.0, 0.0, 0.0);
 
 	// matrix uniform
@@ -25,8 +19,13 @@ public:
 
 	Transform();
 	~Transform();
-	// update model matrix
+
+
+	// update model matrix before set to shader
 	void update();
+
+	// get methods
+	glm::vec3 front();
 };
 
 #endif /* Transform_hpp */

@@ -21,5 +21,13 @@ Transform::~Transform() {
 < update > in GameObject draw()
 ------------------------------------------------------------------------------*/
 void Transform::update() {
-	this->model = glm::translate(this->position) * glm::scale(this->scaling * this->initScaling) * glm::mat4_cast(this->rotation);
+	this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
+}
+
+
+/*------------------------------------------------------------------------------
+< get methods >
+------------------------------------------------------------------------------*/
+glm::vec3 Transform::front() {
+	return this->rotation * this->modelFront;
 }

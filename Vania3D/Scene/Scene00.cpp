@@ -75,9 +75,8 @@ glm::quat LookAt(glm::vec3 direction, glm::vec3 desiredUp){
 
 
 
-// Like SLERP, but forbids rotation greater than maxAngle (in radians)
-// In conjunction to LookAt, can make your characters
-glm::quat RotateTowards(glm::quat q1, glm::quat q2, float maxAngle){
+// like slerp, but forbids rotation greater than max angle (in radians)
+glm::quat rotateTowards(glm::quat q1, glm::quat q2, float maxAngle){
 
 	if( maxAngle < 0.001f ){
 		// No rotation allowed. Prevent dividing by 0 later.
@@ -88,7 +87,7 @@ glm::quat RotateTowards(glm::quat q1, glm::quat q2, float maxAngle){
 
 	// q1 and q2 are already equal.
 	// Force q2 just to be sure
-	if(cosTheta > 0.9f){
+	if(cosTheta > 0.999f){
 		return q2;
 	}
 
@@ -142,7 +141,7 @@ void Scene00::start() {
 
 	/* GameObject */
 	this->transform = new Transform();
-	this->transform->initScaling = glm::vec3(0.05);
+	this->transform->modelScale = glm::vec3(0.05);
 
 	/* light */
 	this->lightPositions[0] = glm::vec3(-10.0f,  10.0f, 20.0f);
@@ -169,15 +168,6 @@ void Scene00::start() {
 		// game->resources->getShader("deferredPBRforUEmask")->setInt("roughnessMap", 3);
 		// game->resources->getShader("deferredPBRforUEmask")->setInt("aoMap", 4);
 
-	// std::vector<Matrix4> Transforms = game->resources->getModel("vampire")->pose;
-	// 	// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
-	// 	for (uint i = 0 ; i < Transforms.size() ; i++) {
-	// 		glm::mat4 boneTransform = Transforms[i].getGLM();
-	//
-	// 			game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
-	// 	}
-
-
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
 
@@ -202,7 +192,6 @@ void Scene00::start() {
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-
 }
 
 
@@ -212,14 +201,14 @@ void Scene00::start() {
 void Scene00::update() {
 	Game* game = Game::getInstance();
 
-
+	/* time */
 	// per-frame time logic
 	float currentFrame = glfwGetTime();
 	this->deltaTime = currentFrame - this->lastFrame;
 	this->lastFrame = currentFrame;
 	deltaTime > 1.0 ? 1.0 : deltaTime;
 
-// object
+
 	// shader
 	game->resources->getShader("deferredPBRforUEmask")->use();
 		// camera
@@ -227,9 +216,12 @@ void Scene00::update() {
 
 		// input
 		// Compute the desired orientation
-	glm::vec3 desiredDir = this->front;
+	// begin from non rotate
+	glm::vec3 desiredDir = this->transform->front();
 //	float currentTimeDead;
 
+
+//	controll
 	if (currentFrame - this->lastAttack > 3.0) {
 		const float* input = game->input->axis();
 		float axis[6];
@@ -241,8 +233,8 @@ void Scene00::update() {
 			std::cout << axis[0] << " : " << axis[1] << std::endl;
 			// std::cout << axis[0] << std::endl;
 			if (abs(axis[0]) > 0.6 || abs(axis[1]) > 0.6) {
-				this->position.x += 20 * axis[0] * deltaTime;
-				this->position.z += 20 * axis[1] * deltaTime;
+				this->transform->position.x += 20 * axis[0] * deltaTime;
+				this->transform->position.z += 20 * axis[1] * deltaTime;
 					desiredDir.x = input[0];
 					desiredDir.z = input[1];
 //					desiredDir = normalize(desiredDir);
@@ -250,8 +242,8 @@ void Scene00::update() {
 				this->animation = 3;
 			}
 			else if (abs(axis[0]) > 0.0 || abs(axis[1]) > 0.0){
-				this->position.x += 10 * axis[0] * deltaTime;
-				this->position.z += 10 * axis[1] * deltaTime;
+				this->transform->position.x += 10 * axis[0] * deltaTime;
+				this->transform->position.z += 10 * axis[1] * deltaTime;
 
 					desiredDir.x = input[0];
 					desiredDir.z = input[1];
@@ -275,24 +267,16 @@ void Scene00::update() {
 
 		// transform
 	glm::quat rotationQuat = rotationBetweenVectors(glm::vec3(0,0,1), desiredDir);
-	glm::quat finalRotationQ = RotateTowards(this->lastRotation, rotationQuat, 2*PI * deltaTime);
-	this->lastRotation = finalRotationQ;
-	glm::mat4 rotation = glm::mat4_cast(finalRotationQ);
+	glm::quat finalRotationQ = rotateTowards(this->transform->rotation, rotationQuat, 2*PI * deltaTime);
 
-	this->lastRotation = finalRotationQ;
-		this->front = finalRotationQ * glm::vec3(0,0,1);
+	this->transform->rotation = finalRotationQ;
 
-
-//	if ( abs(finalRotationQ.w - rotationQuat.w) > 0.01) {
-//		this->front = finalRotationQ * this->front;
-//	}
+	this->transform->update();
 
 
 
-		glm::mat4 scaling = glm::scale(glm::vec3(0.05f));
-		glm::mat4 position = glm::translate(this->position);
-	glm::mat4 model = position * scaling * rotation;
-		game->resources->getShader("deferredPBRforUEmask")->setMat4("model", model);
+	/* render */
+		game->resources->getShader("deferredPBRforUEmask")->setMat4("model", this->transform->model);
 
 		// texture
 		glActiveTexture(GL_TEXTURE0);
