@@ -111,7 +111,7 @@ void Animation::processNode(Node<Keyframe>* keyframeNode, const aiNode* ainode, 
 	// check children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
 		keyframeNode->children.push_back(new Node<Keyframe>(ainode->mChildren[i]->mName.data));
-		processNode(keyframeNode->children[i], ainode->mChildren[i], aiscene);
+		this->processNode(keyframeNode->children[i], ainode->mChildren[i], aiscene);
 	}
 }
 
@@ -124,16 +124,16 @@ void Animation::processPose(std::vector<glm::mat4>& pose, Node<Keyframe>* keyfra
 
 	if (keyframeNode->data && this->blendFactor >= 1.0) {
 		// Interpolate scaling and generate scaling transformation matrix
-		boneNode->data->scaling = calcInterpolatedScaling(keyframeNode->data);
-		glm::mat4 scalingMatrix = scale(boneNode->data->scaling);
+		boneNode->data->scaling = this->calcInterpolatedScaling(keyframeNode->data);
+		glm::mat4 scalingMatrix = glm::scale(boneNode->data->scaling);
 
 		// Interpolate rotation and generate rotation transformation matrix
-		boneNode->data->rotation = calcInterpolatedRotation(keyframeNode->data);
+		boneNode->data->rotation = this->calcInterpolatedRotation(keyframeNode->data);
 		glm::mat4 rotationMatrix = glm::mat4_cast(boneNode->data->rotation);
 
 		// Interpolate translation and generate translation transformation matrix
-		boneNode->data->translation = calcInterpolatedPosition(keyframeNode->data);
-		glm::mat4 translationMatrix = translate(boneNode->data->translation);
+		boneNode->data->translation = this->calcInterpolatedPosition(keyframeNode->data);
+		glm::mat4 translationMatrix = glm::translate(boneNode->data->translation);
 
 		// Combine the above transformations
 		boneNode->data->nodeTransformation = translationMatrix * rotationMatrix * scalingMatrix;
@@ -141,19 +141,18 @@ void Animation::processPose(std::vector<glm::mat4>& pose, Node<Keyframe>* keyfra
 
 	if (keyframeNode->data && this->blendFactor < 1.0) {
 		// Interpolate scaling and generate scaling transformation matrix
-		glm::vec3 scaling = calcInterpolatedScaling(keyframeNode->data);
-		boneNode->data->scaling = boneNode->data->scaling + this->blendFactor * (scaling - boneNode->data->scaling);
-		glm::mat4 scalingMatrix = scale(boneNode->data->scaling);
+		glm::vec3 scaling = this->calcInterpolatedScaling(keyframeNode->data);
+		boneNode->data->scaling = glm::mix(boneNode->data->scaling, scaling, this->blendFactor);
+		glm::mat4 scalingMatrix = glm::scale(boneNode->data->scaling);
 
-		// Interpolate rotation and generate rotation transformation matrix
-		glm::quat rotation = calcInterpolatedRotation(keyframeNode->data);
-		glm::quat interpolateValue = glm::slerp(boneNode->data->rotation, rotation, this->blendFactor);
-		boneNode->data->rotation = glm::normalize(interpolateValue);
+		// Interpolate rotation and generate rotation transformation matrix (need to normalize the slerp value?)
+		glm::quat rotation = this->calcInterpolatedRotation(keyframeNode->data);
+		boneNode->data->rotation = glm::slerp(boneNode->data->rotation, rotation, this->blendFactor);
 		glm::mat4 rotationMatrix = glm::mat4_cast(boneNode->data->rotation);
 
 		// Interpolate translation and generate translation transformation matrix
-		glm::vec3 translation = calcInterpolatedPosition(keyframeNode->data);
-		boneNode->data->translation = boneNode->data->translation + this->blendFactor * (translation - boneNode->data->translation);
+		glm::vec3 translation = this->calcInterpolatedPosition(keyframeNode->data);
+		boneNode->data->translation = glm::mix(boneNode->data->translation, translation, this->blendFactor);
 		glm::mat4 translationMatrix = glm::translate(boneNode->data->translation);
 
 		// Combine the above transformations
@@ -166,7 +165,7 @@ void Animation::processPose(std::vector<glm::mat4>& pose, Node<Keyframe>* keyfra
 	if(boneNode->data->haveBone) {
 		pose[boneNode->data->index] = globalTransformation * boneNode->data->offset;
 	}
-
+	// process pose children nodes
 	for (unsigned int i = 0 ; i < keyframeNode->children.size() ; i++) {
 		this->processPose(pose, keyframeNode->children[i], boneNode->children[i], globalTransformation);
 	}
@@ -222,10 +221,7 @@ glm::vec3 Animation::calcInterpolatedPosition(Keyframe* keyframe) {
 	float deltaTime = keyframe->positionKeys[nextPositionIndex].time - keyframe->positionKeys[keyframe->currentPositionIndex].time;
 	float factor = (this->animationTimeInTicks - keyframe->positionKeys[keyframe->currentPositionIndex].time) / deltaTime;
 	// interpolate transformation
-	glm::vec3 startValue = keyframe->positionKeys[keyframe->currentPositionIndex].value;
-	glm::vec3 endValue = keyframe->positionKeys[nextPositionIndex].value;
-	glm::vec3 deltaValue = endValue - startValue;
-	return startValue + factor * deltaValue;
+	return glm::mix(keyframe->positionKeys[keyframe->currentPositionIndex].value, keyframe->positionKeys[nextPositionIndex].value, factor);
 }
 
 glm::quat Animation::calcInterpolatedRotation(Keyframe* keyframe) {
@@ -240,8 +236,7 @@ glm::quat Animation::calcInterpolatedRotation(Keyframe* keyframe) {
 	float deltaTime = keyframe->rotationKeys[nextRotationIndex].time - keyframe->rotationKeys[keyframe->currentRotationIndex].time;
 	float factor = (this->animationTimeInTicks - keyframe->rotationKeys[keyframe->currentRotationIndex].time) / deltaTime;
 	// interpolate transformation
-	glm::quat interpolateValue = glm::slerp(keyframe->rotationKeys[keyframe->currentRotationIndex].value, keyframe->rotationKeys[nextRotationIndex].value, factor);
-	return glm::normalize(interpolateValue);
+	return glm::slerp(keyframe->rotationKeys[keyframe->currentRotationIndex].value, keyframe->rotationKeys[nextRotationIndex].value, factor);
 }
 
 glm::vec3 Animation::calcInterpolatedScaling(Keyframe* keyframe) {
@@ -256,8 +251,5 @@ glm::vec3 Animation::calcInterpolatedScaling(Keyframe* keyframe) {
 	float deltaTime = keyframe->scalingKeys[nextScalingIndex].time - keyframe->scalingKeys[keyframe->currentScalingIndex].time;
 	float factor = (this->animationTimeInTicks - keyframe->scalingKeys[keyframe->currentScalingIndex].time) / deltaTime;
 	// interpolate transformation
-	glm::vec3 startValue = keyframe->scalingKeys[keyframe->currentScalingIndex].value;
-	glm::vec3 endValue   = keyframe->scalingKeys[nextScalingIndex].value;
-	glm::vec3 deltaValue = endValue - startValue;
-	return startValue + factor * deltaValue;
+	return glm::mix(keyframe->scalingKeys[keyframe->currentScalingIndex].value, keyframe->scalingKeys[nextScalingIndex].value, factor);
 }

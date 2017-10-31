@@ -53,8 +53,8 @@ void Model::draw() {
 
 /*------------------------------------------------------------------------------
 < load model >
+loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
 ------------------------------------------------------------------------------*/
-// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
 void Model::load(const char* path) {
 	// read file via ASSIMP
 	Assimp::Importer importer;
@@ -82,6 +82,7 @@ Processes each individual mesh located at the node and repeats this process on i
 Processes the bone node heirarchy located at the node and calculate the final transformation
 ------------------------------------------------------------------------------*/
 void Model::processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene) {
+	/* if found a mesh */
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < ainode->mNumMeshes; i++) {
 		aiMesh* mesh = aiscene->mMeshes[ainode->mMeshes[i]];
@@ -99,6 +100,7 @@ void Model::processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene
 		}
 	}
 
+	/* look for children */
 	// recursively process each of the children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
 		node->children.push_back(new Node<Bone>(ainode->mChildren[i]->mName.data));

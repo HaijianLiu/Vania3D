@@ -3,6 +3,9 @@
 
 #include "Engine.hpp"
 
+/*------------------------------------------------------------------------------
+< convert from Assimp to glm >
+------------------------------------------------------------------------------*/
 glm::vec3 assignment(const aiVector3D& assimpVector) {
 	return glm::vec3(assimpVector.x, assimpVector.y, assimpVector.z);
 }
