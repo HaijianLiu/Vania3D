@@ -26,6 +26,9 @@ public:
 
 	// get methods
 	glm::vec3 front();
+
+	// menipulate methods
+	void rotate(glm::vec3 direction, float radian);
 };
 
 #endif /* Transform_hpp */
