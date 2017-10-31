@@ -46,21 +46,21 @@
 #include <GLFW/glfw3.h>
 // include GLM
 #include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
-#include <glm/gtx/euler_angles.hpp>
-#include <glm/gtx/norm.hpp>
 
-// include FMOD
-#include <fmod.hpp>
 // include assimp
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
 // include stbi
 #include "stb_image.h"
+
+// include FMOD
+#include <fmod.hpp>
 
 class GameObject;
 class Game;

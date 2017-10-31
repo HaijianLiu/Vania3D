@@ -41,44 +41,22 @@ void Transform::rotate(glm::vec3 direction, float radians){
 	// no rotation allowed & prevent dividing by 0 later
 	// smaller threshold will makes a smoother rotation
 	if(radians < 0.0001) return;
-
-	glm::vec3 start = glm::normalize(this->modelFront);
-	glm::vec3 end = glm::normalize(direction);
-	float cosTheta = glm::dot(start, end); // vec dot value is different from quat dot value
-
-	// calculate direction quaternion
-	glm::vec3 rotationAxis;
-	glm::quat directionQuaternion;
-	if (cosTheta < -1 + 0.0001){
-		// special case when vectors in opposite directions :
-		// there is no "ideal" rotation axis
-		// so guess one; any will do as long as it's perpendicular to start
-		// this implementation favors a rotation around the Up axis,
-		rotationAxis = glm::cross(glm::vec3(0.0, 0.0, 1.0), start);
-		if (glm::length2(rotationAxis) < 0.01 ) // bad luck, they were parallel, try again!
-			rotationAxis = glm::cross(glm::vec3(1.0, 0.0, 0.0), start);
-		rotationAxis = glm::normalize(rotationAxis);
-		directionQuaternion = glm::angleAxis((float)glm::radians(180.0), rotationAxis);
-	}
-	else {
-		// Implementation from Stan Melax's Game Programming Gems 1 article
-		rotationAxis = cross(start, end);
-		float s = glm::sqrt( (1+cosTheta)*2 );
-		float invs = 1 / s;
-		directionQuaternion = glm::quat(s * 0.5, rotationAxis.x * invs, rotationAxis.y * invs, rotationAxis.z * invs);
-	}
-
-	float cosQuat = glm::dot(this->rotation, directionQuaternion); // vec dot value is different from quat dot value
+	
+	// get direction quaternion
+	glm::quat directionQuaternion = glm::rotation(this->modelFront, direction);
+	
+	// update rotation
+	float cosTheta = glm::dot(this->rotation, directionQuaternion); // vec dot value is different from quat dot value
 	// when they are already equal no rotation allowed
 	// bigger threshold will makes a more sensitivity rotation
-	if(cosQuat > 0.9999) return;
+	if(cosTheta > 0.9999) return;
 	// avoid taking the long path around the sphere
-	if (cosQuat < 0.0){
+	if (cosTheta < 0.0){
 		this->rotation *= -1.0;
-		cosQuat *= -1.0;
+		cosTheta *= -1.0;
 	}
 
-	float deltaTheta = glm::acos(cosQuat);
+	float deltaTheta = glm::acos(cosTheta);
 
 	// If there is only a 2° difference, and we are allowed 5°,
 	if (radians > deltaTheta){
