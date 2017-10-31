@@ -4,7 +4,7 @@
 
 struct VectorKey {
 	float time;
-	Vector3 value;
+	glm::vec3 value;
 };
 
 struct QuaternionKey {

@@ -25,9 +25,9 @@ private:
 	void findScaling(Keyframe* keyframe);
 	void findRotation(Keyframe* keyframe);
 	void findPosition(Keyframe* keyframe);
-	Vector3 calcInterpolatedScaling(Keyframe* keyframe);
+	glm::vec3 calcInterpolatedScaling(Keyframe* keyframe);
 	Quaternion calcInterpolatedRotation(Keyframe* keyframe);
-	Vector3 calcInterpolatedPosition(Keyframe* keyframe);
+	glm::vec3 calcInterpolatedPosition(Keyframe* keyframe);
 
 public:
 	Animation(const char* path);

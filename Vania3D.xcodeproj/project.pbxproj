@@ -39,7 +39,6 @@
 		604B57A31F9890AF009DE302 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57A11F9890AF009DE302 /* Scene.cpp */; };
 		604B57A61F98A251009DE302 /* Scene00.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57A41F98A251009DE302 /* Scene00.cpp */; };
 		604B57AC1F99C148009DE302 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57AA1F99C148009DE302 /* Material.cpp */; };
-		6067FB1C1FA1793A00F66769 /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6067FB1A1FA1793A00F66769 /* Vector.cpp */; };
 		6082F4AF1FA737C000B177DA /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4AE1FA737BF00B177DA /* Input.cpp */; };
 		6083D8651FA02BE700AF017C /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6083D8631FA02BE700AF017C /* Quaternion.cpp */; };
 		6083D8681FA0345400AF017C /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6083D8661FA0345400AF017C /* Matrix.cpp */; };
@@ -126,8 +125,6 @@
 		604B57A51F98A251009DE302 /* Scene00.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene00.hpp; sourceTree = "<group>"; };
 		604B57AA1F99C148009DE302 /* Material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		604B57AB1F99C148009DE302 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
-		6067FB1A1FA1793A00F66769 /* Vector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
-		6067FB1B1FA1793A00F66769 /* Vector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
 		6082F4AD1FA737BF00B177DA /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Input.hpp; sourceTree = "<group>"; };
 		6082F4AE1FA737BF00B177DA /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
 		6083D8631FA02BE700AF017C /* Quaternion.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quaternion.cpp; sourceTree = "<group>"; };
@@ -307,8 +304,6 @@
 		6083D8621FA02BD400AF017C /* Math */ = {
 			isa = PBXGroup;
 			children = (
-				6067FB1A1FA1793A00F66769 /* Vector.cpp */,
-				6067FB1B1FA1793A00F66769 /* Vector.hpp */,
 				6083D8631FA02BE700AF017C /* Quaternion.cpp */,
 				6083D8641FA02BE700AF017C /* Quaternion.hpp */,
 				6083D8661FA0345400AF017C /* Matrix.cpp */,
@@ -402,7 +397,6 @@
 				6082F4AF1FA737C000B177DA /* Input.cpp in Sources */,
 				604B57821F945A84009DE302 /* Model.cpp in Sources */,
 				604B57A61F98A251009DE302 /* Scene00.cpp in Sources */,
-				6067FB1C1FA1793A00F66769 /* Vector.cpp in Sources */,
 				602434371F88DCBC00DA6CA4 /* RenderPass.cpp in Sources */,
 				609F90701F9EFF2400238D61 /* Bone.cpp in Sources */,
 				600E63B81F99F19000F6A34A /* MeshRenderer.cpp in Sources */,

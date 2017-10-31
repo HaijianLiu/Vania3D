@@ -70,7 +70,6 @@ class Component;
 /*------------------------------------------------------------------------------
 < Engine >
 ------------------------------------------------------------------------------*/
-#include "Vector.hpp"
 #include "Quaternion.hpp"
 #include "Matrix.hpp"
 
@@ -119,7 +118,7 @@ class Component;
 
 
 /*------------------------------------------------------------------------------
-< Global Functions >
+< delete container >
 ------------------------------------------------------------------------------*/
 template <typename T, typename U> void doMap(T map, void (*function)(U)) {
 	for (typename T::iterator it = map.begin(); it != map.end(); it++) {
@@ -147,5 +146,11 @@ template <typename T> void deleteVectorMap(T map) {
 	}
 	map.clear();
 }
+
+
+/*------------------------------------------------------------------------------
+< convert from Assimp to glm >
+------------------------------------------------------------------------------*/
+glm::vec3 assignment(const aiVector3D& assimpVector);
 
 #endif /* Engine_hpp */
