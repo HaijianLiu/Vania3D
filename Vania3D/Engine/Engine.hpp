@@ -150,4 +150,10 @@ glm::quat assignment(const aiQuaternion& assimpQuaternion);
 glm::mat4 assignment(const aiMatrix4x4& assimpMatrix);
 glm::mat4 assignment(const aiMatrix3x3& assimpMatrix);
 
+
+/*------------------------------------------------------------------------------
+< math >
+------------------------------------------------------------------------------*/
+glm::quat rotationBetweenVectors(glm::vec3 start, glm::vec3 end);
+
 #endif /* Engine_hpp */

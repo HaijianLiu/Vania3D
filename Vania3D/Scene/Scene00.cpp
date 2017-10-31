@@ -46,44 +46,6 @@ unsigned int genNoiseTexture(unsigned int textureSize) {
 }
 
 
-// Returns a quaternion such that q*start = dest
-glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest){
-	start = normalize(start);
-	dest = normalize(dest);
-
-	float cosTheta = dot(start, dest);
-	glm::vec3 rotationAxis;
-
-	if (cosTheta < -1 + 0.001f){
-		// special case when vectors in opposite directions :
-		// there is no "ideal" rotation axis
-		// So guess one; any will do as long as it's perpendicular to start
-		// This implementation favors a rotation around the Up axis,
-		// since it's often what you want to do.
-		rotationAxis = cross(glm::vec3(0.0f, 0.0f, 1.0f), start);
-		if (length2(rotationAxis) < 0.01 ) // bad luck, they were parallel, try again!
-			rotationAxis = cross(glm::vec3(1.0f, 0.0f, 0.0f), start);
-
-		rotationAxis = normalize(rotationAxis);
-		return angleAxis(glm::radians(180.0f), rotationAxis);
-	}
-
-	// Implementation from Stan Melax's Game Programming Gems 1 article
-	rotationAxis = cross(start, dest);
-
-	float s = sqrt( (1+cosTheta)*2 );
-	float invs = 1 / s;
-
-	return glm::quat(
-		s * 0.5f,
-		rotationAxis.x * invs,
-		rotationAxis.y * invs,
-		rotationAxis.z * invs
-	);
-
-}
-
-
 
 // Returns a quaternion that will make your object looking towards 'direction'.
 // Similar to RotationBetweenVectors, but also controls the vertical orientation.
@@ -101,11 +63,11 @@ glm::quat LookAt(glm::vec3 direction, glm::vec3 desiredUp){
 
 	// Find the rotation between the front of the object (that we assume towards +Z,
 	// but this depends on your model) and the desired direction
-	glm::quat rot1 = RotationBetweenVectors(glm::vec3(0.0f, 0.0f, 1.0f), direction);
+	glm::quat rot1 = rotationBetweenVectors(glm::vec3(0.0f, 0.0f, 1.0f), direction);
 	// Because of the 1rst rotation, the up is probably completely screwed up.
 	// Find the rotation between the "up" of the rotated object, and the desired up
 	glm::vec3 newUp = rot1 * glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::quat rot2 = RotationBetweenVectors(newUp, desiredUp);
+	glm::quat rot2 = rotationBetweenVectors(newUp, desiredUp);
 
 	// Apply them
 	return rot2 * rot1; // remember, in reverse order.
@@ -178,6 +140,11 @@ void Scene00::start() {
 	Game* game = Game::getInstance();
 	this->camera = new Camera();
 
+	/* GameObject */
+	this->transform = new Transform();
+	this->transform->initScaling = glm::vec3(0.05);
+
+	/* light */
 	this->lightPositions[0] = glm::vec3(-10.0f,  10.0f, 20.0f);
 	this->lightPositions[1] = glm::vec3( 10.0f,  10.0f, 20.0f);
 	this->lightPositions[2] = glm::vec3(-10.0f, -10.0f, 20.0f);
@@ -231,7 +198,8 @@ void Scene00::start() {
 		game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lightPositions[i]);
 		game->resources->getShader("renderPass")->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lightColors[i]);
 	}
-	// Enable alpha channel
+
+	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
@@ -243,7 +211,6 @@ void Scene00::start() {
 ------------------------------------------------------------------------------*/
 void Scene00::update() {
 	Game* game = Game::getInstance();
-
 
 
 	// per-frame time logic
@@ -273,23 +240,22 @@ void Scene00::update() {
 			}
 			std::cout << axis[0] << " : " << axis[1] << std::endl;
 			// std::cout << axis[0] << std::endl;
-			if (abs(axis[0]) > 0.5 || abs(axis[1]) > 0.5) {
+			if (abs(axis[0]) > 0.6 || abs(axis[1]) > 0.6) {
 				this->position.x += 20 * axis[0] * deltaTime;
 				this->position.z += 20 * axis[1] * deltaTime;
 					desiredDir.x = input[0];
 					desiredDir.z = input[1];
 //					desiredDir = normalize(desiredDir);
-				
+
 				this->animation = 3;
 			}
 			else if (abs(axis[0]) > 0.0 || abs(axis[1]) > 0.0){
 				this->position.x += 10 * axis[0] * deltaTime;
 				this->position.z += 10 * axis[1] * deltaTime;
-				
+
 					desiredDir.x = input[0];
 					desiredDir.z = input[1];
-//					desiredDir = normalize(desiredDir);
-				
+
 				this->animation = 2;
 			}
 			else {
@@ -307,22 +273,15 @@ void Scene00::update() {
 		this->animation = 4;
 	}
 
-	// Compute the desired orientation
-//	glm::quat targetOrientation = normalize(LookAt(desiredDir, desiredDir));
-
-	// And interpolate
-//	glm::quat gOrientation2 = RotateTowards(gOrientation2, targetOrientation, 1.0 * deltaTime);
-
-
 		// transform
-	glm::quat rotationQuat = RotationBetweenVectors(glm::vec3(0,0,1), desiredDir);
+	glm::quat rotationQuat = rotationBetweenVectors(glm::vec3(0,0,1), desiredDir);
 	glm::quat finalRotationQ = RotateTowards(this->lastRotation, rotationQuat, 2*PI * deltaTime);
 	this->lastRotation = finalRotationQ;
 	glm::mat4 rotation = glm::mat4_cast(finalRotationQ);
 
 	this->lastRotation = finalRotationQ;
 		this->front = finalRotationQ * glm::vec3(0,0,1);
-	
+
 
 //	if ( abs(finalRotationQ.w - rotationQuat.w) > 0.01) {
 //		this->front = finalRotationQ * this->front;
