@@ -44,7 +44,7 @@ void Transform::rotate(glm::vec3 direction, float radians){
 
 	glm::vec3 start = glm::normalize(this->modelFront);
 	glm::vec3 end = glm::normalize(direction);
-	float cosTheta = glm::dot(start, end);
+	float cosTheta = glm::dot(start, end); // vec dot value is different from quat dot value
 
 	// calculate direction quaternion
 	glm::vec3 rotationAxis;
@@ -68,7 +68,7 @@ void Transform::rotate(glm::vec3 direction, float radians){
 		directionQuaternion = glm::quat(s * 0.5, rotationAxis.x * invs, rotationAxis.y * invs, rotationAxis.z * invs);
 	}
 
-	float cosQuat = glm::dot(this->rotation, directionQuaternion);
+	float cosQuat = glm::dot(this->rotation, directionQuaternion); // vec dot value is different from quat dot value
 	// when they are already equal no rotation allowed
 	// bigger threshold will makes a more sensitivity rotation
 	if(cosQuat > 0.9999) return;
