@@ -9,7 +9,7 @@ struct VectorKey {
 
 struct QuaternionKey {
 	float time;
-	Quaternion value;
+	glm::quat value;
 };
 
 class Keyframe {

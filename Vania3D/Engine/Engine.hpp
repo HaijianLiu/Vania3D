@@ -70,7 +70,6 @@ class Component;
 /*------------------------------------------------------------------------------
 < Engine >
 ------------------------------------------------------------------------------*/
-#include "Quaternion.hpp"
 #include "Matrix.hpp"
 
 
@@ -152,5 +151,6 @@ template <typename T> void deleteVectorMap(T map) {
 < convert from Assimp to glm >
 ------------------------------------------------------------------------------*/
 glm::vec3 assignment(const aiVector3D& assimpVector);
+glm::quat assignment(const aiQuaternion& assimpQuaternion);
 
 #endif /* Engine_hpp */

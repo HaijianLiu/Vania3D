@@ -13,7 +13,7 @@ public:
 	// animation transform
 	Matrix4 finalTransformation;
 	glm::vec3 scaling;
-	Quaternion rotation;
+	glm::quat rotation;
 	glm::vec3 translation;
 
 	Bone();

@@ -106,7 +106,7 @@ void Matrix4::setRotateTransform(float degreeX, float degreeY, float degreeZ) {
 	*this = rz * ry * rx;
 }
 
-void Matrix4::setRotateTransform(const Quaternion& quaternion) {
+void Matrix4::setRotateTransform(const glm::quat& quaternion) {
 	float yy2 = 2.0f * quaternion.y * quaternion.y;
 	float xy2 = 2.0f * quaternion.x * quaternion.y;
 	float xz2 = 2.0f * quaternion.x * quaternion.z;

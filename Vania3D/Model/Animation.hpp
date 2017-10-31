@@ -26,7 +26,7 @@ private:
 	void findRotation(Keyframe* keyframe);
 	void findPosition(Keyframe* keyframe);
 	glm::vec3 calcInterpolatedScaling(Keyframe* keyframe);
-	Quaternion calcInterpolatedRotation(Keyframe* keyframe);
+	glm::quat calcInterpolatedRotation(Keyframe* keyframe);
 	glm::vec3 calcInterpolatedPosition(Keyframe* keyframe);
 
 public:

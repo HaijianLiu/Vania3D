@@ -25,7 +25,7 @@ public:
 	void setTranslationTransform(float x, float y, float z);
 	void setScaleTransform(float scaleX, float scaleY, float scaleZ);
 	void setRotateTransform(float degreeX, float degreeY, float degreeZ);
-	void setRotateTransform(const Quaternion& quaternion);
+	void setRotateTransform(const glm::quat& quaternion);
 
 	// get functions
 	Matrix4 getTranspose() const;
