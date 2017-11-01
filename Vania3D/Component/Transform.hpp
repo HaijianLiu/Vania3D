@@ -20,7 +20,6 @@ public:
 	Transform();
 	~Transform();
 
-
 	// update model matrix before set to shader
 	void update();
 

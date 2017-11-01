@@ -5,6 +5,8 @@
 class Scene00 : public Scene {
 private:
 	Camera* camera;
+	
+	CameraController* cameraController;
 
 	// lights
 	glm::vec3 lightPositions[4];
@@ -13,8 +15,6 @@ private:
 	// player
 	unsigned int animation = 0;
 	float lastAttack = 0;
-
-	// gameobject
 	Transform* transform;
 
 public:

@@ -4,11 +4,19 @@
 
 class CameraController {
 private:
-	/* data */
 
 public:
+	Camera* camera;
+	Transform* target;
+
+
+	Transform* transform;
+
+
 	CameraController();
 	~CameraController();
+
+	void update();
 };
 
 #endif /* CameraController_hpp */

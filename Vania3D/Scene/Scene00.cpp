@@ -96,11 +96,17 @@ Scene00::~Scene00() {
 ------------------------------------------------------------------------------*/
 void Scene00::start() {
 	Game* game = Game::getInstance();
-	this->camera = new Camera();
+	
 
 	/* GameObject */
 	this->transform = new Transform();
 	this->transform->modelScale = glm::vec3(0.05);
+	
+	// camera
+	this->camera = new Camera();
+	this->cameraController = new CameraController();
+	this->cameraController->camera = this->camera;
+	this->cameraController->transform = this->transform;
 
 	/* light */
 	this->lightPositions[0] = glm::vec3(-10.0f,  10.0f, 20.0f);

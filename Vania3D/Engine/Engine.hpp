@@ -99,6 +99,7 @@ class Component;
 < Component >
 ------------------------------------------------------------------------------*/
 #include "Transform.hpp"
+#include "CameraController.hpp"
 #include "MeshRenderer.hpp"
 #include "Component.hpp"
 

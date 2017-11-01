@@ -15,6 +15,7 @@ Model::Model(const char* path) {
 Model::~Model() {
 	delete this->boneNode;
 	deleteVector(this->meshes);
+	deleteVector(this->animations);
 }
 
 
