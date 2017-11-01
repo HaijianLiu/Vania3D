@@ -57,9 +57,9 @@ void Transform::rotate(glm::vec3 direction, float radians) {
 
 	// bigger threshold will makes a more sensitivity rotation
 	// when they are already equal, no rotation allowed
-	if (cosTheta > 0.999) return;
+	if (cosTheta > 0.9999) return;
 	// when they are already opposite, just turn around
-	if (cosTheta < -0.999) {
+	if (cosTheta < -0.9999) {
 		this->rotation *= -1.0;
 		return;
 	}
