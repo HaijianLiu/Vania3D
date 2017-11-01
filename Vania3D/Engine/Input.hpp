@@ -12,36 +12,43 @@ enum PS4_CONTROLLER {
 
 class Input {
 private:
+	// keyboard
 	int keys[GLFW_KEY_LAST] = {GLFW_RELEASE};
-	int joyButtons[25] = {GLFW_RELEASE};
+	// joystick
 	int joyButtonCount, joyEvent = GLFW_DISCONNECTED, joyConnect = 0;
+	int joyButtons[25] = {GLFW_RELEASE};
+
+	glm::vec3 normalLS = glm::vec3(0.0); // direction normal in world space
+	glm::vec3 normalRS = glm::vec3(0.0); // direction normal in world space
+	glm::vec3 axisLS = glm::vec3(0.0); // direction in world space
+	glm::vec3 axisRS = glm::vec3(0.0); // direction in world space
 
 	Input();
-
-	void updateJoystick(int button);
 
 public:
 	// controller properties
 	float gravity = 3.0; // speed in units per second that the axis falls toward neutral when no buttons are pressed
-	float dead = 0.01; // size of the analog dead zone, all analog device values within this range result map to neutral
+	float deadzone = 0.25; // size of the analog dead zone, all analog device values within this range result map to neutral
 	float sensitivity = 3.0; // speed in units per second that the the axis will move toward the target value, this is for digital devices only
 	bool snap = true; // if enabled, the axis value will reset to zero when pressing a button of the opposite direction
 
 	static Input* getInstance();
 	~Input();
 
+	// update joystick
+	void updateJoystick();
+
 	// joystick
 	void joystickcallback(int joy, int event);
 	bool getJoystickPress(int button);
 	bool getJoystickTrigger(int button);
 
-
-	const float* axis();
-
 	// keyboard
 	void keycallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	bool getButtonPress(int button);
 	bool getButtonTrigger(int button);
+	glm::vec3 getAxisLS();
+	glm::vec3 getNormalLS();
 };
 
 #endif /* Input_hpp */

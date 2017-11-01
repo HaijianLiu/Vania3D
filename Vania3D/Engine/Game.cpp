@@ -56,6 +56,7 @@ void Game::start() {
 void Game::update() {
 	// keep in order
 	this->time->update();
+	this->input->updateJoystick();
 	this->renderPass->begin();
 	this->sceneManager->update();
 	this->renderPass->end();

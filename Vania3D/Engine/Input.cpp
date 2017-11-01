@@ -75,22 +75,47 @@ bool Input::getButtonTrigger(int button) {
 
 
 bool Input::getJoystickPress(int button) {
-	this->updateJoystick(button);
 	if (this->joyButtons[button] == GLFW_PRESS || this->joyButtons[button] == GLFW_REPEAT) return true;
 	else return false;
 	return false;
 }
 
 bool Input::getJoystickTrigger(int button) {
-	this->updateJoystick(button);
 	if (this->joyButtons[button] == GLFW_PRESS) return true;
 	else return false;
 }
 
-const float* Input::axis() {
+
+void Input::updateJoystick() {
 	if (this->joyEvent == GLFW_CONNECTED) {
+		/* buttons */
+//		const unsigned char* buttons = glfwGetJoystickButtons(this->joyConnect, &this->joyButtonCount);
+//		if (buttons[button] == GLFW_PRESS && (this->joyButtons[button] == GLFW_PRESS || this->joyButtons[button] == GLFW_REPEAT)) {
+//			this->joyButtons[button] = GLFW_REPEAT;
+//			// std::cout << this->joyButtons[button] << std::endl;
+//		}
+//		else {
+//			this->joyButtons[button] = buttons[button];
+//			// std::cout << this->joyButtons[button] << std::endl;
+//		}
+
+		/* axis */
+		// get input data
 		int axesCount;
-		return glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
+		const float* joyAxis = glfwGetJoystickAxes(this->joyConnect, &axesCount);
+
+		// scaled radial dead zone
+		this->axisLS = glm::vec3(joyAxis[0], 0.0, joyAxis[1]);
+		float magnitude = glm::length(this->axisLS);
+		if(magnitude < this->deadzone) {
+			this->normalLS = glm::vec3(0.0);
+			this->axisLS = glm::vec3(0.0);
+		}
+		else {
+			this->normalLS = glm::normalize(this->axisLS);
+			this->axisLS = this->normalLS * ((magnitude - this->deadzone) / (1 - this->deadzone));
+		}
+
 		// std::cout << axesCount << '\n';
 		// std::cout << "Left  X : " << axes[0] << std::endl;
 		// std::cout << "Left  Y : " << axes[1] << std::endl;
@@ -99,21 +124,14 @@ const float* Input::axis() {
 		// std::cout << "L2      : " << axes[4] << std::endl;
 		// std::cout << "R2      : " << axes[5] << std::endl;
 	}
-	else {
-		return nullptr;
-	}
 }
 
-void Input::updateJoystick(int button) {
-	if (this->joyEvent == GLFW_CONNECTED) {
-		const unsigned char* buttons = glfwGetJoystickButtons(this->joyConnect, &this->joyButtonCount);
-		if (buttons[button] == GLFW_PRESS && (this->joyButtons[button] == GLFW_PRESS || this->joyButtons[button] == GLFW_REPEAT)) {
-			this->joyButtons[button] = GLFW_REPEAT;
-			// std::cout << this->joyButtons[button] << std::endl;
-		}
-		else {
-			this->joyButtons[button] = buttons[button];
-			// std::cout << this->joyButtons[button] << std::endl;
-		}
-	}
+
+glm::vec3 Input::getAxisLS() {
+	return this->axisLS;
+}
+
+
+glm::vec3 Input::getNormalLS() {
+	return this->normalLS;
 }

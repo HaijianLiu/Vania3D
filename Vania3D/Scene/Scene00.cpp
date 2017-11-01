@@ -169,54 +169,33 @@ void Scene00::update() {
 		// input
 		// Compute the desired orientation
 	// begin from non rotate
-	glm::vec3 desiredDir = this->transform->front();
-//	float currentTimeDead;
-
 
 //	controll
+	glm::vec3 direction = this->transform->front(); // if no input deflaut the last direction
+	glm::vec3 axisLS = game->input->getAxisLS();
 	if (game->time->currentTime - this->lastAttack > 3.0) {
-		const float* input = game->input->axis();
-		float axis[6];
-		if (input != nullptr) {
-			for (int i = 0; i < 6; i++) {
-				int a = input[i] * 10;
-				axis[i] = a / 10.0;
-			}
-			std::cout << axis[0] << " : " << axis[1] << std::endl;
-			// std::cout << axis[0] << std::endl;
-			if (abs(axis[0]) > 0.6 || abs(axis[1]) > 0.6) {
-				this->transform->position.x += 20 * axis[0] * game->time->deltaTime;
-				this->transform->position.z += 20 * axis[1] * game->time->deltaTime;
-					desiredDir.x = input[0];
-					desiredDir.z = input[1];
-					desiredDir = glm::normalize(desiredDir);
-
-				this->animation = 3;
-			}
-			else if (abs(axis[0]) > 0.0 || abs(axis[1]) > 0.0){
-				this->transform->position.x += 10 * axis[0] * game->time->deltaTime;
-				this->transform->position.z += 10 * axis[1] * game->time->deltaTime;
-
-					desiredDir.x = input[0];
-					desiredDir.z = input[1];
-				desiredDir = glm::normalize(desiredDir);
-
-				this->animation = 2;
-			}
-			else {
-				this->animation = 0;
-			}
+		if (abs(axisLS.x) > 0.6 || abs(axisLS.z) > 0.6) {
+			this->transform->position.x += 20 * axisLS.x * game->time->deltaTime;
+			this->transform->position.z += 20 * axisLS.z * game->time->deltaTime;
+			direction = game->input->getNormalLS();
+			this->animation = 3;
 		}
-
-	}
-
-	if (game->input->getJoystickTrigger(JOY_L1)) {
-		this->lastAttack = game->time->currentTime;
-		this->animation = 4;
+		else if (abs(axisLS.x) > 0.1 || abs(axisLS.z) > 0.1){
+			this->transform->position.x += 10 * axisLS.x * game->time->deltaTime;
+			this->transform->position.z += 10 * axisLS.z * game->time->deltaTime;
+			direction = game->input->getNormalLS();
+			this->animation = 2;
+		}
+		else {
+			this->animation = 0;
+		}
 	}
 
 		// player
-	this->transform->rotate(desiredDir, 2 * PI * game->time->deltaTime);
+	// std::cout << direction.x << " :d " << direction.z << std::endl;
+	// std::cout << axisLS.x << " :a " << axisLS.z << std::endl;
+
+	this->transform->rotate(direction, 2 * PI * game->time->deltaTime);
 
 	this->transform->update();
 
