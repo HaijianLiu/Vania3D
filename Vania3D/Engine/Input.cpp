@@ -79,7 +79,9 @@ void Input::updateJoystick() {
 		// get input data
 		int axesCount;
 		const float* joyAxis = glfwGetJoystickAxes(this->joyConnect, &axesCount);
-		// scaled radial dead zone
+
+		/* scaled radial dead zone */
+
 		// LS
 		this->axisLS = glm::vec3(joyAxis[0], 0.0, joyAxis[1]);
 		float magnitudeLS = glm::length(this->axisLS);
