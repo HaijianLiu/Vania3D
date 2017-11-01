@@ -77,7 +77,6 @@ bool Input::getButtonTrigger(int button) {
 bool Input::getJoystickPress(int button) {
 	if (this->joyButtons[button] == GLFW_PRESS || this->joyButtons[button] == GLFW_REPEAT) return true;
 	else return false;
-	return false;
 }
 
 bool Input::getJoystickTrigger(int button) {
@@ -88,16 +87,17 @@ bool Input::getJoystickTrigger(int button) {
 
 void Input::updateJoystick() {
 	if (this->joyEvent == GLFW_CONNECTED) {
+		
 		/* buttons */
-//		const unsigned char* buttons = glfwGetJoystickButtons(this->joyConnect, &this->joyButtonCount);
-//		if (buttons[button] == GLFW_PRESS && (this->joyButtons[button] == GLFW_PRESS || this->joyButtons[button] == GLFW_REPEAT)) {
-//			this->joyButtons[button] = GLFW_REPEAT;
-//			// std::cout << this->joyButtons[button] << std::endl;
-//		}
-//		else {
-//			this->joyButtons[button] = buttons[button];
-//			// std::cout << this->joyButtons[button] << std::endl;
-//		}
+		const unsigned char* buttons = glfwGetJoystickButtons(this->joyConnect, &this->joyButtonCount);
+		for (int i = 0; i < this->joyButtonCount; i++) {
+			if (buttons[i] == GLFW_PRESS && (this->joyButtons[i] == GLFW_PRESS || this->joyButtons[i] == GLFW_REPEAT)) {
+				this->joyButtons[i] = GLFW_REPEAT;
+			}
+			else {
+				this->joyButtons[i] = buttons[i];
+			}
+		}
 
 		/* axis */
 		// get input data

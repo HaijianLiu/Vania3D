@@ -37,10 +37,10 @@ glm::vec3 Transform::front() {
 < rotate to desired vec3 by radians >
 like slerp, but forbids rotation greater than max angle (in radians)
 ------------------------------------------------------------------------------*/
-void Transform::rotate(glm::vec3 direction, float radians){
+void Transform::rotate(glm::vec3 direction, float radians) {
 	// no rotation allowed & prevent dividing by 0 later
 	// smaller threshold will makes a smoother rotation
-	if(radians < 0.001) return;
+	if (radians < 0.001) return;
 
 	// get direction quaternion
 	glm::quat directionQuaternion = glm::rotation(this->modelFront, direction);
@@ -73,7 +73,7 @@ void Transform::rotate(glm::vec3 direction, float radians){
 	float deltaTheta = glm::acos(cosTheta);
 
 	// If there is only a 2° difference, and we are allowed 5°,
-	if (radians > deltaTheta){
+	if (radians > deltaTheta) {
 		this->rotation = directionQuaternion;
 	}
 	else {

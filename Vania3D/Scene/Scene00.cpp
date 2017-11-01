@@ -173,6 +173,7 @@ void Scene00::update() {
 //	controll
 	glm::vec3 direction = this->transform->front(); // if no input deflaut the last direction
 	glm::vec3 axisLS = game->input->getAxisLS();
+	
 	if (game->time->currentTime - this->lastAttack > 3.0) {
 		if (abs(axisLS.x) > 0.6 || abs(axisLS.z) > 0.6) {
 			this->transform->position.x += 20 * axisLS.x * game->time->deltaTime;
@@ -191,6 +192,10 @@ void Scene00::update() {
 		}
 	}
 
+	if (game->input->getJoystickTrigger(JOY_L1)) {
+		this->animation = 4;
+		this->lastAttack = game->time->currentTime;
+	}
 		// player
 	// std::cout << direction.x << " :d " << direction.z << std::endl;
 	// std::cout << axisLS.x << " :a " << axisLS.z << std::endl;
