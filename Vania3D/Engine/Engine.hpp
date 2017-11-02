@@ -4,11 +4,11 @@
 /*------------------------------------------------------------------------------
 < Macross >
 ------------------------------------------------------------------------------*/
-#define PIXEL_TO_UNIT (0.01f)
+#define PIXEL_TO_UNIT (0.01)
 #define UNIT_TO_PIXEL (100)
 #define SCREEN_WIDTH (960)
 #define SCREEN_HEIGHT (540)
-#define PI (3.141593f)
+#define PI (3.141593)
 #define NUM_BONES_PER_VEREX (4)
 
 #define UNIFORM_TEX_ALBEDO "albedo"
@@ -86,6 +86,8 @@ class Component;
 #include "Animation.hpp"
 #include "Model.hpp"
 
+#include "Transform.hpp"
+
 #include "Material.hpp"
 #include "LightProbe.hpp"
 #include "Resources.hpp"
@@ -98,7 +100,6 @@ class Component;
 /*------------------------------------------------------------------------------
 < Component >
 ------------------------------------------------------------------------------*/
-#include "Transform.hpp"
 #include "CameraController.hpp"
 #include "MeshRenderer.hpp"
 #include "Component.hpp"

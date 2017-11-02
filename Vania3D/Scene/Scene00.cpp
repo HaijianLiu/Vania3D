@@ -107,6 +107,7 @@ void Scene00::start() {
 	this->cameraController = new CameraController();
 	this->cameraController->camera = this->camera;
 	this->cameraController->transform = this->transform;
+	this->camera->target = this->transform;
 
 	/* light */
 	this->lightPositions[0] = glm::vec3(-10.0f,  10.0f, 20.0f);
@@ -125,7 +126,7 @@ void Scene00::start() {
 	// initialize static shader uniforms before rendering
 	game->resources->getShader("deferredPBRforUEmask")->use();
 		// camera
-		game->resources->getShader("deferredPBRforUEmask")->setMat4("projection", this->camera->getMatrixProjection());
+		game->resources->getShader("deferredPBRforUEmask")->setMat4("projection", this->camera->projection);
 		// texture
 		game->resources->getShader("deferredPBRforUEmask")->setInt("albedoMap", 0);
 		game->resources->getShader("deferredPBRforUEmask")->setInt("normalMap", 1);
@@ -147,7 +148,7 @@ void Scene00::start() {
 	glBindTexture(GL_TEXTURE_2D, noiseTexture);
 	game->resources->getShader("renderPass")->setInt("texNoise", 9);
 	// camera
-	game->resources->getShader("renderPass")->setMat4("projection", this->camera->getMatrixProjection());
+	game->resources->getShader("renderPass")->setMat4("projection", this->camera->projection);
 	// lights
 	for (unsigned int i = 0; i < sizeof(this->lightPositions) / sizeof(this->lightPositions[0]); ++i) {
 		game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lightPositions[i]);
@@ -165,12 +166,14 @@ void Scene00::start() {
 ------------------------------------------------------------------------------*/
 void Scene00::update() {
 	Game* game = Game::getInstance();
-
+	
+//	camera
+	this->camera->update();
 
 	// shader
 	game->resources->getShader("deferredPBRforUEmask")->use();
 		// camera
-		game->resources->getShader("deferredPBRforUEmask")->setMat4("view", this->camera->getMatrixView());
+		game->resources->getShader("deferredPBRforUEmask")->setMat4("view", this->camera->view);
 
 		// input
 		// Compute the desired orientation
@@ -244,9 +247,7 @@ void Scene00::update() {
 
 // renderPass
 	game->resources->getShader("renderPass")->use();
-	game->resources->getShader("renderPass")->setVec3("cameraPos", this->camera->getPosition());
+	game->resources->getShader("renderPass")->setVec3("cameraPos", this->camera->position);
 
 
-
-	this->camera->updateInput(game->window->window, game->time->deltaTime);
 }
