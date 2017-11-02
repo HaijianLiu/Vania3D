@@ -6,9 +6,9 @@ layout (location = 3) out vec4 worldPos;
 layout (location = 4) out vec4 alpha;
 
 // out vec4 FragColor;
-in vec2 TexCoords;
+// in vec2 TexCoords;
 in vec3 WorldPos;
-in vec3 Normal;
+// in vec3 Normal;
 
 void main() {
 	albedoColor = vec4(1.0);

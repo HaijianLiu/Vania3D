@@ -96,7 +96,7 @@ Scene00::~Scene00() {
 ------------------------------------------------------------------------------*/
 void Scene00::start() {
 	Game* game = Game::getInstance();
-	
+
 
 	/* GameObject */
 	this->transform = new Transform();
@@ -111,21 +111,21 @@ void Scene00::start() {
 	this->camera->offsetFromTarget = this->camera->position - (this->camera->target->position + this->camera->offset);
 
 	/* light */
-	this->lightPositions[0] = glm::vec3(-10.0f,  10.0f, 20.0f);
-	this->lightPositions[1] = glm::vec3( 10.0f,  10.0f, 20.0f);
-	this->lightPositions[2] = glm::vec3(-10.0f, -10.0f, 20.0f);
-	this->lightPositions[3] = glm::vec3( 10.0f, -10.0f, 20.0f);
+	this->lightPositions[0] = glm::vec3( 10.0f,  10.0f,  10.0f);
+	this->lightPositions[1] = glm::vec3( 10.0f,  10.0f, -10.0f);
+	this->lightPositions[2] = glm::vec3(-10.0f,  10.0f,  10.0f);
+	this->lightPositions[3] = glm::vec3(-10.0f,  10.0f, -10.0f);
 	this->lightColors[0] = glm::vec3(100.0f, 100.0f, 100.0f);
-	this->lightColors[1] = glm::vec3(100.0f, 100.0f, 100.0f);
-	this->lightColors[2] = glm::vec3(100.0f, 100.0f, 100.0f);
-	this->lightColors[3] = glm::vec3(100.0f, 100.0f, 100.0f);
+	this->lightColors[1] = glm::vec3(100.0f, 0.0f, 0.0f);
+	this->lightColors[2] = glm::vec3(0.0f, 100.0f, 0.0f);
+	this->lightColors[3] = glm::vec3(0.0f, 0.0f, 100.0f);
 	// this->lightColors[0] = glm::vec3(0.0f, 0.0f, 0.0f);
 	// this->lightColors[1] = glm::vec3(0.0f, 0.0f, 0.0f);
 	// this->lightColors[2] = glm::vec3(0.0f, 0.0f, 0.0f);
 	// this->lightColors[3] = glm::vec3(0.0f, 0.0f, 0.0f);
-	
+
 	// camera
-	
+
 //	light
 	game->resources->getShader("simple")->use();
 		game->resources->getShader("simple")->setMat4("projection", this->camera->projection);
@@ -167,8 +167,8 @@ void Scene00::start() {
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-	
-	
+
+
 }
 
 
@@ -275,10 +275,13 @@ void Scene00::update() {
 	game->resources->getShader("simple")->use();
 		game->resources->getShader("simple")->setMat4("view", this->camera->view);
 		glm::mat4 lightScale = glm::scale(glm::vec3(0.1));
-		glm::mat4 lightTranslate = glm::translate(this->lightPositions[0]);
+	for (unsigned int i = 0; i < 4; i++) {
+		glm::mat4 lightTranslate = glm::translate(this->lightPositions[i]);
 		glm::mat4 modelLight = lightTranslate * lightScale;
 		game->resources->getShader("simple")->setMat4("model", modelLight);
-	game->resources->sphere->draw();
+		game->resources->sphere->draw();
+	}
+
 
 // renderPass
 	game->resources->getShader("renderPass")->use();
