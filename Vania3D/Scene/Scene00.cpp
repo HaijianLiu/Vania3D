@@ -101,7 +101,7 @@ void Scene00::start() {
 	/* GameObject */
 	this->transform = new Transform();
 	this->transform->modelScale = glm::vec3(0.05);
-	
+
 	// camera
 	this->camera = new Camera();
 	this->cameraController = new CameraController();
@@ -167,10 +167,10 @@ void Scene00::start() {
 ------------------------------------------------------------------------------*/
 void Scene00::update() {
 	Game* game = Game::getInstance();
-	
+
 //	camera
 	this->transform->update();
-	
+
 	this->camera->update();
 
 	// shader
@@ -185,28 +185,28 @@ void Scene00::update() {
 //	controll
 	glm::vec3 direction = this->transform->front(); // if no input deflaut the last direction
 	glm::vec3 axisLS = game->input->getAxisLS();
-	
+
 	glm::vec3 cameraFrontFromWorldUp = glm::normalize(glm::cross(this->camera->cameraRight, this->camera->worldUp));
 	glm::quat worldToCamera = glm::rotation(glm::vec3(0,0,1), cameraFrontFromWorldUp);
-	
-	
+
+
 	if (game->time->currentTime - this->lastAttack > 3.0) {
 		if (abs(axisLS.x) > 0.6 || abs(axisLS.z) > 0.6) {
 			direction = worldToCamera * game->input->getNormalLS();
 			axisLS = worldToCamera * axisLS;
-			
+
 			this->transform->position.x += 20 * axisLS.x * game->time->deltaTime;
 			this->transform->position.z += 20 * axisLS.z * game->time->deltaTime;
-			
+
 			this->animation = 3;
 		}
 		else if (abs(axisLS.x) > 0.1 || abs(axisLS.z) > 0.1){
 			direction = worldToCamera * game->input->getNormalLS();
 			axisLS = worldToCamera * axisLS;
-			
+
 			this->transform->position.x += 10 * axisLS.x * game->time->deltaTime;
 			this->transform->position.z += 10 * axisLS.z * game->time->deltaTime;
-			
+
 			this->animation = 2;
 		}
 		else {
@@ -220,8 +220,8 @@ void Scene00::update() {
 	}
 
 	this->transform->rotate(direction, 2 * PI * game->time->deltaTime);
-	
-	
+
+
 //	camera controller
 	glm::vec3 axisRS = game->input->getAxisRS();
 	this->camera->rotate(-2 * axisRS.x * game->time->deltaTime, axisRS.z * game->time->deltaTime);
