@@ -25,6 +25,7 @@ Resources::~Resources() {
 	deleteMap(this->materials);
 	delete this->quad;
 	delete this->skybox;
+	delete this->sphere;
 }
 
 
@@ -36,6 +37,7 @@ void Resources::start() {
 	..............................................................................*/
 	this->quad = new Quad();
 	this->skybox = new Skybox();
+	this->sphere = new Sphere();
 
 	/* Shader
 	..............................................................................*/
@@ -46,6 +48,9 @@ void Resources::start() {
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
 	this->loadShader("prefilter", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/prefilter.fs.glsl");
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
+
+	this->loadShader("simple", "./Assets/Shaders/simple.vs.glsl",  "./Assets/Shaders/simple.fs.glsl");
+
 	// this->loadShader("background", "./Assets/Shaders/background.vs.glsl",  "./Assets/Shaders/background.fs.glsl");
 
 	/* Model

@@ -123,6 +123,14 @@ void Scene00::start() {
 	// this->lightColors[1] = glm::vec3(0.0f, 0.0f, 0.0f);
 	// this->lightColors[2] = glm::vec3(0.0f, 0.0f, 0.0f);
 	// this->lightColors[3] = glm::vec3(0.0f, 0.0f, 0.0f);
+	
+	// camera
+	
+//	light
+	game->resources->getShader("simple")->use();
+		game->resources->getShader("simple")->setMat4("projection", this->camera->projection);
+
+
 
 	// initialize static shader uniforms before rendering
 	game->resources->getShader("deferredPBRforUEmask")->use();
@@ -159,6 +167,8 @@ void Scene00::start() {
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+	
+	
 }
 
 
@@ -261,6 +271,14 @@ void Scene00::update() {
 
 	game->resources->getModel("vampire")->draw();
 
+	// light
+	game->resources->getShader("simple")->use();
+		game->resources->getShader("simple")->setMat4("view", this->camera->view);
+		glm::mat4 lightScale = glm::scale(glm::vec3(0.1));
+		glm::mat4 lightTranslate = glm::translate(this->lightPositions[0]);
+		glm::mat4 modelLight = lightTranslate * lightScale;
+		game->resources->getShader("simple")->setMat4("model", modelLight);
+	game->resources->sphere->draw();
 
 // renderPass
 	game->resources->getShader("renderPass")->use();
