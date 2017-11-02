@@ -206,13 +206,14 @@ void Scene00::update() {
 		this->animation = 4;
 		this->lastAttack = game->time->currentTime;
 	}
-		// player
-	// std::cout << direction.x << " :d " << direction.z << std::endl;
-	// std::cout << axisLS.x << " :a " << axisLS.z << std::endl;
 
 	this->transform->rotate(direction, 2 * PI * game->time->deltaTime);
 
 	this->transform->update();
+	
+//	camera controller
+	glm::vec3 axisRS = game->input->getAxisRS();
+	this->camera->rotate(2 * axisRS.x * game->time->deltaTime, 2 * axisRS.z * game->time->deltaTime);
 
 
 

@@ -47,6 +47,17 @@ void Camera::update() {
 }
 
 
+void Camera::rotate(float radiansHorizonal, float radiansVertical) {
+	// update offset from target vec3
+	// horizonal
+	glm::quat rotationHorizonal = glm::angleAxis(radiansHorizonal, this->worldUp);
+	this->offsetFromTarget = rotationHorizonal * this->offsetFromTarget;
+	// vertical
+	glm::quat rotationVertical = glm::angleAxis(radiansVertical, this->cameraRight);
+	this->offsetFromTarget = rotationVertical * this->offsetFromTarget;
+}
+
+
 // glm::vec3 front;
 // front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 // front.y = sin(glm::radians(pitch));

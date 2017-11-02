@@ -38,6 +38,9 @@ public:
 
 	// for temp
 	glm::vec3 offsetFromTarget;
+	glm::quat offsetRotation = glm::quat(1,0,0,0);
+
+	void rotate(float radiansHorizonal, float radiansVertical);
 };
 
 #endif /* Camera_hpp */
