@@ -24,7 +24,7 @@ public:
 	glm::vec3 worldFront, worldUp, worldRight;
 	// target
 	Transform* target;
-	glm::vec3 offset;
+	glm::vec3 offset; // camera target offset from target
 
 	// uniforms
 	glm::mat4 projection;
@@ -37,7 +37,7 @@ public:
 
 
 	// for temp
-	glm::vec3 offsetFromTarget;
+	glm::vec3 offsetFromTarget; // camera offset from target's offset
 	glm::quat offsetRotation = glm::quat(1,0,0,0);
 
 	void rotate(float radiansHorizonal, float radiansVertical);
