@@ -108,6 +108,7 @@ void Scene00::start() {
 	this->cameraController->camera = this->camera;
 	this->cameraController->transform = this->transform;
 	this->camera->target = this->transform;
+	this->camera->offsetFromTarget = this->camera->position - (this->camera->target->position + this->camera->offset);
 
 	/* light */
 	this->lightPositions[0] = glm::vec3(-10.0f,  10.0f, 20.0f);

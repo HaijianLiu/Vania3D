@@ -34,6 +34,10 @@ public:
 	~Camera();
 
 	void update();
+
+
+	// for temp
+	glm::vec3 offsetFromTarget;
 };
 
 #endif /* Camera_hpp */

@@ -35,13 +35,15 @@ Camera::~Camera() {
 
 
 void Camera::update() {
+	this->position = this->target->position + this->offset + this->offsetFromTarget;
+
 	// calculate the new front vector
-	this->cameraFront = glm::normalize(this->target->position - this->position);
+	this->cameraFront = glm::normalize(-this->offsetFromTarget);
 	this->cameraRight = glm::normalize(glm::cross(this->cameraFront, this->worldUp));
 	this->cameraUp = glm::normalize(glm::cross(this->cameraRight, this->cameraFront));
 
 	// view matrix (camera position (in world space), target position (in world space), camera up direction)
-	this->view = glm::lookAt(this->position, this->target->position + this->offset, this->cameraUp);
+	this->view = glm::lookAt(this->position, this->position + this->cameraFront, this->cameraUp);
 }
 
 
