@@ -213,7 +213,7 @@ void Scene00::update() {
 	
 //	camera controller
 	glm::vec3 axisRS = game->input->getAxisRS();
-	this->camera->rotate(2 * axisRS.x * game->time->deltaTime, 2 * axisRS.z * game->time->deltaTime);
+	this->camera->rotate(2 * axisRS.x * game->time->deltaTime, -axisRS.z * game->time->deltaTime);
 
 
 

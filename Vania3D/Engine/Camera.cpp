@@ -49,12 +49,18 @@ void Camera::update() {
 
 void Camera::rotate(float radiansHorizonal, float radiansVertical) {
 	// update offset from target vec3
+
 	// horizonal
 	glm::quat rotationHorizonal = glm::angleAxis(radiansHorizonal, this->worldUp);
 	this->offsetFromTarget = rotationHorizonal * this->offsetFromTarget;
+
 	// vertical
 	glm::quat rotationVertical = glm::angleAxis(radiansVertical, this->cameraRight);
-	this->offsetFromTarget = rotationVertical * this->offsetFromTarget;
+	glm::vec3 tempOffset = rotationVertical * this->offsetFromTarget;
+	float radiansToWorldUp = glm::dot(glm::normalize(tempOffset), this->worldUp);
+	if (radiansToWorldUp < 0.8 && radiansToWorldUp > 0) {
+		this->offsetFromTarget = tempOffset;
+	}
 }
 
 
