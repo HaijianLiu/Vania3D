@@ -20,6 +20,8 @@ private:
 	glm::vec3 normalRS = glm::vec3(0.0); // direction normal in world space
 	glm::vec3 axisLS = glm::vec3(0.0); // direction in world space
 	glm::vec3 axisRS = glm::vec3(0.0); // direction in world space
+	float axisL2 = 0;
+	float axisR2 = 0;
 
 	// keyboard data container
 	int keys[GLFW_KEY_LAST] = {GLFW_RELEASE};

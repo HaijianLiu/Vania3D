@@ -64,6 +64,16 @@ void Camera::rotate(float radiansHorizonal, float radiansVertical) {
 }
 
 
+void Camera::zoom(float distance) {
+	glm::vec3 zoomDistance = this->cameraFront * distance;
+	glm::vec3 tempOffset = this->offsetFromTarget + zoomDistance;
+	float length2 = glm::length2(tempOffset);
+	if (length2 > 100 && length2 <= 500) {
+		this->offsetFromTarget = tempOffset;
+	}
+}
+
+
 // glm::vec3 front;
 // front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 // front.y = sin(glm::radians(pitch));

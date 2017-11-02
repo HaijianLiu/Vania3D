@@ -41,6 +41,7 @@ public:
 	glm::quat offsetRotation = glm::quat(1,0,0,0);
 
 	void rotate(float radiansHorizonal, float radiansVertical);
+	void zoom(float distance);
 };
 
 #endif /* Camera_hpp */

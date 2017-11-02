@@ -104,6 +104,10 @@ void Input::updateJoystick() {
 			this->normalRS = glm::normalize(this->axisRS);
 			this->axisRS = this->normalRS * ((magnitudeRS - this->deadzone) / (1 - this->deadzone));
 		}
+
+		// L2 R2
+		this->axisL2 = joyAxis[4];
+		this->axisL2 = joyAxis[5];
 	}
 }
 
