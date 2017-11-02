@@ -4,18 +4,14 @@
 
 class Camera {
 private:
-	// Camera Attributes
-	float field; // Degree° Field of View
+	// camera Attributes
+	float field; // degree Field of View
 	float ratio;
 	float rangeStart;
 	float rangeEnd;
-	// Moment options
+	// moment options
 	float moveSpeed;
 	float rotateSensitivity;
-
-	// Eular Angles
-	float yaw;
-	float pitch;
 
 public:
 	// camera transform
@@ -38,7 +34,6 @@ public:
 
 	// for temp
 	glm::vec3 offsetFromTarget; // camera offset from target's offset
-	glm::quat offsetRotation = glm::quat(1,0,0,0);
 
 	void rotate(float radiansHorizonal, float radiansVertical);
 	void zoom(float distance);

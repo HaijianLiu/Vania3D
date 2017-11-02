@@ -10,9 +10,7 @@ Camera::Camera() {
 	this->worldFront  = glm::vec3(0.0,0.0,-1.0);
 	this->worldUp     = glm::vec3(0.0,1.0,0.0);
 	this->worldRight  = glm::vec3(1.0,0.0,0.0);
-	// Eular Angles
-	this->yaw   = -90.0;
-	this->pitch = 0.0;
+	
 	// Moment options
 	this->moveSpeed = 8.0;
 	this->rotateSensitivity = 40.0;
