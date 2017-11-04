@@ -99,7 +99,8 @@ void Scene00::start() {
 	
 	// camera
 	GameObject* camera = new GameObject();
-	camera->addComponent<Transform>();
+	Transform* cameraTransform = camera->addComponent<Transform>();
+	cameraTransform->position = glm::vec3(0.0,10.0,20.0);
 	camera->addComponent<Camera>();
 	
 	// player
@@ -119,7 +120,7 @@ void Scene00::start() {
 	
 	// camera
 	camera->getComponent<Camera>()->target = playerTransform;
-	camera->getComponent<Camera>()->offsetFromTarget = camera->getComponent<Camera>()->position - (camera->getComponent<Camera>()->target->position + camera->getComponent<Camera>()->offset);
+	camera->getComponent<Camera>()->offsetFromTarget = camera->getComponent<Transform>()->position - (camera->getComponent<Camera>()->target->position + camera->getComponent<Camera>()->offset);
 	this->addCamera(camera);
 	
 	// light

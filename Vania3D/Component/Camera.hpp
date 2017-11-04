@@ -14,8 +14,6 @@ private:
 	float rotateSensitivity;
 
 public:
-	// camera transform
-	glm::vec3 position;
 	glm::vec3 cameraFront, cameraUp, cameraRight;
 	glm::vec3 worldFront, worldUp, worldRight;
 	// target

@@ -29,7 +29,7 @@ void Scene::update() {
 void Scene::updateRenderPass() {
 	// renderPass
 	this->game->renderPass->shader->use();
-	this->game->renderPass->shader->setVec3("cameraPos", this->camera->getComponent<Camera>()->position);
+	this->game->renderPass->shader->setVec3("cameraPos", this->camera->getComponent<Transform>()->position);
 
 	// lights
 	for (unsigned int i = 0; i < this->lights.size(); ++i) {

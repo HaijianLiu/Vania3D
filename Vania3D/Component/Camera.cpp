@@ -3,7 +3,6 @@
 
 Camera::Camera() {
 	// Camera Position
-	this->position    = glm::vec3(0.0,10.0,20.0);
 	this->cameraFront = glm::vec3(0.0,0.0,-1.0);
 	this->cameraUp    = glm::vec3(0.0,1.0,0.0);
 	this->cameraRight = glm::vec3(1.0,0.0,0.0);
@@ -33,7 +32,8 @@ Camera::~Camera() {
 
 
 void Camera::update() {
-	this->position = this->target->position + this->offset + this->offsetFromTarget;
+	Transform* transform = this->getGameObject()->getComponent<Transform>();
+	transform->position = this->target->position + this->offset + this->offsetFromTarget;
 
 	// calculate the new front vector
 	this->cameraFront = glm::normalize(-this->offsetFromTarget);
@@ -41,7 +41,7 @@ void Camera::update() {
 	this->cameraUp = glm::normalize(glm::cross(this->cameraRight, this->cameraFront));
 
 	// view matrix (camera position (in world space), target position (in world space), camera up direction)
-	this->view = glm::lookAt(this->position, this->position + this->cameraFront, this->cameraUp);
+	this->view = glm::lookAt(transform->position, transform->position + this->cameraFront, this->cameraUp);
 }
 
 
