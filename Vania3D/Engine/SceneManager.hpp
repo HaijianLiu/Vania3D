@@ -7,14 +7,13 @@ private:
 	const char* currentScene;
 	std::unordered_map<const char*, Scene*> scenes;
 
-	void start();
-
 public:
 	SceneManager();
 	~SceneManager();
 
 	void update();
-	void add(const char* name, Scene* scene);
+
+	void addScene(const char* name, Scene* scene);
 	void setActiveScene(const char* name);
 };
 

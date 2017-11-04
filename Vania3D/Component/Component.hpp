@@ -4,9 +4,11 @@
 
 class Component {
 private:
+	friend class GameObject;
 	GameObject* gameObject;
 
 public:
+	Component();
 	virtual ~Component();
 
 	virtual void start();

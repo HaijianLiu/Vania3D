@@ -37,24 +37,24 @@ void GameObject::update() {
 }
 
 
-/*------------------------------------------------------------------------------
-< add component >
-------------------------------------------------------------------------------*/
-template <typename T> T* GameObject::addComponent() {
-	auto component = new T();
-	component->gameObject = this;
-	this->components[typeid(T)] = component;
-	return *component;
-}
-
-
-/*------------------------------------------------------------------------------
-< get component >
-------------------------------------------------------------------------------*/
-template <typename T> T* GameObject::getComponent() {
-	auto iter = components.find(typeid(T));
-	if (iter != std::end(this->components)) {
-		return dynamic_cast<T*>(iter->second);
-	}
-	return nullptr;
-}
+// /*------------------------------------------------------------------------------
+// < add component >
+// ------------------------------------------------------------------------------*/
+// template <typename T> T* GameObject::addComponent() {
+// 	auto component = new T();
+// 	component->gameObject = this;
+// 	this->components[typeid(T)] = component;
+// 	return *component;
+// }
+//
+//
+// /*------------------------------------------------------------------------------
+// < get component >
+// ------------------------------------------------------------------------------*/
+// template <typename T> T* GameObject::getComponent() {
+// 	auto iter = components.find(typeid(T));
+// 	if (iter != std::end(this->components)) {
+// 		return dynamic_cast<T*>(iter->second);
+// 	}
+// 	return nullptr;
+// }

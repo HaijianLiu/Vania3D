@@ -15,7 +15,7 @@ private:
 	// player
 	unsigned int animation = 0;
 	float lastAttack = 0;
-	Transform* transform;
+//	Transform* transform;
 
 public:
 	Scene00();

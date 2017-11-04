@@ -23,8 +23,14 @@ SceneManager::~SceneManager() {
 void SceneManager::update() {
 	if (this->scenes[this->currentScene]->started) {
 		this->scenes[this->currentScene]->update();
+		for (unsigned int i = 0; i < this->scenes[this->currentScene]->gameObjects.size(); i++) {
+			this->scenes[this->currentScene]->gameObjects[i]->update();
+		}
 	} else {
 		this->scenes[this->currentScene]->start();
+		for (unsigned int i = 0; i < this->scenes[this->currentScene]->gameObjects.size(); i++) {
+			this->scenes[this->currentScene]->gameObjects[i]->start();
+		}
 		this->scenes[this->currentScene]->started = true;
 	}
 }
@@ -33,7 +39,7 @@ void SceneManager::update() {
 /*------------------------------------------------------------------------------
 < add >
 ------------------------------------------------------------------------------*/
-void SceneManager::add(const char* name, Scene* scene) {
+void SceneManager::addScene(const char* name, Scene* scene) {
 	this->scenes.insert(std::make_pair(name, scene));
 }
 

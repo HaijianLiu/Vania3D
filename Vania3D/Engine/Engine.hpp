@@ -67,7 +67,7 @@
 class GameObject;
 class Game;
 class SceneManager;
-class Component;
+// class Component;
 
 
 /*------------------------------------------------------------------------------
@@ -89,6 +89,7 @@ class Component;
 #include "Animation.hpp"
 #include "Model.hpp"
 
+#include "Component.hpp"
 #include "Transform.hpp"
 
 #include "Material.hpp"
@@ -96,7 +97,9 @@ class Component;
 #include "Resources.hpp"
 #include "RenderPass.hpp"
 #include "Camera.hpp"
+
 #include "GameObject.hpp"
+
 #include "Game.hpp"
 
 
@@ -105,7 +108,6 @@ class Component;
 ------------------------------------------------------------------------------*/
 #include "CameraController.hpp"
 #include "MeshRenderer.hpp"
-#include "Component.hpp"
 
 
 /*------------------------------------------------------------------------------

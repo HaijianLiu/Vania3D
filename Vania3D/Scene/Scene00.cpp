@@ -96,20 +96,29 @@ Scene00::~Scene00() {
 ------------------------------------------------------------------------------*/
 void Scene00::start() {
 	Game* game = Game::getInstance();
-
+	
+	// player
+	GameObject* player = new GameObject();
+	Transform* playerTransform = player->addComponent<Transform>();
+	playerTransform->modelScale = glm::vec3(0.05);
+	this->addGameObject("player", player);
 
 	/* GameObject */
-	this->transform = new Transform();
-	this->transform->modelScale = glm::vec3(0.05);
+//	this->transform = new Transform();
+//	this->transform->modelScale = glm::vec3(0.05);
 
+	
+	
 	// camera
 	this->camera = new Camera();
 	this->cameraController = new CameraController();
 	this->cameraController->camera = this->camera;
-	this->cameraController->transform = this->transform;
-	this->camera->target = this->transform;
+	this->cameraController->transform = playerTransform;
+	this->camera->target = playerTransform;
 	this->camera->offsetFromTarget = this->camera->position - (this->camera->target->position + this->camera->offset);
 
+	
+	
 	/* light */
 	this->lightPositions[0] = glm::vec3( 10.0f,  10.0f,  10.0f);
 	this->lightPositions[1] = glm::vec3( 10.0f,  10.0f, -10.0f);
@@ -119,14 +128,7 @@ void Scene00::start() {
 	this->lightColors[1] = glm::vec3(100.0f, 0.0f, 0.0f);
 	this->lightColors[2] = glm::vec3(0.0f, 100.0f, 0.0f);
 	this->lightColors[3] = glm::vec3(0.0f, 0.0f, 100.0f);
-	// this->lightColors[0] = glm::vec3(0.0f, 0.0f, 0.0f);
-	// this->lightColors[1] = glm::vec3(0.0f, 0.0f, 0.0f);
-	// this->lightColors[2] = glm::vec3(0.0f, 0.0f, 0.0f);
-	// this->lightColors[3] = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	// camera
-
-//	light
 	game->resources->getShader("simple")->use();
 		game->resources->getShader("simple")->setMat4("projection", this->camera->projection);
 
@@ -140,24 +142,25 @@ void Scene00::start() {
 		game->resources->getShader("deferredPBRforUEmask")->setInt("albedoMap", 0);
 		game->resources->getShader("deferredPBRforUEmask")->setInt("normalMap", 1);
 		game->resources->getShader("deferredPBRforUEmask")->setInt("maskMap", 2);
-		// game->resources->getShader("deferredPBRforUEmask")->setInt("roughnessMap", 3);
-		// game->resources->getShader("deferredPBRforUEmask")->setInt("aoMap", 4);
+
 
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
 
 	game->resources->getShader("renderPass")->use();
 	//kernel
-	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
-	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
-		game->resources->getShader("renderPass")->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
+//	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
+//	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
+//		game->resources->getShader("renderPass")->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
 	// noiseTexture
-	unsigned int noiseTexture = genNoiseTexture(4);
-	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_2D, noiseTexture);
-	game->resources->getShader("renderPass")->setInt("texNoise", 9);
+//	unsigned int noiseTexture = genNoiseTexture(4);
+//	glActiveTexture(GL_TEXTURE9);
+//	glBindTexture(GL_TEXTURE_2D, noiseTexture);
+//	game->resources->getShader("renderPass")->setInt("texNoise", 9);
+	
 	// camera
 	game->resources->getShader("renderPass")->setMat4("projection", this->camera->projection);
+	
 	// lights
 	for (unsigned int i = 0; i < sizeof(this->lightPositions) / sizeof(this->lightPositions[0]); ++i) {
 		game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lightPositions[i]);
@@ -168,7 +171,6 @@ void Scene00::start() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-
 }
 
 
@@ -177,9 +179,11 @@ void Scene00::start() {
 ------------------------------------------------------------------------------*/
 void Scene00::update() {
 	Game* game = Game::getInstance();
+	GameObject* player = this->getGameObject("player");
+	Transform* playerTransform = player->getComponent<Transform>();
 
 //	camera
-	this->transform->update();
+//	playerTransform->update();
 
 	this->camera->update();
 
@@ -189,11 +193,9 @@ void Scene00::update() {
 		game->resources->getShader("deferredPBRforUEmask")->setMat4("view", this->camera->view);
 
 		// input
-		// Compute the desired orientation
-	// begin from non rotate
 
 //	controll
-	glm::vec3 direction = this->transform->front(); // if no input deflaut the last direction
+	glm::vec3 direction = playerTransform->front(); // if no input deflaut the last direction
 	glm::vec3 axisLS = game->input->getAxisLS();
 
 	glm::vec3 cameraFrontFromWorldUp = glm::normalize(glm::cross(this->camera->cameraRight, this->camera->worldUp));
@@ -205,8 +207,8 @@ void Scene00::update() {
 			direction = worldToCamera * game->input->getNormalLS();
 			axisLS = worldToCamera * axisLS;
 
-			this->transform->position.x += 20 * axisLS.x * game->time->deltaTime;
-			this->transform->position.z += 20 * axisLS.z * game->time->deltaTime;
+			playerTransform->position.x += 20 * axisLS.x * game->time->deltaTime;
+			playerTransform->position.z += 20 * axisLS.z * game->time->deltaTime;
 
 			this->animation = 3;
 		}
@@ -214,8 +216,8 @@ void Scene00::update() {
 			direction = worldToCamera * game->input->getNormalLS();
 			axisLS = worldToCamera * axisLS;
 
-			this->transform->position.x += 10 * axisLS.x * game->time->deltaTime;
-			this->transform->position.z += 10 * axisLS.z * game->time->deltaTime;
+			playerTransform->position.x += 10 * axisLS.x * game->time->deltaTime;
+			playerTransform->position.z += 10 * axisLS.z * game->time->deltaTime;
 
 			this->animation = 2;
 		}
@@ -229,7 +231,7 @@ void Scene00::update() {
 		this->lastAttack = game->time->currentTime;
 	}
 
-	this->transform->rotate(direction, 2 * PI * game->time->deltaTime);
+	playerTransform->rotate(direction, 2 * PI * game->time->deltaTime);
 
 
 //	camera controller
@@ -243,7 +245,7 @@ void Scene00::update() {
 
 
 	/* render */
-		game->resources->getShader("deferredPBRforUEmask")->setMat4("model", this->transform->model);
+		game->resources->getShader("deferredPBRforUEmask")->setMat4("model", playerTransform->model);
 
 		// texture
 		glActiveTexture(GL_TEXTURE0);

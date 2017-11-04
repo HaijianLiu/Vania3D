@@ -45,7 +45,7 @@ void Game::start() {
 	// render pass
 	this->renderPass->init(this->resources->getShader("renderPass"), 5);
 	// scene manager ????
-	this->sceneManager->add("Scene00", new Scene00()); // default scene00
+	this->sceneManager->addScene("Scene00", new Scene00()); // default scene00
 	this->sceneManager->setActiveScene("Scene00");
 }
 
