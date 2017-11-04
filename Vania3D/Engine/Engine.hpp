@@ -92,7 +92,6 @@ class Camera;
 
 #include "Component.hpp"
 #include "Transform.hpp"
-#include "PlayerController.hpp"
 
 #include "Material.hpp"
 #include "LightProbe.hpp"
@@ -108,6 +107,7 @@ class Camera;
 /*------------------------------------------------------------------------------
 < Component >
 ------------------------------------------------------------------------------*/
+#include "PlayerController.hpp"
 #include "PointLight.hpp"
 #include "CameraController.hpp"
 #include "MeshRenderer.hpp"

@@ -120,38 +120,26 @@ void Scene00::start() {
 	this->camera->offsetFromTarget = this->camera->position - (this->camera->target->position + this->camera->offset);
 	
 	// light
-	GameObject* light[4] = {new GameObject()};
+	GameObject* light[4];
+	for (int i = 0; i < 4; i++) {
+		light[i] = new GameObject();
+		light[i]->addComponent<Transform>();
+		light[i]->addComponent<PointLight>();
+		this->addLight(light[i]);
+	}
+	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);
+	light[1]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f, -10.0f);
+	light[2]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f,  10.0f);
+	light[3]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f, -10.0f);
+	light[0]->getComponent<PointLight>()->color = glm::vec3(100.0f, 100.0f, 100.0f);
+	light[1]->getComponent<PointLight>()->color = glm::vec3(100.0f, 0.0f, 0.0f);
+	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 100.0f, 0.0f);
+	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 100.0f);
 	
-
-	
-	
-	/* light */
-	this->lightPositions[0] = glm::vec3( 10.0f,  10.0f,  10.0f);
-	this->lightPositions[1] = glm::vec3( 10.0f,  10.0f, -10.0f);
-	this->lightPositions[2] = glm::vec3(-10.0f,  10.0f,  10.0f);
-	this->lightPositions[3] = glm::vec3(-10.0f,  10.0f, -10.0f);
-	this->lightColors[0] = glm::vec3(100.0f, 100.0f, 100.0f);
-	this->lightColors[1] = glm::vec3(100.0f, 0.0f, 0.0f);
-	this->lightColors[2] = glm::vec3(0.0f, 100.0f, 0.0f);
-	this->lightColors[3] = glm::vec3(0.0f, 0.0f, 100.0f);
-
-	game->resources->getShader("simple")->use();
-		game->resources->getShader("simple")->setMat4("projection", this->camera->projection);
-
 
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
 
-	game->resources->getShader("renderPass")->use();
-	
-	// camera
-	game->resources->getShader("renderPass")->setMat4("projection", this->camera->projection);
-	
-	// lights
-	for (unsigned int i = 0; i < sizeof(this->lightPositions) / sizeof(this->lightPositions[0]); ++i) {
-		game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lightPositions[i]);
-		game->resources->getShader("renderPass")->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lightColors[i]);
-	}
 
 	//kernel
 	//	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
@@ -179,20 +167,27 @@ void Scene00::update() {
 
 
 	// light
-	game->resources->getShader("simple")->use();
-		game->resources->getShader("simple")->setMat4("view", this->camera->view);
-		glm::mat4 lightScale = glm::scale(glm::vec3(0.1));
-	for (unsigned int i = 0; i < 4; i++) {
-		glm::mat4 lightTranslate = glm::translate(this->lightPositions[i]);
-		glm::mat4 modelLight = lightTranslate * lightScale;
-		game->resources->getShader("simple")->setMat4("model", modelLight);
-		game->resources->sphere->draw();
-	}
+//	game->resources->getShader("simple")->use();
+//		game->resources->getShader("simple")->setMat4("projection", this->camera->projection);
+//		game->resources->getShader("simple")->setMat4("view", this->camera->view);
+//		glm::mat4 lightScale = glm::scale(glm::vec3(0.1));
+//	for (unsigned int i = 0; i < 4; i++) {
+//		glm::mat4 lightTranslate = glm::translate(this->lightPositions[i]);
+//		glm::mat4 modelLight = lightTranslate * lightScale;
+//		game->resources->getShader("simple")->setMat4("model", modelLight);
+//		game->resources->sphere->draw();
+//	}
 
 
-// renderPass
+	// renderPass
 	game->resources->getShader("renderPass")->use();
 	game->resources->getShader("renderPass")->setVec3("cameraPos", this->camera->position);
+
+	// lights
+	for (unsigned int i = 0; i < this->lights.size(); ++i) {
+		game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lights[i]->getComponent<Transform>()->position);
+		game->resources->getShader("renderPass")->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lights[i]->getComponent<PointLight>()->color);
+	}
 
 	
 	this->camera->update();

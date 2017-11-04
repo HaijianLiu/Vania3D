@@ -14,6 +14,7 @@ Scene::Scene() {
 ------------------------------------------------------------------------------*/
 Scene::~Scene() {
 	deleteVector(this->gameObjects);
+	deleteVector(this->lights);
 }
 
 
@@ -26,7 +27,7 @@ void Scene::update() {
 
 
 /*------------------------------------------------------------------------------
-< add game object >
+< add gameobject >
 ------------------------------------------------------------------------------*/
 void Scene::addGameObject(const char* name, GameObject* gameObject) {
 	this->gameObjects.push_back(gameObject);
@@ -34,6 +35,18 @@ void Scene::addGameObject(const char* name, GameObject* gameObject) {
 	this->index ++;
 }
 
+
+/*------------------------------------------------------------------------------
+< add light >
+------------------------------------------------------------------------------*/
+void Scene::addLight(GameObject* light) {
+	this->lights.push_back(light);
+}
+
+
+/*------------------------------------------------------------------------------
+< get gameobject >
+------------------------------------------------------------------------------*/
 GameObject* Scene::getGameObject(const char* name) {
 	auto it = this->gameObjectsMapping.find(name);
 	if (it != this->gameObjectsMapping.end())

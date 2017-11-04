@@ -7,8 +7,8 @@ private:
 	Camera* camera;
 
 	// lights
-	glm::vec3 lightPositions[4];
-	glm::vec3 lightColors[4];
+//	glm::vec3 lightPositions[4];
+//	glm::vec3 lightColors[4];
 
 public:
 	Scene00();
