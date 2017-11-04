@@ -5,7 +5,7 @@
 class Material {
 private:
 	Shader* shader;
-	std::map<const char*, Texture*> textures;
+	std::unordered_map<const char*, Texture*> textures;
 
 public:
 	Material(Shader* shader);

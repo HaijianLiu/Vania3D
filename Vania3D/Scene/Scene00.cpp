@@ -108,6 +108,7 @@ void Scene00::start() {
 	playerController->camera = this->camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
 	cameraController->camera = this->camera;
+	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
 	this->addGameObject("player", player);
 	
 	// camera
@@ -192,24 +193,24 @@ void Scene00::update() {
 
 		// texture
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_albedo")->id);
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("player_albedo")->id);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_normal")->id);
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("player_normal")->id);
 		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_mask")->id);
+		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("player_mask")->id);
 
 
-	game->resources->getModel("vampire")->updatePose(playerController->animation, game->time->currentTime);
+	game->resources->getModel("player")->updatePose(playerController->animation, game->time->currentTime);
 
 
-	std::vector<glm::mat4> Transforms = game->resources->getModel("vampire")->pose;
+	std::vector<glm::mat4> Transforms = game->resources->getModel("player")->pose;
 		for (uint i = 0 ; i < Transforms.size() ; i++) {
 			glm::mat4 boneTransform = Transforms[i];
 
 				game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
 		}
 
-	game->resources->getModel("vampire")->draw();
+	game->resources->getModel("player")->draw();
 
 	// light
 	game->resources->getShader("simple")->use();

@@ -65,12 +65,12 @@ void Resources::start() {
 
 	// this->loadModel("vampire", "./Assets/Models/Ganfaul/Mixamo_Ganfault_Aure.FBX");
 	// Animation* animation = new Animation("./Assets/Models/Ganfaul/Mixamo_Ganfault_idle.FBX");
-	this->loadModel("vampire", "./Assets/Models/Ganfaul/mixamo_model.fbx");
-	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
-	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
-	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_walk.fbx"));
-	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_run.fbx"));
-	this->getModel("vampire")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_swiping.fbx"));
+	this->loadModel("player", "./Assets/Models/Ganfaul/mixamo_model.fbx");
+	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
+	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
+	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_walk.fbx"));
+	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_run.fbx"));
+	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_swiping.fbx"));
 
 
 	// this->loadModel("vampire", "./Assets/Models/Heraklios/Mixamo_Heraklios.FBX");
@@ -104,9 +104,9 @@ void Resources::start() {
 	// this->loadTexture("vampire_normal", "./Assets/Models/Maria/maria_normal.TGA");
 	// this->loadTexture("vampire_mask", "./Assets/Models/Maria/maria_mask.TGA");
 
-	this->loadTexture("vampire_albedo", "./Assets/Models/Ganfaul/Ganfaul_diffuse.TGA");
-	this->loadTexture("vampire_normal", "./Assets/Models/Ganfaul/Ganfaul_normal.TGA");
-	this->loadTexture("vampire_mask", "./Assets/Models/Ganfaul/Ganfaul_mask.TGA");
+	this->loadTexture("player_albedo", "./Assets/Models/Ganfaul/Ganfaul_diffuse.TGA");
+	this->loadTexture("player_normal", "./Assets/Models/Ganfaul/Ganfaul_normal.TGA");
+	this->loadTexture("player_mask", "./Assets/Models/Ganfaul/Ganfaul_mask.TGA");
 
 	// this->loadTexture("vampire_albedo", "./Assets/Models/Heraklios/battalion-leader-heraklios_diffuse.TGA");
 	// this->loadTexture("vampire_normal", "./Assets/Models/Heraklios/battalion-leader-heraklios_normal.TGA");
@@ -123,16 +123,11 @@ void Resources::start() {
 
 	/* Material
 	..............................................................................*/
-	// this->createMaterial("WPN_AKM", getShader("deferredPBR"));
-	// this->materials["WPN_AKM"]->addTexture("albedoMap", this->textures["WPN_AKM_albedo"]);
-	// this->materials["WPN_AKM"]->addTexture("normalMap", this->textures["WPN_AKM_normal"]);
-	// this->materials["WPN_AKM"]->addTexture("metallicMap", this->textures["WPN_AKM_metallic"]);
-	// this->materials["WPN_AKM"]->addTexture("roughnessMap", this->textures["WPN_AKM_roughness"]);
-	// this->materials["WPN_AKM"]->addTexture("aoMap", this->textures["WPN_AKM_ao"]);
-	// this->createMaterial("Maw_J_Laygo", getShader("deferredPBRforUEmask"));
-	// this->materials["Maw_J_Laygo"]->addTexture("albedoMap", this->textures["Maw_J_Laygo_albedo"]);
-	// this->materials["Maw_J_Laygo"]->addTexture("normalMap", this->textures["Maw_J_Laygo_normal"]);
-	// this->materials["Maw_J_Laygo"]->addTexture("maskMap", this->textures["Maw_J_Laygo_mask"]);
+	this->createMaterial("player", this->getShader("deferredPBR"));
+	this->getMaterial("player")->addTexture("albedoMap", this->getTexture("player_albedo"));
+	this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
+	this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
+
 
 	/* LightProbe
 	..............................................................................*/

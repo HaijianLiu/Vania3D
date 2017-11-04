@@ -2,15 +2,19 @@
 #ifndef MeshRenderer_hpp
 #define MeshRenderer_hpp
 
-class MeshRenderer {
+class MeshRenderer : public Component {
 private:
 	Material* material;
-	LightProbe* lightProbe = nullptr;
+	LightProbe* lightProbe;
 
 public:
-	MeshRenderer(Material* material);
+	MeshRenderer();
 	~MeshRenderer();
 
+	void start();
+	void update();
+
+	void addMaterial(Material* material);
 	void addLightProbe(LightProbe* lightProbe);
 };
 
