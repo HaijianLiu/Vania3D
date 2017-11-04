@@ -102,11 +102,6 @@ void Scene00::start() {
 	Transform* playerTransform = player->addComponent<Transform>();
 	playerTransform->modelScale = glm::vec3(0.05);
 	this->addGameObject("player", player);
-
-	/* GameObject */
-//	this->transform = new Transform();
-//	this->transform->modelScale = glm::vec3(0.05);
-
 	
 	
 	// camera
@@ -182,9 +177,6 @@ void Scene00::update() {
 	GameObject* player = this->getGameObject("player");
 	Transform* playerTransform = player->getComponent<Transform>();
 
-//	camera
-//	playerTransform->update();
-
 	this->camera->update();
 
 	// shader
@@ -254,17 +246,12 @@ void Scene00::update() {
 		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_normal")->id);
 		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_mask")->id);
-		// glActiveTexture(GL_TEXTURE3);
-		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_roughness")->id);
-		// glActiveTexture(GL_TEXTURE4);
-		// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("WPN_AKM_ao")->id);
 
 
 	game->resources->getModel("vampire")->updatePose(this->animation, game->time->currentTime);
 
 
 	std::vector<glm::mat4> Transforms = game->resources->getModel("vampire")->pose;
-		// game->resources->getModel("Maw_J_Laygo")->BoneTransform(100.0, Transforms);
 		for (uint i = 0 ; i < Transforms.size() ; i++) {
 			glm::mat4 boneTransform = Transforms[i];
 
