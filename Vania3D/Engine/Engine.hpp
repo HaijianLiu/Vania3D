@@ -108,6 +108,7 @@ class Camera;
 /*------------------------------------------------------------------------------
 < Component >
 ------------------------------------------------------------------------------*/
+#include "PointLight.hpp"
 #include "CameraController.hpp"
 #include "MeshRenderer.hpp"
 

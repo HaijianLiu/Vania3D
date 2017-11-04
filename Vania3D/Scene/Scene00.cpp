@@ -118,6 +118,10 @@ void Scene00::start() {
 	// camera
 	this->camera->target = playerTransform;
 	this->camera->offsetFromTarget = this->camera->position - (this->camera->target->position + this->camera->offset);
+	
+	// light
+	GameObject* light[4] = {new GameObject()};
+	
 
 	
 	
@@ -139,15 +143,6 @@ void Scene00::start() {
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
 
 	game->resources->getShader("renderPass")->use();
-	//kernel
-//	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
-//	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
-//		game->resources->getShader("renderPass")->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
-	// noiseTexture
-//	unsigned int noiseTexture = genNoiseTexture(4);
-//	glActiveTexture(GL_TEXTURE9);
-//	glBindTexture(GL_TEXTURE_2D, noiseTexture);
-//	game->resources->getShader("renderPass")->setInt("texNoise", 9);
 	
 	// camera
 	game->resources->getShader("renderPass")->setMat4("projection", this->camera->projection);
@@ -158,6 +153,17 @@ void Scene00::start() {
 		game->resources->getShader("renderPass")->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lightColors[i]);
 	}
 
+	//kernel
+	//	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
+	//	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
+	//		game->resources->getShader("renderPass")->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
+	// noiseTexture
+	//	unsigned int noiseTexture = genNoiseTexture(4);
+	//	glActiveTexture(GL_TEXTURE9);
+	//	glBindTexture(GL_TEXTURE_2D, noiseTexture);
+	//	game->resources->getShader("renderPass")->setInt("texNoise", 9);
+	
+	
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
