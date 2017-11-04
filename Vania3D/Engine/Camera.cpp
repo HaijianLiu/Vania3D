@@ -7,10 +7,10 @@ Camera::Camera() {
 	this->cameraFront = glm::vec3(0.0,0.0,-1.0);
 	this->cameraUp    = glm::vec3(0.0,1.0,0.0);
 	this->cameraRight = glm::vec3(1.0,0.0,0.0);
-	this->worldFront  = glm::vec3(0.0,0.0,-1.0);
+	this->worldFront  = glm::vec3(0.0,0.0,1.0);
 	this->worldUp     = glm::vec3(0.0,1.0,0.0);
 	this->worldRight  = glm::vec3(1.0,0.0,0.0);
-	
+
 	// Moment options
 	this->moveSpeed = 8.0;
 	this->rotateSensitivity = 40.0;
@@ -70,14 +70,3 @@ void Camera::zoom(float distance) {
 		this->offsetFromTarget = tempOffset;
 	}
 }
-
-
-// glm::vec3 front;
-// front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-// front.y = sin(glm::radians(pitch));
-// front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-// cameraFront = glm::normalize(front);
-// cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
-// cameraUp    = glm::normalize(glm::cross(cameraRight, cameraFront));
-// worldRight  = cameraRight;
-// worldFront  = glm::normalize(glm::cross(worldUp, worldRight));

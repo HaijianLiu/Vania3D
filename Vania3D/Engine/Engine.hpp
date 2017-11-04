@@ -8,6 +8,8 @@
 #define UNIT_TO_PIXEL (100)
 #define SCREEN_WIDTH (960)
 #define SCREEN_HEIGHT (540)
+//#define SCREEN_WIDTH (640)
+//#define SCREEN_HEIGHT (360)
 #define PI (3.141593)
 #define NUM_BONES_PER_VEREX (4)
 

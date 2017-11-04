@@ -175,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				600709FD1F88C49A00AE4BEB /* main.cpp */,
+				605740881FAD9DE1005B7358 /* GameObject */,
 				604B578F1F95FA63009DE302 /* Component */,
 				602434271F88D86400DA6CA4 /* Engine */,
 				604B57991F973F70009DE302 /* Mesh */,
@@ -230,8 +231,6 @@
 				604B57871F94928A009DE302 /* Texture.hpp */,
 				604B578C1F95F61A009DE302 /* SceneManager.cpp */,
 				604B578D1F95F61A009DE302 /* SceneManager.hpp */,
-				604B57931F95FAD0009DE302 /* GameObject.cpp */,
-				604B57941F95FAD0009DE302 /* GameObject.hpp */,
 				604B57961F9723AE009DE302 /* LightProbe.cpp */,
 				604B57971F9723AE009DE302 /* LightProbe.hpp */,
 				604B57AA1F99C148009DE302 /* Material.cpp */,
@@ -300,6 +299,15 @@
 				604B57A51F98A251009DE302 /* Scene00.hpp */,
 			);
 			path = Scene;
+			sourceTree = "<group>";
+		};
+		605740881FAD9DE1005B7358 /* GameObject */ = {
+			isa = PBXGroup;
+			children = (
+				604B57931F95FAD0009DE302 /* GameObject.cpp */,
+				604B57941F95FAD0009DE302 /* GameObject.hpp */,
+			);
+			path = GameObject;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
