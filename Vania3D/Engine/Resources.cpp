@@ -25,7 +25,6 @@ Resources::~Resources() {
 	deleteMap(this->materials);
 	delete this->quad;
 	delete this->skybox;
-	delete this->sphere;
 }
 
 
@@ -37,12 +36,10 @@ void Resources::start() {
 	..............................................................................*/
 	this->quad = new Quad();
 	this->skybox = new Skybox();
-	this->sphere = new Sphere();
 
 	/* Shader
 	..............................................................................*/
 	this->loadShader("renderPass", "./Assets/Shaders/RenderPassCombineDeferredPBR.vs.glsl",  "./Assets/Shaders/RenderPassCombineDeferredPBR.fs.glsl");
-	// this->loadShader("deferredPBR", "./Assets/Shaders/deferredPBR.vs.glsl",  "./Assets/Shaders/deferredPBR.fs.glsl");
 	this->loadShader("deferredPBRforUEmask", "./Assets/Shaders/deferredPBRforUEmask.vs.glsl",  "./Assets/Shaders/deferredPBRforUEmask.fs.glsl");
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
@@ -51,20 +48,10 @@ void Resources::start() {
 
 	this->loadShader("simple", "./Assets/Shaders/simple.vs.glsl",  "./Assets/Shaders/simple.fs.glsl");
 
-	// this->loadShader("background", "./Assets/Shaders/background.vs.glsl",  "./Assets/Shaders/background.fs.glsl");
-
 	/* Model
 	..............................................................................*/
-	// this->loadModel("vampire", "./Assets/Models/Maw/Maw_J_Laygo.FBX");
-	// this->loadModel("vampire_walk", "./Assets/Models/Maw/Maw_J_Laygo_Walk.FBX");
-	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
-
-	// this->loadModel("vampire", "./Assets/Models/Maria/Maximo_Maria.FBX");
-	// this->loadModel("vampire_walk", "./Assets/Models/Maria/Maria_J_J_Ong_Walk.FBX");
-	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
-
-	// this->loadModel("vampire", "./Assets/Models/Ganfaul/Mixamo_Ganfault_Aure.FBX");
-	// Animation* animation = new Animation("./Assets/Models/Ganfaul/Mixamo_Ganfault_idle.FBX");
+	this->models.insert(std::make_pair("sphere", new Sphere()));
+	
 	this->loadModel("player", "./Assets/Models/Ganfaul/mixamo_model.fbx");
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
@@ -72,54 +59,11 @@ void Resources::start() {
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_run.fbx"));
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_swiping.fbx"));
 
-
-	// this->loadModel("vampire", "./Assets/Models/Heraklios/Mixamo_Heraklios.FBX");
-	// Animation* animation = new Animation("./Assets/Models/Heraklios/Mixamo_Heraklios_Walk.FBX");
-	// this->getModel("vampire")->animations.push_back(animation);
-
-	// this->loadModel("vampire", "./Assets/Models/Vanguard/Vanguard_by_T__Choonyung.FBX");
-	// this->loadModel("vampire_walk", "./Assets/Models/Vanguard/Vanguard_by_T__Choonyung_Walk.FBX");
-	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
-
-	// this->loadModel("vampire", "./Assets/Models/Goblin/Mixamo_Goblin.FBX");
-	// this->loadModel("vampire_walk", "./Assets/Models/Goblin/Mixamo_Goblin_Walk.FBX");
-	// this->getModel("vampire")->animations.push_back(this->getModel("vampire_walk")->animations[0]);
-
-
-
-
 	/* Texture
 	..............................................................................*/
-	// this->loadTexture("WPN_AKM_albedo", "./Assets/Models/WPN_AKM/WPNT_AKM_Base_Color.tga");
-	// this->loadTexture("WPN_AKM_normal", "./Assets/Models/WPN_AKM/WPNT_AKM_DirectX.tga");
-	// this->loadTexture("WPN_AKM_metallic", "./Assets/Models/WPN_AKM/WPNT_AKM_Metallic.tga");
-	// this->loadTexture("WPN_AKM_roughness", "./Assets/Models/WPN_AKM/WPNT_AKM_Roughness.tga");
-	// this->loadTexture("WPN_AKM_ao", "./Assets/Models/WPN_AKM/WPNT_AKM_Ambient_occlusion.tga");
-
-	// this->loadTexture("vampire_albedo", "./Assets/Models/Maw/MAW_diffuse.TGA");
-	// this->loadTexture("vampire_normal", "./Assets/Models/Maw/MAW_normal.TGA");
-	// this->loadTexture("vampire_mask", "./Assets/Models/Maw/MAW_mask.TGA");
-
-	// this->loadTexture("vampire_albedo", "./Assets/Models/Maria/maria_diffuse.TGA");
-	// this->loadTexture("vampire_normal", "./Assets/Models/Maria/maria_normal.TGA");
-	// this->loadTexture("vampire_mask", "./Assets/Models/Maria/maria_mask.TGA");
-
 	this->loadTexture("player_albedo", "./Assets/Models/Ganfaul/Ganfaul_diffuse.TGA");
 	this->loadTexture("player_normal", "./Assets/Models/Ganfaul/Ganfaul_normal.TGA");
 	this->loadTexture("player_mask", "./Assets/Models/Ganfaul/Ganfaul_mask.TGA");
-
-	// this->loadTexture("vampire_albedo", "./Assets/Models/Heraklios/battalion-leader-heraklios_diffuse.TGA");
-	// this->loadTexture("vampire_normal", "./Assets/Models/Heraklios/battalion-leader-heraklios_normal.TGA");
-	// this->loadTexture("vampire_mask", "./Assets/Models/Heraklios/battalion-leader-heraklios_mask.TGA");
-
-	// this->loadTexture("vampire_albedo", "./Assets/Models/Vanguard/vanguard_diffuse.TGA");
-	// this->loadTexture("vampire_normal", "./Assets/Models/Vanguard/vanguard_normal.TGA");
-	// this->loadTexture("vampire_mask", "./Assets/Models/Vanguard/vanguard_mask.TGA");
-
-	// this->loadTexture("vampire_albedo", "./Assets/Models/Goblin/goblin_diffuse.TGA");
-	// this->loadTexture("vampire_normal", "./Assets/Models/Goblin/goblin_normal.TGA");
-	// this->loadTexture("vampire_mask", "./Assets/Models/Goblin/goblin_mask.TGA");
-
 
 	/* Material
 	..............................................................................*/
@@ -128,6 +72,7 @@ void Resources::start() {
 	this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
 	this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
 
+	this->createMaterial("simple", this->getShader("simple"));
 
 	/* LightProbe
 	..............................................................................*/

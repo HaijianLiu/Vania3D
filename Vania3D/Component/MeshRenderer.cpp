@@ -41,7 +41,6 @@ void MeshRenderer::update() {
 	// texture
 	this->material->bindTextures();
 	// model
-	this->model->updatePose(gameObject->getComponent<PlayerController>()->animation, game->time->currentTime);
 	std::vector<glm::mat4> pose = this->model->pose;
 	for (unsigned int i = 0 ; i < pose.size() ; i++)
 		this->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);

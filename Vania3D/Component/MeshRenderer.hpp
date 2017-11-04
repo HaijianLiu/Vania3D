@@ -4,11 +4,12 @@
 
 class MeshRenderer : public Component {
 private:
-	Model* model;
 	Material* material;
 	LightProbe* lightProbe;
 
 public:
+	Model* model;
+	
 	Camera* camera;
 
 	MeshRenderer();

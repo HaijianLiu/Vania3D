@@ -123,8 +123,15 @@ void Scene00::start() {
 	GameObject* light[4];
 	for (int i = 0; i < 4; i++) {
 		light[i] = new GameObject();
-		light[i]->addComponent<Transform>();
+		Transform* lightTransform = light[i]->addComponent<Transform>();
+		lightTransform->modelScale = glm::vec3(0.1);
 		light[i]->addComponent<PointLight>();
+		// for test
+		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
+		lightMeshRenderer->addModel(game->resources->getModel("sphere"));
+		lightMeshRenderer->addMaterial(game->resources->getMaterial("simple"));
+		lightMeshRenderer->camera = this->camera;
+		// ...
 		this->addLight(light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);
@@ -165,18 +172,11 @@ void Scene00::start() {
 void Scene00::update() {
 	Game* game = Game::getInstance();
 
-
-	// light
-//	game->resources->getShader("simple")->use();
-//		game->resources->getShader("simple")->setMat4("projection", this->camera->projection);
-//		game->resources->getShader("simple")->setMat4("view", this->camera->view);
-//		glm::mat4 lightScale = glm::scale(glm::vec3(0.1));
-//	for (unsigned int i = 0; i < 4; i++) {
-//		glm::mat4 lightTranslate = glm::translate(this->lightPositions[i]);
-//		glm::mat4 modelLight = lightTranslate * lightScale;
-//		game->resources->getShader("simple")->setMat4("model", modelLight);
-//		game->resources->sphere->draw();
-//	}
+	// for test
+	for (unsigned int i = 0; i < this->lights.size(); i ++) {
+		this->lights[i]->getComponent<Transform>()->update();
+		this->lights[i]->getComponent<MeshRenderer>()->update();
+	}
 
 	this->camera->update();
 

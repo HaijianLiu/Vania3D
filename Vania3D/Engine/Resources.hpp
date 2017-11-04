@@ -21,7 +21,6 @@ public:
 
 	Quad* quad;
 	Skybox* skybox;
-	Sphere* sphere;
 
 	// shader
 	void loadShader(const char* name, const char* vertexPath, const char* fragmentPath);

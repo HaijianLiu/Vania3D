@@ -61,4 +61,6 @@ void PlayerController::update() {
 	}
 
 	playerTransform->rotate(direction, 2 * PI * game->time->deltaTime);
+	
+	gameObject->getComponent<MeshRenderer>()->model->updatePose(this->animation, game->time->currentTime);
 }

@@ -18,6 +18,7 @@ private:
 public:
 	std::vector<glm::mat4> pose;
 
+	Model();
 	Model(const char* path);
 	~Model();
 
@@ -25,7 +26,7 @@ public:
 	void updatePose(unsigned int animationIndex, float timeInSeconds);
 
 	// draws the model, and thus all its meshes
-	void draw();
+	virtual void draw();
 };
 
 #endif /* Model_hpp */

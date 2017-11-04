@@ -2,7 +2,7 @@
 #ifndef Sphere_hpp
 #define Sphere_hpp
 
-class Sphere {
+class Sphere : public Model {
 private:
 	unsigned int vao, count;
 
