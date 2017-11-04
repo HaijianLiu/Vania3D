@@ -4,7 +4,7 @@
 
 class PlayerController : public Component {
 public:
-	Camera* camera;
+	GameObject* camera;
 
 	float lastAttack = 0;
 	unsigned int animation = 0;

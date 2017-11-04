@@ -229,8 +229,6 @@
 				602434331F88DA7100DA6CA4 /* Resources.hpp */,
 				602434351F88DCBC00DA6CA4 /* RenderPass.cpp */,
 				602434361F88DCBC00DA6CA4 /* RenderPass.hpp */,
-				602434381F88E70B00DA6CA4 /* Camera.cpp */,
-				602434391F88E70B00DA6CA4 /* Camera.hpp */,
 				6024343B1F88E79A00DA6CA4 /* Game.cpp */,
 				6024343C1F88E79A00DA6CA4 /* Game.hpp */,
 				604B57861F94928A009DE302 /* Texture.cpp */,
@@ -283,6 +281,8 @@
 				6057408D1FADBBFC005B7358 /* PlayerController.hpp */,
 				6057408F1FADF9C4005B7358 /* PointLight.cpp */,
 				605740901FADF9C4005B7358 /* PointLight.hpp */,
+				602434381F88E70B00DA6CA4 /* Camera.cpp */,
+				602434391F88E70B00DA6CA4 /* Camera.hpp */,
 			);
 			path = Component;
 			sourceTree = "<group>";

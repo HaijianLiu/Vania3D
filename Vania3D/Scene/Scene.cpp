@@ -29,7 +29,7 @@ void Scene::update() {
 void Scene::updateRenderPass() {
 	// renderPass
 	this->game->renderPass->shader->use();
-	this->game->renderPass->shader->setVec3("cameraPos", this->camera->position);
+	this->game->renderPass->shader->setVec3("cameraPos", this->camera->getComponent<Camera>()->position);
 
 	// lights
 	for (unsigned int i = 0; i < this->lights.size(); ++i) {
@@ -46,6 +46,14 @@ void Scene::addGameObject(const char* name, GameObject* gameObject) {
 	this->gameObjects.push_back(gameObject);
 	this->gameObjectsMapping.insert(std::make_pair(name, this->index));
 	this->index ++;
+}
+
+
+/*------------------------------------------------------------------------------
+< add camera >
+------------------------------------------------------------------------------*/
+void Scene::addCamera(GameObject* camera) {
+	this->camera = camera;
 }
 
 

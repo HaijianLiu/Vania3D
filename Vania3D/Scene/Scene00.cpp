@@ -98,26 +98,29 @@ void Scene00::start() {
 	Game* game = Game::getInstance();
 	
 	// camera
-	this->camera = new Camera();
+	GameObject* camera = new GameObject();
+	camera->addComponent<Transform>();
+	camera->addComponent<Camera>();
 	
 	// player
 	GameObject* player = new GameObject();
 	Transform* playerTransform = player->addComponent<Transform>();
 	playerTransform->modelScale = glm::vec3(0.05);
 	PlayerController* playerController = player->addComponent<PlayerController>();
-	playerController->camera = this->camera;
+	playerController->camera = camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
-	cameraController->camera = this->camera;
+	cameraController->camera = camera;
 	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
 	playerMeshRenderer->addModel(game->resources->getModel("player"));
 	playerMeshRenderer->addMaterial(game->resources->getMaterial("player"));
 	playerMeshRenderer->addLightProbe(game->resources->getLightProbe("hdr"));
-	playerMeshRenderer->camera = this->camera;
+	playerMeshRenderer->camera = camera;
 	this->addGameObject("player", player);
 	
 	// camera
-	this->camera->target = playerTransform;
-	this->camera->offsetFromTarget = this->camera->position - (this->camera->target->position + this->camera->offset);
+	camera->getComponent<Camera>()->target = playerTransform;
+	camera->getComponent<Camera>()->offsetFromTarget = camera->getComponent<Camera>()->position - (camera->getComponent<Camera>()->target->position + camera->getComponent<Camera>()->offset);
+	this->addCamera(camera);
 	
 	// light
 	GameObject* light[4];
@@ -130,7 +133,7 @@ void Scene00::start() {
 		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
 		lightMeshRenderer->addModel(game->resources->getModel("sphere"));
 		lightMeshRenderer->addMaterial(game->resources->getMaterial("simple"));
-		lightMeshRenderer->camera = this->camera;
+		lightMeshRenderer->camera = camera;
 		// ...
 		this->addLight(light[i]);
 	}
@@ -178,6 +181,6 @@ void Scene00::update() {
 		this->lights[i]->getComponent<MeshRenderer>()->update();
 	}
 
-	this->camera->update();
+//	this->camera->update();
 
 }

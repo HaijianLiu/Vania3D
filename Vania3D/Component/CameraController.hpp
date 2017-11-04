@@ -4,7 +4,7 @@
 
 class CameraController : public Component {
 public:
-	Camera* camera;
+	GameObject* camera;
 
 	CameraController();
 	~CameraController();

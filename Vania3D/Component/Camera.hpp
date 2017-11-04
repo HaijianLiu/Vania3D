@@ -2,7 +2,7 @@
 #ifndef Camera_hpp
 #define Camera_hpp
 
-class Camera {
+class Camera : public Component {
 private:
 	// camera Attributes
 	float field; // degree Field of View

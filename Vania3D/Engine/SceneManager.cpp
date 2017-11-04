@@ -26,6 +26,7 @@ void SceneManager::update() {
 		for (unsigned int i = 0; i < this->scenes[this->currentScene]->gameObjects.size(); i++) {
 			this->scenes[this->currentScene]->gameObjects[i]->update();
 		}
+		this->scenes[this->currentScene]->camera->update();
 		this->scenes[this->currentScene]->updateRenderPass();
 	} else {
 		this->scenes[this->currentScene]->start();

@@ -9,8 +9,8 @@ private:
 
 public:
 	Model* model;
-	
-	Camera* camera;
+
+	GameObject* camera;
 
 	MeshRenderer();
 	~MeshRenderer();

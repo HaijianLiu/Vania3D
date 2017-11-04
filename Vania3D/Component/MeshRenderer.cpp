@@ -35,8 +35,8 @@ void MeshRenderer::update() {
 	
 	this->material->shader->use();
 	// camera
-	this->material->shader->setMat4("projection", this->camera->projection);
-	this->material->shader->setMat4("view", this->camera->view);
+	this->material->shader->setMat4("projection", this->camera->getComponent<Camera>()->projection);
+	this->material->shader->setMat4("view", this->camera->getComponent<Camera>()->view);
 	this->material->shader->setMat4("model", gameObject->getComponent<Transform>()->model);
 	// texture
 	this->material->bindTextures();
