@@ -178,18 +178,6 @@ void Scene00::update() {
 //		game->resources->sphere->draw();
 //	}
 
-
-	// renderPass
-	game->resources->getShader("renderPass")->use();
-	game->resources->getShader("renderPass")->setVec3("cameraPos", this->camera->position);
-
-	// lights
-	for (unsigned int i = 0; i < this->lights.size(); ++i) {
-		game->resources->getShader("renderPass")->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lights[i]->getComponent<Transform>()->position);
-		game->resources->getShader("renderPass")->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lights[i]->getComponent<PointLight>()->color);
-	}
-
-	
 	this->camera->update();
 
 }

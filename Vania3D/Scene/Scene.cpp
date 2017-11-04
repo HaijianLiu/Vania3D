@@ -5,7 +5,7 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 Scene::Scene() {
-
+	this->game = Game::getInstance();
 }
 
 
@@ -23,6 +23,19 @@ Scene::~Scene() {
 ------------------------------------------------------------------------------*/
 void Scene::update() {
 
+}
+
+
+void Scene::updateRenderPass() {
+	// renderPass
+	this->game->renderPass->shader->use();
+	this->game->renderPass->shader->setVec3("cameraPos", this->camera->position);
+
+	// lights
+	for (unsigned int i = 0; i < this->lights.size(); ++i) {
+		this->game->renderPass->shader->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<Transform>()->position);
+		this->game->renderPass->shader->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<PointLight>()->color);
+	}
 }
 
 

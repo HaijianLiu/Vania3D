@@ -4,11 +4,12 @@
 
 class RenderPass {
 private:
-	Shader* shader;
 	unsigned int fbo, vao;
 	std::vector<unsigned int> pass;
 
 public:
+	Shader* shader;
+
 	RenderPass();
 	~RenderPass();
 
