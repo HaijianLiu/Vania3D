@@ -123,7 +123,7 @@ void Resources::start() {
 
 	/* Material
 	..............................................................................*/
-	this->createMaterial("player", this->getShader("deferredPBR"));
+	this->createMaterial("player", this->getShader("deferredPBRforUEmask"));
 	this->getMaterial("player")->addTexture("albedoMap", this->getTexture("player_albedo"));
 	this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
 	this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
@@ -142,29 +142,64 @@ void Resources::loadShader(const char* name, const char* vertexPath, const char*
 	this->shaders.insert(std::make_pair(name, new Shader(vertexPath,fragmentPath)));
 }
 Shader* Resources::getShader(const char* name) {
-	return this->shaders[name];
+	auto it = this->shaders.find(name);
+	if (it != this->shaders.end()) {
+		return this->shaders[name];
+	}
+	else {
+		std::cout << "[Resources] no shader named " << name << '\n';
+		return nullptr;
+	}
 }
 void Resources::loadTexture(const char* name, const char* path) {
 	this->textures.insert(std::make_pair(name, new Texture(path)));
 }
 Texture* Resources::getTexture(const char* name) {
-	return this->textures[name];
+	auto it = this->textures.find(name);
+	if (it != this->textures.end()) {
+		return this->textures[name];
+	}
+	else {
+		std::cout << "[Resources] no texture named " << name << '\n';
+		return nullptr;
+	}
 }
 void Resources::loadModel(const char* name, const char* path) {
 	this->models.insert(std::make_pair(name, new Model(path)));
 }
 Model* Resources::getModel(const char* name) {
-	return this->models[name];
+	auto it = this->models.find(name);
+	if (it != this->models.end()) {
+		return this->models[name];
+	}
+	else {
+		std::cout << "[Resources] no model named " << name << '\n';
+		return nullptr;
+	}
 }
 void Resources::loadLightProbe(const char* name, const char* path) {
 	this->lightProbes.insert(std::make_pair(name, new LightProbe(path)));
 }
 LightProbe* Resources::getLightProbe(const char* name) {
-	return this->lightProbes[name];
+	auto it = this->lightProbes.find(name);
+	if (it != this->lightProbes.end()) {
+		return this->lightProbes[name];
+	}
+	else {
+		std::cout << "[Resources] no lightProbe named " << name << '\n';
+		return nullptr;
+	}
 }
 void Resources::createMaterial(const char* name, Shader* shader) {
 	this->materials.insert(std::make_pair(name, new Material(shader)));
 }
 Material* Resources::getMaterial(const char* name) {
-	return this->materials[name];
+	auto it = this->materials.find(name);
+	if (it != this->materials.end()) {
+		return this->materials[name];
+	}
+	else {
+		std::cout << "[Resources] no material named " << name << '\n';
+		return nullptr;
+	}
 }

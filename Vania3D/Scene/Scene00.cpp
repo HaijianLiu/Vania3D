@@ -109,6 +109,10 @@ void Scene00::start() {
 	CameraController* cameraController = player->addComponent<CameraController>();
 	cameraController->camera = this->camera;
 	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
+	playerMeshRenderer->addModel(game->resources->getModel("player"));
+	playerMeshRenderer->addMaterial(game->resources->getMaterial("player"));
+	playerMeshRenderer->addLightProbe(game->resources->getLightProbe("hdr"));
+	playerMeshRenderer->camera = this->camera;
 	this->addGameObject("player", player);
 	
 	// camera
@@ -129,17 +133,6 @@ void Scene00::start() {
 
 	game->resources->getShader("simple")->use();
 		game->resources->getShader("simple")->setMat4("projection", this->camera->projection);
-
-
-
-	// initialize static shader uniforms before rendering
-	game->resources->getShader("deferredPBRforUEmask")->use();
-		// camera
-		game->resources->getShader("deferredPBRforUEmask")->setMat4("projection", this->camera->projection);
-		// texture
-		game->resources->getShader("deferredPBRforUEmask")->setInt("albedoMap", 0);
-		game->resources->getShader("deferredPBRforUEmask")->setInt("normalMap", 1);
-		game->resources->getShader("deferredPBRforUEmask")->setInt("maskMap", 2);
 
 
 	// IBL
@@ -177,40 +170,7 @@ void Scene00::start() {
 ------------------------------------------------------------------------------*/
 void Scene00::update() {
 	Game* game = Game::getInstance();
-	GameObject* player = this->getGameObject("player");
-	Transform* playerTransform = player->getComponent<Transform>();
-	PlayerController* playerController = player->getComponent<PlayerController>();
 
-
-	// shader
-	game->resources->getShader("deferredPBRforUEmask")->use();
-		// camera
-		game->resources->getShader("deferredPBRforUEmask")->setMat4("view", this->camera->view);
-
-
-	/* render */
-		game->resources->getShader("deferredPBRforUEmask")->setMat4("model", playerTransform->model);
-
-		// texture
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("player_albedo")->id);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("player_normal")->id);
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("player_mask")->id);
-
-
-	game->resources->getModel("player")->updatePose(playerController->animation, game->time->currentTime);
-
-
-	std::vector<glm::mat4> Transforms = game->resources->getModel("player")->pose;
-		for (uint i = 0 ; i < Transforms.size() ; i++) {
-			glm::mat4 boneTransform = Transforms[i];
-
-				game->resources->getShader("deferredPBRforUEmask")->setMat4(("bones[" + std::to_string(i) + "]").c_str(), boneTransform);
-		}
-
-	game->resources->getModel("player")->draw();
 
 	// light
 	game->resources->getShader("simple")->use();
