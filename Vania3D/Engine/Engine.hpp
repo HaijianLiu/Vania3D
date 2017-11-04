@@ -67,6 +67,7 @@
 class GameObject;
 class Game;
 class SceneManager;
+class Camera;
 // class Component;
 
 

@@ -13,8 +13,8 @@ private:
 	glm::vec3 lightColors[4];
 
 	// player
-	unsigned int animation = 0;
-	float lastAttack = 0;
+//	unsigned int animation = 0;
+//	float lastAttack = 0;
 //	Transform* transform;
 
 public:

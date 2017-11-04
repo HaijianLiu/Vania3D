@@ -97,15 +97,19 @@ Scene00::~Scene00() {
 void Scene00::start() {
 	Game* game = Game::getInstance();
 	
+	// camera
+	this->camera = new Camera();
+	
 	// player
 	GameObject* player = new GameObject();
 	Transform* playerTransform = player->addComponent<Transform>();
 	playerTransform->modelScale = glm::vec3(0.05);
+	PlayerController* playerController = player->addComponent<PlayerController>();
+	playerController->camera = this->camera;
 	this->addGameObject("player", player);
 	
 	
 	// camera
-	this->camera = new Camera();
 	this->cameraController = new CameraController();
 	this->cameraController->camera = this->camera;
 	this->cameraController->transform = playerTransform;
@@ -176,6 +180,7 @@ void Scene00::update() {
 	Game* game = Game::getInstance();
 	GameObject* player = this->getGameObject("player");
 	Transform* playerTransform = player->getComponent<Transform>();
+	PlayerController* playerController = player->getComponent<PlayerController>();
 
 	this->camera->update();
 
@@ -184,48 +189,7 @@ void Scene00::update() {
 		// camera
 		game->resources->getShader("deferredPBRforUEmask")->setMat4("view", this->camera->view);
 
-		// input
-
-//	controll
-	glm::vec3 direction = playerTransform->front(); // if no input deflaut the last direction
-	glm::vec3 axisLS = game->input->getAxisLS();
-
-	glm::vec3 cameraFrontFromWorldUp = glm::normalize(glm::cross(this->camera->cameraRight, this->camera->worldUp));
-	glm::quat worldToCamera = glm::rotation(glm::vec3(0,0,1), cameraFrontFromWorldUp);
-
-
-	if (game->time->currentTime - this->lastAttack > 3.0) {
-		if (abs(axisLS.x) > 0.6 || abs(axisLS.z) > 0.6) {
-			direction = worldToCamera * game->input->getNormalLS();
-			axisLS = worldToCamera * axisLS;
-
-			playerTransform->position.x += 20 * axisLS.x * game->time->deltaTime;
-			playerTransform->position.z += 20 * axisLS.z * game->time->deltaTime;
-
-			this->animation = 3;
-		}
-		else if (abs(axisLS.x) > 0.1 || abs(axisLS.z) > 0.1){
-			direction = worldToCamera * game->input->getNormalLS();
-			axisLS = worldToCamera * axisLS;
-
-			playerTransform->position.x += 10 * axisLS.x * game->time->deltaTime;
-			playerTransform->position.z += 10 * axisLS.z * game->time->deltaTime;
-
-			this->animation = 2;
-		}
-		else {
-			this->animation = 0;
-		}
-	}
-
-	if (game->input->getJoystickTrigger(JOY_L1)) {
-		this->animation = 4;
-		this->lastAttack = game->time->currentTime;
-	}
-
-	playerTransform->rotate(direction, 2 * PI * game->time->deltaTime);
-
-
+		
 //	camera controller
 	glm::vec3 axisRS = game->input->getAxisRS();
 	this->camera->rotate(-2 * axisRS.x * game->time->deltaTime, axisRS.z * game->time->deltaTime);
@@ -248,7 +212,7 @@ void Scene00::update() {
 		glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("vampire_mask")->id);
 
 
-	game->resources->getModel("vampire")->updatePose(this->animation, game->time->currentTime);
+	game->resources->getModel("vampire")->updatePose(playerController->animation, game->time->currentTime);
 
 
 	std::vector<glm::mat4> Transforms = game->resources->getModel("vampire")->pose;
