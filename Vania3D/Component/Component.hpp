@@ -8,6 +8,8 @@ private:
 	GameObject* gameObject;
 
 public:
+	Game* game;
+	
 	Component();
 	virtual ~Component();
 

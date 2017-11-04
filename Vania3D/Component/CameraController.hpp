@@ -2,16 +2,9 @@
 #ifndef CameraController_hpp
 #define CameraController_hpp
 
-class CameraController {
-private:
-
+class CameraController : public Component {
 public:
 	Camera* camera;
-	Transform* target;
-
-
-	Transform* transform;
-
 
 	CameraController();
 	~CameraController();

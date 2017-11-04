@@ -106,13 +106,11 @@ void Scene00::start() {
 	playerTransform->modelScale = glm::vec3(0.05);
 	PlayerController* playerController = player->addComponent<PlayerController>();
 	playerController->camera = this->camera;
+	CameraController* cameraController = player->addComponent<CameraController>();
+	cameraController->camera = this->camera;
 	this->addGameObject("player", player);
 	
-	
 	// camera
-	this->cameraController = new CameraController();
-	this->cameraController->camera = this->camera;
-	this->cameraController->transform = playerTransform;
 	this->camera->target = playerTransform;
 	this->camera->offsetFromTarget = this->camera->position - (this->camera->target->position + this->camera->offset);
 
@@ -182,22 +180,11 @@ void Scene00::update() {
 	Transform* playerTransform = player->getComponent<Transform>();
 	PlayerController* playerController = player->getComponent<PlayerController>();
 
-	this->camera->update();
 
 	// shader
 	game->resources->getShader("deferredPBRforUEmask")->use();
 		// camera
 		game->resources->getShader("deferredPBRforUEmask")->setMat4("view", this->camera->view);
-
-		
-//	camera controller
-	glm::vec3 axisRS = game->input->getAxisRS();
-	this->camera->rotate(-2 * axisRS.x * game->time->deltaTime, axisRS.z * game->time->deltaTime);
-	if (game->input->getJoystickPress(JOY_L2))
-		this->camera->zoom(game->time->deltaTime * 6);
-	if (game->input->getJoystickPress(JOY_R2))
-		this->camera->zoom(-game->time->deltaTime * 6);
-
 
 
 	/* render */
@@ -240,5 +227,7 @@ void Scene00::update() {
 	game->resources->getShader("renderPass")->use();
 	game->resources->getShader("renderPass")->setVec3("cameraPos", this->camera->position);
 
+	
+	this->camera->update();
 
 }

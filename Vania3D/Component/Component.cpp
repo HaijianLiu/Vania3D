@@ -5,7 +5,7 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 Component::Component() {
-
+	this->game = Game::getInstance();
 }
 
 
