@@ -5,6 +5,8 @@
 class CameraController : public Component {
 public:
 	GameObject* camera;
+	
+	float rotateSensitivity;
 
 	CameraController();
 	~CameraController();

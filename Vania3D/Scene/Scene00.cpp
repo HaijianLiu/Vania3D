@@ -120,7 +120,7 @@ void Scene00::start() {
 	
 	// camera
 	camera->getComponent<Camera>()->target = playerTransform;
-	camera->getComponent<Camera>()->offsetFromTarget = camera->getComponent<Transform>()->position - (camera->getComponent<Camera>()->target->position + camera->getComponent<Camera>()->offset);
+	camera->getComponent<Camera>()->offsetFromTarget = camera->getComponent<Transform>()->position - (camera->getComponent<Camera>()->target->position);
 	this->addCamera(camera);
 	
 	// light

@@ -5,20 +5,19 @@
 class Camera : public Component {
 private:
 	// camera Attributes
-	float field; // degree Field of View
-	float ratio;
-	float rangeStart;
-	float rangeEnd;
-	// moment options
-	float moveSpeed;
-	float rotateSensitivity;
+	float field = 45;
+	float ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
+	float rangeStart = 0.1;
+	float rangeEnd = 100;
 
 public:
-	glm::vec3 cameraFront, cameraUp, cameraRight;
-	glm::vec3 worldFront, worldUp, worldRight;
+	// Camera Position
+	glm::vec3 cameraFront = glm::vec3(0.0,0.0,-1.0);
+	glm::vec3 cameraUp = glm::vec3(0.0,1.0,0.0);
+	glm::vec3 cameraRight = glm::vec3(1.0,0.0,0.0);
+
 	// target
 	Transform* target;
-	glm::vec3 offset; // camera target offset from target
 
 	// uniforms
 	glm::mat4 projection;
@@ -28,7 +27,6 @@ public:
 	~Camera();
 
 	void update();
-
 
 	// for temp
 	glm::vec3 offsetFromTarget; // camera offset from target's offset
