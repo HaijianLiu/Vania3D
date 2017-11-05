@@ -29,7 +29,7 @@ void Transform::update() {
 < get methods >
 ------------------------------------------------------------------------------*/
 glm::vec3 Transform::front() {
-	return glm::normalize(this->rotation * this->modelFront);
+	return glm::normalize(this->rotation * this->game->worldFront);
 }
 
 
@@ -43,7 +43,7 @@ void Transform::rotate(glm::vec3 direction, float radians) {
 	if (radians < 0.001) return;
 
 	// get direction quaternion
-	glm::quat directionQuaternion = glm::rotation(this->modelFront, direction);
+	glm::quat directionQuaternion = glm::rotation(this->game->worldFront, direction);
 
 	/* debug log */
 	// std::cout << "rotation = "

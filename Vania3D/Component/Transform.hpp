@@ -5,8 +5,6 @@
 class Transform : public Component {
 public:
 	// original transform properties
-	glm::vec3 modelFront = glm::vec3(0.0, 0.0, 1.0);
-	glm::vec3 modelUp = glm::vec3(0.0, 1.0, 0.0);
 	glm::vec3 modelScale = glm::vec3(1.0);
 
 	// current transform properties
