@@ -118,8 +118,16 @@ void Scene00::start() {
 	playerMeshRenderer->camera = camera;
 	this->addGameObject("player", player);
 	
+	// camera target
+	GameObject* cameraTarget = new GameObject();
+	Transform* cameraTargetTransform = cameraTarget->addComponent<Transform>();
+	Offset* cameraTargetOffset = cameraTarget->addComponent<Offset>();
+	cameraTargetOffset->parent = playerTransform;
+	cameraTargetOffset->offsetPosition = glm::vec3(0, 5, 0);
+	this->addGameObject("cameraTarget", cameraTarget);
+	
 	// camera
-	camera->getComponent<Camera>()->target = playerTransform;
+	camera->getComponent<Camera>()->target = cameraTargetTransform;
 	camera->getComponent<Camera>()->offsetFromTarget = cameraTransform->position - camera->getComponent<Camera>()->target->position;
 	this->addCamera(camera);
 	
@@ -174,14 +182,9 @@ void Scene00::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Scene00::update() {
-	Game* game = Game::getInstance();
-
-	// for test
+	// show light spere, for test
 	for (unsigned int i = 0; i < this->lights.size(); i ++) {
 		this->lights[i]->getComponent<Transform>()->update();
 		this->lights[i]->getComponent<MeshRenderer>()->update();
 	}
-
-//	this->camera->update();
-
 }

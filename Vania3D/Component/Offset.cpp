@@ -4,7 +4,7 @@
 /*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
-GameObject::GameObject() {
+Offset::Offset() {
 
 }
 
@@ -12,26 +12,14 @@ GameObject::GameObject() {
 /*------------------------------------------------------------------------------
 < Destructor >
 ------------------------------------------------------------------------------*/
-GameObject::~GameObject() {
-	deleteMap(this->components);
-}
+Offset::~Offset() {
 
-
-/*------------------------------------------------------------------------------
-< start >
-------------------------------------------------------------------------------*/
-void GameObject::start() {
-	for (const auto & conponent : this->components) {
-		conponent.second->start();
-	}
 }
 
 
 /*------------------------------------------------------------------------------
 < update >
 ------------------------------------------------------------------------------*/
-void GameObject::update() {
-	for (const auto & conponent : this->components) {
-		conponent.second->update();
-	}
+void Offset::update() {
+	this->getGameObject()->getComponent<Transform>()->position = this->parent->position + this->offsetPosition;
 }

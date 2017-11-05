@@ -108,6 +108,7 @@ class Camera;
 /*------------------------------------------------------------------------------
 < Component >
 ------------------------------------------------------------------------------*/
+#include "Offset.hpp"
 #include "PlayerController.hpp"
 #include "PointLight.hpp"
 #include "CameraController.hpp"

@@ -27,6 +27,7 @@
 		602434441F88EA8600DA6CA4 /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A311F88C83000AE4BEB /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602434451F88EA8600DA6CA4 /* libfmodL.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A321F88C83000AE4BEB /* libfmodL.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602434481F88F04600DA6CA4 /* libassimp.3.3.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		602C98A41FAED44000B69E45 /* Offset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602C98A21FAED44000B69E45 /* Offset.cpp */; };
 		604B57821F945A84009DE302 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57801F945A84009DE302 /* Model.cpp */; };
 		604B57851F945A92009DE302 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57831F945A92009DE302 /* Mesh.cpp */; };
 		604B57881F94928A009DE302 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57861F94928A009DE302 /* Texture.cpp */; };
@@ -102,6 +103,8 @@
 		6024343B1F88E79A00DA6CA4 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		6024343C1F88E79A00DA6CA4 /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
 		602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = Frameworks/assimp/lib/libassimp.3.3.1.dylib; sourceTree = "<group>"; };
+		602C98A21FAED44000B69E45 /* Offset.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Offset.cpp; sourceTree = "<group>"; };
+		602C98A31FAED44000B69E45 /* Offset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Offset.hpp; sourceTree = "<group>"; };
 		604B57801F945A84009DE302 /* Model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		604B57811F945A84009DE302 /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Model.hpp; sourceTree = "<group>"; };
 		604B57831F945A92009DE302 /* Mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
@@ -275,6 +278,8 @@
 				600E63B51F99F19000F6A34A /* MeshRenderer.hpp */,
 				600E63B31F99F18F00F6A34A /* Transform.cpp */,
 				600E63B61F99F19000F6A34A /* Transform.hpp */,
+				602C98A21FAED44000B69E45 /* Offset.cpp */,
+				602C98A31FAED44000B69E45 /* Offset.hpp */,
 				6082F4B01FA9A11200B177DA /* CameraController.cpp */,
 				6082F4B11FA9A11200B177DA /* CameraController.hpp */,
 				6057408C1FADBBFC005B7358 /* PlayerController.cpp */,
@@ -414,6 +419,7 @@
 				60070A301F88C82A00AE4BEB /* main.cpp in Sources */,
 				60E579F81FA0B34700690EC1 /* Animation.cpp in Sources */,
 				6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */,
+				602C98A41FAED44000B69E45 /* Offset.cpp in Sources */,
 				604B57851F945A92009DE302 /* Mesh.cpp in Sources */,
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
 				60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */,
