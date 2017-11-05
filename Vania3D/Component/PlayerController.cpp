@@ -27,7 +27,7 @@ void PlayerController::update() {
 	glm::vec3 direction = playerTransform->front(); // if no input deflaut the last direction
 	glm::vec3 axisLS = game->input->getAxisLS();
 
-	glm::vec3 cameraFrontFromWorldUp = glm::normalize(glm::cross(this->camera->getComponent<Camera>()->cameraRight, this->game->worldUp));
+	glm::vec3 cameraFrontFromWorldUp = glm::normalize(glm::cross(this->camera->getComponent<Camera>()->right, this->game->worldUp));
 	glm::quat worldToCamera = glm::rotation(glm::vec3(0,0,1), cameraFrontFromWorldUp);
 
 

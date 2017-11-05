@@ -4,17 +4,15 @@
 
 class Camera : public Component {
 private:
-	// camera Attributes
+	// camera attributes
 	float field = 45;
 	float ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
 	float rangeStart = 0.1;
 	float rangeEnd = 100;
 
 public:
-	// Camera Position
-	glm::vec3 cameraFront = glm::vec3(0.0,0.0,-1.0);
-	glm::vec3 cameraUp = glm::vec3(0.0,1.0,0.0);
-	glm::vec3 cameraRight = glm::vec3(1.0,0.0,0.0);
+	// camera angle
+	glm::vec3 front, up, right;
 
 	// target
 	Transform* target;
