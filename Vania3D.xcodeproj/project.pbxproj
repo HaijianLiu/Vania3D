@@ -42,6 +42,7 @@
 		604B57AC1F99C148009DE302 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57AA1F99C148009DE302 /* Material.cpp */; };
 		6057408E1FADBBFC005B7358 /* PlayerController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6057408C1FADBBFC005B7358 /* PlayerController.cpp */; };
 		605740911FADF9C4005B7358 /* PointLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6057408F1FADF9C4005B7358 /* PointLight.cpp */; };
+		606101E61FB0034900558589 /* Scene01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 606101E41FB0034900558589 /* Scene01.cpp */; };
 		6082F4AF1FA737C000B177DA /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4AE1FA737BF00B177DA /* Input.cpp */; };
 		6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4B01FA9A11200B177DA /* CameraController.cpp */; };
 		6082F4B51FAB073000B177DA /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4B31FAB073000B177DA /* Sphere.cpp */; };
@@ -133,6 +134,8 @@
 		6057408D1FADBBFC005B7358 /* PlayerController.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PlayerController.hpp; sourceTree = "<group>"; };
 		6057408F1FADF9C4005B7358 /* PointLight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PointLight.cpp; sourceTree = "<group>"; };
 		605740901FADF9C4005B7358 /* PointLight.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PointLight.hpp; sourceTree = "<group>"; };
+		606101E41FB0034900558589 /* Scene01.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene01.cpp; sourceTree = "<group>"; };
+		606101E51FB0034900558589 /* Scene01.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene01.hpp; sourceTree = "<group>"; };
 		6082F4AD1FA737BF00B177DA /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Input.hpp; sourceTree = "<group>"; };
 		6082F4AE1FA737BF00B177DA /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
 		6082F4B01FA9A11200B177DA /* CameraController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CameraController.cpp; sourceTree = "<group>"; };
@@ -312,6 +315,8 @@
 				604B57A21F9890AF009DE302 /* Scene.hpp */,
 				604B57A41F98A251009DE302 /* Scene00.cpp */,
 				604B57A51F98A251009DE302 /* Scene00.hpp */,
+				606101E41FB0034900558589 /* Scene01.cpp */,
+				606101E51FB0034900558589 /* Scene01.hpp */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -420,6 +425,7 @@
 				60E579F81FA0B34700690EC1 /* Animation.cpp in Sources */,
 				6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */,
 				602C98A41FAED44000B69E45 /* Offset.cpp in Sources */,
+				606101E61FB0034900558589 /* Scene01.cpp in Sources */,
 				604B57851F945A92009DE302 /* Mesh.cpp in Sources */,
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
 				60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */,
