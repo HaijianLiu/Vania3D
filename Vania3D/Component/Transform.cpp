@@ -21,7 +21,8 @@ Transform::~Transform() {
 < update > in GameObject draw()
 ------------------------------------------------------------------------------*/
 void Transform::update() {
-	this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
+	if (!this->kinematic)
+		this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
 }
 
 

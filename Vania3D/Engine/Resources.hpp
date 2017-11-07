@@ -7,9 +7,9 @@ private:
 	// Resource storage
 	std::unordered_map<const char*, Shader*> shaders;
 	std::unordered_map<const char*, Texture*> textures;
-	std::unordered_map<const char*, Model*> models;
+	std::unordered_map<std::string, Model*> models;
 	std::unordered_map<const char*, LightProbe*> lightProbes;
-	std::unordered_map<const char*, Material*> materials;
+	std::unordered_map<std::string, Material*> materials;
 
 	Resources();
 
@@ -29,14 +29,14 @@ public:
 	void loadTexture(const char* name, const char* path);
 	Texture* getTexture(const char* name);
 	// model
-	void loadModel(const char* name, const char* path);
-	Model* getModel(const char* name);
+	void loadModel(std::string name, const char* path);
+	Model* getModel(std::string name);
 	// light probe
 	void loadLightProbe(const char* name, const char* path);
 	LightProbe* getLightProbe(const char* name);
 	// material
-	void createMaterial(const char* name, Shader* shader);
-	Material* getMaterial(const char* name);
+	void createMaterial(std::string name, Shader* shader);
+	Material* getMaterial(std::string name);
 };
 
 #endif /* Resources_hpp */

@@ -10,11 +10,11 @@ private:
 	unsigned int index = 0;
 	std::unordered_map<const char*, unsigned int> gameObjectsMapping;
 
-	GameObject* camera;
-
 	void updateRenderPass();
 
 public:
+	GameObject* camera;
+
 	Game* game;
 	std::vector<GameObject*> lights; // component wont be updated
 

@@ -68,7 +68,7 @@ class GameObject;
 class Game;
 class SceneManager;
 class Camera;
-// class Model;
+class Scene;
 
 
 /*------------------------------------------------------------------------------
@@ -88,6 +88,7 @@ class Camera;
 #include "Keyframe.hpp"
 #include "Animation.hpp"
 #include "Model.hpp"
+#include "Level.hpp"
 
 #include "Sphere.hpp"
 

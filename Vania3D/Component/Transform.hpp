@@ -13,6 +13,7 @@ public:
 	glm::quat rotation = glm::quat(1.0, 0.0, 0.0, 0.0);
 
 	// matrix uniform
+	bool kinematic = false;
 	glm::mat4 model = glm::mat4();
 
 	Transform();
