@@ -21,8 +21,8 @@ GameObject::~GameObject() {
 < start >
 ------------------------------------------------------------------------------*/
 void GameObject::start() {
-	for (const auto & conponent : this->components) {
-		conponent.second->start();
+	for (auto it = this->components.begin(); it != this->components.end(); it++) {
+		it->second->start();
 	}
 }
 
@@ -31,7 +31,7 @@ void GameObject::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void GameObject::update() {
-	for (const auto & conponent : this->components) {
-		conponent.second->update();
+	for (auto it = this->components.begin(); it != this->components.end(); it++) {
+		it->second->update();
 	}
 }

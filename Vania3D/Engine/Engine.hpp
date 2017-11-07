@@ -120,6 +120,7 @@ class Camera;
 ------------------------------------------------------------------------------*/
 #include "Scene.hpp"
 #include "Scene00.hpp"
+#include "SceneUnityTest.hpp"
 #include "SceneManager.hpp"
 
 

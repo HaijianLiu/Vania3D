@@ -5,7 +5,7 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 Game::Game() {
-	
+
 }
 
 Game* Game::getInstance() {
@@ -45,8 +45,9 @@ void Game::start() {
 	// render pass
 	this->renderPass->init(this->resources->getShader("renderPass"), 5);
 	// scene manager ????
-	this->sceneManager->addScene("Scene00", new Scene00()); // default scene00
-	this->sceneManager->setActiveScene("Scene00");
+	this->sceneManager->addScene("Scene00", new Scene00());
+	this->sceneManager->addScene("SceneUnityTest", new SceneUnityTest());
+	this->sceneManager->setActiveScene("SceneUnityTest"); // default scene
 }
 
 
