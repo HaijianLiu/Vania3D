@@ -88,6 +88,7 @@ class Camera;
 #include "Keyframe.hpp"
 #include "Animation.hpp"
 #include "Model.hpp"
+#include "UnityScene.hpp"
 
 #include "Sphere.hpp"
 

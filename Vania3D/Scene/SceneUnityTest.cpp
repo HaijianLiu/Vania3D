@@ -23,6 +23,9 @@ SceneUnityTest::~SceneUnityTest() {
 void SceneUnityTest::start() {
 	Game* game = Game::getInstance();
 
+	UnityScene* unityScene = new UnityScene();
+	unityScene->load("./Assets/UnityScenes/scene.unity");
+
 	// camera
 	GameObject* camera = new GameObject();
 	Transform* cameraTransform = camera->addComponent<Transform>();
