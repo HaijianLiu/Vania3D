@@ -48,29 +48,39 @@ void Resources::start() {
 
 	this->loadShader("simple", "./Assets/Shaders/simple.vs.glsl",  "./Assets/Shaders/simple.fs.glsl");
 
-	/* Model
-	..............................................................................*/
+	// /* Model
+	// ..............................................................................*/
 	this->models.insert(std::make_pair("sphere", new Sphere()));
-	
-	this->loadModel("player", "./Assets/Models/Ganfaul/mixamo_model.fbx");
-	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
-	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
-	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_walk.fbx"));
-	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_run.fbx"));
-	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_swiping.fbx"));
+	//
+	// this->loadModel("player", "./Assets/Models/Ganfaul/mixamo_model.fbx");
+	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
+	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
+	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_walk.fbx"));
+	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_run.fbx"));
+	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_swiping.fbx"));
+	//
+	// /* Texture
+	// ..............................................................................*/
+	// this->loadTexture("player_albedo", "./Assets/Models/Ganfaul/Ganfaul_diffuse.TGA");
+	// this->loadTexture("player_normal", "./Assets/Models/Ganfaul/Ganfaul_normal.TGA");
+	// this->loadTexture("player_mask", "./Assets/Models/Ganfaul/Ganfaul_mask.TGA");
+	//
+	// /* Material
+	// ..............................................................................*/
+	// this->createMaterial("player", this->getShader("deferredPBRforUEmask"));
+	// this->getMaterial("player")->addTexture("albedoMap", this->getTexture("player_albedo"));
+	// this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
+	// this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
 
-	/* Texture
-	..............................................................................*/
-	this->loadTexture("player_albedo", "./Assets/Models/Ganfaul/Ganfaul_diffuse.TGA");
-	this->loadTexture("player_normal", "./Assets/Models/Ganfaul/Ganfaul_normal.TGA");
-	this->loadTexture("player_mask", "./Assets/Models/Ganfaul/Ganfaul_mask.TGA");
 
-	/* Material
-	..............................................................................*/
+	// player
+	this->loadModel("player", "./Assets/Models/PolygonDungeon/Characters/hero_male.fbx");
+	this->getModel("player")->addAnimation(new Animation("./Assets/Models/PolygonDungeon/Characters/hero_male_Idle.fbx"));
+	this->getModel("player")->addAnimation(new Animation("./Assets/Models/PolygonDungeon/Characters/hero_male_walking.fbx"));
+	this->getModel("player")->addAnimation(new Animation("./Assets/Models/PolygonDungeon/Characters/hero_male_running.fbx"));
+	this->loadTexture("player_albedo", "./Assets/Models/PolygonDungeon/Textures/Dungeons_Texture_01.png");
 	this->createMaterial("player", this->getShader("deferredPBRforUEmask"));
 	this->getMaterial("player")->addTexture("albedoMap", this->getTexture("player_albedo"));
-	this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
-	this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
 
 	this->createMaterial("simple", this->getShader("simple"));
 

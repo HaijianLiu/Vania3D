@@ -28,10 +28,8 @@ void Animation::updatePose(std::vector<glm::mat4>& pose, const Node<Bone>* rootN
 	// animation blending
 	this->blendFactor = timeInSeconds / this->blendTimeInSeconds;
 
-	/* for mixamo models */
-	this->processPose(pose, this->keyframeNode, rootNode, glm::mat4(1.0));
-	/* for unreal engine models */
-	// this->processPose(pose, this->keyframeNode->children[0], rootNode->children[0]->children[0], bones, Matrix4::identity(), animationTimeInTicks);
+	/* for polygon models remake with mixamo */
+	this->processPose(pose, this->keyframeNode->children[0], rootNode->children[1], glm::mat4(1.0));
 }
 
 

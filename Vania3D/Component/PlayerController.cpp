@@ -39,7 +39,7 @@ void PlayerController::update() {
 			playerTransform->position.x += 20 * axisLS.x * game->time->deltaTime;
 			playerTransform->position.z += 20 * axisLS.z * game->time->deltaTime;
 
-			this->animation = 3;
+			this->animation = 2;
 		}
 		else if (abs(axisLS.x) > 0.1 || abs(axisLS.z) > 0.1){
 			direction = worldToCamera * game->input->getNormalLS();
@@ -48,19 +48,19 @@ void PlayerController::update() {
 			playerTransform->position.x += 10 * axisLS.x * game->time->deltaTime;
 			playerTransform->position.z += 10 * axisLS.z * game->time->deltaTime;
 
-			this->animation = 2;
+			this->animation = 1;
 		}
 		else {
 			this->animation = 0;
 		}
 	}
 
-	if (game->input->getJoystickTrigger(JOY_L1)) {
-		this->animation = 4;
-		this->lastAttack = game->time->currentTime;
-	}
+	// if (game->input->getJoystickTrigger(JOY_L1)) {
+	// 	this->animation = 4;
+	// 	this->lastAttack = game->time->currentTime;
+	// }
 
 	playerTransform->rotate(direction, 2 * PI * game->time->deltaTime);
-	
+
 	gameObject->getComponent<MeshRenderer>()->model->updatePose(this->animation, game->time->currentTime);
 }
