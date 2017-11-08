@@ -39,39 +39,21 @@ void Resources::start() {
 
 	/* Shader
 	..............................................................................*/
-	this->loadShader("renderPass", "./Assets/Shaders/RenderPassCombineDeferredPBR.vs.glsl",  "./Assets/Shaders/RenderPassCombineDeferredPBR.fs.glsl");
-	this->loadShader("deferredPBRforUEmask", "./Assets/Shaders/deferredPBRforUEmask.vs.glsl",  "./Assets/Shaders/deferredPBRforUEmask.fs.glsl");
+	this->loadShader("renderPass", "./Assets/Shaders/renderpass_combine_deferred_polygon.vs.glsl",  "./Assets/Shaders/renderpass_combine_deferred_polygon.fs.glsl");
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
 	this->loadShader("prefilter", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/prefilter.fs.glsl");
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
 
+	// polygon
+	this->loadShader("deferred_polygon_bone", "./Assets/Shaders/deferred_polygon_bone.vs.glsl",  "./Assets/Shaders/deferred_polygon_bone.fs.glsl");
+
+	// simple
 	this->loadShader("simple", "./Assets/Shaders/simple.vs.glsl",  "./Assets/Shaders/simple.fs.glsl");
 
 	// /* Model
 	// ..............................................................................*/
 	this->models.insert(std::make_pair("sphere", new Sphere()));
-	//
-	// this->loadModel("player", "./Assets/Models/Ganfaul/mixamo_model.fbx");
-	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
-	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
-	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_walk.fbx"));
-	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_run.fbx"));
-	// this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_swiping.fbx"));
-	//
-	// /* Texture
-	// ..............................................................................*/
-	// this->loadTexture("player_albedo", "./Assets/Models/Ganfaul/Ganfaul_diffuse.TGA");
-	// this->loadTexture("player_normal", "./Assets/Models/Ganfaul/Ganfaul_normal.TGA");
-	// this->loadTexture("player_mask", "./Assets/Models/Ganfaul/Ganfaul_mask.TGA");
-	//
-	// /* Material
-	// ..............................................................................*/
-	// this->createMaterial("player", this->getShader("deferredPBRforUEmask"));
-	// this->getMaterial("player")->addTexture("albedoMap", this->getTexture("player_albedo"));
-	// this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
-	// this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
-
 
 	// player
 	this->loadModel("player", "./Assets/Models/PolygonDungeon/Characters/hero_male.fbx");
@@ -79,7 +61,7 @@ void Resources::start() {
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/PolygonDungeon/Characters/hero_male_walking.fbx"));
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/PolygonDungeon/Characters/hero_male_running.fbx"));
 	this->loadTexture("player_albedo", "./Assets/Models/PolygonDungeon/Textures/Dungeons_Texture_01.png");
-	this->createMaterial("player", this->getShader("deferredPBRforUEmask"));
+	this->createMaterial("player", this->getShader("deferred_polygon_bone"));
 	this->getMaterial("player")->addTexture("albedoMap", this->getTexture("player_albedo"));
 
 	this->createMaterial("simple", this->getShader("simple"));
