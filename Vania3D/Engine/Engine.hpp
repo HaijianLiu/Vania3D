@@ -13,18 +13,22 @@
 #define PI (3.141593)
 #define NUM_BONES_PER_VEREX (4)
 
-#define UNIFORM_TEX_ALBEDO "albedo"
-#define UNIFORM_TEX_NORMAL "normal"
-#define UNIFORM_TEX_METALLIC "metallic"
-#define UNIFORM_TEX_ROUGHNESS "roughness"
-#define UNIFORM_TEX_AO "ao"
+#define UNIFORM_TEX_ALBEDO "albedoMap" // GL_TEXTURE0
+#define UNIFORM_TEX_NORMAL "normalMap" // GL_TEXTURE1
+#define UNIFORM_TEX_MASK "maskMap" // GL_TEXTURE2
+
+#define UNIFORM_TEX_IRRADIANCE "irradianceMap"
+#define UNIFORM_TEX_PREFILTER "prefilterMap"
+#define UNIFORM_TEX_BRDFLUT "brdfLUT"
+
 #define UNIFORM_TEX_EQUIRECTANGULAR "equirectangular"
 #define UNIFORM_TEX_ENVIRONMENT "environment"
+#define UNIFORM_TEX_PASSES "passes"
+#define UNIFORM_VEC3_CAMERA "camera"
 #define UNIFORM_MATRIX_MVP "mvp"
 #define UNIFORM_MATRIX_MODEL "model"
 #define UNIFORM_MATRIX_VIEW "view"
 #define UNIFORM_MATRIX_PROJECTION "projection"
-#define UNIFORM_EYE_WORLDSPACE "eyeWorldspace"
 
 
 /*------------------------------------------------------------------------------

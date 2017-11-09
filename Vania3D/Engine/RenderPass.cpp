@@ -83,8 +83,9 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 
 	// Set Shader
 	this->shader->use();
+	std::string passes = UNIFORM_TEX_PASSES;
 	for (unsigned i = 0; i < number; i++) {
-		this->shader->setInt(("pass[" + std::to_string(i) + "]").c_str(), i);
+		this->shader->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
 	}
 }
 
@@ -126,10 +127,10 @@ void RenderPass::render() {
 ------------------------------------------------------------------------------*/
 void RenderPass::setActiveLightProbe(LightProbe* lightProbe) {
 	this->shader->use();
-	// IBL
-	this->shader->setInt("irradianceMap", 10);
-	this->shader->setInt("prefilterMap", 11);
-	this->shader->setInt("brdfLUT", 12);
+	// ibl
+	this->shader->setInt(UNIFORM_TEX_IRRADIANCE, 10);
+	this->shader->setInt(UNIFORM_TEX_PREFILTER, 11);
+	this->shader->setInt(UNIFORM_TEX_BRDFLUT, 12);
 	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->irradiance);
 	glActiveTexture(GL_TEXTURE11);
