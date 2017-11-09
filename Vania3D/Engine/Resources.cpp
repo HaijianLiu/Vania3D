@@ -42,15 +42,19 @@ void Resources::start() {
 	// renderpass
 	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/renderpass_deferred_pbr.vs.glsl",  "./Assets/Shaders/renderpass_deferred_pbr.fs.glsl");
 	this->loadShader("deferred_pbr_bone", "./Assets/Shaders/deferred_pbr_bone.vs.glsl",  "./Assets/Shaders/deferred_pbr_bone.fs.glsl");
+	this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
 
+	// ibl
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
 	this->loadShader("prefilter", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/prefilter.fs.glsl");
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
 
+	// shadow mapping
+	this->loadShader("shadow_mapping", "./Assets/Shaders/shadow_mapping.vs.glsl",  "./Assets/Shaders/shadow_mapping.fs.glsl");
+	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/shadow_mapping_depth.vs.glsl",  "./Assets/Shaders/shadow_mapping_depth.fs.glsl");
 
-	this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
-
+	// test
 	this->loadShader("simple", "./Assets/Shaders/simple.vs.glsl",  "./Assets/Shaders/simple.fs.glsl");
 
 	/* Model
