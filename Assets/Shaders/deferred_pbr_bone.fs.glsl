@@ -1,3 +1,4 @@
+
 #version 330 core
 layout (location = 0) out vec4 albedoPass;
 layout (location = 1) out vec4 normalPass;

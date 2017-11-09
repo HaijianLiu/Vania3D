@@ -33,18 +33,12 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices) {
 	// vertex uv
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,normal));
-	// vertex tangent
+	// vertex bitangent
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,tangent));
+	glVertexAttribIPointer(3, NUM_BONES_PER_VEREX, GL_UNSIGNED_INT, sizeof(Vertex), (void*)offsetof(Vertex,boneID));
 	// vertex bitangent
 	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,bitangent));
-	// vertex bitangent
-	glEnableVertexAttribArray(5);
-	glVertexAttribIPointer(5, NUM_BONES_PER_VEREX, GL_UNSIGNED_INT, sizeof(Vertex), (void*)offsetof(Vertex,boneID));
-	// vertex bitangent
-	glEnableVertexAttribArray(6);
-	glVertexAttribPointer(6, NUM_BONES_PER_VEREX, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,weight));
+	glVertexAttribPointer(4, NUM_BONES_PER_VEREX, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,weight));
 
 	glBindVertexArray(0);
 	// glDeleteBuffers(1, &vbo);

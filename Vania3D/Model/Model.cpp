@@ -130,6 +130,7 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	// walk through each of the mesh's vertices
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex;
+		
 		glm::vec3 vector;
 		// positions
 		vector.x = mesh->mVertices[i].x;
@@ -152,16 +153,7 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 			vertex.uv = vec;
 		}
 		else vertex.uv = glm::vec2(0.0f, 0.0f);
-		// tangent
-		// vector.x = mesh->mTangents[i].x;
-		// vector.y = mesh->mTangents[i].y;
-		// vector.z = mesh->mTangents[i].z;
-		// vertex.tangent = vector;
-		// bitangent
-		// vector.x = mesh->mBitangents[i].x;
-		// vector.y = mesh->mBitangents[i].y;
-		// vector.z = mesh->mBitangents[i].z;
-		// vertex.bitangent = vector;
+
 		vertices.push_back(vertex);
 	}
 
