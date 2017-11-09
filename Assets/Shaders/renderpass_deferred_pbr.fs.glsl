@@ -2,6 +2,8 @@
 #version 330 core
 out vec4 fragColor;
 
+uniform sampler2D shadowMap;
+
 in vec2 uv;
 uniform sampler2D passes[7];
 
@@ -36,6 +38,8 @@ void main() {
 	vec3 mrc = texture(passes[2], uv).rgb;
 	vec3 position = texture(passes[3], uv).rgb;
 	vec3 alpha = texture(passes[4], uv).rgb;
+
+	vec3 shadow = texture(shadowMap, uv).rgb;
 
 	float metallic = mrc.r;
 	float roughness = mrc.g;
@@ -103,6 +107,7 @@ void main() {
 	color = pow(color, vec3(1.0/2.2));
 
 	fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
+	fragColor = vec4(shadow, 1.0);
 }
 
 

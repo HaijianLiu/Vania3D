@@ -4,10 +4,10 @@
 
 class MeshRenderer : public Component {
 private:
-	Material* material;
 	LightProbe* lightProbe;
 
 public:
+	Material* material;
 	Model* model;
 
 	GameObject* camera;
