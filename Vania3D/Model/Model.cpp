@@ -63,7 +63,7 @@ loads a model with supported ASSIMP extensions from file and stores the resultin
 void Model::load(const char* path) {
 	// read file via ASSIMP
 	Assimp::Importer importer;
-	const aiScene* aiscene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_LimitBoneWeights);
+	const aiScene* aiscene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_LimitBoneWeights);
 	// check for errors
 	if(!aiscene || aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !aiscene->mRootNode) {
 		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;

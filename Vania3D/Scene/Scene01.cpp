@@ -177,15 +177,11 @@ void Scene01::update() {
 	
 	game->renderPass->begin();
 	
-	// 2. render scene as normal using the generated depth/shadow map
-	// --------------------------------------------------------------
-	game->resources->getShader("deferred_pbr_bone")->use();
-	// set light uniforms
-	game->resources->getShader("deferred_pbr_bone")->setMat4("lightSpaceMatrix", lightSpaceMatrix);
 	
 	game->resources->getShader("renderpass_deferred_pbr")->use();
 	glActiveTexture(GL_TEXTURE13);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
+	game->resources->getShader("renderpass_deferred_pbr")->setMat4("lightSpaceMatrix", lightSpaceMatrix);
 	
 	
 	
