@@ -57,14 +57,14 @@ void Scene01::start() {
 	camera->getComponent<Camera>()->offsetFromTarget = cameraTransform->position - camera->getComponent<Camera>()->target->position;
 	this->addCamera(camera);
 
-	Level* level = new Level("./Assets/Models/Level/Bunker_01.FBX");
+	Level* level = new Level("./Assets/Models/Kowloon/map.fbx");
 	level->createGameObjects(this);
 	delete level;
 
 
 	// light
-	GameObject* light[4];
-	for (int i = 0; i < 4; i++) {
+	GameObject* light[2];
+	for (int i = 0; i < 2; i++) {
 		light[i] = new GameObject();
 		Transform* lightTransform = light[i]->addComponent<Transform>();
 		lightTransform->modelScale = glm::vec3(0.1);
@@ -79,12 +79,12 @@ void Scene01::start() {
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);
 	light[1]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f, -10.0f);
-	light[2]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f,  10.0f);
-	light[3]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f, -10.0f);
+//	light[2]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f,  10.0f);
+//	light[3]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f, -10.0f);
 	light[0]->getComponent<PointLight>()->color = glm::vec3(100.0f, 100.0f, 100.0f);
 	light[1]->getComponent<PointLight>()->color = glm::vec3(100.0f, 0.0f, 0.0f);
-	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 100.0f, 0.0f);
-	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 100.0f);
+//	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 100.0f, 0.0f);
+//	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 100.0f);
 
 
 	// IBL

@@ -69,10 +69,9 @@ void Level::createGameObjects(Scene* scene) {
 
 void Level::processNode(Node<ModelInfo>* node, glm::mat4 parentTransformation, Game* game, Scene* scene) {
 	// create GameObject
-	// node name anlyise
 	glm::mat4 globalTransformation = parentTransformation * node->data->nodeTransformation;
-	
-	Model* model = game->resources->getModel(node->name.c_str());
+	std::string modelName = node->name.substr(0,node->name.rfind("."));
+	Model* model = game->resources->getModel(modelName);
 	if (model != nullptr) {
 		GameObject* gameObject = new GameObject();
 		Transform* transform = gameObject->addComponent<Transform>();
@@ -80,7 +79,7 @@ void Level::processNode(Node<ModelInfo>* node, glm::mat4 parentTransformation, G
 		transform->kinematic = true;
 		MeshRenderer* meshRenderer = gameObject->addComponent<MeshRenderer>();
 		meshRenderer->addModel(model);
-		meshRenderer->addMaterial(game->resources->getMaterial(node->name.c_str()));
+		meshRenderer->addMaterial(game->resources->getMaterial(modelName));
 		meshRenderer->addLightProbe(game->resources->getLightProbe("hdr"));
 		meshRenderer->camera = scene->camera;
 		scene->addGameObject(node->name.c_str(), gameObject);
