@@ -30,43 +30,8 @@ float geometrySchlickGGX(float ndotv, float roughness);
 float geometrySmith(vec3 n, vec3 v, vec3 l, float roughness);
 vec3 fresnelSchlick(float cosTheta, vec3 f0);
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 f0, float roughness);
-
-
-float ShadowCalculation(vec4 fragPosLightSpace, vec3 n, vec3 position)
-{
-    // perform perspective divide
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    // transform to [0,1] range
-    projCoords = projCoords * 0.5 + 0.5;
-    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-    float closestDepth = texture(shadowMap, projCoords.xy).r;
-    // get depth of current fragment from light's perspective
-    float currentDepth = projCoords.z;
-    // calculate bias (based on depth map resolution and slope)
-    vec3 normal = normalize(n);
-    vec3 lightDir = normalize(vec3(-10.0f, 10.0f, -1.0f) - position);
-    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
-    // check whether current frag pos is in shadow
-    // float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
-    // PCF
-    float shadow = 0.0;
-    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
-    for(int x = -1; x <= 1; ++x)
-    {
-        for(int y = -1; y <= 1; ++y)
-        {
-            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
-            shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;
-        }
-    }
-    shadow /= 9.0;
-
-    // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
-    if(projCoords.z > 1.0)
-        shadow = 0.0;
-
-    return shadow;
-}
+// shadow
+float shadowMapping(vec4 fragPosLightSpace, vec3 n, vec3 position);
 
 void main() {
 	// passes
@@ -75,12 +40,7 @@ void main() {
 	vec3 mrc = texture(passes[2], uv).rgb;
 	vec3 position = texture(passes[3], uv).rgb;
 	vec3 alpha = texture(passes[4], uv).rgb;
-
-
-	vec4 fragPosLightSpace = lightSpaceMatrix * vec4(position, 1.0);
-
-	float shadow = ShadowCalculation(fragPosLightSpace,n,position);
-
+	// mrc mask
 	float metallic = mrc.r;
 	float roughness = mrc.g;
 	float cavity = mrc.b;
@@ -135,10 +95,14 @@ void main() {
 	// ambient
 	vec3 ambient = diffuseF * diffuse + specularF * specular * diffuse;
 
-	// vec3 color = ambient + lightReflection;
-	vec3 color = lightReflection;
+	vec3 color = ambient + lightReflection;
+	// vec3 color = lightReflection;
 
-	// exposion
+	// shadow
+	vec4 fragPostionLightSpace = lightSpaceMatrix * vec4(position, 1.0);
+	float shadow = shadowMapping(fragPostionLightSpace, n, position);
+
+	// exposion & cavity & shadow
 	color *= 5 * cavity * (1 - 0.8 * shadow);
 
 	// hdr tonemapping
@@ -199,4 +163,37 @@ vec3 fresnelSchlick(float cosTheta, vec3 f0) {
 
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 f0, float roughness) {
 	return f0 + (max(vec3(1.0 - roughness), f0) - f0) * pow(1.0 - cosTheta, 5.0);
+}
+
+// shadow
+float shadowMapping(vec4 fragPositionLightSpace, vec3 n, vec3 position) {
+	// perform perspective divide
+	vec3 projection = fragPositionLightSpace.xyz / fragPositionLightSpace.w;
+	// transform to [0,1] range
+	projection = projection * 0.5 + 0.5;
+	// get closest depth value from light's perspective
+	float closestDepth = texture(shadowMap, projection.xy).r;
+	// get depth of current fragment from light's perspective
+	float currentDepth = projection.z;
+	// calculate bias (based on depth map resolution and slope)
+	vec3 normal = normalize(n);
+	vec3 lightDirection = normalize(vec3(-10.0f, 10.0f, -1.0f) - position);
+	float bias = max(0.05 * (1.0 - dot(normal, lightDirection)), 0.005);
+	// check whether current frag pos is in shadow
+	// float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
+	// PCF
+	float shadow = 0.0;
+	vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+	for(int x = -1; x <= 1; ++x) {
+		for(int y = -1; y <= 1; ++y) {
+			float pcfDepth = texture(shadowMap, projection.xy + vec2(x, y) * texelSize).r;
+			shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;
+		}
+	}
+	shadow /= 9.0;
+
+	// keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
+	if(projection.z > 1.0) shadow = 0.0;
+
+	return shadow;
 }
