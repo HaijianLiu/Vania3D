@@ -26,6 +26,30 @@ void Scene::update() {
 }
 
 
+/*------------------------------------------------------------------------------
+ < start scene > for scene manager
+------------------------------------------------------------------------------*/
+void Scene::startScene() {
+	this->start();
+	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
+		this->gameObjects[i]->start();
+	this->started = true;
+}
+
+
+/*------------------------------------------------------------------------------
+ < update scene > for scene manager
+------------------------------------------------------------------------------*/
+void Scene::updateScene() {
+	this->update();
+	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
+		this->gameObjects[i]->update();
+	this->camera->update();
+	this->updateRenderPass();
+}
+
+
+
 void Scene::updateRenderPass() {
 	// renderPass
 	this->game->renderPass->shader->use();

@@ -5,6 +5,9 @@
 class Scene {
 private:
 	friend class SceneManager;
+	// for scene manager
+	void startScene();
+	void updateScene();
 
 	std::vector<GameObject*> gameObjects; // component will be updated
 	unsigned int index = 0;
@@ -23,6 +26,7 @@ public:
 	Scene();
 	virtual ~Scene();
 
+	// for overload
 	virtual void start() = 0;
 	virtual void update();
 

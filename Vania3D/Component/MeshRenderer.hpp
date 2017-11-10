@@ -11,6 +11,8 @@ public:
 	Model* model;
 
 	GameObject* camera;
+	
+	bool shadow = false;
 
 	MeshRenderer();
 	~MeshRenderer();

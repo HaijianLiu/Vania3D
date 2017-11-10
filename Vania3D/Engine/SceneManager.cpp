@@ -21,20 +21,10 @@ SceneManager::~SceneManager() {
 < update >
 ------------------------------------------------------------------------------*/
 void SceneManager::update() {
-	if (this->scenes[this->currentScene]->started) {
-		this->scenes[this->currentScene]->update();
-		for (unsigned int i = 0; i < this->scenes[this->currentScene]->gameObjects.size(); i++) {
-			this->scenes[this->currentScene]->gameObjects[i]->update();
-		}
-		this->scenes[this->currentScene]->camera->update();
-		this->scenes[this->currentScene]->updateRenderPass();
-	} else {
-		this->scenes[this->currentScene]->start();
-		for (unsigned int i = 0; i < this->scenes[this->currentScene]->gameObjects.size(); i++) {
-			this->scenes[this->currentScene]->gameObjects[i]->start();
-		}
-		this->scenes[this->currentScene]->started = true;
-	}
+	if (this->scenes[this->currentScene]->started)
+		this->scenes[this->currentScene]->updateScene();
+	else
+		this->scenes[this->currentScene]->startScene();
 }
 
 

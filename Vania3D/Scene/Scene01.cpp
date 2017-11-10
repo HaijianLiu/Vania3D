@@ -89,11 +89,11 @@ void Scene01::start() {
 
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
-	
-	
-	
-	
-	
+
+
+
+
+
 	// configure depth map FBO
 	// -----------------------
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -115,16 +115,16 @@ void Scene01::start() {
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
-	
+
+
 	// shader configuration
 	// --------------------
 	game->resources->getShader("renderpass_deferred_pbr")->use();
 	game->resources->getShader("renderpass_deferred_pbr")->setInt("shadowMap", 13);
-	
-	
-	
-	
+
+
+
+
 
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -137,19 +137,19 @@ void Scene01::start() {
 ------------------------------------------------------------------------------*/
 void Scene01::update() {
 	Game* game = Game::getInstance();
-	
+
 	// lighting info
 	// -------------
 	glm::vec3 lightPos(-10.0f, 10.0f, -1.0f);
-	
-	
+
+
 	// 1. render depth of scene to texture (from light's perspective)
 	// --------------------------------------------------------------
 	glm::mat4 lightProjection, lightView;
 	glm::mat4 lightSpaceMatrix;
 	float near_plane = 0.0f, far_plane = 20.0f;
 //	lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-	lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+	lightProjection = glm::ortho(-100.0f, 100.0f, -100.0f, 100.0f, near_plane, far_plane);
 	lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
 	// render scene from light's point of view
@@ -157,13 +157,13 @@ void Scene01::update() {
 	game->resources->getShader("shadow_mapping_depth")->setMat4("lightSpaceMatrix", lightSpaceMatrix);
 	Transform* transform = this->getGameObject("player")->getComponent<Transform>();
 	game->resources->getShader("shadow_mapping_depth")->setMat4("model", transform->model);
-	
+
 	// bone
 	std::vector<glm::mat4> pose = this->getGameObject("player")->getComponent<MeshRenderer>()->model->pose;
 	for (unsigned int i = 0 ; i < pose.size() ; i++)
 		this->getGameObject("player")->getComponent<MeshRenderer>()->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
-	
-	
+
+
 	glViewport(0, 0, 1024, 1024);
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -174,18 +174,18 @@ void Scene01::update() {
 	// reset viewport
 	glViewport(0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
 	game->renderPass->begin();
-	
-	
+
+
 	game->resources->getShader("renderpass_deferred_pbr")->use();
 	glActiveTexture(GL_TEXTURE13);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	game->resources->getShader("renderpass_deferred_pbr")->setMat4("lightSpaceMatrix", lightSpaceMatrix);
-	
-	
-	
-	
+
+
+
+
 	// show light spere, for test
 	for (unsigned int i = 0; i < this->lights.size(); i ++) {
 		this->lights[i]->getComponent<Transform>()->update();

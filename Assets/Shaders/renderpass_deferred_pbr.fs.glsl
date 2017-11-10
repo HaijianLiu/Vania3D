@@ -95,8 +95,8 @@ void main() {
 	// ambient
 	vec3 ambient = diffuseF * diffuse + specularF * specular * diffuse;
 
-	vec3 color = ambient + lightReflection;
-	// vec3 color = lightReflection;
+	// vec3 color = ambient + lightReflection;
+	vec3 color = lightReflection;
 
 	// shadow
 	vec4 fragPostionLightSpace = lightSpaceMatrix * vec4(position, 1.0);
