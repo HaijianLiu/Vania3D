@@ -14,6 +14,7 @@ private:
 	std::unordered_map<const char*, unsigned int> gameObjectsMapping;
 
 	void updateRenderPass();
+	void updateShadowMapping();
 
 public:
 	GameObject* camera;

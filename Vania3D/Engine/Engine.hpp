@@ -103,6 +103,7 @@ class Scene;
 #include "LightProbe.hpp"
 #include "Resources.hpp"
 #include "RenderPass.hpp"
+#include "ShadowMapping.hpp"
 #include "Camera.hpp"
 
 #include "GameObject.hpp"

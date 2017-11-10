@@ -42,16 +42,21 @@ void Scene::startScene() {
 ------------------------------------------------------------------------------*/
 void Scene::updateScene() {
 	this->update();
-	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
-		this->gameObjects[i]->update();
 	this->camera->update();
+	this->updateShadowMapping();
 	this->updateRenderPass();
 }
 
 
+void Scene::updateShadowMapping() {
+	
+}
 
 void Scene::updateRenderPass() {
-	// renderPass
+	this->game->renderPass->begin(); // begin framebuffer
+	
+	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
+		this->gameObjects[i]->update();
 	this->game->renderPass->shader->use();
 	this->game->renderPass->shader->setVec3("cameraPos", this->camera->getComponent<Transform>()->position);
 
@@ -60,6 +65,9 @@ void Scene::updateRenderPass() {
 		this->game->renderPass->shader->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<Transform>()->position);
 		this->game->renderPass->shader->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<PointLight>()->color);
 	}
+	
+	this->game->renderPass->end();
+	this->game->renderPass->render();
 }
 
 

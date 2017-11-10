@@ -51,6 +51,7 @@
 		60E579F81FA0B34700690EC1 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F61FA0B34700690EC1 /* Animation.cpp */; };
 		60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */; };
 		60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579FC1FA0C35100690EC1 /* Node.cpp */; };
+		60FA8C771FB5615200E31651 /* ShadowMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60FA8C751FB5615200E31651 /* ShadowMapping.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -153,6 +154,8 @@
 		60E579FA1FA0BB9B00690EC1 /* Keyframe.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyframe.hpp; sourceTree = "<group>"; };
 		60E579FC1FA0C35100690EC1 /* Node.cpp */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		60E579FD1FA0C35100690EC1 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
+		60FA8C751FB5615200E31651 /* ShadowMapping.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShadowMapping.cpp; sourceTree = "<group>"; };
+		60FA8C761FB5615200E31651 /* ShadowMapping.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ShadowMapping.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +241,8 @@
 				602434331F88DA7100DA6CA4 /* Resources.hpp */,
 				602434351F88DCBC00DA6CA4 /* RenderPass.cpp */,
 				602434361F88DCBC00DA6CA4 /* RenderPass.hpp */,
+				60FA8C751FB5615200E31651 /* ShadowMapping.cpp */,
+				60FA8C761FB5615200E31651 /* ShadowMapping.hpp */,
 				6024343B1F88E79A00DA6CA4 /* Game.cpp */,
 				6024343C1F88E79A00DA6CA4 /* Game.hpp */,
 				604B57861F94928A009DE302 /* Texture.cpp */,
@@ -417,6 +422,7 @@
 				605740911FADF9C4005B7358 /* PointLight.cpp in Sources */,
 				604B579F1F973FBC009DE302 /* Quad.cpp in Sources */,
 				60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */,
+				60FA8C771FB5615200E31651 /* ShadowMapping.cpp in Sources */,
 				6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */,
 				6082F4AF1FA737C000B177DA /* Input.cpp in Sources */,
 				604B57821F945A84009DE302 /* Model.cpp in Sources */,

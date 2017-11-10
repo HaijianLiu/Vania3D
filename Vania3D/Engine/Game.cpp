@@ -22,6 +22,7 @@ Game::~Game() {
 	delete this->resources;
 	delete this->sceneManager;
 	delete this->renderPass;
+	delete this->shadowMapping;
 	delete this->time;
 	delete this->input;
 }
@@ -36,6 +37,7 @@ void Game::start() {
 	this->resources = Resources::getInstance();
 	this->sceneManager = new SceneManager();
 	this->renderPass = new RenderPass();
+	this->shadowMapping = new ShadowMapping();
 	this->time = Time::getInstance();
 	this->input = Input::getInstance();
 
@@ -59,8 +61,5 @@ void Game::update() {
 	// keep in order
 	this->time->update();
 	this->input->updateJoystick();
-	this->renderPass->begin();
 	this->sceneManager->update();
-	this->renderPass->end();
-	this->renderPass->render();
 }
