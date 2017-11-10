@@ -20,7 +20,10 @@ ShadowMapping::~ShadowMapping() {
 /*------------------------------------------------------------------------------
  < init framebuffer and shadow map >
 ------------------------------------------------------------------------------*/
-void ShadowMapping::init(unsigned int size) {
+void ShadowMapping::init(Shader* shader, unsigned int size) {
+    // save shadow mapping shader
+    this->shader = shader;
+	// map size and screen size
 	this->size = size;
 	this->retina = Game::getInstance()->window->retina;
 	// configure depth map fbo
@@ -41,12 +44,18 @@ void ShadowMapping::init(unsigned int size) {
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    
+    // light projection
+    this->projection = glm::ortho(-this->range, this->range, -this->range, this->range, this->nearPlane, this->farPlane);
 	
-	
+    
+    
+    
 	// shader configuration (to be refactored)
 	Game* game = Game::getInstance();
 	game->resources->getShader("renderpass_deferred_pbr")->use();
 	game->resources->getShader("renderpass_deferred_pbr")->setInt(UNIFORM_TEX_SHADOW, 13);
+
 }
 
 
@@ -60,6 +69,22 @@ void ShadowMapping::begin() {
 }
 
 
+
+/*------------------------------------------------------------------------------
+ < update >
+------------------------------------------------------------------------------*/
+void ShadowMapping::update() {
+    Game* game = Game::getInstance();
+    // light view
+    this->view = glm::lookAt(this->lightPosition, this->lightTarget, game->worldUp);
+    // light space matrix
+    this->lightSpace = this->projection * this->view;
+    
+    this->shader->use();
+    this->shader->setMat4("lightSpaceMatrix", this->lightSpace);
+}
+
+
 /*------------------------------------------------------------------------------
  < end >
 ------------------------------------------------------------------------------*/
@@ -69,10 +94,3 @@ void ShadowMapping::end() {
 }
 
 
-/*------------------------------------------------------------------------------
- < render >
-------------------------------------------------------------------------------*/
-void ShadowMapping::render() {
-
-	
-}

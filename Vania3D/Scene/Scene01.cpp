@@ -103,49 +103,32 @@ void Scene01::start() {
 ------------------------------------------------------------------------------*/
 void Scene01::update() {
 	Game* game = Game::getInstance();
-
-	// lighting info
-	// -------------
-	glm::vec3 lightPos(-10.0f, 10.0f, -1.0f);
-
-
-	// 1. render depth of scene to texture (from light's perspective)
-	// --------------------------------------------------------------
-	glm::mat4 lightProjection, lightView;
-	glm::mat4 lightSpaceMatrix;
-	float near_plane = 0.0f, far_plane = 20.0f;
-//	lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-	lightProjection = glm::ortho(-100.0f, 100.0f, -100.0f, 100.0f, near_plane, far_plane);
-	lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
-	lightSpaceMatrix = lightProjection * lightView;
-	// render scene from light's point of view
-	game->resources->getShader("shadow_mapping_depth")->use();
-	game->resources->getShader("shadow_mapping_depth")->setMat4("lightSpaceMatrix", lightSpaceMatrix);
-	Transform* transform = this->getGameObject("player")->getComponent<Transform>();
-	game->resources->getShader("shadow_mapping_depth")->setMat4("model", transform->model);
-
-	// bone
-	std::vector<glm::mat4> pose = this->getGameObject("player")->getComponent<MeshRenderer>()->model->pose;
-	for (unsigned int i = 0 ; i < pose.size() ; i++)
-		this->getGameObject("player")->getComponent<MeshRenderer>()->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
-
+    
 
 
 	game->shadowMapping->begin();
-	
+    game->shadowMapping->update();
+    
+    //    draw
+    Transform* transform = this->getGameObject("player")->getComponent<Transform>();
+    game->resources->getShader("shadow_mapping_depth")->setMat4("model", transform->model);
+    std::vector<glm::mat4> pose = this->getGameObject("player")->getComponent<MeshRenderer>()->model->pose;
+    for (unsigned int i = 0 ; i < pose.size() ; i++)
+        this->getGameObject("player")->getComponent<MeshRenderer>()->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
 	MeshRenderer* meshRender = this->getGameObject("player")->getComponent<MeshRenderer>();
 	meshRender->model->draw();
 	
+    
 	game->shadowMapping->end();
 	
-
+    
 	game->renderPass->begin();
 
-
+    
 	game->resources->getShader("renderpass_deferred_pbr")->use();
 	glActiveTexture(GL_TEXTURE13);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
-	game->resources->getShader("renderpass_deferred_pbr")->setMat4("lightSpaceMatrix", lightSpaceMatrix);
+	game->resources->getShader("renderpass_deferred_pbr")->setMat4("lightSpaceMatrix", game->shadowMapping->lightSpace);
 
 
 
