@@ -32,7 +32,7 @@ void MeshRenderer::start() {
 ------------------------------------------------------------------------------*/
 void MeshRenderer::update() {
 	GameObject* gameObject = this->getGameObject();
-	
+
 	this->material->shader->use();
 	// camera
 	this->material->shader->setMat4("projection", this->camera->getComponent<Camera>()->projection);
@@ -41,23 +41,26 @@ void MeshRenderer::update() {
 	// texture
 	this->material->bindTextures();
 	// model
-    std::vector<glm::mat4> pose = this->model->pose;
-    for (unsigned int i = 0 ; i < pose.size() ; i++)
-        this->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
+	std::vector<glm::mat4> pose = this->model->pose;
+	for (unsigned int i = 0 ; i < pose.size() ; i++)
+		this->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
 	this->model->draw();
 }
 
+
+/*------------------------------------------------------------------------------
+< draw shadow >
+------------------------------------------------------------------------------*/
 void MeshRenderer::drawShadow() {
-    GameObject* gameObject = this->getGameObject();
-    
-    // model
-    this->game->shadowMapping->shader->setMat4("model", gameObject->getComponent<Transform>()->model);
-    // pose
-    std::vector<glm::mat4> pose = this->model->pose;
-    for (unsigned int i = 0 ; i < pose.size() ; i++)
-        this->game->shadowMapping->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
-    // draw
-    this->model->draw();
+	GameObject* gameObject = this->getGameObject();
+
+	// model
+	this->game->shadowMapping->shader->setMat4("model", gameObject->getComponent<Transform>()->model);
+	// pose
+	for (unsigned int i = 0 ; i < this->model->pose.size() ; i++)
+		this->game->shadowMapping->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), this->model->pose[i]);
+	// draw
+	this->model->draw();
 }
 
 
