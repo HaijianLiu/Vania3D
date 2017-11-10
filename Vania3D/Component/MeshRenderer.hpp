@@ -19,6 +19,8 @@ public:
 
 	void start();
 	void update();
+    
+    void drawShadow();
 
 	void addModel(Model* model);
 	void addMaterial(Material* material);

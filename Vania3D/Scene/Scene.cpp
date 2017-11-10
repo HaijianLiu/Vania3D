@@ -52,16 +52,11 @@ void Scene::updateShadowMapping() {
     this->game->shadowMapping->begin();
     this->game->shadowMapping->update();
     
-    //    draw
-    Transform* transform = this->getGameObject("player")->getComponent<Transform>();
-    game->resources->getShader("shadow_mapping_depth")->setMat4("model", transform->model);
-    std::vector<glm::mat4> pose = this->getGameObject("player")->getComponent<MeshRenderer>()->model->pose;
-    for (unsigned int i = 0 ; i < pose.size() ; i++)
-        this->getGameObject("player")->getComponent<MeshRenderer>()->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
-    MeshRenderer* meshRender = this->getGameObject("player")->getComponent<MeshRenderer>();
-    meshRender->model->draw();
+    this->game->shadowMapping->shader->use();
     
-    
+    MeshRenderer* meshRenderer = this->getGameObject("player")->getComponent<MeshRenderer>();
+    meshRenderer->drawShadow();
+
     game->shadowMapping->end();
     
     

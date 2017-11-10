@@ -41,10 +41,23 @@ void MeshRenderer::update() {
 	// texture
 	this->material->bindTextures();
 	// model
-	std::vector<glm::mat4> pose = this->model->pose;
-	for (unsigned int i = 0 ; i < pose.size() ; i++)
-		this->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
+    std::vector<glm::mat4> pose = this->model->pose;
+    for (unsigned int i = 0 ; i < pose.size() ; i++)
+        this->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
 	this->model->draw();
+}
+
+void MeshRenderer::drawShadow() {
+    GameObject* gameObject = this->getGameObject();
+    
+    // model
+    this->game->shadowMapping->shader->setMat4("model", gameObject->getComponent<Transform>()->model);
+    // pose
+    std::vector<glm::mat4> pose = this->model->pose;
+    for (unsigned int i = 0 ; i < pose.size() ; i++)
+        this->game->shadowMapping->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
+    // draw
+    this->model->draw();
 }
 
 
