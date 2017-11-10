@@ -12,7 +12,7 @@ public:
 
 	GameObject* camera;
 	
-	bool shadow = false;
+	bool castShadow = false;
 
 	MeshRenderer();
 	~MeshRenderer();

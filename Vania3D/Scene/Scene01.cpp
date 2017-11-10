@@ -41,6 +41,7 @@ void Scene01::start() {
 	playerMeshRenderer->addModel(game->resources->getModel("player"));
 	playerMeshRenderer->addMaterial(game->resources->getMaterial("player"));
 	playerMeshRenderer->addLightProbe(game->resources->getLightProbe("hdr"));
+    playerMeshRenderer->castShadow = true;
 	playerMeshRenderer->camera = camera;
 	this->addGameObject("player", player);
 

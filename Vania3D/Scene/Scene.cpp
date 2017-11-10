@@ -31,8 +31,13 @@ void Scene::update() {
 ------------------------------------------------------------------------------*/
 void Scene::startScene() {
 	this->start();
-	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
+	for (unsigned int i = 0; i < this->gameObjects.size(); i++) {
 		this->gameObjects[i]->start();
+        MeshRenderer* meshRenderer = this->gameObjects[i]->getComponent<MeshRenderer>();
+		if (meshRenderer && meshRenderer->castShadow) {
+			this->shadows.push_back(meshRenderer);
+		}
+	}
 	this->started = true;
 }
 
@@ -54,13 +59,13 @@ void Scene::updateShadowMapping() {
     
     this->game->shadowMapping->shader->use();
     
-    MeshRenderer* meshRenderer = this->getGameObject("player")->getComponent<MeshRenderer>();
-    meshRenderer->drawShadow();
-
+    for (unsigned int i = 0; i < this->shadows.size(); i++)
+        this->shadows[i]->drawShadow();
+    
     game->shadowMapping->end();
     
-    
-//    renderpass
+
+//    renderpass (to be refactor)
     game->renderPass->begin();
 
     game->resources->getShader("renderpass_deferred_pbr")->use();

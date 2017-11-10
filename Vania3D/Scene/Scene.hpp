@@ -12,6 +12,8 @@ private:
 	std::vector<GameObject*> gameObjects; // component will be updated
 	unsigned int index = 0;
 	std::unordered_map<const char*, unsigned int> gameObjectsMapping;
+    
+    std::vector<MeshRenderer*> shadows; // a list for cast shadow
 
 	void updateRenderPass();
 	void updateShadowMapping();
