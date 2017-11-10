@@ -130,16 +130,14 @@ void Scene01::update() {
 		this->getGameObject("player")->getComponent<MeshRenderer>()->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
 
 
-	glViewport(0, 0, 1024, 1024);
-	glBindFramebuffer(GL_FRAMEBUFFER, game->shadowMapping->fbo);
-	glClear(GL_DEPTH_BUFFER_BIT);
+
+	game->shadowMapping->begin();
+	
 	MeshRenderer* meshRender = this->getGameObject("player")->getComponent<MeshRenderer>();
 	meshRender->model->draw();
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// reset viewport
-	glViewport(0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	game->shadowMapping->end();
+	
 
 	game->renderPass->begin();
 

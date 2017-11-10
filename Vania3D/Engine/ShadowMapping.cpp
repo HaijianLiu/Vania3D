@@ -18,9 +18,11 @@ ShadowMapping::~ShadowMapping() {
 
 
 /*------------------------------------------------------------------------------
- < init framebuffer >
+ < init framebuffer and shadow map >
 ------------------------------------------------------------------------------*/
 void ShadowMapping::init(unsigned int size) {
+	this->size = size;
+	this->retina = Game::getInstance()->window->retina;
 	// configure depth map fbo
 	glGenFramebuffers(1, &this->fbo);
 	// create depth texture
@@ -45,4 +47,32 @@ void ShadowMapping::init(unsigned int size) {
 	Game* game = Game::getInstance();
 	game->resources->getShader("renderpass_deferred_pbr")->use();
 	game->resources->getShader("renderpass_deferred_pbr")->setInt(UNIFORM_TEX_SHADOW, 13);
+}
+
+
+/*------------------------------------------------------------------------------
+ < begin >
+------------------------------------------------------------------------------*/
+void ShadowMapping::begin() {
+	glViewport(0, 0, this->size, this->size);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
+	glClear(GL_DEPTH_BUFFER_BIT);
+}
+
+
+/*------------------------------------------------------------------------------
+ < end >
+------------------------------------------------------------------------------*/
+void ShadowMapping::end() {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, SCREEN_WIDTH * this->retina, SCREEN_HEIGHT * this->retina);
+}
+
+
+/*------------------------------------------------------------------------------
+ < render >
+------------------------------------------------------------------------------*/
+void ShadowMapping::render() {
+
+	
 }
