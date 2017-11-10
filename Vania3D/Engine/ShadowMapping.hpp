@@ -4,11 +4,15 @@
 
 class ShadowMapping {
 private:
-	/* data */
+
 
 public:
+		unsigned int fbo, depthMap;
+	
 	ShadowMapping();
 	~ShadowMapping();
+	
+	void init(unsigned int size);
 };
 
 #endif /* ShadowMapping_hpp */

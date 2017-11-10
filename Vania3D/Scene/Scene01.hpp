@@ -4,9 +4,6 @@
 
 class Scene01 : public Scene {
 public:
-	unsigned int depthMapFBO;
-	unsigned int depthMap;
-	
 	Scene01();
 	~Scene01();
 

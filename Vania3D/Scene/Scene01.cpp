@@ -92,40 +92,6 @@ void Scene01::start() {
 
 
 
-
-
-	// configure depth map FBO
-	// -----------------------
-	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-	glGenFramebuffers(1, &depthMapFBO);
-	// create depth texture
-	depthMap;
-	glGenTextures(1, &depthMap);
-	glBindTexture(GL_TEXTURE_2D, depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
-	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-	// attach depth texture as FBO's depth buffer
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
-	// shader configuration
-	// --------------------
-	game->resources->getShader("renderpass_deferred_pbr")->use();
-	game->resources->getShader("renderpass_deferred_pbr")->setInt("shadowMap", 13);
-
-
-
-
-
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -165,7 +131,7 @@ void Scene01::update() {
 
 
 	glViewport(0, 0, 1024, 1024);
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, game->shadowMapping->fbo);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	MeshRenderer* meshRender = this->getGameObject("player")->getComponent<MeshRenderer>();
 	meshRender->model->draw();
@@ -180,7 +146,7 @@ void Scene01::update() {
 
 	game->resources->getShader("renderpass_deferred_pbr")->use();
 	glActiveTexture(GL_TEXTURE13);
-	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
 	game->resources->getShader("renderpass_deferred_pbr")->setMat4("lightSpaceMatrix", lightSpaceMatrix);
 
 

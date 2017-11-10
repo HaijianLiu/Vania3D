@@ -46,6 +46,8 @@ void Game::start() {
 	this->resources->start();
 	// render pass
 	this->renderPass->init(this->resources->getShader("renderpass_deferred_pbr"), 5); // 3 model textures + 1 model position + 1 alpha
+	// shadow mapping
+	this->shadowMapping->init(1024);
 
 	// scene manager ????
 	this->sceneManager->addScene("Scene00", new Scene00());

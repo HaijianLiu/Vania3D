@@ -17,9 +17,10 @@
 #define UNIFORM_TEX_NORMAL "normalMap" // GL_TEXTURE1
 #define UNIFORM_TEX_MASK "maskMap" // GL_TEXTURE2
 
-#define UNIFORM_TEX_IRRADIANCE "irradianceMap"
-#define UNIFORM_TEX_PREFILTER "prefilterMap"
-#define UNIFORM_TEX_BRDFLUT "brdfLUT"
+#define UNIFORM_TEX_IRRADIANCE "irradianceMap" // GL_TEXTURE10
+#define UNIFORM_TEX_PREFILTER "prefilterMap" // GL_TEXTURE11
+#define UNIFORM_TEX_BRDFLUT "brdfLUT" // GL_TEXTURE12
+#define UNIFORM_TEX_SHADOW "shadowMap" // GL_TEXTURE13
 
 #define UNIFORM_TEX_EQUIRECTANGULAR "equirectangular"
 #define UNIFORM_TEX_ENVIRONMENT "environment"
