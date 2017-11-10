@@ -102,37 +102,6 @@ void Scene01::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Scene01::update() {
-	Game* game = Game::getInstance();
-    
-
-
-	game->shadowMapping->begin();
-    game->shadowMapping->update();
-    
-    //    draw
-    Transform* transform = this->getGameObject("player")->getComponent<Transform>();
-    game->resources->getShader("shadow_mapping_depth")->setMat4("model", transform->model);
-    std::vector<glm::mat4> pose = this->getGameObject("player")->getComponent<MeshRenderer>()->model->pose;
-    for (unsigned int i = 0 ; i < pose.size() ; i++)
-        this->getGameObject("player")->getComponent<MeshRenderer>()->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
-	MeshRenderer* meshRender = this->getGameObject("player")->getComponent<MeshRenderer>();
-	meshRender->model->draw();
-	
-    
-	game->shadowMapping->end();
-	
-    
-	game->renderPass->begin();
-
-    
-	game->resources->getShader("renderpass_deferred_pbr")->use();
-	glActiveTexture(GL_TEXTURE13);
-	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
-	game->resources->getShader("renderpass_deferred_pbr")->setMat4("lightSpaceMatrix", game->shadowMapping->lightSpace);
-
-
-
-
 	// show light spere, for test
 	for (unsigned int i = 0; i < this->lights.size(); i ++) {
 		this->lights[i]->getComponent<Transform>()->update();

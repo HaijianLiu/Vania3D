@@ -26,10 +26,12 @@
 #define UNIFORM_TEX_ENVIRONMENT "environment"
 #define UNIFORM_TEX_PASSES "passes"
 #define UNIFORM_VEC3_CAMERA "camera"
+
 #define UNIFORM_MATRIX_MVP "mvp"
 #define UNIFORM_MATRIX_MODEL "model"
 #define UNIFORM_MATRIX_VIEW "view"
 #define UNIFORM_MATRIX_PROJECTION "projection"
+#define UNIFORM_MATRIX_LIGHTSPACE "lightSpaceMatrix"
 
 
 /*------------------------------------------------------------------------------

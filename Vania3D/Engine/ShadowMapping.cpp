@@ -81,7 +81,7 @@ void ShadowMapping::update() {
     this->lightSpace = this->projection * this->view;
     
     this->shader->use();
-    this->shader->setMat4("lightSpaceMatrix", this->lightSpace);
+    this->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, this->lightSpace);
 }
 
 
