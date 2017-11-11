@@ -3,14 +3,12 @@
 #define Scene_hpp
 
 class Scene {
-private:
 	friend class SceneManager;
 	friend class Level;
+	friend class MeshRenderer;
 
-	// for scene manager
+private:
 	bool started = false;
-	void startScene();
-	void updateScene();
 
 	// game objects list
 	std::vector<GameObject*> gameObjects; // component will be updated
@@ -21,17 +19,19 @@ private:
 	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects
 	std::vector<GameObject*> pointLights; // a list for point lights to be rendered
 
+	void startScene();
+	void updateScene();
+
 protected:
 	Game* game;
 	GameObject* mainCamera;
 
+	virtual void start() = 0;
+	virtual void update();
+
 public:
 	Scene();
 	virtual ~Scene();
-
-	// for overload
-	virtual void start() = 0;
-	virtual void update();
 
 	void addGameObject(const char* name, GameObject* gameObject);
 	GameObject* getGameObject(const char* name);

@@ -38,11 +38,10 @@ void Scene01::start() {
 	CameraController* cameraController = player->addComponent<CameraController>();
 	cameraController->camera = camera;
 	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
-	playerMeshRenderer->addModel(game->resources->getModel("player"));
-	playerMeshRenderer->addMaterial(game->resources->getMaterial("player"));
-	playerMeshRenderer->addLightProbe(game->resources->getLightProbe("hdr"));
+	playerMeshRenderer->model = game->resources->getModel("player");
+	playerMeshRenderer->material = game->resources->getMaterial("player");
+	playerMeshRenderer->lightProbe = game->resources->getLightProbe("hdr");
     playerMeshRenderer->castShadow = true;
-	playerMeshRenderer->camera = camera;
 	this->addGameObject("player", player);
 	game->shadowMapping->target = player;
 
@@ -73,9 +72,8 @@ void Scene01::start() {
 		light[i]->addComponent<PointLight>();
 		// for test
 		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
-		lightMeshRenderer->addModel(game->resources->getModel("sphere"));
-		lightMeshRenderer->addMaterial(game->resources->getMaterial("simple_flat_color"));
-		lightMeshRenderer->camera = camera;
+		lightMeshRenderer->model = game->resources->getModel("sphere");
+		lightMeshRenderer->material = game->resources->getMaterial("simple_flat_color");
 		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);

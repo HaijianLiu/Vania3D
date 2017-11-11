@@ -61,6 +61,7 @@ void Scene::updateScene() {
 < add gameobject >
 ------------------------------------------------------------------------------*/
 void Scene::addGameObject(const char* name, GameObject* gameObject) {
+	gameObject->scene = this;
 	this->gameObjects.push_back(gameObject);
 	this->gameObjectsMapping.insert(std::make_pair(name, this->index));
 	this->index ++;

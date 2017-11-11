@@ -3,8 +3,8 @@
 #define Transform_hpp
 
 class Transform : public Component {
-friend class Level;
-friend class MeshRenderer;
+	friend class Level;
+	friend class MeshRenderer;
 
 private:
 	// uniform

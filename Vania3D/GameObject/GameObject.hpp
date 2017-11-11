@@ -3,16 +3,19 @@
 #define GameObject_hpp
 
 class GameObject {
-private:
-	std::unordered_map<std::type_index, Component*> components;
+	friend class Scene;
+	friend class MeshRenderer;
 
-public:
-	GameObject();
-	virtual ~GameObject();
+private:
+	Scene* scene;
+	std::unordered_map<std::type_index, Component*> components;
 
 	void start();
 	void update();
 
+public:
+	GameObject();
+	virtual ~GameObject();
 
 	template <typename T> T* addComponent() {
 		auto component = new T();

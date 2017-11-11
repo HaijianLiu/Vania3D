@@ -78,10 +78,9 @@ void Level::processNode(Node<ModelInfo>* node, glm::mat4 parentTransformation, G
 		transform->model = globalTransformation;
 		transform->kinematic = true;
 		MeshRenderer* meshRenderer = gameObject->addComponent<MeshRenderer>();
-		meshRenderer->addModel(model);
-		meshRenderer->addMaterial(game->resources->getMaterial(modelName));
-		meshRenderer->addLightProbe(game->resources->getLightProbe("hdr"));
-		meshRenderer->camera = scene->mainCamera;
+		meshRenderer->model = model;
+		meshRenderer->material = game->resources->getMaterial(modelName);
+		meshRenderer->lightProbe = game->resources->getLightProbe("hdr");
 		scene->addGameObject(node->name.c_str(), gameObject);
 	}
 	

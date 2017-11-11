@@ -3,7 +3,7 @@
 #define Component_hpp
 
 class Component {
-friend class GameObject;
+	friend class GameObject;
 
 protected:
 	Game* game;

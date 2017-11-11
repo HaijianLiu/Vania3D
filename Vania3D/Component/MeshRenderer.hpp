@@ -3,32 +3,31 @@
 #define MeshRenderer_hpp
 
 class MeshRenderer : public Component {
+	friend class ShadowMapping;
+	friend class RenderPass;
+
 private:
-	LightProbe* lightProbe;
-	// reflection probes
-
-public:
-	Material* material;
-	Model* model;
-
 	GameObject* camera;
-
-
-	bool castShadow = false;
-	bool render = true;
-	bool lightmapStatic = true;
-
-	MeshRenderer();
-	~MeshRenderer();
 
 	void start();
 
 	void renderModel();
 	void renderShadow();
 
-	void addModel(Model* model);
-	void addMaterial(Material* material);
-	void addLightProbe(LightProbe* lightProbe);
+public:
+	// render targets
+	LightProbe* lightProbe;
+	// ....... add reflection probes here
+	Material* material;
+	Model* model;
+
+	// properties
+	bool castShadow = false;
+	bool render = true;
+	bool lightmapStatic = true;
+
+	MeshRenderer();
+	~MeshRenderer();
 };
 
 #endif /* MeshRenderer_hpp */

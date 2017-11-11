@@ -21,6 +21,8 @@ MeshRenderer::~MeshRenderer() {
 < start >
 ------------------------------------------------------------------------------*/
 void MeshRenderer::start() {
+	// get main camera from the scene
+	this->camera = this->gameObject->scene->mainCamera;
 	// initialize static shader uniforms before rendering
 	this->material->shader->use();
 	this->material->setUniformLocations();
@@ -63,28 +65,4 @@ void MeshRenderer::renderShadow() {
 	}
 	// draw
 	this->model->draw();
-}
-
-
-/*------------------------------------------------------------------------------
-< add material >
-------------------------------------------------------------------------------*/
-void MeshRenderer::addModel(Model* model) {
-	this->model = model;
-}
-
-
-/*------------------------------------------------------------------------------
-< add material >
-------------------------------------------------------------------------------*/
-void MeshRenderer::addMaterial(Material* material) {
-	this->material = material;
-}
-
-
-/*------------------------------------------------------------------------------
-< add light probe >
-------------------------------------------------------------------------------*/
-void MeshRenderer::addLightProbe(LightProbe* lightProbe) {
-	this->lightProbe = lightProbe;
 }
