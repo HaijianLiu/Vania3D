@@ -52,7 +52,6 @@ void Scene::updateScene() {
 	this->update();
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
 		this->gameObjects[i]->update();
-	this->mainCamera->update();
 	this->game->shadowMapping->render(&this->shadowQueue);
 	this->game->renderPass->render(&this->renderQueue, &this->pointLights, this->mainCamera);
 }
@@ -65,14 +64,6 @@ void Scene::addGameObject(const char* name, GameObject* gameObject) {
 	this->gameObjects.push_back(gameObject);
 	this->gameObjectsMapping.insert(std::make_pair(name, this->index));
 	this->index ++;
-}
-
-
-/*------------------------------------------------------------------------------
-< add camera >
-------------------------------------------------------------------------------*/
-void Scene::addCamera(GameObject* camera) {
-	this->mainCamera = camera;
 }
 
 
