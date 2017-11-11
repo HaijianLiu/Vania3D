@@ -85,7 +85,6 @@ void Level::processNode(Node<ModelInfo>* node, glm::mat4 parentTransformation, G
 		scene->addGameObject(node->name.c_str(), gameObject);
 	}
 	
-	for (unsigned int i = 0; i < node->children.size(); i++) {
+	for (unsigned int i = 0; i < node->children.size(); i++)
 		this->processNode(node->children[i], globalTransformation, game, scene);
-	}
 }

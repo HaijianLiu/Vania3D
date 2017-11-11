@@ -5,6 +5,8 @@
 class Scene {
 private:
 	friend class SceneManager;
+	friend class Level;
+
 	// for scene manager
 	bool started = false;
 	void startScene();
@@ -21,8 +23,6 @@ private:
 
 protected:
 	Game* game;
-
-	friend class Level;
 	GameObject* mainCamera;
 
 public:
