@@ -128,7 +128,6 @@ void Scene00::start() {
 	
 	// camera
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
-	camera->getComponent<Camera>()->offsetFromTarget = cameraTransform->position - camera->getComponent<Camera>()->target->position;
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 	

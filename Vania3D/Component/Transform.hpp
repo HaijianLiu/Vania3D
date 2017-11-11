@@ -3,10 +3,10 @@
 #define Transform_hpp
 
 class Transform : public Component {
-private:
-	friend class Level;
-	friend class MeshRenderer;
+friend class Level;
+friend class MeshRenderer;
 
+private:
 	// uniform
 	glm::mat4 model = glm::mat4();
 	void update();

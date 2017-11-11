@@ -11,6 +11,9 @@
 //#define SCREEN_WIDTH (640)
 //#define SCREEN_HEIGHT (360)
 #define PI (3.141593)
+#define CAMERA_INVERSE_ON (1);
+#define CAMERA_INVERSE_OFF (-1);
+
 #define NUM_BONES_PER_VEREX (4)
 
 #define UNIFORM_TEX_ALBEDO "albedoMap" // GL_TEXTURE0
@@ -36,6 +39,8 @@
 #define UNIFORM_MATRIX_PROJECTION "projection"
 #define UNIFORM_MATRIX_BONE "bones"
 #define UNIFORM_MATRIX_LIGHTSPACE "lightSpaceMatrix"
+
+
 
 
 /*------------------------------------------------------------------------------

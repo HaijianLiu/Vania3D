@@ -3,6 +3,8 @@
 #define Camera_hpp
 
 class Camera : public Component {
+friend class MeshRenderer;
+
 private:
 	// camera attributes
 	float field = 45;
@@ -10,27 +12,20 @@ private:
 	float rangeStart = 0.1;
 	float rangeEnd = 100;
 
-public:
-	// camera angle
-	glm::vec3 front, up, right;
-
-	// target
-	Transform* target;
-
 	// uniforms
 	glm::mat4 projection;
 	glm::mat4 view;
 
-	Camera();
-	~Camera();
-
 	void update();
 
-	// for temp
-	glm::vec3 offsetFromTarget; // camera offset from target's offset
+public:
+	// properties
+	Transform* target;
+	// camera angles
+	glm::vec3 front, up, right;
 
-	void rotate(float radiansHorizonal, float radiansVertical);
-	void zoom(float distance);
+	Camera();
+	~Camera();
 };
 
 #endif /* Camera_hpp */
