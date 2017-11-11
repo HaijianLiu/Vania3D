@@ -35,13 +35,15 @@ void MeshRenderer::renderModel() {
 	// bind shader
 	this->material->shader->use();
 	// camera
-	this->material->shader->setMat4("projection", this->camera->getComponent<Camera>()->projection);
-	this->material->shader->setMat4("view", this->camera->getComponent<Camera>()->view);
+	this->material->shader->setMat4(UNIFORM_MATRIX_PROJECTION, this->camera->getComponent<Camera>()->projection);
+	this->material->shader->setMat4(UNIFORM_MATRIX_VIEW, this->camera->getComponent<Camera>()->view);
 	// model
-	this->material->shader->setMat4("model", gameObject->getComponent<Transform>()->model);
+	this->material->shader->setMat4(UNIFORM_MATRIX_MODEL, gameObject->getComponent<Transform>()->model);
 	// pose
-	for (unsigned int i = 0 ; i < this->model->pose.size() ; i++)
-		this->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), this->model->pose[i]);
+	for (unsigned int i = 0 ; i < this->model->pose.size() ; i++) {
+		std::string boneName = UNIFORM_MATRIX_BONE;
+		this->material->shader->setMat4((boneName + "[" + std::to_string(i) + "]").c_str(), this->model->pose[i]);
+	}
 	// texture
 	this->material->bindTextures();
 	// draw
@@ -56,10 +58,12 @@ void MeshRenderer::renderShadow() {
 	GameObject* gameObject = this->getGameObject();
 
 	// model
-	this->game->shadowMapping->shader->setMat4("model", gameObject->getComponent<Transform>()->model);
+	this->game->shadowMapping->shader->setMat4(UNIFORM_MATRIX_MODEL, gameObject->getComponent<Transform>()->model);
 	// pose
-	for (unsigned int i = 0 ; i < this->model->pose.size() ; i++)
-		this->game->shadowMapping->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), this->model->pose[i]);
+	for (unsigned int i = 0 ; i < this->model->pose.size() ; i++) {
+		std::string boneName = UNIFORM_MATRIX_BONE;
+		this->game->shadowMapping->shader->setMat4((boneName + "[" + std::to_string(i) + "]").c_str(), this->model->pose[i]);
+	}
 	// draw
 	this->model->draw();
 }

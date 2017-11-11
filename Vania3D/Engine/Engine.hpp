@@ -34,6 +34,7 @@
 #define UNIFORM_MATRIX_MODEL "model"
 #define UNIFORM_MATRIX_VIEW "view"
 #define UNIFORM_MATRIX_PROJECTION "projection"
+#define UNIFORM_MATRIX_BONE "bones"
 #define UNIFORM_MATRIX_LIGHTSPACE "lightSpaceMatrix"
 
 

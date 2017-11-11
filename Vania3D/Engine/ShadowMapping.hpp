@@ -4,26 +4,28 @@
 
 class ShadowMapping {
 private:
-	float retina;
+	friend class Game;
+	friend class RenderPass;
+	friend class Scene;
+	friend class MeshRenderer;
 
-public:
+	Shader* shader;
+	float retina;
 	unsigned int fbo, depthMap, size;
-    
-    Shader* shader;
-	GameObject* target;
-	
-	// shadow mapping properties
-	glm::vec3 lightPositionOffset;
-	float range, nearPlane, farPlane;
-	
 	// uniform
 	glm::mat4 projection, view, lightSpace;
-	
-	ShadowMapping();
-	~ShadowMapping();
-	
+
 	void init(Shader* shader, unsigned int size);
 	void render(std::vector<MeshRenderer*>* shadowQueue);
+
+public:
+	// shadow mapping properties
+	GameObject* target;
+	glm::vec3 lightPositionOffset;
+	float range, nearPlane, farPlane;
+
+	ShadowMapping();
+	~ShadowMapping();
 };
 
 #endif /* ShadowMapping_hpp */
