@@ -99,11 +99,13 @@ class Scene;
 
 #include "Sphere.hpp"
 
-#include "Component.hpp"
-#include "Transform.hpp"
-
 #include "Material.hpp"
 #include "LightProbe.hpp"
+
+#include "Component.hpp"
+#include "Transform.hpp"
+#include "MeshRenderer.hpp"
+
 #include "Resources.hpp"
 #include "RenderPass.hpp"
 #include "ShadowMapping.hpp"
@@ -121,7 +123,6 @@ class Scene;
 #include "PlayerController.hpp"
 #include "PointLight.hpp"
 #include "CameraController.hpp"
-#include "MeshRenderer.hpp"
 
 
 /*------------------------------------------------------------------------------

@@ -17,7 +17,6 @@ private:
 	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects
 
 	void updateRenderPass();
-	void updateShadowMapping();
 
 public:
 	GameObject* camera;

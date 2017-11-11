@@ -55,39 +55,31 @@ void ShadowMapping::init(Shader* shader, unsigned int size) {
 
 
 /*------------------------------------------------------------------------------
- < begin >
+ < render >
 ------------------------------------------------------------------------------*/
-void ShadowMapping::begin() {
+void ShadowMapping::render(std::vector<MeshRenderer*>* shadowQueue) {
+	Game* game = Game::getInstance();
+	
+	// bind framebuffer and view port
 	glViewport(0, 0, this->size, this->size);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
 	glClear(GL_DEPTH_BUFFER_BIT);
-}
-
-
-
-/*------------------------------------------------------------------------------
- < update >
-------------------------------------------------------------------------------*/
-void ShadowMapping::update() {
+	// bind shader
 	this->shader->use();
 	
-    Game* game = Game::getInstance();
+	// light space matrix
 	Transform* targetTransform = this->target->getComponent<Transform>();
-    // light view
-    this->view = glm::lookAt(this->lightPositionOffset + targetTransform->position, targetTransform->position, game->worldUp);
-    // light space matrix
-    this->lightSpace = this->projection * this->view;
-    
-    this->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, this->lightSpace);
-}
-
-
-/*------------------------------------------------------------------------------
- < end >
-------------------------------------------------------------------------------*/
-void ShadowMapping::end() {
+	this->view = glm::lookAt(this->lightPositionOffset + targetTransform->position, targetTransform->position, game->worldUp);
+	this->lightSpace = this->projection * this->view;
+	this->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, this->lightSpace);
+	// draw
+	for (unsigned int i = 0; i < shadowQueue->size(); i++)
+		shadowQueue->at(i)->renderShadow();
+	
+	// reset framebuffer and view port
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, SCREEN_WIDTH * this->retina, SCREEN_HEIGHT * this->retina);
 }
+
 
 

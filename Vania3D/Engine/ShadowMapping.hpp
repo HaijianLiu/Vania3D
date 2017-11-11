@@ -23,9 +23,7 @@ public:
 	~ShadowMapping();
 	
 	void init(Shader* shader, unsigned int size);
-	void begin();
-	void update();
-	void end();
+	void render(std::vector<MeshRenderer*>* shadowQueue);
 };
 
 #endif /* ShadowMapping_hpp */

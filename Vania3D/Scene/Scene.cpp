@@ -49,21 +49,10 @@ void Scene::startScene() {
 void Scene::updateScene() {
 	this->update();
 	this->camera->update();
-	this->updateShadowMapping();
+	this->game->shadowMapping->render(&this->shadowQueue);
 	this->updateRenderPass();
 }
 
-
-void Scene::updateShadowMapping() {
-    this->game->shadowMapping->begin();
-	
-	/* shadowmapping update this scene */
-    this->game->shadowMapping->update();
-    for (unsigned int i = 0; i < this->shadowQueue.size(); i++)
-        this->shadowQueue[i]->renderShadow();
-    
-    game->shadowMapping->end();
-}
 
 void Scene::updateRenderPass() {
 	this->game->renderPass->begin(); // begin framebuffer
