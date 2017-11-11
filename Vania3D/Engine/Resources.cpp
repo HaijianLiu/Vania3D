@@ -55,7 +55,7 @@ void Resources::start() {
 	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/shadow_mapping_depth.vs.glsl",  "./Assets/Shaders/shadow_mapping_depth.fs.glsl");
 
 	// test
-	this->loadShader("simple", "./Assets/Shaders/simple.vs.glsl",  "./Assets/Shaders/simple.fs.glsl");
+	this->loadShader("simple_flat_color", "./Assets/Shaders/simple_flat_color.vs.glsl",  "./Assets/Shaders/simple_flat_color.fs.glsl");
 
 	/* Model
 	..............................................................................*/
@@ -95,7 +95,7 @@ void Resources::start() {
 
 	/* Material
 	..............................................................................*/
-	this->createMaterial("simple", this->getShader("simple"));
+	this->createMaterial("simple_flat_color", this->getShader("simple_flat_color"));
 
 	/* LightProbe
 	..............................................................................*/

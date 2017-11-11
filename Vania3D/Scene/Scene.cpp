@@ -14,7 +14,7 @@ Scene::Scene() {
 ------------------------------------------------------------------------------*/
 Scene::~Scene() {
 	deleteVector(this->gameObjects);
-	deleteVector(this->lights);
+//	deleteVector(this->lights); light will be in gameobject list
 }
 
 

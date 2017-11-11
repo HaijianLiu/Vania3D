@@ -22,14 +22,15 @@
 #define UNIFORM_TEX_BRDFLUT "brdfLUT" // GL_TEXTURE12
 #define UNIFORM_TEX_SHADOW "shadowMap" // GL_TEXTURE13
 
-#define UNIFORM_TEX_EQUIRECTANGULAR "equirectangular"
-#define UNIFORM_TEX_ENVIRONMENT "environment"
-#define UNIFORM_TEX_PASSES "passes"
-#define UNIFORM_VEC3_CAMERA_POSITION "cameraPosition"
-#define UNIFORM_VEC3_LIGHT_POSITION "lightPositions"
-#define UNIFORM_VEC3_LIGHT_COLOR "lightColors"
+#define UNIFORM_TEX_EQUIRECTANGULAR "equirectangular" // light probe
+#define UNIFORM_TEX_ENVIRONMENT "environment" // light probe
+#define UNIFORM_TEX_PASSES "passes" // render pass shader
 
-#define UNIFORM_MATRIX_MVP "mvp"
+#define UNIFORM_VEC3_CAMERA_POSITION "cameraPosition"
+#define UNIFORM_VEC3_LIGHT_POSITION "lightPositions" // light
+#define UNIFORM_VEC3_LIGHT_COLOR "lightColors" // light
+#define UNIFORM_VEC3_COLOR "color" // flat color shader
+
 #define UNIFORM_MATRIX_MODEL "model"
 #define UNIFORM_MATRIX_VIEW "view"
 #define UNIFORM_MATRIX_PROJECTION "projection"

@@ -21,7 +21,6 @@ public:
 	~MeshRenderer();
 
 	void start();
-	void update();
 	
 	void renderModel();
     void renderShadow();

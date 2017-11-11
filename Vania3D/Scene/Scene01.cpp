@@ -74,10 +74,11 @@ void Scene01::start() {
 		// for test
 		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
 		lightMeshRenderer->addModel(game->resources->getModel("sphere"));
-		lightMeshRenderer->addMaterial(game->resources->getMaterial("simple"));
+		lightMeshRenderer->addMaterial(game->resources->getMaterial("simple_flat_color"));
 		lightMeshRenderer->camera = camera;
 		// ...
-		this->addLight(light[i]);
+		this->addLight(light[i]); // to be refactored!!!!!!!
+		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);
 	light[1]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f, -10.0f);
@@ -87,6 +88,9 @@ void Scene01::start() {
 	light[1]->getComponent<PointLight>()->color = glm::vec3(100.0f, 0.0f, 0.0f);
 	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 100.0f, 0.0f);
 	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 100.0f);
+	for (int i = 0; i < 4; i++) {
+		light[i]->getComponent<MeshRenderer>()->material->color = light[i]->getComponent<PointLight>()->color;
+	}
 
 
 	// IBL
@@ -105,8 +109,8 @@ void Scene01::start() {
 ------------------------------------------------------------------------------*/
 void Scene01::update() {
 	// show light spere, for test
-	for (unsigned int i = 0; i < this->lights.size(); i ++) {
-		this->lights[i]->getComponent<Transform>()->update();
-		this->lights[i]->getComponent<MeshRenderer>()->update();
-	}
+//	for (unsigned int i = 0; i < this->lights.size(); i ++) {
+//		this->lights[i]->getComponent<Transform>()->update();
+//		this->lights[i]->getComponent<MeshRenderer>()->update();
+//	}
 }
