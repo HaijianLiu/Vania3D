@@ -55,28 +55,19 @@ void Scene::updateScene() {
 
 void Scene::updateShadowMapping() {
     this->game->shadowMapping->begin();
+	
+	/* shadowmapping update this scene */
     this->game->shadowMapping->update();
-    
-    this->game->shadowMapping->shader->use();
-    
     for (unsigned int i = 0; i < this->shadows.size(); i++)
         this->shadows[i]->drawShadow();
     
     game->shadowMapping->end();
-    
-
-//    renderpass (to be refactor)
-    game->renderPass->begin();
-
-    game->resources->getShader("renderpass_deferred_pbr")->use();
-    glActiveTexture(GL_TEXTURE13);
-    glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
-    game->resources->getShader("renderpass_deferred_pbr")->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
 }
 
 void Scene::updateRenderPass() {
 	this->game->renderPass->begin(); // begin framebuffer
 	
+	/* renderpass update this scene */
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
 		this->gameObjects[i]->update();
 	this->game->renderPass->shader->use();
@@ -87,6 +78,10 @@ void Scene::updateRenderPass() {
 		this->game->renderPass->shader->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<Transform>()->position);
 		this->game->renderPass->shader->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<PointLight>()->color);
 	}
+	// shadows
+	glActiveTexture(GL_TEXTURE13);
+	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
+	this->game->renderPass->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
 	
 	this->game->renderPass->end();
 	this->game->renderPass->render();

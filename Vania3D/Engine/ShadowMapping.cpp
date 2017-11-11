@@ -51,15 +51,6 @@ void ShadowMapping::init(Shader* shader, unsigned int size) {
     
     // light projection
     this->projection = glm::ortho(-this->range, this->range, -this->range, this->range, this->nearPlane, this->farPlane);
-	
-    
-    
-    
-	// shader configuration (to be refactored)
-	Game* game = Game::getInstance();
-	game->resources->getShader("renderpass_deferred_pbr")->use();
-	game->resources->getShader("renderpass_deferred_pbr")->setInt(UNIFORM_TEX_SHADOW, 13);
-
 }
 
 
@@ -78,6 +69,8 @@ void ShadowMapping::begin() {
  < update >
 ------------------------------------------------------------------------------*/
 void ShadowMapping::update() {
+	this->shader->use();
+	
     Game* game = Game::getInstance();
 	Transform* targetTransform = this->target->getComponent<Transform>();
     // light view
@@ -85,7 +78,6 @@ void ShadowMapping::update() {
     // light space matrix
     this->lightSpace = this->projection * this->view;
     
-    this->shader->use();
     this->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, this->lightSpace);
 }
 

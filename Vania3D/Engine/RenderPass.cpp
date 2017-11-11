@@ -87,6 +87,7 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 	for (unsigned i = 0; i < number; i++) {
 		this->shader->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
 	}
+	this->shader->setInt(UNIFORM_TEX_SHADOW, 13);
 }
 
 
