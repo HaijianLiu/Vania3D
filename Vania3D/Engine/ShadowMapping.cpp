@@ -5,7 +5,10 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 ShadowMapping::ShadowMapping() {
-
+	this->lightPositionOffset = glm::vec3(-20, 20, 0);
+	this->range = 20;
+	this->nearPlane = 0;
+	this->farPlane = 40;
 }
 
 
@@ -26,6 +29,7 @@ void ShadowMapping::init(Shader* shader, unsigned int size) {
 	// map size and screen size
 	this->size = size;
 	this->retina = Game::getInstance()->window->retina;
+	
 	// configure depth map fbo
 	glGenFramebuffers(1, &this->fbo);
 	// create depth texture
@@ -75,8 +79,9 @@ void ShadowMapping::begin() {
 ------------------------------------------------------------------------------*/
 void ShadowMapping::update() {
     Game* game = Game::getInstance();
+	Transform* targetTransform = this->target->getComponent<Transform>();
     // light view
-    this->view = glm::lookAt(this->lightPosition, this->lightTarget, game->worldUp);
+    this->view = glm::lookAt(this->lightPositionOffset + targetTransform->position, targetTransform->position, game->worldUp);
     // light space matrix
     this->lightSpace = this->projection * this->view;
     

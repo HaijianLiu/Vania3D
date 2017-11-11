@@ -10,12 +10,13 @@ public:
 	unsigned int fbo, depthMap, size;
     
     Shader* shader;
+	GameObject* target;
 	
 	// shadow mapping properties
-	glm::vec3 lightPosition = glm::vec3(-10, 10, -1);
-	glm::vec3 lightTarget = glm::vec3(0, 0, 0);
-	float range = 100, nearPlane = 0, farPlane = 20;
+	glm::vec3 lightPositionOffset;
+	float range, nearPlane, farPlane;
 	
+	// uniform
 	glm::mat4 projection, view, lightSpace;
 	
 	ShadowMapping();

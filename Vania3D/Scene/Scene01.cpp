@@ -44,6 +44,7 @@ void Scene01::start() {
     playerMeshRenderer->castShadow = true;
 	playerMeshRenderer->camera = camera;
 	this->addGameObject("player", player);
+	game->shadowMapping->target = player;
 
 	// camera target
 	GameObject* cameraTarget = new GameObject();
