@@ -46,13 +46,6 @@ void Transform::rotate(glm::vec3 direction, float radians) {
 	// get direction quaternion
 	glm::quat directionQuaternion = glm::rotation(this->game->worldFront, direction);
 
-	/* debug log */
-	// std::cout << "rotation = "
-	// << "w: " << directionQuaternion.w
-	// << " x: " << directionQuaternion.x
-	// << " y: " << directionQuaternion.y
-	// << " z: " << directionQuaternion.z << std::endl;
-
 	// update rotation
 	float cosTheta = glm::dot(this->rotation, directionQuaternion); // vec dot value is different from quat dot value
 
@@ -80,19 +73,6 @@ void Transform::rotate(glm::vec3 direction, float radians) {
 	else {
 		// This is just like slerp(), but with a custom t
 		float factor = radians / deltaTheta;
-
-		/* debug log */
-		// std::cout << "radians: " << radians << '\n';
-		// std::cout << "deltaTheta: " << deltaTheta << '\n';
-		// std::cout << "factor: " << factor << '\n';
-
 		this->rotation = glm::slerp(this->rotation, directionQuaternion, factor);
 	}
-
-	/* debug log */
-	// std::cout << "rotation = "
-	// << "w: " << this->rotation.w
-	// << " x: " << this->rotation.x
-	// << " y: " << this->rotation.y
-	// << " z: " << this->rotation.z << std::endl;
 }
