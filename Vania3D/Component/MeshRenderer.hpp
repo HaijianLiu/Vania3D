@@ -22,7 +22,8 @@ public:
 
 	void start();
 	void update();
-    
+	
+	void renderModel();
     void renderShadow();
 
 	void addModel(Model* model);

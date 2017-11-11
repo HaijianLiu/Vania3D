@@ -48,34 +48,11 @@ void Scene::startScene() {
 ------------------------------------------------------------------------------*/
 void Scene::updateScene() {
 	this->update();
-	this->camera->update();
-	this->game->shadowMapping->render(&this->shadowQueue);
-	this->updateRenderPass();
-}
-
-
-void Scene::updateRenderPass() {
-	this->game->renderPass->begin(); // begin framebuffer
-	
-	/* renderpass update this scene */
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
 		this->gameObjects[i]->update();
-	
-	this->game->renderPass->shader->use();
-	// camera
-	this->game->renderPass->shader->setVec3("cameraPos", this->camera->getComponent<Transform>()->position);
-	// lights
-	for (unsigned int i = 0; i < this->lights.size(); ++i) {
-		this->game->renderPass->shader->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<Transform>()->position);
-		this->game->renderPass->shader->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<PointLight>()->color);
-	}
-	// shadows
-	glActiveTexture(GL_TEXTURE13);
-	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
-	this->game->renderPass->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
-	
-	this->game->renderPass->end();
-	this->game->renderPass->render();
+	this->mainCamera->update();
+	this->game->shadowMapping->render(&this->shadowQueue);
+	this->game->renderPass->render(&this->renderQueue, &this->lights, this->mainCamera);
 }
 
 
@@ -93,7 +70,7 @@ void Scene::addGameObject(const char* name, GameObject* gameObject) {
 < add camera >
 ------------------------------------------------------------------------------*/
 void Scene::addCamera(GameObject* camera) {
-	this->camera = camera;
+	this->mainCamera = camera;
 }
 
 

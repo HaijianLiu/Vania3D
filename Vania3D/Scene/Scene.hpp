@@ -16,10 +16,8 @@ private:
     std::vector<MeshRenderer*> shadowQueue; // a list for shadow casting game objects
 	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects
 
-	void updateRenderPass();
-
 public:
-	GameObject* camera;
+	GameObject* mainCamera;
 
 	Game* game;
 	std::vector<GameObject*> lights; // component wont be updated

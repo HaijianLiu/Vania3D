@@ -92,27 +92,36 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 
 
 /*------------------------------------------------------------------------------
-< begin >
-------------------------------------------------------------------------------*/
-void RenderPass::begin() {
-	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-
-/*------------------------------------------------------------------------------
-< end >
-------------------------------------------------------------------------------*/
-void RenderPass::end() {
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-
-/*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
-void RenderPass::render() {
+void RenderPass::render(std::vector<MeshRenderer*>* renderQueue, std::vector<GameObject*>* lights, GameObject* camera) {
+	Game* game = Game::getInstance();
+	
+	// bind framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// draw model
+	for (unsigned i = 0; i < renderQueue->size(); i++)
+		renderQueue->at(i)->renderModel();
+	// reset framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+	// bind shader
 	this->shader->use();
+	
+	// camera
+	this->shader->setVec3("cameraPos", camera->getComponent<Transform>()->position);
+	// lights
+	for (unsigned int i = 0; i < lights->size(); i++) {
+		this->shader->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lights->at(i)->getComponent<Transform>()->position);
+		this->shader->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lights->at(i)->getComponent<PointLight>()->color);
+	}
+	// shadows
+	glActiveTexture(GL_TEXTURE13);
+	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
+	this->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
+	
+	// render
 	for (unsigned int i = 0; i < this->pass.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, this->pass[i]);
