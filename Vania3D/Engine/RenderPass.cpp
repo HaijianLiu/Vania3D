@@ -94,7 +94,7 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 /*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
-void RenderPass::render(std::vector<MeshRenderer*>* renderQueue, std::vector<GameObject*>* lights, GameObject* camera) {
+void RenderPass::render(std::vector<MeshRenderer*>* renderQueue, std::vector<GameObject*>* pointLights, GameObject* camera) {
 	Game* game = Game::getInstance();
 	
 	// bind framebuffer
@@ -114,9 +114,9 @@ void RenderPass::render(std::vector<MeshRenderer*>* renderQueue, std::vector<Gam
 	// lights
 	std::string lightPositions = UNIFORM_VEC3_LIGHT_POSITION;
 	std::string lightColors = UNIFORM_VEC3_LIGHT_COLOR;
-	for (unsigned int i = 0; i < lights->size(); i++) {
-		this->shader->setVec3((lightPositions + "[" + std::to_string(i) + "]").c_str(), lights->at(i)->getComponent<Transform>()->position);
-		this->shader->setVec3((lightColors + "[" + std::to_string(i) + "]").c_str(), lights->at(i)->getComponent<PointLight>()->color);
+	for (unsigned int i = 0; i < pointLights->size(); i++) {
+		this->shader->setVec3((lightPositions + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->getComponent<Transform>()->position);
+		this->shader->setVec3((lightColors + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->getComponent<PointLight>()->color);
 	}
 	// shadows
 	glActiveTexture(GL_TEXTURE13);

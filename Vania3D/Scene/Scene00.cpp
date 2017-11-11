@@ -143,8 +143,7 @@ void Scene00::start() {
 		lightMeshRenderer->addModel(game->resources->getModel("sphere"));
 		lightMeshRenderer->addMaterial(game->resources->getMaterial("simple"));
 		lightMeshRenderer->camera = camera;
-		// ...
-		this->addLight(light[i]);
+		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);
 	light[1]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f, -10.0f);
@@ -182,9 +181,5 @@ void Scene00::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Scene00::update() {
-	// show light spere, for test
-	for (unsigned int i = 0; i < this->lights.size(); i ++) {
-		this->lights[i]->getComponent<Transform>()->update();
-		this->lights[i]->getComponent<MeshRenderer>()->update();
-	}
+
 }

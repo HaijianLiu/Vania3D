@@ -108,6 +108,7 @@ class Scene;
 #include "Component.hpp"
 #include "Transform.hpp"
 #include "MeshRenderer.hpp"
+#include "PointLight.hpp"
 
 #include "Resources.hpp"
 #include "RenderPass.hpp"
@@ -124,7 +125,6 @@ class Scene;
 ------------------------------------------------------------------------------*/
 #include "Offset.hpp"
 #include "PlayerController.hpp"
-#include "PointLight.hpp"
 #include "CameraController.hpp"
 
 

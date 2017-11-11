@@ -14,7 +14,7 @@ public:
 	~RenderPass();
 
 	void init(Shader* shader, unsigned int number);
-	void render(std::vector<MeshRenderer*>* renderQueue, std::vector<GameObject*>* lights, GameObject* camera);
+	void render(std::vector<MeshRenderer*>* renderQueue, std::vector<GameObject*>* pointLights, GameObject* camera);
 
 	void setActiveLightProbe(LightProbe* lightProbe);
 };

@@ -76,8 +76,6 @@ void Scene01::start() {
 		lightMeshRenderer->addModel(game->resources->getModel("sphere"));
 		lightMeshRenderer->addMaterial(game->resources->getMaterial("simple_flat_color"));
 		lightMeshRenderer->camera = camera;
-		// ...
-		this->addLight(light[i]); // to be refactored!!!!!!!
 		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);

@@ -14,7 +14,6 @@ Scene::Scene() {
 ------------------------------------------------------------------------------*/
 Scene::~Scene() {
 	deleteVector(this->gameObjects);
-//	deleteVector(this->lights); light will be in gameobject list
 }
 
 
@@ -38,6 +37,9 @@ void Scene::startScene() {
 			this->shadowQueue.push_back(meshRenderer);
 		if (meshRenderer && meshRenderer->render)
 			this->renderQueue.push_back(meshRenderer);
+		if (this->gameObjects[i]->getComponent<PointLight>()) {
+			this->pointLights.push_back(this->gameObjects[i]);
+		}
 	}
 	this->started = true;
 }
@@ -52,7 +54,7 @@ void Scene::updateScene() {
 		this->gameObjects[i]->update();
 	this->mainCamera->update();
 	this->game->shadowMapping->render(&this->shadowQueue);
-	this->game->renderPass->render(&this->renderQueue, &this->lights, this->mainCamera);
+	this->game->renderPass->render(&this->renderQueue, &this->pointLights, this->mainCamera);
 }
 
 
@@ -71,14 +73,6 @@ void Scene::addGameObject(const char* name, GameObject* gameObject) {
 ------------------------------------------------------------------------------*/
 void Scene::addCamera(GameObject* camera) {
 	this->mainCamera = camera;
-}
-
-
-/*------------------------------------------------------------------------------
-< add light >
-------------------------------------------------------------------------------*/
-void Scene::addLight(GameObject* light) {
-	this->lights.push_back(light);
 }
 
 
