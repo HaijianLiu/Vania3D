@@ -110,11 +110,13 @@ void RenderPass::render(std::vector<MeshRenderer*>* renderQueue, std::vector<Gam
 	this->shader->use();
 	
 	// camera
-	this->shader->setVec3("cameraPos", camera->getComponent<Transform>()->position);
+	this->shader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->getComponent<Transform>()->position);
 	// lights
+	std::string lightPositions = UNIFORM_VEC3_LIGHT_POSITION;
+	std::string lightColors = UNIFORM_VEC3_LIGHT_COLOR;
 	for (unsigned int i = 0; i < lights->size(); i++) {
-		this->shader->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), lights->at(i)->getComponent<Transform>()->position);
-		this->shader->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), lights->at(i)->getComponent<PointLight>()->color);
+		this->shader->setVec3((lightPositions + "[" + std::to_string(i) + "]").c_str(), lights->at(i)->getComponent<Transform>()->position);
+		this->shader->setVec3((lightColors + "[" + std::to_string(i) + "]").c_str(), lights->at(i)->getComponent<PointLight>()->color);
 	}
 	// shadows
 	glActiveTexture(GL_TEXTURE13);

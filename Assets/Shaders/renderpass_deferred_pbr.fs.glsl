@@ -19,7 +19,7 @@ uniform vec3 lightColors[4];
 
 // transform
 uniform mat4 projection;
-uniform vec3 cameraPos;
+uniform vec3 cameraPosition;
 
 // parameters
 const float PI = 3.14159265359;
@@ -45,7 +45,7 @@ void main() {
 	float roughness = mrc.g;
 	float cavity = mrc.b;
 
-	vec3 v = normalize(cameraPos - position);
+	vec3 v = normalize(cameraPosition - position);
 	vec3 r = reflect(-v, n);
 
 	vec3 f0 = vec3(0.04);
