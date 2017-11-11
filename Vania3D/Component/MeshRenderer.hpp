@@ -12,7 +12,8 @@ public:
 	Model* model;
 
 	GameObject* camera;
-	
+
+
 	bool castShadow = false;
 	bool render = true;
 	bool lightmapStatic = true;
@@ -21,9 +22,9 @@ public:
 	~MeshRenderer();
 
 	void start();
-	
+
 	void renderModel();
-    void renderShadow();
+	void renderShadow();
 
 	void addModel(Model* model);
 	void addMaterial(Material* material);

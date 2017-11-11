@@ -21,8 +21,7 @@ PlayerController::~PlayerController() {
 < update >
 ------------------------------------------------------------------------------*/
 void PlayerController::update() {
-	GameObject* gameObject = this->getGameObject();
-	Transform* playerTransform = gameObject->getComponent<Transform>();
+	Transform* playerTransform = this->gameObject->getComponent<Transform>();
 
 	glm::vec3 direction = playerTransform->front(); // if no input deflaut the last direction
 	glm::vec3 axisLS = game->input->getAxisLS();
@@ -62,5 +61,5 @@ void PlayerController::update() {
 
 	playerTransform->rotate(direction, 2 * PI * game->time->deltaTime);
 	
-	gameObject->getComponent<MeshRenderer>()->model->updatePose(this->animation, game->time->currentTime);
+	this->gameObject->getComponent<MeshRenderer>()->model->updatePose(this->animation, game->time->currentTime);
 }

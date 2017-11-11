@@ -5,7 +5,6 @@
 class Transform : public Component {
 private:
 	friend class Level;
-	friend class GameObject;
 	friend class MeshRenderer;
 
 	// uniform

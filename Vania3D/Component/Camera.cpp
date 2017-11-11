@@ -12,7 +12,7 @@ Camera::~Camera() {
 
 
 void Camera::update() {
-	Transform* transform = this->getGameObject()->getComponent<Transform>();
+	Transform* transform = this->gameObject->getComponent<Transform>();
 	transform->position = this->target->position + this->offsetFromTarget;
 
 	// calculate the new front vector

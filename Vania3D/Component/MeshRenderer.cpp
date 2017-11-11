@@ -31,14 +31,13 @@ void MeshRenderer::start() {
 < render model >
 ------------------------------------------------------------------------------*/
 void MeshRenderer::renderModel() {
-	GameObject* gameObject = this->getGameObject();
 	// bind shader
 	this->material->shader->use();
 	// camera
 	this->material->shader->setMat4(UNIFORM_MATRIX_PROJECTION, this->camera->getComponent<Camera>()->projection);
 	this->material->shader->setMat4(UNIFORM_MATRIX_VIEW, this->camera->getComponent<Camera>()->view);
 	// model
-	this->material->shader->setMat4(UNIFORM_MATRIX_MODEL, gameObject->getComponent<Transform>()->model);
+	this->material->shader->setMat4(UNIFORM_MATRIX_MODEL, this->gameObject->getComponent<Transform>()->model);
 	// pose
 	for (unsigned int i = 0 ; i < this->model->pose.size() ; i++) {
 		std::string boneName = UNIFORM_MATRIX_BONE;
@@ -55,10 +54,8 @@ void MeshRenderer::renderModel() {
 < render shadow >
 ------------------------------------------------------------------------------*/
 void MeshRenderer::renderShadow() {
-	GameObject* gameObject = this->getGameObject();
-
 	// model
-	this->game->shadowMapping->shader->setMat4(UNIFORM_MATRIX_MODEL, gameObject->getComponent<Transform>()->model);
+	this->game->shadowMapping->shader->setMat4(UNIFORM_MATRIX_MODEL, this->gameObject->getComponent<Transform>()->model);
 	// pose
 	for (unsigned int i = 0 ; i < this->model->pose.size() ; i++) {
 		std::string boneName = UNIFORM_MATRIX_BONE;
