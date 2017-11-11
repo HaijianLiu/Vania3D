@@ -34,9 +34,10 @@ void Scene::startScene() {
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++) {
 		this->gameObjects[i]->start();
         MeshRenderer* meshRenderer = this->gameObjects[i]->getComponent<MeshRenderer>();
-		if (meshRenderer && meshRenderer->castShadow) {
-			this->shadows.push_back(meshRenderer);
-		}
+		if (meshRenderer && meshRenderer->castShadow)
+			this->shadowQueue.push_back(meshRenderer);
+		if (meshRenderer && meshRenderer->render)
+			this->renderQueue.push_back(meshRenderer);
 	}
 	this->started = true;
 }
@@ -58,8 +59,8 @@ void Scene::updateShadowMapping() {
 	
 	/* shadowmapping update this scene */
     this->game->shadowMapping->update();
-    for (unsigned int i = 0; i < this->shadows.size(); i++)
-        this->shadows[i]->drawShadow();
+    for (unsigned int i = 0; i < this->shadowQueue.size(); i++)
+        this->shadowQueue[i]->renderShadow();
     
     game->shadowMapping->end();
 }
@@ -70,9 +71,10 @@ void Scene::updateRenderPass() {
 	/* renderpass update this scene */
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
 		this->gameObjects[i]->update();
+	
 	this->game->renderPass->shader->use();
+	// camera
 	this->game->renderPass->shader->setVec3("cameraPos", this->camera->getComponent<Transform>()->position);
-
 	// lights
 	for (unsigned int i = 0; i < this->lights.size(); ++i) {
 		this->game->renderPass->shader->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<Transform>()->position);

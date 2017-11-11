@@ -13,7 +13,8 @@ private:
 	unsigned int index = 0;
 	std::unordered_map<const char*, unsigned int> gameObjectsMapping;
     
-    std::vector<MeshRenderer*> shadows; // a list for cast shadow
+    std::vector<MeshRenderer*> shadowQueue; // a list for shadow casting game objects
+	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects
 
 	void updateRenderPass();
 	void updateShadowMapping();

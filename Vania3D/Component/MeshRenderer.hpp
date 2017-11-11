@@ -5,6 +5,7 @@
 class MeshRenderer : public Component {
 private:
 	LightProbe* lightProbe;
+	// reflection probes
 
 public:
 	Material* material;
@@ -13,6 +14,8 @@ public:
 	GameObject* camera;
 	
 	bool castShadow = false;
+	bool render = true;
+	bool lightmapStatic = true;
 
 	MeshRenderer();
 	~MeshRenderer();
@@ -20,7 +23,7 @@ public:
 	void start();
 	void update();
     
-    void drawShadow();
+    void renderShadow();
 
 	void addModel(Model* model);
 	void addMaterial(Material* material);
