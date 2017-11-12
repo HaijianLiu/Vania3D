@@ -115,7 +115,7 @@ void Scene00::start() {
 	cameraController->camera = camera;
 	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
 	playerMeshRenderer->model = game->resources->getModel("player");
-	playerMeshRenderer->material = game->resources->getMaterial("player");
+	playerMeshRenderer->materials.push_back(game->resources->getMaterial("player"));
 	playerMeshRenderer->lightProbe = game->resources->getLightProbe("hdr");
 	this->addGameObject("player", player);
 
@@ -142,7 +142,7 @@ void Scene00::start() {
 		// for test
 		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
 		lightMeshRenderer->model = game->resources->getModel("sphere");
-		lightMeshRenderer->material = game->resources->getMaterial("simple");
+		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
 		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);

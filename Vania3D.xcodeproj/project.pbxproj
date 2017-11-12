@@ -12,6 +12,7 @@
 		60070A301F88C82A00AE4BEB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600709FD1F88C49A00AE4BEB /* main.cpp */; };
 		60070A391F88C84D00AE4BEB /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 60070A2F1F88C71100AE4BEB /* Assets */; };
 		60070A3F1F88C86700AE4BEB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60070A3E1F88C86700AE4BEB /* OpenGL.framework */; };
+		600B9A551FB8333900B1F0D5 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600B9A531FB8333900B1F0D5 /* Map.cpp */; };
 		600E63B71F99F19000F6A34A /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600E63B31F99F18F00F6A34A /* Transform.cpp */; };
 		600E63B81F99F19000F6A34A /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600E63B41F99F19000F6A34A /* MeshRenderer.cpp */; };
 		60132DFD1FA38D5900E71962 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60132DFB1FA38D5900E71962 /* Time.cpp */; };
@@ -85,6 +86,8 @@
 		60070A351F88C83400AE4BEB /* libGLEW.2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.0.0.dylib; path = Frameworks/glew/lib/libGLEW.2.0.0.dylib; sourceTree = "<group>"; };
 		60070A371F88C83B00AE4BEB /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = Frameworks/glfw/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
 		60070A3E1F88C86700AE4BEB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		600B9A531FB8333900B1F0D5 /* Map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		600B9A541FB8333900B1F0D5 /* Map.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Map.hpp; sourceTree = "<group>"; };
 		600E63B31F99F18F00F6A34A /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
 		600E63B41F99F19000F6A34A /* MeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshRenderer.cpp; sourceTree = "<group>"; };
 		600E63B51F99F19000F6A34A /* MeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeshRenderer.hpp; sourceTree = "<group>"; };
@@ -278,6 +281,8 @@
 				604B57811F945A84009DE302 /* Model.hpp */,
 				60159E1F1FB067DE00EDC9CA /* Level.cpp */,
 				60159E201FB067DE00EDC9CA /* Level.hpp */,
+				600B9A531FB8333900B1F0D5 /* Map.cpp */,
+				600B9A541FB8333900B1F0D5 /* Map.hpp */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -421,6 +426,7 @@
 				600E63B71F99F19000F6A34A /* Transform.cpp in Sources */,
 				605740911FADF9C4005B7358 /* PointLight.cpp in Sources */,
 				604B579F1F973FBC009DE302 /* Quad.cpp in Sources */,
+				600B9A551FB8333900B1F0D5 /* Map.cpp in Sources */,
 				60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */,
 				60FA8C771FB5615200E31651 /* ShadowMapping.cpp in Sources */,
 				6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */,

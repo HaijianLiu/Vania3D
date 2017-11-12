@@ -41,7 +41,7 @@ void Scene01::start() {
 	cameraController->camera = camera;
 	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
 	playerMeshRenderer->model = game->resources->getModel("player");
-	playerMeshRenderer->material = game->resources->getMaterial("player");
+	playerMeshRenderer->materials.push_back(game->resources->getMaterial("player"));
 	playerMeshRenderer->lightProbe = game->resources->getLightProbe("hdr");
     playerMeshRenderer->castShadow = true;
 	this->addGameObject("player", player);
@@ -60,9 +60,13 @@ void Scene01::start() {
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 
-	Level* level = new Level("./Assets/Models/Kowloon/map.fbx");
-	level->createGameObjects(this);
-	delete level;
+//	Level* level = new Level("./Assets/Models/Kowloon/map.fbx");
+//	level->createGameObjects(this);
+//	delete level;
+    
+	Map* map = new Map("./Assets/Models/InfinityBladeIceLands/Maps/test.fbx");
+	map->createGameObjects(this);
+	delete map;
 
 
 	// light
@@ -73,9 +77,9 @@ void Scene01::start() {
 		lightTransform->modelScale = glm::vec3(0.1);
 		light[i]->addComponent<PointLight>();
 		// for test
-		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
-		lightMeshRenderer->model = game->resources->getModel("sphere");
-		lightMeshRenderer->material = game->resources->getMaterial("simple_flat_color");
+//		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
+//		lightMeshRenderer->model = game->resources->getModel("sphere");
+//		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple_flat_color"));
 		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);
@@ -86,9 +90,8 @@ void Scene01::start() {
 	light[1]->getComponent<PointLight>()->color = glm::vec3(100.0f, 0.0f, 0.0f);
 	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 100.0f, 0.0f);
 	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 100.0f);
-	for (int i = 0; i < 4; i++) {
-		light[i]->getComponent<MeshRenderer>()->material->color = light[i]->getComponent<PointLight>()->color;
-	}
+//	for (int i = 0; i < 4; i++)
+//		light[i]->getComponent<MeshRenderer>()->materials[0]->color = light[i]->getComponent<PointLight>()->color;
 
 
 	// IBL
@@ -106,9 +109,5 @@ void Scene01::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Scene01::update() {
-	// show light spere, for test
-//	for (unsigned int i = 0; i < this->lights.size(); i ++) {
-//		this->lights[i]->getComponent<Transform>()->update();
-//		this->lights[i]->getComponent<MeshRenderer>()->update();
-//	}
+
 }

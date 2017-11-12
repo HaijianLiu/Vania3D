@@ -104,11 +104,13 @@ class Scene;
 #include "Keyframe.hpp"
 #include "Animation.hpp"
 #include "Model.hpp"
+#include "Material.hpp"
+
 #include "Level.hpp"
+#include "Map.hpp"
 
 #include "Sphere.hpp"
 
-#include "Material.hpp"
 #include "LightProbe.hpp"
 
 #include "Component.hpp"

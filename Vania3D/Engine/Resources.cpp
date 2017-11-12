@@ -93,6 +93,24 @@ void Resources::start() {
 	this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("normalMap", this->getTexture("P02_AC_Unit_01_normal"));
 	this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("maskMap", this->getTexture("P02_AC_Unit_01_mask"));
 
+	this->loadModel("SM_IceT3_Walkway_02b", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/SM/SM_IceT3_Walkway_02b.FBX");
+	this->loadTexture("Env_Fire_Dirt_Rocky_2_D", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/Textures/Env_Fire_Dirt_Rocky_2_D.TGA");
+	this->loadTexture("Env_Fire_Dirt_Rocky_N", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/Textures/Env_Fire_Dirt_Rocky_N.TGA");
+	this->loadTexture("EX_Env_Rock_Icy_D", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/Textures/EX_Env_Rock_Icy_D.TGA");
+	this->loadTexture("EX_Env_Rock_Icy_D_NRM", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/Textures/EX_Env_Rock_Icy_D_NRM.TGA");
+	this->loadTexture("Ice_Fort_Floor_5_D", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/Textures/Ice_Fort_Floor_5_D.TGA");
+	this->loadTexture("Ice_Fort_Floor_5_N", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/Textures/Ice_Fort_Floor_5_N.TGA");
+	this->createMaterial("M_IceT3_Fort_Floor_05", this->getShader("deferredPBR_Kowloon"));
+	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("albedoMap", this->getTexture("Ice_Fort_Floor_5_D"));
+	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("normalMap", this->getTexture("Ice_Fort_Floor_5_N"));
+	this->createMaterial("M_Env_Ice_RuinedWalls_Snow", this->getShader("deferredPBR_Kowloon"));
+	this->getMaterial("M_Env_Ice_RuinedWalls_Snow")->addTexture("albedoMap", this->getTexture("Ice_Fort_Floor_5_D"));
+	this->getMaterial("M_Env_Ice_RuinedWalls_Snow")->addTexture("normalMap", this->getTexture("Ice_Fort_Floor_5_N"));
+	this->createMaterial("M_Ice_Fort_Trim_1_SnowPaint", this->getShader("deferredPBR_Kowloon"));
+	this->getMaterial("M_Ice_Fort_Trim_1_SnowPaint")->addTexture("albedoMap", this->getTexture("Ice_Fort_Floor_5_D"));
+	this->getMaterial("M_Ice_Fort_Trim_1_SnowPaint")->addTexture("normalMap", this->getTexture("Ice_Fort_Floor_5_N"));
+	
+
 	/* Material
 	..............................................................................*/
 	this->createMaterial("simple_flat_color", this->getShader("simple_flat_color"));

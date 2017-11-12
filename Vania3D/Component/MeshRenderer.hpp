@@ -18,7 +18,7 @@ public:
 	// render targets
 	LightProbe* lightProbe;
 	// ....... add reflection probes here
-	Material* material;
+	std::vector<Material*> materials;
 	Model* model;
 
 	// properties
