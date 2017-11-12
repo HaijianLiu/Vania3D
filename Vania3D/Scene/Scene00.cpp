@@ -96,17 +96,19 @@ Scene00::~Scene00() {
 ------------------------------------------------------------------------------*/
 void Scene00::start() {
 	Game* game = Game::getInstance();
-	
+
 	// camera
 	GameObject* camera = new GameObject();
 	Transform* cameraTransform = camera->addComponent<Transform>();
+	cameraTransform->kinematic = false;
 	cameraTransform->position = glm::vec3(0.0,10.0,20.0);
 	camera->addComponent<Camera>();
-	
+
 	// player
 	GameObject* player = new GameObject();
 	Transform* playerTransform = player->addComponent<Transform>();
 	playerTransform->modelScale = glm::vec3(0.05);
+	playerTransform->kinematic = false;
 	PlayerController* playerController = player->addComponent<PlayerController>();
 	playerController->camera = camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
@@ -116,7 +118,7 @@ void Scene00::start() {
 	playerMeshRenderer->material = game->resources->getMaterial("player");
 	playerMeshRenderer->lightProbe = game->resources->getLightProbe("hdr");
 	this->addGameObject("player", player);
-	
+
 	// camera target
 	GameObject* cameraTarget = new GameObject();
 	Transform* cameraTargetTransform = cameraTarget->addComponent<Transform>();
@@ -124,12 +126,12 @@ void Scene00::start() {
 	cameraTargetOffset->parent = playerTransform;
 	cameraTargetOffset->offsetPosition = glm::vec3(0, 5, 0);
 	this->addGameObject("cameraTarget", cameraTarget);
-	
+
 	// camera
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
-	
+
 	// light
 	GameObject* light[4];
 	for (int i = 0; i < 4; i++) {
@@ -151,7 +153,7 @@ void Scene00::start() {
 	light[1]->getComponent<PointLight>()->color = glm::vec3(100.0f, 0.0f, 0.0f);
 	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 100.0f, 0.0f);
 	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 100.0f);
-	
+
 
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
@@ -166,8 +168,8 @@ void Scene00::start() {
 	//	glActiveTexture(GL_TEXTURE9);
 	//	glBindTexture(GL_TEXTURE_2D, noiseTexture);
 	//	game->resources->getShader("renderPass")->setInt("texNoise", 9);
-	
-	
+
+
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
