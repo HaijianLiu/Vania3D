@@ -91,7 +91,7 @@ void main() {
 	// vec3 prefilteredColor = textureLod(prefilterMap, r,  roughness * MAX_REFLECTION_LOD).rgb;
 	vec2 brdf  = texture(brdfLUT, vec2(max(dot(n, v), 0.0), roughness)).rg;
 	// vec3 specular = prefilteredColor * (specularF * brdf.x + brdf.y);
-	vec3 specular = irradiance * (specularF * brdf.x + brdf.y);
+	vec3 specular = (specularF * brdf.x + brdf.y);
 
 	// ambient
 	vec3 ambient = diffuseF * diffuse + specularF * specular * diffuse;
@@ -112,7 +112,7 @@ void main() {
 	color = pow(color, vec3(1.0/2.2));
 
 	fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
-	// fragColor = vec4(vec3(1-shadow), 1.0);
+	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
 }
 
 

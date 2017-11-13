@@ -24,12 +24,12 @@ ShadowMapping::~ShadowMapping() {
  < init framebuffer and shadow map >
 ------------------------------------------------------------------------------*/
 void ShadowMapping::init(Shader* shader, unsigned int size) {
-    // save shadow mapping shader
-    this->shader = shader;
+	// save shadow mapping shader
+	this->shader = shader;
 	// map size and screen size
 	this->size = size;
 	this->retina = Game::getInstance()->window->retina;
-	
+
 	// configure depth map fbo
 	glGenFramebuffers(1, &this->fbo);
 	// create depth texture
@@ -48,9 +48,9 @@ void ShadowMapping::init(Shader* shader, unsigned int size) {
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    
-    // light projection
-    this->projection = glm::ortho(-this->range, this->range, -this->range, this->range, this->nearPlane, this->farPlane);
+
+	// light projection
+	this->projection = glm::ortho(-this->range, this->range, -this->range, this->range, this->nearPlane, this->farPlane);
 }
 
 
@@ -59,14 +59,14 @@ void ShadowMapping::init(Shader* shader, unsigned int size) {
 ------------------------------------------------------------------------------*/
 void ShadowMapping::render(std::vector<MeshRenderer*>* shadowQueue) {
 	Game* game = Game::getInstance();
-	
+
 	// bind framebuffer and view port
 	glViewport(0, 0, this->size, this->size);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	// bind shader
 	this->shader->use();
-	
+
 	// light space matrix
 	Transform* targetTransform = this->target->getComponent<Transform>();
 	this->view = glm::lookAt(this->lightPositionOffset + targetTransform->position, targetTransform->position, game->worldUp);
@@ -75,11 +75,8 @@ void ShadowMapping::render(std::vector<MeshRenderer*>* shadowQueue) {
 	// draw
 	for (unsigned int i = 0; i < shadowQueue->size(); i++)
 		shadowQueue->at(i)->renderShadow();
-	
+
 	// reset framebuffer and view port
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, SCREEN_WIDTH * this->retina, SCREEN_HEIGHT * this->retina);
 }
-
-
-
