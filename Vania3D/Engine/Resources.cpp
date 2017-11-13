@@ -111,12 +111,24 @@ void Resources::start() {
 
 	// Environments/Ice/Ice_Castle/
 	this->loadModel("SM_IceT3_Walkway_02b", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/SM/SM_IceT3_Walkway_02b.FBX");
+	this->loadModel("SM_IceT3_BossWalls_03c", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/SM/SM_IceT3_BossWalls_03c.FBX");
+
 	this->loadTexture("Ice_Fort_Floor_5_D", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/Textures/Ice_Fort_Floor_5_D.TGA");
 	this->loadTexture("Ice_Fort_Floor_5_N", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Castle/Textures/Ice_Fort_Floor_5_N.TGA");
 
 	// Environments/Ice/Ice_Fortress/
+	this->loadModel("SM_Ice_Fort_Brazier_1_Glow", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/StaticMesh/SM_Ice_Fort_Brazier_1_Glow.FBX");
+	this->loadModel("SM_Ice_Fort_Brazier_1", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/StaticMesh/SM_Ice_Fort_Brazier_1.FBX");
+	this->loadModel("SM_Ice_Fort_Pillar_1b", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/StaticMesh/SM_Ice_Fort_Pillar_1b.FBX");
+
+	this->loadTexture("T_Ice_Fort_Pillar_1_D", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Ice_Fort_Pillar_1_D.TGA");
+	this->loadTexture("T_Ice_Fort_Pillar_1_N", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Ice_Fort_Pillar_1_N.TGA");
 	this->loadTexture("T_Ice_Fort_Trim_1_D", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Ice_Fort_Trim_1_D.TGA");
 	this->loadTexture("T_Ice_Fort_Trim_1_N", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Ice_Fort_Trim_1_N.TGA");
+	this->loadTexture("T_Iron_D", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Iron_D.TGA");
+	this->loadTexture("T_Iron_E", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Iron_E.TGA");
+	this->loadTexture("T_Iron_N", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Iron_N.TGA");
+
 
 	/* shaders and materials */
 	// M_Env_Ice_RuinedWalls_Snow
@@ -124,6 +136,25 @@ void Resources::start() {
 	this->createMaterial("M_Env_Ice_RuinedWalls_Snow", this->getShader("M_Env_Ice_RuinedWalls_Snow"));
 	this->getMaterial("M_Env_Ice_RuinedWalls_Snow")->addTexture("albedoMap0", this->getTexture("Env_Ice_RuinedWalls_Snow_Tile_D"));
 	this->getMaterial("M_Env_Ice_RuinedWalls_Snow")->addTexture("normalMap0", this->getTexture("Env_Ice_RuinedWalls_Snow_Tile_N"));
+	// M_Ice_Fort_Iron_1_Glow
+	this->loadShader("M_Ice_Fort_Iron_1_Glow", "./Assets/Shaders/FrozenCove/M_Ice_Fort_Iron_1_Glow.vs.glsl",  "./Assets/Shaders/FrozenCove/M_Ice_Fort_Iron_1_Glow.fs.glsl");
+	this->createMaterial("M_Ice_Fort_Iron_1_Glow", this->getShader("M_Ice_Fort_Iron_1_Glow"));
+	this->getMaterial("M_Ice_Fort_Iron_1_Glow")->addTexture("albedoMap0", this->getTexture("T_Iron_D"));
+	this->getMaterial("M_Ice_Fort_Iron_1_Glow")->addTexture("normalMap0", this->getTexture("T_Iron_N"));
+	this->getMaterial("M_Ice_Fort_Iron_1_Glow")->addTexture("glowMap0", this->getTexture("T_Iron_E"));
+	// M_Ice_Fort_Iron_Env_Map
+	this->loadShader("M_Ice_Fort_Iron_Env_Map", "./Assets/Shaders/FrozenCove/M_Ice_Fort_Iron_Env_Map.vs.glsl",  "./Assets/Shaders/FrozenCove/M_Ice_Fort_Iron_Env_Map.fs.glsl");
+	this->createMaterial("M_Ice_Fort_Iron_Env_Map", this->getShader("M_Ice_Fort_Iron_Env_Map"));
+	this->getMaterial("M_Ice_Fort_Iron_Env_Map")->addTexture("albedoMap0", this->getTexture("T_Iron_D"));
+	this->getMaterial("M_Ice_Fort_Iron_Env_Map")->addTexture("normalMap0", this->getTexture("T_Iron_N"));
+	// M_Ice_Fort_Pillar_1_SnowPaint
+	this->loadShader("M_Ice_Fort_Pillar_1_SnowPaint", "./Assets/Shaders/FrozenCove/M_Ice_Fort_Pillar_1_SnowPaint.vs.glsl",  "./Assets/Shaders/FrozenCove/M_Ice_Fort_Pillar_1_SnowPaint.fs.glsl");
+	this->createMaterial("M_Ice_Fort_Pillar_1_SnowPaint", this->getShader("M_Ice_Fort_Pillar_1_SnowPaint"));
+	this->getMaterial("M_Ice_Fort_Pillar_1_SnowPaint")->addTexture("albedoMap0", this->getTexture("T_Snow_Ice_Generic"));
+	this->getMaterial("M_Ice_Fort_Pillar_1_SnowPaint")->addTexture("normalMap0", this->getTexture("T_Snow_Ice_Generic_NRM"));
+	this->getMaterial("M_Ice_Fort_Pillar_1_SnowPaint")->addTexture("albedoMap1", this->getTexture("T_Ice_Fort_Pillar_1_D"));
+	this->getMaterial("M_Ice_Fort_Pillar_1_SnowPaint")->addTexture("normalMap1", this->getTexture("T_Ice_Fort_Pillar_1_N"));
+	this->getMaterial("M_Ice_Fort_Pillar_1_SnowPaint")->addTexture("mixMap", this->getTexture("T_FogPlane01_Clouds"));
 	// M_Ice_Fort_Trim_1_SnowPaint
 	this->loadShader("M_Ice_Fort_Trim_1_SnowPaint", "./Assets/Shaders/FrozenCove/M_Ice_Fort_Trim_1_SnowPaint.vs.glsl",  "./Assets/Shaders/FrozenCove/M_Ice_Fort_Trim_1_SnowPaint.fs.glsl");
 	this->createMaterial("M_Ice_Fort_Trim_1_SnowPaint", this->getShader("M_Ice_Fort_Trim_1_SnowPaint"));
