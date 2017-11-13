@@ -110,8 +110,21 @@ void Resources::start() {
 	this->loadTexture("T_Plains_Terrain_Floors01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_Terrain_Floors01_D.TGA");
 	this->loadTexture("T_Plains_Terrain_Floors01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_Terrain_Floors01_N.TGA");
 
+	// Environments/Plains/Env_Plains_Statues/
+	this->loadModel("SM_Plains_Angel_Statue_01_nobase_torch", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/StaticMesh/SM_Plains_Angel_Statue_01_nobase_torch.FBX");
+	this->loadModel("SM_Plains_Angel_Statue_01_nobase", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/StaticMesh/SM_Plains_Angel_Statue_01_nobase.FBX");
+
+	this->loadTexture("T_Plains_Angel_Statue_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/Textures/T_Plains_Angel_Statue_D.TGA");
+	this->loadTexture("T_Plains_Angel_Statue_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/Textures/T_Plains_Angel_Statue_N.TGA");
+
+
 	/* Shaders/ElvenRuins/
 	..............................................................................*/
+	// M_Plains_Angel_Statue
+	this->loadShader("M_Plains_Angel_Statue", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Angel_Statue.fs.glsl", "./Assets/Shaders/functions.glsl");
+	this->createMaterial("M_Plains_Angel_Statue", this->getShader("M_Plains_Angel_Statue"));
+	this->getMaterial("M_Plains_Angel_Statue")->addTexture("albedoMap", this->getTexture("T_Plains_Angel_Statue_D"));
+	this->getMaterial("M_Plains_Angel_Statue")->addTexture("normalMap", this->getTexture("T_Plains_Angel_Statue_N"));
 	// M_Plains_Floors_Block
 	this->loadShader("M_Plains_Floors_Block", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Floors_Block.fs.glsl", "./Assets/Shaders/functions.glsl");
 	this->createMaterial("M_Plains_Floors_Block", this->getShader("M_Plains_Floors_Block"));
