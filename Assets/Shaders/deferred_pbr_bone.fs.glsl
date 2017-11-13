@@ -4,7 +4,6 @@ layout (location = 0) out vec4 albedoPass;
 layout (location = 1) out vec4 normalPass;
 layout (location = 2) out vec4 mrcPass;
 layout (location = 3) out vec4 positionPass;
-layout (location = 4) out vec4 alphaPass;
 
 in vec2 uv;
 in vec3 position;
@@ -21,7 +20,6 @@ void main() {
 	normalPass = vec4(getNormalFromMap(), texture(maskMap, uv).a);
 	mrcPass = vec4(texture(maskMap, uv).b, texture(maskMap, uv).g, texture(maskMap, uv).r, texture(maskMap, uv).a);
 	positionPass = vec4(position, texture(maskMap, uv).a);
-	alphaPass = vec4(1.0,1.0,1.0, texture(maskMap, uv).a);
 }
 
 vec3 getNormalFromMap() {

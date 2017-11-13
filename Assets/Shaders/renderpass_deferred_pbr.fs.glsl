@@ -6,11 +6,11 @@ uniform sampler2D shadowMap;
 uniform mat4 lightSpaceMatrix;
 
 in vec2 uv;
-uniform sampler2D passes[7];
+uniform sampler2D passes[4];
 
 // ibl
 uniform samplerCube irradianceMap;
-uniform samplerCube prefilterMap;
+// uniform samplerCube prefilterMap;
 uniform sampler2D brdfLUT;
 
 // lights
@@ -39,7 +39,6 @@ void main() {
 	vec3 n = texture(passes[1], uv).rgb;
 	vec3 mrc = texture(passes[2], uv).rgb;
 	vec3 position = texture(passes[3], uv).rgb;
-	vec3 alpha = texture(passes[4], uv).rgb;
 	// mrc mask
 	float metallic = mrc.r;
 	float roughness = mrc.g;
@@ -94,7 +93,7 @@ void main() {
 	vec3 specular = (specularF * brdf.x + brdf.y);
 
 	// ambient
-	vec3 ambient = diffuseF * diffuse + specularF * specular * diffuse;
+	vec3 ambient = diffuseF * diffuse + specularF * diffuse * specular;
 
 	vec3 color = ambient + lightReflection;
 	// vec3 color = lightReflection;
@@ -111,8 +110,9 @@ void main() {
 	// gamma correct
 	color = pow(color, vec3(1.0/2.2));
 
-	fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
+	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
 	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
+	fragColor = vec4(color, 1.0);
 }
 
 

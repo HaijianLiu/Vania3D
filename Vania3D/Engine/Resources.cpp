@@ -132,14 +132,19 @@ void Resources::start() {
 	this->getMaterial("M_Ice_Fort_Trim_1_SnowPaint")->addTexture("albedoMap1", this->getTexture("T_Ice_Fort_Trim_1_D"));
 	this->getMaterial("M_Ice_Fort_Trim_1_SnowPaint")->addTexture("normalMap1", this->getTexture("T_Ice_Fort_Trim_1_N"));
 	this->getMaterial("M_Ice_Fort_Trim_1_SnowPaint")->addTexture("mixMap", this->getTexture("T_FogPlane01_Clouds"));
+	// M_IceT3_Fort_Floor_05
+	this->loadShader("M_IceT3_Fort_Floor_05", "./Assets/Shaders/FrozenCove/M_IceT3_Fort_Floor_05.vs.glsl",  "./Assets/Shaders/FrozenCove/M_IceT3_Fort_Floor_05.fs.glsl");
+	this->createMaterial("M_IceT3_Fort_Floor_05", this->getShader("M_IceT3_Fort_Floor_05"));
+	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("albedoMap0", this->getTexture("T_Snow_Ice_Generic"));
+	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("normalMap0", this->getTexture("T_Snow_Ice_Generic_NRM"));
+	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("albedoMap1", this->getTexture("Ice_Fort_Floor_5_D"));
+	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("normalMap1", this->getTexture("Ice_Fort_Floor_5_N"));
 
 
 
 
 
-	this->createMaterial("M_IceT3_Fort_Floor_05", this->getShader("deferredPBR_Kowloon"));
-	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("albedoMap", this->getTexture("Ice_Fort_Floor_5_D"));
-	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("normalMap", this->getTexture("Ice_Fort_Floor_5_N"));
+
 
 	/* Material
 	..............................................................................*/
@@ -147,7 +152,7 @@ void Resources::start() {
 
 	/* LightProbe
 	..............................................................................*/
-	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Road_to_MonumentValley_8k.jpg");
+	this->loadLightProbe("hdr", "./Assets/Textures/HDR/WinterForest_Ref.hdr");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/test.jpg");
 }
 

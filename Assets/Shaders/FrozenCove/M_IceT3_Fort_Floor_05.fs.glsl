@@ -20,7 +20,7 @@ vec3 getNormalFromMap(sampler2D normalMap);
 void main() {
 	// mix color
 	float mixColor = 1 - texture(mixMap, uv).r;
-	mixColor = smoothstep(0.0, 0.3, mixColor);
+	mixColor = smoothstep(0.0, 0.2, mixColor);
 	// mix albedo pass
 	vec3 albedo0 = pow(texture(albedoMap0, uv).rgb, vec3(2.2));
 	vec3 albedo1 = pow(texture(albedoMap1, uv).rgb, vec3(2.2));
@@ -30,8 +30,9 @@ void main() {
 	vec3 normal1 = getNormalFromMap(normalMap1);
 	normalPass = vec4(mix(normal0, normal1, mixColor), 1);
 	// generate mrc pass
-	float roughness = mix(0.75, mixColor, albedo1.r);
-	mrcPass = vec4(0, roughness, 1, 1);
+	// float roughness = mix(0.8, 0.85, albedo1.r);
+	// mrcPass = vec4(0, roughness, 1, 1);
+	mrcPass = vec4(0, albedo1.r, 1, 1);
 	// position and alpha pass
 	positionPass = vec4(position, 1);
 }
