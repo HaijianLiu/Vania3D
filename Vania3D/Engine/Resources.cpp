@@ -97,6 +97,12 @@ void Resources::start() {
 
 	/* ElvenRuins
 	..............................................................................*/
+	// Environments/Misc/Exo_Deco02
+	this->loadModel("SM_Exo_Pew", "./Assets/Models/InfinityBladeGrassLands/Environments/Misc/Exo_Deco02/StaticMesh/SM_Exo_Pew.FBX");
+
+	this->loadTexture("T_Pew_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Misc/Exo_Deco02/Textures/T_Pew_D.TGA");
+	this->loadTexture("T_Pew_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Misc/Exo_Deco02/Textures/T_Pew_N.TGA");
+
 
 	// Environments/Plains/Env_Plains_Floors/
 	this->loadModel("SM_Plains_Floors_Block01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block01.FBX");
@@ -112,10 +118,20 @@ void Resources::start() {
 
 
 	// Environments/Plains/Env_Plains_Ruins/
+	this->loadModel("SM_Plains_Castle_Circle_Railing_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Circle_Railing_01.FBX");
 	this->loadModel("SM_Plains_Castle_Fountain_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Fountain_01.FBX");
+	this->loadModel("SM_Plains_Column_Large_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_01.FBX");
+	this->loadModel("SM_Plains_Column_Large_Broken_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_01.FBX");
+	this->loadModel("SM_Plains_Column_Large_Broken_02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_02.FBX");
+	this->loadModel("SM_Plains_Column_Large_Broken_03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_03.FBX");
 
 	this->loadTexture("T_Plains_Ruins_Pillars_02_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_02_D.TGA");
 	this->loadTexture("T_Plains_Ruins_Pillars_02_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_02_N.TGA");
+	this->loadTexture("T_Plains_Ruins_Pillars_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_D.TGA");
+	this->loadTexture("T_Plains_Ruins_Pillars_M", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_M.TGA");
+	this->loadTexture("T_Plains_Ruins_Pillars_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_N.TGA");
+
+
 
 
 	// Environments/Plains/Env_Plains_Statues/
@@ -128,6 +144,11 @@ void Resources::start() {
 
 	/* Shaders/ElvenRuins/
 	..............................................................................*/
+	// M_Pew
+	this->loadShader("M_Pew", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Pew.fs.glsl", "./Assets/Shaders/functions.glsl");
+	this->createMaterial("M_Pew", this->getShader("M_Pew"));
+	this->getMaterial("M_Pew")->addTexture("albedoMap", this->getTexture("T_Pew_D"));
+	this->getMaterial("M_Pew")->addTexture("normalMap", this->getTexture("T_Pew_N"));
 	// M_Plains_Angel_Statue
 	this->loadShader("M_Plains_Angel_Statue", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Angel_Statue.fs.glsl", "./Assets/Shaders/functions.glsl");
 	this->createMaterial("M_Plains_Angel_Statue", this->getShader("M_Plains_Angel_Statue"));
@@ -143,6 +164,12 @@ void Resources::start() {
 	this->createMaterial("M_Plains_FloorTrims", this->getShader("M_Plains_FloorTrims"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("albedoMap", this->getTexture("T_Plains_FloorsTrim_D"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("normalMap", this->getTexture("T_Plains_FloorsTrim_N"));
+	// M_Plains_Pillars02
+	this->loadShader("M_Plains_Pillars", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars.fs.glsl", "./Assets/Shaders/functions.glsl");
+	this->createMaterial("M_Plains_Pillars", this->getShader("M_Plains_Pillars"));
+	this->getMaterial("M_Plains_Pillars")->addTexture("albedoMap", this->getTexture("T_Plains_Ruins_Pillars_D"));
+	this->getMaterial("M_Plains_Pillars")->addTexture("normalMap", this->getTexture("T_Plains_Ruins_Pillars_N"));
+	this->getMaterial("M_Plains_Pillars")->addTexture("metallicMap", this->getTexture("T_Plains_Ruins_Pillars_M"));
 	// M_Plains_Pillars02
 	this->loadShader("M_Plains_Pillars02", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars02.fs.glsl", "./Assets/Shaders/functions.glsl");
 	this->createMaterial("M_Plains_Pillars02", this->getShader("M_Plains_Pillars02"));

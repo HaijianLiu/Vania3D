@@ -60,6 +60,17 @@ void Scene01::start() {
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
+	
+	// light
+	GameObject* light = new GameObject();
+	Transform* lightTransform = light->addComponent<Transform>();
+	lightTransform->kinematic = false;
+	Offset* lightTarget = light->addComponent<Offset>();
+	lightTarget->offsetPosition = glm::vec3(0, 2.5, 0);
+	lightTarget->parent = playerTransform;
+	PointLight* pointLight = light->addComponent<PointLight>();
+	pointLight->color = glm::vec3(5);
+	this->addGameObject("PlayerLight", light);
 
 //	Level* level = new Level("./Assets/Models/Kowloon/map.fbx");
 //	level->createGameObjects(this);
