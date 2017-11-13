@@ -110,6 +110,14 @@ void Resources::start() {
 	this->loadTexture("T_Plains_Terrain_Floors01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_Terrain_Floors01_D.TGA");
 	this->loadTexture("T_Plains_Terrain_Floors01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_Terrain_Floors01_N.TGA");
 
+
+	// Environments/Plains/Env_Plains_Ruins/
+	this->loadModel("SM_Plains_Castle_Fountain_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Fountain_01.FBX");
+
+	this->loadTexture("T_Plains_Ruins_Pillars_02_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_02_D.TGA");
+	this->loadTexture("T_Plains_Ruins_Pillars_02_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_02_N.TGA");
+
+
 	// Environments/Plains/Env_Plains_Statues/
 	this->loadModel("SM_Plains_Angel_Statue_01_nobase_torch", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/StaticMesh/SM_Plains_Angel_Statue_01_nobase_torch.FBX");
 	this->loadModel("SM_Plains_Angel_Statue_01_nobase", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/StaticMesh/SM_Plains_Angel_Statue_01_nobase.FBX");
@@ -135,6 +143,12 @@ void Resources::start() {
 	this->createMaterial("M_Plains_FloorTrims", this->getShader("M_Plains_FloorTrims"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("albedoMap", this->getTexture("T_Plains_FloorsTrim_D"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("normalMap", this->getTexture("T_Plains_FloorsTrim_N"));
+	// M_Plains_Pillars02
+	this->loadShader("M_Plains_Pillars02", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars02.fs.glsl", "./Assets/Shaders/functions.glsl");
+	this->createMaterial("M_Plains_Pillars02", this->getShader("M_Plains_Pillars02"));
+	this->getMaterial("M_Plains_Pillars02")->addTexture("albedoMap", this->getTexture("T_Plains_Ruins_Pillars_02_D"));
+	this->getMaterial("M_Plains_Pillars02")->addTexture("normalMap", this->getTexture("T_Plains_Ruins_Pillars_02_N"));
+
 
 
 

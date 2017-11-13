@@ -19,7 +19,7 @@ void main() {
 	// passes
 	albedoPass = vec4(pow(albedoColor, vec3(2.2)), 1);
 	normalPass = vec4(getNormalFromMap(normalMap), 1);
-	float roughness = mix(0.3, 0.7, albedoColor.r); // generate mrc pass
-	mrcPass = vec4(1, roughness, 1, 1);
+	float roughness = mix(0.8, 0.98, albedoColor.r); // generate mrc pass
+	mrcPass = vec4(0, roughness, 1, 1);
 	positionPass = vec4(position, 1);
 }
