@@ -5,12 +5,14 @@
 class Shader {
 private:
 	unsigned int loadShader(std::string vertexPath, std::string fragmentPath);
+	unsigned int loadShader(std::string vertexPath, std::string fragmentPath, std::string functionPath);
 
 public:
 	unsigned int programID;
 
 	// constructor generates the shader on the fly
-	Shader(const char* vertexPath, const char* fragmentPath);
+	Shader(std::string vertexPath, std::string fragmentPath);
+	Shader(std::string vertexPath, std::string fragmentPath, std::string functionPath);
 	~Shader();
 
 	// activate the shader

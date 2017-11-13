@@ -52,7 +52,7 @@ void main() {
 
 	// real time lights reflectance equation
 	vec3 lightReflection = vec3(0.0);
-	for(int i = 0; i < 8; ++i) {
+	for(int i = 0; i < 1; ++i) {
 		// calculate per-light radiance
 		vec3 l = normalize(lightPositions[i] - position);
 		vec3 h = normalize(v + l);
@@ -67,6 +67,9 @@ void main() {
 		vec3 nominator = specularD * specularG * specularF;
 		float denominator = 4 * max(dot(n, v), 0.0) * max(dot(n, l), 0.0) + 0.001; // 0.001 to prevent divide by zero.
 		vec3 specular = nominator / denominator;
+
+		// vec2 brdf  = texture(brdfLUT, vec2(max(dot(n, v), 0.0), roughness)).rg;
+		// specular = (specularF * brdf.x + brdf.y);
 
 		vec3 diffuseF = vec3(1.0) - specularF;
 		diffuseF *= 1.0 - metallic;
@@ -113,6 +116,7 @@ void main() {
 	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
 	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
 	fragColor = vec4(color, 1.0);
+	// fragColor = vec4(vec3(texture(shadowMap, uv).r), 1.0);
 }
 
 
@@ -143,11 +147,11 @@ float geometrySmith(vec3 n, vec3 v, vec3 l, float roughness) {
 
 float geometrySchlickGGX(float ndotv, float roughness) {
 	// k direct
-	// float a = (roughness + 1.0);
-	// float k = (a * a) / 8.0;
+	float a = (roughness + 1.0);
+	float k = (a * a) / 8.0;
 	// k IBL
-	float a = roughness;
-	float k = (a * a) / 2.0;
+	// float a = roughness;
+	// float k = (a * a) / 2.0;
 
 	float nominator = ndotv;
 	float denominator = ndotv * (1.0 - k) + k;

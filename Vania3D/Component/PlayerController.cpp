@@ -58,6 +58,13 @@ void PlayerController::update() {
 		this->animation = 4;
 		this->lastAttack = game->time->currentTime;
 	}
+	
+	if (game->input->getJoystickPress(JOY_TRIANGLE)) {
+		playerTransform->position.y += 4 * game->time->deltaTime;
+	}
+	if (game->input->getJoystickPress(JOY_CROSS)) {
+		playerTransform->position.y -= 4 * game->time->deltaTime;
+	}
 
 	playerTransform->rotate(direction, 2 * PI * game->time->deltaTime);
 

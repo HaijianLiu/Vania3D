@@ -42,7 +42,6 @@ void Resources::start() {
 	// renderpass
 	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/renderpass_deferred_pbr.vs.glsl",  "./Assets/Shaders/renderpass_deferred_pbr.fs.glsl");
 	this->loadShader("deferred_pbr_bone", "./Assets/Shaders/deferred_pbr_bone.vs.glsl",  "./Assets/Shaders/deferred_pbr_bone.fs.glsl");
-	this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
 
 	// ibl
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
@@ -51,11 +50,11 @@ void Resources::start() {
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
 
 	// shadow mapping
-	this->loadShader("shadow_mapping", "./Assets/Shaders/shadow_mapping.vs.glsl",  "./Assets/Shaders/shadow_mapping.fs.glsl");
+	// this->loadShader("shadow_mapping", "./Assets/Shaders/shadow_mapping.vs.glsl",  "./Assets/Shaders/shadow_mapping.fs.glsl");
 	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/shadow_mapping_depth.vs.glsl",  "./Assets/Shaders/shadow_mapping_depth.fs.glsl");
 
 	// test
-	this->loadShader("simple_flat_color", "./Assets/Shaders/simple_flat_color.vs.glsl",  "./Assets/Shaders/simple_flat_color.fs.glsl");
+	// this->loadShader("simple_flat_color", "./Assets/Shaders/simple_flat_color.vs.glsl",  "./Assets/Shaders/simple_flat_color.fs.glsl");
 
 	/* Model
 	..............................................................................*/
@@ -75,31 +74,60 @@ void Resources::start() {
 	this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
 	this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
 
-	this->loadModel("P02_Floor_4U", "./Assets/Models/Kowloon/P02_Floor_4U.FBX");
-	this->loadTexture("P02_Floor_albedo", "./Assets/Models/Kowloon/P02_Floor_01_DIFF.TGA");
-	this->loadTexture("P02_Floor_normal", "./Assets/Models/Kowloon/P02_Floor_01_NM.TGA");
-	this->loadTexture("P02_Floor_mask", "./Assets/Models/Kowloon/P02_Floor_01_RMA.TGA");
-	this->createMaterial("P02_Floor_4U", this->getShader("deferredPBR_Kowloon"));
-	this->getMaterial("P02_Floor_4U")->addTexture("albedoMap", this->getTexture("P02_Floor_albedo"));
-	this->getMaterial("P02_Floor_4U")->addTexture("normalMap", this->getTexture("P02_Floor_normal"));
-	this->getMaterial("P02_Floor_4U")->addTexture("maskMap", this->getTexture("P02_Floor_mask"));
 
-	this->loadModel("P02_AC_Unit_01_LOD0", "./Assets/Models/Kowloon/P02_AC_Unit_01_LOD0.FBX");
-	this->loadTexture("P02_AC_Unit_01_albedo", "./Assets/Models/Kowloon/P02_AC_Unit_01_DIFF.TGA");
-	this->loadTexture("P02_AC_Unit_01_normal", "./Assets/Models/Kowloon/P02_AC_Unit_01_NM.TGA");
-	this->loadTexture("P02_AC_Unit_01_mask", "./Assets/Models/Kowloon/P02_AC_Unit_01_RMA.TGA");
-	this->createMaterial("P02_AC_Unit_01_LOD0", this->getShader("deferredPBR_Kowloon"));
-	this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("albedoMap", this->getTexture("P02_AC_Unit_01_albedo"));
-	this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("normalMap", this->getTexture("P02_AC_Unit_01_normal"));
-	this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("maskMap", this->getTexture("P02_AC_Unit_01_mask"));
-
-
-
-
+	// this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
+	// this->loadModel("P02_Floor_4U", "./Assets/Models/Kowloon/P02_Floor_4U.FBX");
+	// this->loadTexture("P02_Floor_albedo", "./Assets/Models/Kowloon/P02_Floor_01_DIFF.TGA");
+	// this->loadTexture("P02_Floor_normal", "./Assets/Models/Kowloon/P02_Floor_01_NM.TGA");
+	// this->loadTexture("P02_Floor_mask", "./Assets/Models/Kowloon/P02_Floor_01_RMA.TGA");
+	// this->createMaterial("P02_Floor_4U", this->getShader("deferredPBR_Kowloon"));
+	// this->getMaterial("P02_Floor_4U")->addTexture("albedoMap", this->getTexture("P02_Floor_albedo"));
+	// this->getMaterial("P02_Floor_4U")->addTexture("normalMap", this->getTexture("P02_Floor_normal"));
+	// this->getMaterial("P02_Floor_4U")->addTexture("maskMap", this->getTexture("P02_Floor_mask"));
+	//
+	// this->loadModel("P02_AC_Unit_01_LOD0", "./Assets/Models/Kowloon/P02_AC_Unit_01_LOD0.FBX");
+	// this->loadTexture("P02_AC_Unit_01_albedo", "./Assets/Models/Kowloon/P02_AC_Unit_01_DIFF.TGA");
+	// this->loadTexture("P02_AC_Unit_01_normal", "./Assets/Models/Kowloon/P02_AC_Unit_01_NM.TGA");
+	// this->loadTexture("P02_AC_Unit_01_mask", "./Assets/Models/Kowloon/P02_AC_Unit_01_RMA.TGA");
+	// this->createMaterial("P02_AC_Unit_01_LOD0", this->getShader("deferredPBR_Kowloon"));
+	// this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("albedoMap", this->getTexture("P02_AC_Unit_01_albedo"));
+	// this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("normalMap", this->getTexture("P02_AC_Unit_01_normal"));
+	// this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("maskMap", this->getTexture("P02_AC_Unit_01_mask"));
 
 
+	/* ElvenRuins
+	..............................................................................*/
+
+	// Environments/Plains/Env_Plains_Floors/
+	this->loadModel("SM_Plains_Floors_Block01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block01.FBX");
+	this->loadModel("SM_Plains_Floors_Block02_Broken", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block02_Broken.FBX");
+	this->loadModel("SM_Plains_Floors_Block02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block02.FBX");
+	this->loadModel("SM_Plains_Floors_Block03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block03.FBX");
+	this->loadModel("SM_Plains_Floors_Block04", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block04.FBX");
+
+	this->loadTexture("T_Plains_FloorsTrim_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_FloorsTrim_D.TGA");
+	this->loadTexture("T_Plains_FloorsTrim_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_FloorsTrim_N.TGA");
+	this->loadTexture("T_Plains_Terrain_Floors01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_Terrain_Floors01_D.TGA");
+	this->loadTexture("T_Plains_Terrain_Floors01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_Terrain_Floors01_N.TGA");
+
+	/* Shaders/ElvenRuins/
+	..............................................................................*/
+	// M_Plains_Floors_Block
+	this->loadShader("M_Plains_Floors_Block", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Floors_Block.fs.glsl", "./Assets/Shaders/functions.glsl");
+	this->createMaterial("M_Plains_Floors_Block", this->getShader("M_Plains_Floors_Block"));
+	this->getMaterial("M_Plains_Floors_Block")->addTexture("albedoMap", this->getTexture("T_Plains_Terrain_Floors01_D"));
+	this->getMaterial("M_Plains_Floors_Block")->addTexture("normalMap", this->getTexture("T_Plains_Terrain_Floors01_N"));
+	// M_Plains_FloorTrims
+	this->loadShader("M_Plains_FloorTrims", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_FloorTrims.fs.glsl", "./Assets/Shaders/functions.glsl");
+	this->createMaterial("M_Plains_FloorTrims", this->getShader("M_Plains_FloorTrims"));
+	this->getMaterial("M_Plains_FloorTrims")->addTexture("albedoMap", this->getTexture("T_Plains_FloorsTrim_D"));
+	this->getMaterial("M_Plains_FloorTrims")->addTexture("normalMap", this->getTexture("T_Plains_FloorsTrim_N"));
 
 
+
+	/* FrozenCove
+	..............................................................................*/
+	/*
 	// Effects/FX_Textures/Clouds/
 	this->loadTexture("T_FogPlane01_Clouds", "./Assets/Models/InfinityBladeIceLands/Effects/FX_Textures/Clouds/T_FogPlane01_Clouds.TGA");
 
@@ -129,8 +157,7 @@ void Resources::start() {
 	this->loadTexture("T_Iron_E", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Iron_E.TGA");
 	this->loadTexture("T_Iron_N", "./Assets/Models/InfinityBladeIceLands/Environments/Ice/Ice_Fortress/Textures/T_Iron_N.TGA");
 
-
-	/* shaders and materials */
+	// shaders and materials
 	// M_Env_Ice_RuinedWalls_Snow
 	this->loadShader("M_Env_Ice_RuinedWalls_Snow", "./Assets/Shaders/FrozenCove/M_Env_Ice_RuinedWalls_Snow.vs.glsl",  "./Assets/Shaders/FrozenCove/M_Env_Ice_RuinedWalls_Snow.fs.glsl");
 	this->createMaterial("M_Env_Ice_RuinedWalls_Snow", this->getShader("M_Env_Ice_RuinedWalls_Snow"));
@@ -170,7 +197,7 @@ void Resources::start() {
 	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("normalMap0", this->getTexture("T_Snow_Ice_Generic_NRM"));
 	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("albedoMap1", this->getTexture("Ice_Fort_Floor_5_D"));
 	this->getMaterial("M_IceT3_Fort_Floor_05")->addTexture("normalMap1", this->getTexture("Ice_Fort_Floor_5_N"));
-
+	*/
 
 
 
@@ -179,12 +206,13 @@ void Resources::start() {
 
 	/* Material
 	..............................................................................*/
-	this->createMaterial("simple_flat_color", this->getShader("simple_flat_color"));
+	// this->createMaterial("simple_flat_color", this->getShader("simple_flat_color"));
 
 	/* LightProbe
 	..............................................................................*/
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/WinterForest_Ref.hdr");
-	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Road_to_MonumentValley_8k.jpg");
+	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/Road_to_MonumentValley_8k.jpg");
+	this->loadLightProbe("hdr", "./Assets/Models/InfinityBladeGrassLands/Maps/LevelContent/HDRI/HDRI_Epic_Courtyard_Daylight.HDR");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/test.jpg");
 }
 
@@ -193,7 +221,10 @@ void Resources::start() {
 < Load & Get >
 ------------------------------------------------------------------------------*/
 void Resources::loadShader(const char* name, const char* vertexPath, const char* fragmentPath) {
-	this->shaders.insert(std::make_pair(name, new Shader(vertexPath,fragmentPath)));
+	this->shaders.insert(std::make_pair(name, new Shader(vertexPath, fragmentPath)));
+}
+void Resources::loadShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* functionPath) {
+	this->shaders.insert(std::make_pair(name, new Shader(vertexPath, fragmentPath, functionPath)));
 }
 Shader* Resources::getShader(const char* name) {
 	auto it = this->shaders.find(name);

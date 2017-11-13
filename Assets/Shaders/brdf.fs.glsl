@@ -43,7 +43,10 @@ vec3 importanceSampleGGX(vec2 xi, vec3 n, float roughness) {
 }
 
 float geometrySchlickGGX(float nDotV, float roughness) {
-	// note that we use a different k for IBL
+	// k direct
+	// float a = (roughness + 1.0);
+	// float k = (a * a) / 8.0;
+	// k IBL
 	float a = roughness;
 	float k = (a * a) / 2.0;
 

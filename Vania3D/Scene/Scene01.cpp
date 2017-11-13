@@ -32,7 +32,7 @@ void Scene01::start() {
 	Transform* playerTransform = player->addComponent<Transform>();
 	playerTransform->modelScale = glm::vec3(GLOBAL_SCALE);
 	playerTransform->kinematic = false;
-	playerTransform->position = glm::vec3(0,-2.1,0);
+	playerTransform->position = glm::vec3(0, -0.6, 0);
 	PlayerController* playerController = player->addComponent<PlayerController>();
 	playerController->camera = camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
@@ -46,9 +46,6 @@ void Scene01::start() {
 	game->shadowMapping->target = player;
 
 	// camera target
-	Transform* cameraTransform = camera->addComponent<Transform>();
-	cameraTransform->kinematic = false;
-	cameraTransform->position = playerTransform->position + glm::vec3(0.0,2.0,4.0);
 	GameObject* cameraTarget = new GameObject();
 	Transform* cameraTargetTransform = cameraTarget->addComponent<Transform>();
 	Offset* cameraTargetOffset = cameraTarget->addComponent<Offset>();
@@ -57,6 +54,9 @@ void Scene01::start() {
 	this->addGameObject("cameraTarget", cameraTarget);
 
 	// camera
+	Transform* cameraTransform = camera->addComponent<Transform>();
+	cameraTransform->kinematic = false;
+	cameraTransform->position = glm::vec3(0.0,2.0,4.0);
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
@@ -65,7 +65,7 @@ void Scene01::start() {
 //	level->createGameObjects(this);
 //	delete level;
 
-	Map* map = new Map(this, "./Assets/Models/InfinityBladeIceLands/Maps/FrozenCoveMap.FBX");
+	Map* map = new Map(this, "./Assets/Models/InfinityBladeGrassLands/Maps/ElvenRuinsMap.fbx");
 	delete map;
 
 
