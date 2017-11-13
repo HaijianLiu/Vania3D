@@ -52,7 +52,7 @@ void main() {
 
 	// real time lights reflectance equation
 	vec3 lightReflection = vec3(0.0);
-	for(int i = 0; i < 1; ++i) {
+	for(int i = 0; i < 4; ++i) {
 		// calculate per-light radiance
 		vec3 l = normalize(lightPositions[i] - position);
 		vec3 h = normalize(v + l);
@@ -80,6 +80,27 @@ void main() {
 		// add to outgoing radiance
 		lightReflection += (diffuseF * albedo / PI + specular) * radiance * ndotl;
 	}
+
+	// test for sun light
+	for(int i = 0; i < 1; i++) {
+		// calculate per-light radiance
+		vec3 l = normalize(vec3(58.7033, 63.2275, 14.8628) - position);
+		vec3 h = normalize(v + l);
+		// Cook-Torrance BRDF
+		float specularD = normalDistributionGGX(n, h, roughness);
+		float specularG = geometrySmith(n, v, l, roughness);
+		vec3 specularF = fresnelSchlick(max(dot(h, v), 0.0), f0);
+		vec3 nominator = specularD * specularG * specularF;
+		float denominator = 4 * max(dot(n, v), 0.0) * max(dot(n, l), 0.0) + 0.001; // 0.001 to prevent divide by zero.
+		vec3 specular = nominator / denominator;
+		vec3 diffuseF = vec3(1.0) - specularF;
+		diffuseF *= 1.0 - metallic;
+		// scale light by normal
+		float ndotl = max(dot(n, l), 0.0);
+		// add to outgoing radiance
+		lightReflection += (diffuseF * albedo / PI + specular) * vec3(1, 0.723, 0.522) * 3 * ndotl;
+	}
+
 
 	// ibl ambient lighting
 	vec3 specularF = fresnelSchlickRoughness(max(dot(n, v), 0.0), f0, roughness);
