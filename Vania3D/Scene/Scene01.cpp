@@ -25,16 +25,14 @@ void Scene01::start() {
 
 	// camera
 	GameObject* camera = new GameObject();
-	Transform* cameraTransform = camera->addComponent<Transform>();
-	cameraTransform->kinematic = false;
-	cameraTransform->position = glm::vec3(0.0,10.0,20.0);
 	camera->addComponent<Camera>();
 
 	// player
 	GameObject* player = new GameObject();
 	Transform* playerTransform = player->addComponent<Transform>();
-	playerTransform->modelScale = glm::vec3(0.05);
+	playerTransform->modelScale = glm::vec3(GLOBAL_SCALE);
 	playerTransform->kinematic = false;
+	playerTransform->position = glm::vec3(0,-2.1,0);
 	PlayerController* playerController = player->addComponent<PlayerController>();
 	playerController->camera = camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
@@ -48,11 +46,14 @@ void Scene01::start() {
 	game->shadowMapping->target = player;
 
 	// camera target
+	Transform* cameraTransform = camera->addComponent<Transform>();
+	cameraTransform->kinematic = false;
+	cameraTransform->position = playerTransform->position + glm::vec3(0.0,2.0,4.0);
 	GameObject* cameraTarget = new GameObject();
 	Transform* cameraTargetTransform = cameraTarget->addComponent<Transform>();
 	Offset* cameraTargetOffset = cameraTarget->addComponent<Offset>();
 	cameraTargetOffset->parent = playerTransform;
-	cameraTargetOffset->offsetPosition = glm::vec3(0, 5, 0);
+	cameraTargetOffset->offsetPosition = glm::vec3(0, 1, 0);
 	this->addGameObject("cameraTarget", cameraTarget);
 
 	// camera
@@ -63,8 +64,8 @@ void Scene01::start() {
 //	Level* level = new Level("./Assets/Models/Kowloon/map.fbx");
 //	level->createGameObjects(this);
 //	delete level;
-    
-	Map* map = new Map("./Assets/Models/InfinityBladeIceLands/Maps/test.fbx");
+
+	Map* map = new Map("./Assets/Models/InfinityBladeIceLands/Maps/FrozenCoveMap.FBX");
 	map->createGameObjects(this);
 	delete map;
 
@@ -82,14 +83,14 @@ void Scene01::start() {
 //		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple_flat_color"));
 		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
-	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);
-	light[1]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f, -10.0f);
-	light[2]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f,  10.0f);
-	light[3]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f, -10.0f);
-	light[0]->getComponent<PointLight>()->color = glm::vec3(100.0f, 100.0f, 100.0f);
-	light[1]->getComponent<PointLight>()->color = glm::vec3(100.0f, 0.0f, 0.0f);
-	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 100.0f, 0.0f);
-	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 100.0f);
+	light[0]->getComponent<Transform>()->position = glm::vec3( 2.0f,  2.0f,  2.0f);
+	light[1]->getComponent<Transform>()->position = glm::vec3( 2.0f,  2.0f, -2.0f);
+	light[2]->getComponent<Transform>()->position = glm::vec3(-2.0f,  2.0f,  2.0f);
+	light[3]->getComponent<Transform>()->position = glm::vec3(-2.0f,  2.0f, -2.0f);
+	light[0]->getComponent<PointLight>()->color = glm::vec3(10.0f, 10.0f, 10.0f);
+	light[1]->getComponent<PointLight>()->color = glm::vec3(10.0f, 0.0f, 0.0f);
+	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 10.0f, 0.0f);
+	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 10.0f);
 //	for (int i = 0; i < 4; i++)
 //		light[i]->getComponent<MeshRenderer>()->materials[0]->color = light[i]->getComponent<PointLight>()->color;
 

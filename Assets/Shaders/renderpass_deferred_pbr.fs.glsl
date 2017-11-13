@@ -87,17 +87,17 @@ void main() {
 	vec3 irradiance = texture(irradianceMap, n).rgb;
 	vec3 diffuse = irradiance * albedo;
 	// ibl specular
-	const float MAX_REFLECTION_LOD = 4.0;
-	vec3 prefilteredColor = textureLod(prefilterMap, r,  roughness * MAX_REFLECTION_LOD).rgb;
+	// const float MAX_REFLECTION_LOD = 4.0;
+	// vec3 prefilteredColor = textureLod(prefilterMap, r,  roughness * MAX_REFLECTION_LOD).rgb;
 	vec2 brdf  = texture(brdfLUT, vec2(max(dot(n, v), 0.0), roughness)).rg;
-	vec3 specular = prefilteredColor * (specularF * brdf.x + brdf.y);
-	// vec3 specular = irradiance * (specularF * brdf.x + brdf.y);
+	// vec3 specular = prefilteredColor * (specularF * brdf.x + brdf.y);
+	vec3 specular = irradiance * (specularF * brdf.x + brdf.y);
 
 	// ambient
 	vec3 ambient = diffuseF * diffuse + specularF * specular * diffuse;
 
-	// vec3 color = ambient + lightReflection;
-	vec3 color = lightReflection;
+	vec3 color = ambient + lightReflection;
+	// vec3 color = lightReflection;
 
 	// shadow
 	vec4 fragPostionLightSpace = lightSpaceMatrix * vec4(position, 1.0);

@@ -4,7 +4,7 @@
 /*------------------------------------------------------------------------------
 < Macross >
 ------------------------------------------------------------------------------*/
-#define PIXEL_TO_UNIT (0.01)
+#define GLOBAL_SCALE (0.01)
 #define UNIT_TO_PIXEL (100)
 #define SCREEN_WIDTH (960)
 #define SCREEN_HEIGHT (540)

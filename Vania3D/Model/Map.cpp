@@ -40,8 +40,8 @@ void Map::load(const char* path) {
 	}
 
 	// process assimp root node recursively
-	this->modelNode = new Node<glm::mat4>(aiscene->mRootNode->mName.data);
-	this->modelNode->data = new glm::mat4();
+	this->modelNode = new Node<ModelProperties>(aiscene->mRootNode->mName.data);
+	this->modelNode->data = new ModelProperties();
 	this->processNode(aiscene->mRootNode, this->modelNode, aiscene);
 }
 
@@ -54,16 +54,20 @@ the scene contains all the data
 Processes each individual mesh located at the node and repeats this process on its children nodes (if any)
 Processes the bone node heirarchy located at the node and calculate the final transformation
 ------------------------------------------------------------------------------*/
-void Map::processNode(aiNode* ainode, Node<glm::mat4>* node, const aiScene* aiscene) {
-	// save the node heirarchy and all the transformation matrices and names
-	*node->data = assignment(ainode->mTransformation);
+void Map::processNode(aiNode* ainode, Node<ModelProperties>* node, const aiScene* aiscene) {
+	// save the node heirarchy and all the transformation matrices and materials
+	node->data->nodeTransformation = assignment(ainode->mTransformation);
+	for (unsigned int i =0; i < ainode->mNumMeshes; i++) {
+		unsigned int materialIndex = aiscene->mMeshes[ainode->mMeshes[i]]->mMaterialIndex;
+		node->data->materialIndices.push_back(materialIndex);
+	}
 
 	/* look for children */
 	// recursively process each of the children nodes
 	for (unsigned int i = 0; i < ainode->mNumChildren; i++) {
-		node->children.push_back(new Node<glm::mat4>(ainode->mChildren[i]->mName.data));
+		node->children.push_back(new Node<ModelProperties>(ainode->mChildren[i]->mName.data));
 		node->children[i]->parent = node;
-		node->children[i]->data = new glm::mat4();
+		node->children[i]->data = new ModelProperties();
 		this->processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
 }
@@ -71,13 +75,13 @@ void Map::processNode(aiNode* ainode, Node<glm::mat4>* node, const aiScene* aisc
 
 void Map::createGameObjects(Scene* scene) {
 	Game* game = Game::getInstance();
-	glm::mat4 parentTransformation = glm::scale(glm::vec3(0.05));
+	glm::mat4 parentTransformation = glm::scale(glm::vec3(GLOBAL_SCALE));
 	this->processNode(this->modelNode, parentTransformation, game, scene);
 }
 
-void Map::processNode(Node<glm::mat4>* node, glm::mat4 parentTransformation, Game* game, Scene* scene) {
+void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformation, Game* game, Scene* scene) {
 	// create GameObject
-	glm::mat4 globalTransformation = parentTransformation * (*node->data);
+	glm::mat4 globalTransformation = parentTransformation * node->data->nodeTransformation;
 	std::string modelName = node->name.substr(0,node->name.rfind("."));
 	Model* model = game->resources->getModel(modelName);
 	if (model != nullptr) {
@@ -87,9 +91,8 @@ void Map::processNode(Node<glm::mat4>* node, glm::mat4 parentTransformation, Gam
 		transform->init = false;
 		MeshRenderer* meshRenderer = gameObject->addComponent<MeshRenderer>();
 		meshRenderer->model = model;
-		// tes
-		for (unsigned int i = 0; i < 3; i++) {
-			meshRenderer->materials.push_back(this->materialMapping[i]);
+		for (unsigned int i = 0; i < node->data->materialIndices.size(); i++) {
+			meshRenderer->materials.push_back(this->materialMapping[node->data->materialIndices[i]]);
 		}
 		meshRenderer->lightProbe = game->resources->getLightProbe("hdr");
 		scene->addGameObject(node->name.c_str(), gameObject);

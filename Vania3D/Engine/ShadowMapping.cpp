@@ -5,10 +5,10 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 ShadowMapping::ShadowMapping() {
-	this->lightPositionOffset = glm::vec3(-20, 20, 0);
-	this->range = 20;
+	this->lightPositionOffset = glm::vec3(-4, 4, 0);
+	this->range = 4;
 	this->nearPlane = 0;
-	this->farPlane = 40;
+	this->farPlane = 8;
 }
 
 

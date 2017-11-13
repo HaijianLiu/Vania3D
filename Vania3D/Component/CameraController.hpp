@@ -20,10 +20,10 @@ public:
 	int inverseVertical = CAMERA_INVERSE_ON;
 	float rotateSensitivityHorizonal = 2;
 	float rotateSensitivityVertical = 1;
-	float zoomSensitivity = 6;
-	float offsetFromTargetMin = 100;
-	float offsetFromTargetMax = 500;
-	float verticalRadiansMin = 0;
+	float zoomSensitivity = 2;
+	float offsetFromTargetMin = 5;
+	float offsetFromTargetMax = 25;
+	float verticalRadiansMin = -0.2;
 	float verticalRadiansMax = 0.8;
 
 	CameraController();

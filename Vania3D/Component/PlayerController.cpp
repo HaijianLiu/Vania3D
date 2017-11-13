@@ -35,8 +35,8 @@ void PlayerController::update() {
 			direction = worldToCamera * game->input->getNormalLS();
 			axisLS = worldToCamera * axisLS;
 
-			playerTransform->position.x += 20 * axisLS.x * game->time->deltaTime;
-			playerTransform->position.z += 20 * axisLS.z * game->time->deltaTime;
+			playerTransform->position.x += 4 * axisLS.x * game->time->deltaTime;
+			playerTransform->position.z += 4 * axisLS.z * game->time->deltaTime;
 
 			this->animation = 3;
 		}
@@ -44,8 +44,8 @@ void PlayerController::update() {
 			direction = worldToCamera * game->input->getNormalLS();
 			axisLS = worldToCamera * axisLS;
 
-			playerTransform->position.x += 10 * axisLS.x * game->time->deltaTime;
-			playerTransform->position.z += 10 * axisLS.z * game->time->deltaTime;
+			playerTransform->position.x += 2 * axisLS.x * game->time->deltaTime;
+			playerTransform->position.z += 2 * axisLS.z * game->time->deltaTime;
 
 			this->animation = 2;
 		}
@@ -60,6 +60,6 @@ void PlayerController::update() {
 	}
 
 	playerTransform->rotate(direction, 2 * PI * game->time->deltaTime);
-	
+
 	this->gameObject->getComponent<MeshRenderer>()->model->updatePose(this->animation, game->time->currentTime);
 }
