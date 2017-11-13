@@ -183,7 +183,8 @@ void Resources::start() {
 
 	/* LightProbe
 	..............................................................................*/
-	this->loadLightProbe("hdr", "./Assets/Textures/HDR/WinterForest_Ref.hdr");
+	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/WinterForest_Ref.hdr");
+	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Road_to_MonumentValley_8k.jpg");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/test.jpg");
 }
 

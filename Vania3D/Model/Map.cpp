@@ -4,8 +4,8 @@
 /*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
-Map::Map(const char* path) {
-	this->load(path);
+Map::Map(Scene* scene, const char* path) {
+	this->load(scene, path);
 }
 
 
@@ -21,8 +21,8 @@ Map::~Map() {
 < load model >
 loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
 ------------------------------------------------------------------------------*/
-void Map::load(const char* path) {
-	Game* game = Game::getInstance();
+void Map::load(Scene* scene, const char* path) {
+	this->game = Game::getInstance();
 	// read file via ASSIMP
 	Assimp::Importer importer;
 	const aiScene* aiscene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_LimitBoneWeights);
@@ -35,7 +35,7 @@ void Map::load(const char* path) {
 	// mapping materials
 	for (unsigned int i = 0; i < aiscene->mNumMaterials; i++) {
 		std::string materialName(aiscene->mMaterials[i]->mProperties[0]->mData + 4 ,aiscene->mMaterials[i]->mProperties[0]->mDataLength - 5); // magic numbers!
-		Material* material = game->resources->getMaterial(materialName);
+		Material* material = this->game->resources->getMaterial(materialName);
 		this->materialMapping.push_back(material); // if no material also push a nullptr
 	}
 
@@ -43,6 +43,9 @@ void Map::load(const char* path) {
 	this->modelNode = new Node<ModelProperties>(aiscene->mRootNode->mName.data);
 	this->modelNode->data = new ModelProperties();
 	this->processNode(aiscene->mRootNode, this->modelNode, aiscene);
+
+	//
+	this->createGameObjects(scene, aiscene);
 }
 
 
@@ -73,17 +76,18 @@ void Map::processNode(aiNode* ainode, Node<ModelProperties>* node, const aiScene
 }
 
 
-void Map::createGameObjects(Scene* scene) {
-	Game* game = Game::getInstance();
+void Map::createGameObjects(Scene* scene, const aiScene* aiscene) {
 	glm::mat4 parentTransformation = glm::scale(glm::vec3(GLOBAL_SCALE));
-	this->processNode(this->modelNode, parentTransformation, game, scene);
+	this->processNode(this->modelNode, parentTransformation, scene, aiscene);
 }
 
-void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformation, Game* game, Scene* scene) {
+void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformation, Scene* scene, const aiScene* aiscene) {
 	// create GameObject
 	glm::mat4 globalTransformation = parentTransformation * node->data->nodeTransformation;
 	std::string modelName = node->name.substr(0,node->name.rfind("."));
-	Model* model = game->resources->getModel(modelName);
+
+	// model
+	Model* model = this->game->resources->getModel(modelName);
 	if (model != nullptr) {
 		GameObject* gameObject = new GameObject();
 		Transform* transform = gameObject->addComponent<Transform>();
@@ -94,10 +98,29 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 		for (unsigned int i = 0; i < node->data->materialIndices.size(); i++) {
 			meshRenderer->materials.push_back(this->materialMapping[node->data->materialIndices[i]]);
 		}
-		meshRenderer->lightProbe = game->resources->getLightProbe("hdr");
+		meshRenderer->lightProbe = this->game->resources->getLightProbe("hdr");
 		scene->addGameObject(node->name.c_str(), gameObject);
+	}
+	// light
+	if (modelName.substr(0, 10) == "PointLight") {
+		for (unsigned int i = 0; i < aiscene->mNumLights; i++) {
+			std::string lightName = aiscene->mLights[i]->mName.data;
+			if (lightName == modelName) {
+				GameObject* light = new GameObject();
+				Transform* lightTransform = light->addComponent<Transform>();
+				lightTransform->model = globalTransformation;
+				lightTransform->position = globalTransformation * glm::vec4(0,0,0,1);
+				lightTransform->init = false;
+				light->addComponent<PointLight>();
+				PointLight* pointLight = light->getComponent<PointLight>();
+				pointLight->color = assignment(aiscene->mLights[i]->mColorDiffuse);
+				pointLight->color = 0.001f * pointLight->color;
+				scene->addGameObject(lightName.c_str(), light);
+				break;
+			}
+		}
 	}
 
 	for (unsigned int i = 0; i < node->children.size(); i++)
-		this->processNode(node->children[i], globalTransformation, game, scene);
+		this->processNode(node->children[i], globalTransformation, scene, aiscene);
 }

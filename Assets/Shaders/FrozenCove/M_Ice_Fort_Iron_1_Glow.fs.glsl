@@ -16,7 +16,7 @@ uniform sampler2D glowMap0;
 vec3 getNormalFromMap(sampler2D normalMap);
 
 void main() {
-	albedoPass = vec4(pow(2 * texture(albedoMap0, uv).rgb + texture(glowMap0, uv).rgb, vec3(2.2)), 1);
+	albedoPass = vec4(pow(texture(albedoMap0, uv).rgb + texture(glowMap0, uv).rgb, vec3(2.2)), 1);
 	normalPass = vec4(getNormalFromMap(normalMap0), 1);
 
 	// generate mrc pass

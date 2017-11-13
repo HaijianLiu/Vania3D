@@ -65,35 +65,27 @@ void Scene01::start() {
 //	level->createGameObjects(this);
 //	delete level;
 
-	Map* map = new Map("./Assets/Models/InfinityBladeIceLands/Maps/FrozenCoveMap.FBX");
-	map->createGameObjects(this);
+	Map* map = new Map(this, "./Assets/Models/InfinityBladeIceLands/Maps/FrozenCoveMap.FBX");
 	delete map;
 
 
 	// light
-	GameObject* light[4];
-	for (int i = 0; i < 4; i++) {
-		light[i] = new GameObject();
-		Transform* lightTransform = light[i]->addComponent<Transform>();
-		lightTransform->modelScale = glm::vec3(0.1);
-		light[i]->addComponent<PointLight>();
-		// for test
-//		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
-//		lightMeshRenderer->model = game->resources->getModel("sphere");
-//		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple_flat_color"));
-		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
-	}
-	light[0]->getComponent<Transform>()->position = glm::vec3( 2.0f,  2.0f,  2.0f);
-	light[1]->getComponent<Transform>()->position = glm::vec3( 2.0f,  2.0f, -2.0f);
-	light[2]->getComponent<Transform>()->position = glm::vec3(-2.0f,  2.0f,  2.0f);
-	light[3]->getComponent<Transform>()->position = glm::vec3(-2.0f,  2.0f, -2.0f);
-	light[0]->getComponent<PointLight>()->color = glm::vec3(10.0f, 10.0f, 10.0f);
-	light[1]->getComponent<PointLight>()->color = glm::vec3(10.0f, 0.0f, 0.0f);
-	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 10.0f, 0.0f);
-	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 10.0f);
-//	for (int i = 0; i < 4; i++)
-//		light[i]->getComponent<MeshRenderer>()->materials[0]->color = light[i]->getComponent<PointLight>()->color;
-
+//	GameObject* light[4];
+//	for (int i = 0; i < 4; i++) {
+//		light[i] = new GameObject();
+//		Transform* lightTransform = light[i]->addComponent<Transform>();
+//		lightTransform->modelScale = glm::vec3(0.1);
+//		light[i]->addComponent<PointLight>();
+//		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
+//	}
+//	light[0]->getComponent<Transform>()->position = glm::vec3( 2.0f,  2.0f,  2.0f);
+//	light[1]->getComponent<Transform>()->position = glm::vec3( 2.0f,  2.0f, -2.0f);
+//	light[2]->getComponent<Transform>()->position = glm::vec3(-2.0f,  2.0f,  2.0f);
+//	light[3]->getComponent<Transform>()->position = glm::vec3(-2.0f,  2.0f, -2.0f);
+//	light[0]->getComponent<PointLight>()->color = glm::vec3(10.0f, 10.0f, 10.0f);
+//	light[1]->getComponent<PointLight>()->color = glm::vec3(10.0f, 0.0f, 0.0f);
+//	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 10.0f, 0.0f);
+//	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 10.0f);
 
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));

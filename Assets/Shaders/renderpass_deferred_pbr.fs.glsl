@@ -14,8 +14,8 @@ uniform samplerCube irradianceMap;
 uniform sampler2D brdfLUT;
 
 // lights
-uniform vec3 lightPositions[4];
-uniform vec3 lightColors[4];
+uniform vec3 lightPositions[19];
+uniform vec3 lightColors[19];
 
 // transform
 uniform mat4 projection;
@@ -52,7 +52,7 @@ void main() {
 
 	// real time lights reflectance equation
 	vec3 lightReflection = vec3(0.0);
-	for(int i = 0; i < 4; ++i) {
+	for(int i = 0; i < 8; ++i) {
 		// calculate per-light radiance
 		vec3 l = normalize(lightPositions[i] - position);
 		vec3 h = normalize(v + l);

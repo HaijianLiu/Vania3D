@@ -10,6 +10,10 @@ glm::vec3 assignment(const aiVector3D& assimpVector) {
 	return glm::vec3(assimpVector.x, assimpVector.y, assimpVector.z);
 }
 
+glm::vec3 assignment(const aiColor3D& assimpColor) {
+	return glm::vec3(assimpColor.r, assimpColor.g, assimpColor.b);
+}
+
 glm::quat assignment(const aiQuaternion& assimpQuaternion) {
 	return glm::quat(assimpQuaternion.w, assimpQuaternion.x, assimpQuaternion.y, assimpQuaternion.z);
 }
