@@ -14,7 +14,7 @@ RenderLayer::RenderLayer() {
 < Desstructor >
 ------------------------------------------------------------------------------*/
 RenderLayer::~RenderLayer() {
-
+	deleteMap(this->shaderLayers);
 }
 
 
@@ -58,7 +58,8 @@ ShaderLayer::ShaderLayer() {
  < Desstructor >
  ------------------------------------------------------------------------------*/
 ShaderLayer::~ShaderLayer() {
-
+	deleteMap(this->materialLayers);
+	deleteMap(this->materialLayersTwoSides);
 }
 
 
@@ -75,14 +76,26 @@ void ShaderLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 	meshRenderData->transform = transform;
 	meshRenderData->model = meshRenderer->model;
 	meshRenderData->meshIndex = meshIndex;
-
-	if (this->materialLayers.find(meshRenderer->materials[meshIndex]) == this->materialLayers.end()) {
-		MaterialLayer* materialLayer = new MaterialLayer();
-		materialLayer->meshRenderDatas.push_back(meshRenderData);
-		this->materialLayers.insert(std::make_pair(meshRenderer->materials[meshIndex], materialLayer));
+	
+	if (meshRenderer->materials[meshIndex]->twoSides) {
+		if (this->materialLayersTwoSides.find(meshRenderer->materials[meshIndex]) == this->materialLayersTwoSides.end()) {
+			MaterialLayer* materialLayer = new MaterialLayer();
+			materialLayer->meshRenderDatas.push_back(*meshRenderData);
+			this->materialLayersTwoSides.insert(std::make_pair(meshRenderer->materials[meshIndex], materialLayer));
+		}
+		else {
+			this->materialLayersTwoSides[meshRenderer->materials[meshIndex]]->meshRenderDatas.push_back(*meshRenderData);
+		}
 	}
 	else {
-		this->materialLayers[meshRenderer->materials[meshIndex]]->meshRenderDatas.push_back(meshRenderData);
+		if (this->materialLayers.find(meshRenderer->materials[meshIndex]) == this->materialLayers.end()) {
+			MaterialLayer* materialLayer = new MaterialLayer();
+			materialLayer->meshRenderDatas.push_back(*meshRenderData);
+			this->materialLayers.insert(std::make_pair(meshRenderer->materials[meshIndex], materialLayer));
+		}
+		else {
+			this->materialLayers[meshRenderer->materials[meshIndex]]->meshRenderDatas.push_back(*meshRenderData);
+		}
 	}
 }
 
@@ -100,11 +113,28 @@ void ShaderLayer::render(GameObject* camera) {
 		it->first->bindTextures();
 		for (unsigned int i = 0; i < it->second->meshRenderDatas.size(); i++) {
 			// model
-			it->second->meshRenderDatas[i]->transform->setUniform(this->shader);
+			it->second->meshRenderDatas[i].transform->setUniform(this->shader);
 			// pose
-			it->second->meshRenderDatas[i]->model->setPoseUniform(this->shader);
+			it->second->meshRenderDatas[i].model->setPoseUniform(this->shader);
 			// draw
-			it->second->meshRenderDatas[i]->model->drawMesh(it->second->meshRenderDatas[i]->meshIndex);
+			it->second->meshRenderDatas[i].model->drawMesh(it->second->meshRenderDatas[i].meshIndex);
 		}
+	}
+	
+	if (this->materialLayersTwoSides.size() > 0) {
+		glDisable(GL_CULL_FACE);
+		for (auto it = this->materialLayersTwoSides.begin(); it != this->materialLayersTwoSides.end(); it++) {
+			// texture
+			it->first->bindTextures();
+			for (unsigned int i = 0; i < it->second->meshRenderDatas.size(); i++) {
+				// model
+				it->second->meshRenderDatas[i].transform->setUniform(this->shader);
+				// pose
+				it->second->meshRenderDatas[i].model->setPoseUniform(this->shader);
+				// draw
+				it->second->meshRenderDatas[i].model->drawMesh(it->second->meshRenderDatas[i].meshIndex);
+			}
+		}
+		glEnable(GL_CULL_FACE);
 	}
 }

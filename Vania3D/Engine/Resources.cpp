@@ -73,6 +73,7 @@ void Resources::start() {
 	this->getMaterial("player")->addTexture("albedoMap", this->getTexture("player_albedo"));
 	this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
 	this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
+	this->getMaterial("player")->twoSides = true;
 
 
 	// this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
@@ -188,11 +189,12 @@ void Resources::start() {
 	this->createMaterial("M_Plains_Angel_Statue", this->getShader("M_Plains_Angel_Statue"));
 	this->getMaterial("M_Plains_Angel_Statue")->addTexture("albedoMap", this->getTexture("T_Plains_Angel_Statue_D"));
 	this->getMaterial("M_Plains_Angel_Statue")->addTexture("normalMap", this->getTexture("T_Plains_Angel_Statue_N"));
-	// M_Plains_Angel_Statue
+	// M_PLains_Fern01
 	this->loadShader("M_PLains_Fern01", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_PLains_Fern01.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
 	this->createMaterial("M_PLains_Fern01", this->getShader("M_PLains_Fern01"));
 	this->getMaterial("M_PLains_Fern01")->addTexture("albedoMap", this->getTexture("T_Plains_Fern01_D"));
 	this->getMaterial("M_PLains_Fern01")->addTexture("normalMap", this->getTexture("T_Plains_Fern01_N"));
+	this->getMaterial("M_PLains_Fern01")->twoSides = true;
 
 	// M_Plains_Floors_Block
 	this->loadShader("M_Plains_Floors_Block", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Floors_Block.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");

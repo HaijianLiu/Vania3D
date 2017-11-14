@@ -31,6 +31,7 @@ void Material::addTexture(const char* textureUniform, Texture* texture) {
 < set uniform locations >
 ------------------------------------------------------------------------------*/
 void Material::setUniformLocations() {
+	this->shader->use();
 	for (const auto & it : this->texturesMapping)
 		this->shader->setInt(it.first, it.second);
 }

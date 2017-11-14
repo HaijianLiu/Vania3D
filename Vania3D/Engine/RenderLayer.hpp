@@ -9,18 +9,19 @@ struct MeshRenderData {
 };
 
 struct MaterialLayer {
-	std::vector<MeshRenderData*> meshRenderDatas;
+	std::vector<MeshRenderData> meshRenderDatas;
 };
 
 class ShaderLayer {
 private:
 	Shader* shader;
 	std::unordered_map<Material*, MaterialLayer*> materialLayers;
-	
+	std::unordered_map<Material*, MaterialLayer*> materialLayersTwoSides;
+
 public:
 	ShaderLayer();
 	~ShaderLayer();
-	
+
 	void add(GameObject* gameObject, unsigned int meshIndex);
 	void render(GameObject* camera);
 };
@@ -32,7 +33,7 @@ private:
 public:
 	RenderLayer();
 	~RenderLayer();
-	
+
 	void add(GameObject* gameObject);
 	void render(GameObject* camera);
 };
