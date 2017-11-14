@@ -11,6 +11,7 @@ struct Vertex {
 };
 
 class Mesh {
+	friend class ShaderLayer;
 private:
 	unsigned int vao, count;
 

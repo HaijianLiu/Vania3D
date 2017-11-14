@@ -26,6 +26,8 @@ public:
 
 	Camera();
 	~Camera();
+
+	void setUniforms(Shader* shader);
 };
 
 #endif /* Camera_hpp */

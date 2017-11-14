@@ -94,15 +94,14 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 /*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
-void RenderPass::render(std::vector<MeshRenderer*>* renderQueue, std::vector<GameObject*>* pointLights, GameObject* camera) {
+void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* pointLights, GameObject* camera) {
 	Game* game = Game::getInstance();
 	
 	// bind framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// draw model
-	for (unsigned i = 0; i < renderQueue->size(); i++)
-		renderQueue->at(i)->renderModel();
+	renderLayer->render(camera);
 	// reset framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	

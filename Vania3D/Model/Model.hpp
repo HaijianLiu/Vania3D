@@ -4,6 +4,7 @@
 
 class Model {
 	friend class MeshRenderer;
+	friend class ShaderLayer;
 
 private:
 	Node<Bone>* boneNode;

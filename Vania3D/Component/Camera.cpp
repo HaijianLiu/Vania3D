@@ -34,3 +34,12 @@ void Camera::update() {
 	// projection matrix (field of view, ratio, display range : start unit <-> end units)
 	this->projection = glm::perspective(glm::radians(this->field),this->ratio,this->rangeStart,this->rangeEnd);
 }
+
+
+/*------------------------------------------------------------------------------
+< set uniforms >
+------------------------------------------------------------------------------*/
+void Camera::setUniforms(Shader* shader) {
+	shader->setMat4(UNIFORM_MATRIX_PROJECTION, this->projection);
+	shader->setMat4(UNIFORM_MATRIX_VIEW, this->view);
+}

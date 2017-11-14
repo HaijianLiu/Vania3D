@@ -16,8 +16,10 @@ private:
 	std::unordered_map<const char*, unsigned int> gameObjectsMapping;
 	// render list
 	std::vector<MeshRenderer*> shadowQueue; // a list for shadow casting game objects
-	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects
+//	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects
 	std::vector<GameObject*> pointLights; // a list for point lights to be rendered
+	
+	RenderLayer* renderLayer;
 
 	void startScene();
 	void updateScene();

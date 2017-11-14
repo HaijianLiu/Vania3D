@@ -42,6 +42,10 @@ glm::vec3 Transform::front() {
 	return glm::normalize(this->rotation * this->game->worldFront);
 }
 
+void Transform::setUniform(Shader* shader) {
+	shader->setMat4(UNIFORM_MATRIX_MODEL, model);
+}
+
 
 /*------------------------------------------------------------------------------
 < rotate to desired vec3 by radians >

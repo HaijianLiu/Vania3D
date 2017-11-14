@@ -6,6 +6,7 @@
 ------------------------------------------------------------------------------*/
 Scene::Scene() {
 	this->game = Game::getInstance();
+	this->renderLayer = new RenderLayer();
 }
 
 
@@ -14,6 +15,7 @@ Scene::Scene() {
 ------------------------------------------------------------------------------*/
 Scene::~Scene() {
 	deleteVector(this->gameObjects);
+	delete this->renderLayer;
 }
 
 
@@ -36,10 +38,10 @@ void Scene::startScene() {
 		if (meshRenderer && meshRenderer->castShadow)
 			this->shadowQueue.push_back(meshRenderer);
 		if (meshRenderer && meshRenderer->render)
-			this->renderQueue.push_back(meshRenderer);
-		if (this->gameObjects[i]->getComponent<PointLight>()) {
+			this->renderLayer->add(this->gameObjects[i]);
+//			this->renderQueue.push_back(meshRenderer);
+		if (this->gameObjects[i]->getComponent<PointLight>())
 			this->pointLights.push_back(this->gameObjects[i]);
-		}
 	}
 	this->started = true;
 }
@@ -53,7 +55,7 @@ void Scene::updateScene() {
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
 		this->gameObjects[i]->update();
 	this->game->shadowMapping->render(&this->shadowQueue);
-	this->game->renderPass->render(&this->renderQueue, &this->pointLights, this->mainCamera);
+	this->game->renderPass->render(this->renderLayer, &this->pointLights, this->mainCamera);
 }
 
 

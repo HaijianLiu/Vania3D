@@ -12,7 +12,7 @@ private:
 	std::vector<unsigned int> pass;
 
 	void init(Shader* shader, unsigned int number);
-	void render(std::vector<MeshRenderer*>* renderQueue, std::vector<GameObject*>* pointLights, GameObject* camera);
+	void render(RenderLayer* renderLayer, std::vector<GameObject*>* pointLights, GameObject* camera);
 
 public:
 	RenderPass();

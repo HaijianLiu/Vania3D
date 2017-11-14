@@ -5,7 +5,6 @@
 class Transform : public Component {
 	friend class Level;
 	friend class Map;
-	friend class MeshRenderer;
 
 private:
 	// uniform
@@ -30,9 +29,10 @@ public:
 
 	// get methods
 	glm::vec3 front();
-
 	// menipulate methods
 	void rotate(glm::vec3 direction, float radian);
+	// uniform
+	void setUniform(Shader* shader);
 };
 
 #endif /* Transform_hpp */
