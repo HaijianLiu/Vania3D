@@ -6,8 +6,8 @@ layout (location = 2) in vec3 normalVertex;
 layout (location = 3) in ivec4 boneID;
 layout (location = 4) in vec4 boneWeight;
 
-out vec2 uv;
 out vec3 position;
+out vec2 uv;
 out vec3 normal;
 
 uniform mat4 projection;
