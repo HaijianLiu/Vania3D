@@ -36,23 +36,28 @@ void MeshRenderer::start() {
 ------------------------------------------------------------------------------*/
 void MeshRenderer::renderModel() {
 	// material and shader bind will be refactored!
-	for (unsigned int i = 0; i < this->materials.size(); i++) {
-		// bind shader
-		this->materials[i]->shader->use();
-		// camera
-		this->materials[i]->shader->setMat4(UNIFORM_MATRIX_PROJECTION, this->camera->getComponent<Camera>()->projection);
-		this->materials[i]->shader->setMat4(UNIFORM_MATRIX_VIEW, this->camera->getComponent<Camera>()->view);
-		// model
-		this->materials[i]->shader->setMat4(UNIFORM_MATRIX_MODEL, this->gameObject->getComponent<Transform>()->model);
-		// pose
-		for (unsigned int j = 0 ; j < this->model->pose.size() ; j++) {
-			std::string boneName = UNIFORM_MATRIX_BONE;
-			this->materials[i]->shader->setMat4((boneName + "[" + std::to_string(j) + "]").c_str(), this->model->pose[j]);
+	Transform* transform = this->gameObject->getComponent<Transform>();
+	Transform* transformCamera = this->camera->getComponent<Transform>();
+	// hard coded render queue
+	if (glm::length2(transform->position - transformCamera->position) < 49) {
+		for (unsigned int i = 0; i < this->materials.size(); i++) {
+			// bind shader
+			this->materials[i]->shader->use();
+			// camera
+			this->materials[i]->shader->setMat4(UNIFORM_MATRIX_PROJECTION, this->camera->getComponent<Camera>()->projection);
+			this->materials[i]->shader->setMat4(UNIFORM_MATRIX_VIEW, this->camera->getComponent<Camera>()->view);
+			// model
+			this->materials[i]->shader->setMat4(UNIFORM_MATRIX_MODEL, this->gameObject->getComponent<Transform>()->model);
+			// pose
+			for (unsigned int j = 0 ; j < this->model->pose.size() ; j++) {
+				std::string boneName = UNIFORM_MATRIX_BONE;
+				this->materials[i]->shader->setMat4((boneName + "[" + std::to_string(j) + "]").c_str(), this->model->pose[j]);
+			}
+			// texture
+			this->materials[i]->bindTextures();
+			// draw
+			this->model->meshes[i]->draw();
 		}
-		// texture
-		this->materials[i]->bindTextures();
-		// draw
-		this->model->meshes[i]->draw();
 	}
 }
 

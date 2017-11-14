@@ -10,7 +10,7 @@ private:
 	float field = 45;
 	float ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
 	float rangeStart = 0.1;
-	float rangeEnd = 100;
+	float rangeEnd = 50;
 
 	// uniforms
 	glm::mat4 projection;
