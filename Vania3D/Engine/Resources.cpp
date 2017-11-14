@@ -51,7 +51,7 @@ void Resources::start() {
 
 	// shadow mapping
 	// this->loadShader("shadow_mapping", "./Assets/Shaders/shadow_mapping.vs.glsl",  "./Assets/Shaders/shadow_mapping.fs.glsl");
-	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/Vertex/bones_3_locations_shadowmapping.vs.vs.glsl",  "./Assets/Shaders/Fragment/null.fs.glsl");
+	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/Vertex/bones_3_locations_shadowmapping.vs.glsl",  "./Assets/Shaders/Fragment/null.fs.glsl");
 
 	// test
 	// this->loadShader("simple_flat_color", "./Assets/Shaders/simple_flat_color.vs.glsl",  "./Assets/Shaders/simple_flat_color.fs.glsl");
@@ -127,11 +127,21 @@ void Resources::start() {
 
 
 	// Environments/Plains/Env_Plains_Flora/
+	this->loadModel("SM_Plains_Fern01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern01.FBX");
+	this->loadModel("SM_Plains_Fern02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern02.FBX");
+	this->loadModel("SM_Plains_Fern03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern03.FBX");
+	this->loadModel("SM_Plains_Fern04", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern04.FBX");
+	this->loadModel("SM_Plains_Flowers01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Flowers01.FBX");
+	this->loadModel("SM_Plains_Flowers03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Flowers03.FBX");
+	this->loadModel("SM_Plains_Grass01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Grass01.FBX");
 	this->loadModel("SM_Plains_Tree_Branch01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Branch01.FBX");
 	this->loadModel("SM_Plains_Tree_Branch02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Branch02.FBX");
 	this->loadModel("SM_Plains_Tree_Stump01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Stump01.FBX");
 	this->loadModel("SM_Plains_Tree01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree01.FBX");
+	this->loadModel("SM_Plains_Vine02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Vine02.FBX");
 
+	this->loadTexture("T_Plains_Fern01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Fern01_D.TGA");
+	this->loadTexture("T_Plains_Fern01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Fern01_N.TGA");
 	this->loadTexture("T_Plains_Tree01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Tree01_D.TGA");
 	this->loadTexture("T_Plains_Tree01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Tree01_N.TGA");
 
@@ -178,6 +188,12 @@ void Resources::start() {
 	this->createMaterial("M_Plains_Angel_Statue", this->getShader("M_Plains_Angel_Statue"));
 	this->getMaterial("M_Plains_Angel_Statue")->addTexture("albedoMap", this->getTexture("T_Plains_Angel_Statue_D"));
 	this->getMaterial("M_Plains_Angel_Statue")->addTexture("normalMap", this->getTexture("T_Plains_Angel_Statue_N"));
+	// M_Plains_Angel_Statue
+	this->loadShader("M_PLains_Fern01", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_PLains_Fern01.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->createMaterial("M_PLains_Fern01", this->getShader("M_PLains_Fern01"));
+	this->getMaterial("M_PLains_Fern01")->addTexture("albedoMap", this->getTexture("T_Plains_Fern01_D"));
+	this->getMaterial("M_PLains_Fern01")->addTexture("normalMap", this->getTexture("T_Plains_Fern01_N"));
+
 	// M_Plains_Floors_Block
 	this->loadShader("M_Plains_Floors_Block", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Floors_Block.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
 	this->createMaterial("M_Plains_Floors_Block", this->getShader("M_Plains_Floors_Block"));

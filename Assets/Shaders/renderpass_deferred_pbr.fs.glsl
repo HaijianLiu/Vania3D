@@ -98,7 +98,7 @@ void main() {
 		// scale light by normal
 		float ndotl = max(dot(n, l), 0.0);
 		// add to outgoing radiance
-		lightReflection += (diffuseF * albedo / PI + specular) * vec3(1, 0.723, 0.522) * 3 * ndotl;
+		lightReflection += (diffuseF * albedo / PI + specular) * vec3(1, 0.723, 0.522) * 5 * ndotl;
 	}
 
 

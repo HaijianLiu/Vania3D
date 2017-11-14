@@ -89,7 +89,7 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 		}
 		vertexShaderStream.close();
 	} else {
-		printf("[loadShader] Impossible to open: <%s>\n",vertexPath.c_str());
+		printf("[Shader] impossible to open: <%s>\n",vertexPath.c_str());
 		return 0;
 	}
 
@@ -103,7 +103,7 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 		}
 		fragmentShaderStream.close();
 	} else {
-		printf("[loadShader] Impossible to open: <%s>\n",fragmentPath.c_str());
+		printf("[Shader] impossible to open: <%s>\n",fragmentPath.c_str());
 		return 0;
 	}
 
@@ -111,7 +111,6 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 	int infoLogLength;
 
 	// Compile Vertex Shader
-	printf("[loadShader] Compiling shader: <%s>\n",vertexPath.c_str());
 	const char* vertexSourcePointer = vertexShaderCode.c_str();
 	glShaderSource(vertexShaderID,1,&vertexSourcePointer,NULL);
 	glCompileShader(vertexShaderID);
@@ -125,7 +124,6 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 	}
 
 	// Compile Fragment Shader
-	printf("[loadShader] Compiling shader: <%s>\n",fragmentPath.c_str());
 	const char* fragmentSourcePointer = fragmentShaderCode.c_str();
 	glShaderSource(fragmentShaderID,1,&fragmentSourcePointer,NULL);
 	glCompileShader(fragmentShaderID);
@@ -139,7 +137,6 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 	}
 
 	// Link the program
-	printf("[loadShader] Linking program.\n");
 	unsigned int programID = glCreateProgram();
 	glAttachShader(programID,vertexShaderID);
 	glAttachShader(programID,fragmentShaderID);
@@ -180,7 +177,7 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 		}
 		vertexShaderStream.close();
 	} else {
-		printf("[loadShader] Impossible to open: <%s>\n", vertexPath.c_str());
+		printf("[Shader] impossible to open: <%s>\n", vertexPath.c_str());
 		return 0;
 	}
 
@@ -195,7 +192,7 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 		}
 		fragmentShaderStream.close();
 	} else {
-		printf("[loadShader] Impossible to open: <%s>\n",fragmentPath.c_str());
+		printf("[Shader] impossible to open: <%s>\n",fragmentPath.c_str());
 		return 0;
 	}
 	if (functionShaderStream.is_open()) {
@@ -205,7 +202,7 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 		}
 		functionShaderStream.close();
 	} else {
-		printf("[loadShader] Impossible to open: <%s>\n", functionPath.c_str());
+		printf("[Shader] impossible to open: <%s>\n", functionPath.c_str());
 		return 0;
 	}
 
@@ -213,7 +210,6 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 	int infoLogLength;
 
 	// Compile Vertex Shader
-	printf("[loadShader] Compiling shader: <%s>\n",vertexPath.c_str());
 	const char* vertexSourcePointer = vertexShaderCode.c_str();
 	glShaderSource(vertexShaderID,1,&vertexSourcePointer,NULL);
 	glCompileShader(vertexShaderID);
@@ -227,7 +223,6 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 	}
 
 	// Compile Fragment Shader
-	printf("[loadShader] Compiling shader: <%s>\n",fragmentPath.c_str());
 	const char* fragmentSourcePointer = fragmentShaderCode.c_str();
 	glShaderSource(fragmentShaderID,1,&fragmentSourcePointer,NULL);
 	glCompileShader(fragmentShaderID);
@@ -241,7 +236,6 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 	}
 
 	// Link the program
-	printf("[loadShader] Linking program.\n");
 	unsigned int programID = glCreateProgram();
 	glAttachShader(programID,vertexShaderID);
 	glAttachShader(programID,fragmentShaderID);
