@@ -3,8 +3,6 @@
 #define Camera_hpp
 
 class Camera : public Component {
-	friend class MeshRenderer;
-
 private:
 	// camera attributes
 	float field = 45;

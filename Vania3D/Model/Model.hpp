@@ -3,13 +3,11 @@
 #define Model_hpp
 
 class Model {
-	friend class MeshRenderer;
-	friend class ShaderLayer;
-
 private:
 	Node<Bone>* boneNode;
 	std::vector<Mesh*> meshes;
 	std::vector<Animation*> animations;
+	std::vector<glm::mat4> pose;
 
 	unsigned int currentAnimation = 0;
 
@@ -19,8 +17,6 @@ private:
 	void createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
-	std::vector<glm::mat4> pose;
-
 	Model();
 	Model(const char* path);
 	~Model();
@@ -28,8 +24,9 @@ public:
 	void addAnimation(Animation* animation);
 	void updatePose(unsigned int animationIndex, float timeInSeconds);
 
-	// draws the model, and thus all its meshes
-	virtual void draw();
+	void draw();
+	void drawMesh(unsigned int meshIndex);
+	void setPoseUniform(Shader* shader);
 };
 
 #endif /* Model_hpp */

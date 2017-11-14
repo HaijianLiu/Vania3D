@@ -11,9 +11,6 @@ private:
 public:
 	Shader* shader;
 	
-	// for test
-	glm::vec3 color;
-
 	Material(Shader* shader);
 	~Material();
 

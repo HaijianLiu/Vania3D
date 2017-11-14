@@ -2,20 +2,21 @@
 #ifndef RenderLayer_hpp
 #define RenderLayer_hpp
 
-struct MeshData {
+struct MeshRenderData {
 	Transform* transform;
 	Model* model;
 	unsigned int meshIndex;
 };
 
 struct MaterialLayer {
-	std::vector<MeshData> meshDatas;
+	std::vector<MeshRenderData*> meshRenderDatas;
 };
 
 class ShaderLayer {
 private:
 	Shader* shader;
 	std::unordered_map<Material*, MaterialLayer*> materialLayers;
+	
 public:
 	ShaderLayer();
 	~ShaderLayer();

@@ -44,7 +44,4 @@ void Material::bindTextures() {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, this->textures[i]->id);
 	}
-	
-	// for test
-	this->shader->setVec3(UNIFORM_VEC3_COLOR, this->color);
 }

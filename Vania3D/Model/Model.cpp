@@ -55,6 +55,22 @@ void Model::draw() {
 	for(unsigned int i = 0; i < this->meshes.size(); i++) this->meshes[i]->draw();
 }
 
+void Model::drawMesh(unsigned int meshIndex) {
+	if (meshIndex < this->meshes.size())
+		this->meshes.at(meshIndex)->draw();
+}
+
+
+/*------------------------------------------------------------------------------
+< set position uniform >
+------------------------------------------------------------------------------*/
+void Model::setPoseUniform(Shader* shader) {
+	for (unsigned int i = 0 ; i < this->pose.size() ; i++) {
+		std::string boneName = UNIFORM_MATRIX_BONE;
+		shader->setMat4((boneName + "[" + std::to_string(i) + "]").c_str(), this->pose[i]);
+	}
+}
+
 
 /*------------------------------------------------------------------------------
 < load model >
@@ -130,7 +146,7 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	// walk through each of the mesh's vertices
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex;
-		
+
 		glm::vec3 vector;
 		// positions
 		vector.x = mesh->mVertices[i].x;

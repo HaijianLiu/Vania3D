@@ -4,14 +4,11 @@
 
 class MeshRenderer : public Component {
 	friend class ShadowMapping;
-	friend class RenderPass;
 
 private:
 	GameObject* camera;
 
 	void start();
-
-	void renderModel();
 	void renderShadow();
 
 public:
