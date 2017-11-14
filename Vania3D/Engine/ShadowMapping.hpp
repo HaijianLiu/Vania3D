@@ -12,13 +12,14 @@ private:
 	Shader* shader;
 	float retina;
 	unsigned int fbo, depthMap, size;
-	// uniform
-	glm::mat4 projection, view, lightSpace;
 
 	void init(Shader* shader, unsigned int size);
 	void render(std::vector<MeshRenderer*>* shadowQueue);
 
 public:
+	// uniform
+	glm::mat4 projection, view, lightSpace;
+
 	// shadow mapping properties
 	GameObject* target;
 	glm::vec3 lightPositionOffset;

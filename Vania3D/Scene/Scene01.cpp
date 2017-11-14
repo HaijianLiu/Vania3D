@@ -60,7 +60,7 @@ void Scene01::start() {
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
-	
+
 	// light
 	GameObject* light = new GameObject();
 	Transform* lightTransform = light->addComponent<Transform>();
@@ -78,7 +78,6 @@ void Scene01::start() {
 
 	Map* map = new Map(this, "./Assets/Models/InfinityBladeGrassLands/Maps/ElvenRuinsMap.fbx");
 	delete map;
-
 
 	// light
 //	GameObject* light[4];
@@ -113,5 +112,7 @@ void Scene01::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Scene01::update() {
-
+//	Transform* playerTransform = this->getGameObject("player")->getComponent<Transform>();
+//	glm::vec4 fragPostionLightSpace = this->game->shadowMapping->lightSpace * glm::vec4(playerTransform->position, 1);
+//	std::cout << fragPostionLightSpace.x << ", " << fragPostionLightSpace.y << ", " << fragPostionLightSpace.z << ", " << fragPostionLightSpace.z << std::endl;
 }

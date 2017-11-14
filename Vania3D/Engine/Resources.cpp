@@ -110,6 +110,8 @@ void Resources::start() {
 	this->loadModel("SM_Plains_Floors_Block02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block02.FBX");
 	this->loadModel("SM_Plains_Floors_Block03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block03.FBX");
 	this->loadModel("SM_Plains_Floors_Block04", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block04.FBX");
+	this->loadModel("SM_Plains_Floors_Flat01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Flat01.FBX");
+	this->loadModel("SM_Plains_Floors_Flat02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Flat02.FBX");
 
 	this->loadTexture("T_Plains_FloorsTrim_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_FloorsTrim_D.TGA");
 	this->loadTexture("T_Plains_FloorsTrim_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_FloorsTrim_N.TGA");
@@ -120,11 +122,16 @@ void Resources::start() {
 	// Environments/Plains/Env_Plains_Ruins/
 	this->loadModel("SM_Plains_Castle_Circle_Railing_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Circle_Railing_01.FBX");
 	this->loadModel("SM_Plains_Castle_Fountain_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Fountain_01.FBX");
+	this->loadModel("SM_Plains_Castle_Railing_Curved_45", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Railing_Curved_45.FBX");
+	this->loadModel("SM_Plains_Castle_Railing_Curved", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Railing_Curved.FBX");
+	this->loadModel("SM_Plains_CastleWall_Curved_Ruin_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleWall_Curved_Ruin_01.FBX");
 	this->loadModel("SM_Plains_Column_Large_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_01.FBX");
 	this->loadModel("SM_Plains_Column_Large_Broken_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_01.FBX");
 	this->loadModel("SM_Plains_Column_Large_Broken_02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_02.FBX");
 	this->loadModel("SM_Plains_Column_Large_Broken_03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_03.FBX");
 
+	this->loadTexture("T_Plains_ExtCastle_StoneWall_01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_ExtCastle_StoneWall_01_D.TGA");
+	this->loadTexture("T_Plains_ExtCastle_StoneWall_01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_ExtCastle_StoneWall_01_N.TGA");
 	this->loadTexture("T_Plains_Ruins_Pillars_02_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_02_D.TGA");
 	this->loadTexture("T_Plains_Ruins_Pillars_02_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_02_N.TGA");
 	this->loadTexture("T_Plains_Ruins_Pillars_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_Ruins_Pillars_D.TGA");
@@ -175,6 +182,11 @@ void Resources::start() {
 	this->createMaterial("M_Plains_Pillars02", this->getShader("M_Plains_Pillars02"));
 	this->getMaterial("M_Plains_Pillars02")->addTexture("albedoMap", this->getTexture("T_Plains_Ruins_Pillars_02_D"));
 	this->getMaterial("M_Plains_Pillars02")->addTexture("normalMap", this->getTexture("T_Plains_Ruins_Pillars_02_N"));
+	// M_Plains_StoneWall
+	this->loadShader("M_Plains_StoneWall", "./Assets/Shaders/static.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_StoneWall.fs.glsl", "./Assets/Shaders/functions.glsl");
+	this->createMaterial("M_Plains_StoneWall", this->getShader("M_Plains_StoneWall"));
+	this->getMaterial("M_Plains_StoneWall")->addTexture("albedoMap", this->getTexture("T_Plains_ExtCastle_StoneWall_01_D"));
+	this->getMaterial("M_Plains_StoneWall")->addTexture("normalMap", this->getTexture("T_Plains_ExtCastle_StoneWall_01_N"));
 
 
 
