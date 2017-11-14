@@ -119,6 +119,7 @@ class Scene;
 #include "PointLight.hpp"
 
 #include "Resources.hpp"
+#include "RenderLayer.hpp"
 #include "RenderPass.hpp"
 #include "ShadowMapping.hpp"
 #include "Camera.hpp"

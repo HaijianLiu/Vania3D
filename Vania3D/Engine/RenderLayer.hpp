@@ -1,11 +1,8 @@
 
-#ifndef RenderPass_hpp
-#define RenderPass_hpp
+#ifndef RenderLayer_hpp
+#define RenderLayer_hpp
 
-class RenderPass {
-	friend class Game;
-	friend class Scene;
-
+class Renderlayer {
 private:
 	Shader* shader;
 	unsigned int fbo, vao;
@@ -15,10 +12,10 @@ private:
 	void render(std::vector<MeshRenderer*>* renderQueue, std::vector<GameObject*>* pointLights, GameObject* camera);
 
 public:
-	RenderPass();
-	~RenderPass();
+	Renderlayer();
+	~Renderlayer();
 
 	void setActiveLightProbe(LightProbe* lightProbe);
 };
 
-#endif /* RenderPass_hpp */
+#endif /* RenderLayer_hpp */
