@@ -66,7 +66,7 @@ void Scene::updateScene() {
 	this->game->shadowMapping->render(&this->shadowQueue);
 	// final render
 	this->game->renderPass->render(this->renderLayer, &this->pointLights, this->mainCamera);
-//	this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
+	// this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
 }
 
 

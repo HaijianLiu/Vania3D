@@ -57,9 +57,7 @@ Mesh::~Mesh() {
 < draw >
 ------------------------------------------------------------------------------*/
 void Mesh::draw() {
-	glBindVertexArray(this->vao);
 	glDrawElements(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
 }
 
 void Mesh::drawBounding() {

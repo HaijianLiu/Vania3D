@@ -3,13 +3,20 @@
 #define RenderLayer_hpp
 
 struct MeshRenderData {
-	Transform* transform;
-	MeshRenderer* meshRenderer;
-	unsigned int meshIndex;
+	std::vector<GameObject*> gameObjects;
 };
 
-struct MaterialLayer {
-	std::vector<MeshRenderData> meshRenderDatas;
+class MaterialLayer {
+private:
+	Material* material;
+	std::unordered_map<Mesh*, MeshRenderData*> meshRenderDatas;
+	
+public:
+	MaterialLayer();
+	~MaterialLayer();
+	
+	void add(GameObject* gameObject, unsigned int meshIndex);
+	void render(Shader* shader);
 };
 
 class ShaderLayer {

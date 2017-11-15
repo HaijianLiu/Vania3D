@@ -4,7 +4,8 @@
 
 class Model {
 	friend class FrustumCulling;
-	
+	friend class MaterialLayer;
+
 private:
 	Node<Bone>* boneNode;
 	std::vector<Mesh*> meshes;
