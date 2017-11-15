@@ -13,6 +13,8 @@ private:
 
 	void init(Shader* shader, unsigned int number);
 	void render(RenderLayer* renderLayer, std::vector<GameObject*>* pointLights, GameObject* camera);
+	// test
+	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
 public:
 	RenderPass();

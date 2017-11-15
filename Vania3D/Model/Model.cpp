@@ -60,6 +60,10 @@ void Model::drawMesh(unsigned int meshIndex) {
 		this->meshes.at(meshIndex)->draw();
 }
 
+void Model::drawBounding() {
+	for(unsigned int i = 0; i < this->meshes.size(); i++) this->meshes[i]->drawBounding();
+}
+
 
 /*------------------------------------------------------------------------------
 < set position uniform >
@@ -141,6 +145,9 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	// data to fill
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
+	// for generating bounding box
+	glm::vec3 boundingMax = glm::vec3(0);
+	glm::vec3 boundingMin = glm::vec3(0);
 
 	/* vertices */
 	// walk through each of the mesh's vertices
@@ -153,6 +160,13 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
 		vertex.position = vector;
+		// update bounding box vertex
+		if (vector.x > boundingMax.x) boundingMax.x = vector.x;
+		if (vector.x < boundingMin.x) boundingMin.x = vector.x;
+		if (vector.y > boundingMax.y) boundingMax.y = vector.y;
+		if (vector.y < boundingMin.y) boundingMin.y = vector.y;
+		if (vector.z > boundingMax.z) boundingMax.z = vector.z;
+		if (vector.z < boundingMin.z) boundingMin.z = vector.z;
 		// normals
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
@@ -223,4 +237,66 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	}
 	// return a mesh object created from the extracted mesh data
 	this->meshes.push_back(new Mesh(vertices, indices));
+	// create bounding box
+	this->meshes.back()->vaoBounding = this->createBox(boundingMax, boundingMin);
+}
+
+
+/*------------------------------------------------------------------------------
+< create box via six values >
+------------------------------------------------------------------------------*/
+unsigned int Model::createBox(glm::vec3 boundingMax, glm::vec3 boundingMin) {
+	float boxVertices[] = {
+		boundingMin.x, boundingMax.y, boundingMin.z,
+		boundingMin.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMax.y, boundingMin.z,
+		boundingMin.x, boundingMax.y, boundingMin.z,
+
+		boundingMin.x, boundingMin.y, boundingMax.z,
+		boundingMin.x, boundingMin.y, boundingMin.z,
+		boundingMin.x, boundingMax.y, boundingMin.z,
+		boundingMin.x, boundingMax.y, boundingMin.z,
+		boundingMin.x, boundingMax.y, boundingMax.z,
+		boundingMin.x, boundingMin.y, boundingMax.z,
+
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+
+		boundingMin.x, boundingMin.y, boundingMax.z,
+		boundingMin.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMin.y, boundingMax.z,
+		boundingMin.x, boundingMin.y, boundingMax.z,
+
+		boundingMin.x, boundingMax.y, boundingMin.z,
+		boundingMax.x, boundingMax.y, boundingMin.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMin.x, boundingMax.y, boundingMax.z,
+		boundingMin.x, boundingMax.y, boundingMin.z,
+
+		boundingMin.x, boundingMin.y, boundingMin.z,
+		boundingMin.x, boundingMin.y, boundingMax.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMin.x, boundingMin.y, boundingMax.z,
+		boundingMax.x, boundingMin.y, boundingMax.z
+	};
+	unsigned int vao, vbo;
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(boxVertices), &boxVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	return vao;
 }

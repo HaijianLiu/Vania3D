@@ -115,4 +115,5 @@ void Scene01::update() {
 //	Transform* playerTransform = this->getGameObject("player")->getComponent<Transform>();
 //	glm::vec4 fragPostionLightSpace = this->game->shadowMapping->lightSpace * glm::vec4(playerTransform->position, 1);
 //	std::cout << fragPostionLightSpace.x << ", " << fragPostionLightSpace.y << ", " << fragPostionLightSpace.z << ", " << fragPostionLightSpace.z << std::endl;
+	
 }

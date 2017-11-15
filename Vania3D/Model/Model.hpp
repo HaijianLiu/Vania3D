@@ -26,7 +26,10 @@ public:
 
 	void draw();
 	void drawMesh(unsigned int meshIndex);
+	void drawBounding();
 	void setPoseUniform(Shader* shader);
+
+	static unsigned int createBox(glm::vec3 boundingMax, glm::vec3 boundingMin);
 };
 
 #endif /* Model_hpp */

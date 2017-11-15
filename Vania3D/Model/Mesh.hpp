@@ -11,16 +11,17 @@ struct Vertex {
 };
 
 class Mesh {
+	friend class Model;
 private:
-	unsigned int vao, count;
+	unsigned int vao, count, vaoBounding;
 
 public:
 	// constructor
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 	~Mesh();
 
-	/* functions */
 	void draw();
+	void drawBounding();
 };
 
 #endif /* Mesh_hpp */

@@ -4,6 +4,7 @@
 
 class Component {
 	friend class GameObject;
+	friend class RenderPass;
 
 protected:
 	Game* game;

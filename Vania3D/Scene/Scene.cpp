@@ -37,9 +37,10 @@ void Scene::startScene() {
         MeshRenderer* meshRenderer = this->gameObjects[i]->getComponent<MeshRenderer>();
 		if (meshRenderer && meshRenderer->castShadow)
 			this->shadowQueue.push_back(meshRenderer);
-		if (meshRenderer && meshRenderer->render)
+		if (meshRenderer && meshRenderer->render) {
 			this->renderLayer->add(this->gameObjects[i]);
-//			this->renderQueue.push_back(meshRenderer);
+			this->renderQueue.push_back(meshRenderer);
+		}
 		if (this->gameObjects[i]->getComponent<PointLight>())
 			this->pointLights.push_back(this->gameObjects[i]);
 	}
@@ -51,11 +52,16 @@ void Scene::startScene() {
  < update scene > for scene manager
 ------------------------------------------------------------------------------*/
 void Scene::updateScene() {
+	// user scene update
 	this->update();
+	// game objects update
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
 		this->gameObjects[i]->update();
+	// shadow mapping
 	this->game->shadowMapping->render(&this->shadowQueue);
-	this->game->renderPass->render(this->renderLayer, &this->pointLights, this->mainCamera);
+	// final render
+//	this->game->renderPass->render(this->renderLayer, &this->pointLights, this->mainCamera);
+	this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
 }
 
 

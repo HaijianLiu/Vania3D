@@ -96,7 +96,7 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 ------------------------------------------------------------------------------*/
 void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* pointLights, GameObject* camera) {
 	Game* game = Game::getInstance();
-	
+
 	// bind framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -104,10 +104,10 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* poin
 	renderLayer->render(camera);
 	// reset framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
+
 	// bind shader
 	this->shader->use();
-	
+
 	// camera
 	this->shader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->getComponent<Transform>()->position);
 	// lights
@@ -121,7 +121,7 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* poin
 	glActiveTexture(GL_TEXTURE13);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
 	this->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
-	
+
 	// render
 	for (unsigned int i = 0; i < this->pass.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
@@ -131,6 +131,39 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* poin
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glBindVertexArray(0);
 }
+
+
+void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera) {
+	Game* game = Game::getInstance();
+
+	// bind framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// render bounding box in line mode
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	Shader* shader = game->resources->getShader("simple");
+	shader->use();
+	camera->getComponent<Camera>()->setUniforms(shader);
+	for (unsigned int i = 0; i < renderQueue->size(); i++) {
+		Transform* transform = renderQueue->at(i)->gameObject->getComponent<Transform>();
+		transform->setUniform(shader);
+		renderQueue->at(i)->model->drawBounding();
+	}
+
+	// reset framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// bind shader
+	game->resources->getShader("renderpass_color_1_passes")->use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, this->pass[0]);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glBindVertexArray(this->vao);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+}
+
+
 
 
 /*------------------------------------------------------------------------------

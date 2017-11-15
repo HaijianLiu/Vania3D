@@ -61,3 +61,9 @@ void Mesh::draw() {
 	glDrawElements(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
+
+void Mesh::drawBounding() {
+	glBindVertexArray(this->vaoBounding);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
+}

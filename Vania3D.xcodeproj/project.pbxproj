@@ -247,6 +247,8 @@
 				602434331F88DA7100DA6CA4 /* Resources.hpp */,
 				602434351F88DCBC00DA6CA4 /* RenderPass.cpp */,
 				602434361F88DCBC00DA6CA4 /* RenderPass.hpp */,
+				600B9A6C1FBADB3C00B1F0D5 /* RenderLayer.cpp */,
+				600B9A6D1FBADB3C00B1F0D5 /* RenderLayer.hpp */,
 				60FA8C751FB5615200E31651 /* ShadowMapping.cpp */,
 				60FA8C761FB5615200E31651 /* ShadowMapping.hpp */,
 				6024343B1F88E79A00DA6CA4 /* Game.cpp */,
@@ -263,8 +265,6 @@
 				60132DFC1FA38D5900E71962 /* Time.hpp */,
 				6082F4AE1FA737BF00B177DA /* Input.cpp */,
 				6082F4AD1FA737BF00B177DA /* Input.hpp */,
-				600B9A6C1FBADB3C00B1F0D5 /* RenderLayer.cpp */,
-				600B9A6D1FBADB3C00B1F0D5 /* RenderLayer.hpp */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -278,12 +278,12 @@
 				609F906F1F9EFF2400238D61 /* Bone.hpp */,
 				604B57831F945A92009DE302 /* Mesh.cpp */,
 				604B57841F945A92009DE302 /* Mesh.hpp */,
+				604B57801F945A84009DE302 /* Model.cpp */,
+				604B57811F945A84009DE302 /* Model.hpp */,
 				60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */,
 				60E579FA1FA0BB9B00690EC1 /* Keyframe.hpp */,
 				60E579F61FA0B34700690EC1 /* Animation.cpp */,
 				60E579F71FA0B34700690EC1 /* Animation.hpp */,
-				604B57801F945A84009DE302 /* Model.cpp */,
-				604B57811F945A84009DE302 /* Model.hpp */,
 				60159E1F1FB067DE00EDC9CA /* Level.cpp */,
 				60159E201FB067DE00EDC9CA /* Level.hpp */,
 				600B9A531FB8333900B1F0D5 /* Map.cpp */,
