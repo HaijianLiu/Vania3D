@@ -123,6 +123,7 @@ class Scene;
 #include "RenderPass.hpp"
 #include "ShadowMapping.hpp"
 #include "Camera.hpp"
+#include "FrustumCulling.hpp"
 
 #include "GameObject.hpp"
 

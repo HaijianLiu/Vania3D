@@ -38,4 +38,4 @@ public:
 	void render(GameObject* camera);
 };
 
-#endif /* RenderQueue_hpp */
+#endif /* RenderLayer_hpp */

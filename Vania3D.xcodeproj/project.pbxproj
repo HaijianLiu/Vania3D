@@ -14,6 +14,7 @@
 		60070A3F1F88C86700AE4BEB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60070A3E1F88C86700AE4BEB /* OpenGL.framework */; };
 		600B9A551FB8333900B1F0D5 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600B9A531FB8333900B1F0D5 /* Map.cpp */; };
 		600B9A6E1FBADB3C00B1F0D5 /* RenderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600B9A6C1FBADB3C00B1F0D5 /* RenderLayer.cpp */; };
+		600B9A711FBC25F000B1F0D5 /* FrustumCulling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600B9A6F1FBC25F000B1F0D5 /* FrustumCulling.cpp */; };
 		600E63B71F99F19000F6A34A /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600E63B31F99F18F00F6A34A /* Transform.cpp */; };
 		600E63B81F99F19000F6A34A /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600E63B41F99F19000F6A34A /* MeshRenderer.cpp */; };
 		60132DFD1FA38D5900E71962 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60132DFB1FA38D5900E71962 /* Time.cpp */; };
@@ -91,6 +92,8 @@
 		600B9A541FB8333900B1F0D5 /* Map.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Map.hpp; sourceTree = "<group>"; };
 		600B9A6C1FBADB3C00B1F0D5 /* RenderLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderLayer.cpp; sourceTree = "<group>"; };
 		600B9A6D1FBADB3C00B1F0D5 /* RenderLayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderLayer.hpp; sourceTree = "<group>"; };
+		600B9A6F1FBC25F000B1F0D5 /* FrustumCulling.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FrustumCulling.cpp; sourceTree = "<group>"; };
+		600B9A701FBC25F000B1F0D5 /* FrustumCulling.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FrustumCulling.hpp; sourceTree = "<group>"; };
 		600E63B31F99F18F00F6A34A /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
 		600E63B41F99F19000F6A34A /* MeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshRenderer.cpp; sourceTree = "<group>"; };
 		600E63B51F99F19000F6A34A /* MeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeshRenderer.hpp; sourceTree = "<group>"; };
@@ -311,6 +314,8 @@
 				605740901FADF9C4005B7358 /* PointLight.hpp */,
 				602434381F88E70B00DA6CA4 /* Camera.cpp */,
 				602434391F88E70B00DA6CA4 /* Camera.hpp */,
+				600B9A6F1FBC25F000B1F0D5 /* FrustumCulling.cpp */,
+				600B9A701FBC25F000B1F0D5 /* FrustumCulling.hpp */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -455,6 +460,7 @@
 				6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */,
 				602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */,
 				604B57921F95FAB9009DE302 /* Component.cpp in Sources */,
+				600B9A711FBC25F000B1F0D5 /* FrustumCulling.cpp in Sources */,
 				604B57A31F9890AF009DE302 /* Scene.cpp in Sources */,
 				602434311F88DA2300DA6CA4 /* Shader.cpp in Sources */,
 				60132DFD1FA38D5900E71962 /* Time.cpp in Sources */,
