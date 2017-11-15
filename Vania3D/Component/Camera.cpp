@@ -8,7 +8,7 @@ Camera::Camera() {
 	this->field = 45;
 	this->ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
 	this->rangeStart = 0.1;
-	this->rangeEnd = 50;
+	this->rangeEnd = 100;
 }
 
 

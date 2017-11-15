@@ -4,7 +4,6 @@
 
 class Offset : public Component {
 private:
-	void start();
 	void update();
 
 public:

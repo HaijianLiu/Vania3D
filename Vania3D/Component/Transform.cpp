@@ -18,19 +18,10 @@ Transform::~Transform() {
 
 
 /*------------------------------------------------------------------------------
-< start >
-------------------------------------------------------------------------------*/
-void Transform::start() {
-	if (this->init)
-		this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
-}
-
-
-/*------------------------------------------------------------------------------
 < update >
 ------------------------------------------------------------------------------*/
 void Transform::update() {
-	if (!this->kinematic)
+	if (!this->gameObject->staticObject)
 		this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
 }
 

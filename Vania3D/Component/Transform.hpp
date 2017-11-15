@@ -10,9 +10,7 @@ class Transform : public Component {
 private:
 	// uniform
 	glm::mat4 model = glm::mat4();
-	bool init = true; // update model uniform in start function, for level class to set model uniform directly
 
-	void start();
 	void update();
 
 public:
@@ -22,17 +20,12 @@ public:
 	glm::vec3 position = glm::vec3(0.0);
 	glm::vec3 scale = glm::vec3(1.0);
 	glm::quat rotation = glm::quat(1.0, 0.0, 0.0, 0.0);
-	// component properties
-	bool kinematic = true; // default transform setting wont update model matrix uniform
 
 	Transform();
 	~Transform();
 
-	// get methods
 	glm::vec3 front();
-	// menipulate methods
 	void rotate(glm::vec3 direction, float radian);
-	// uniform
 	void setUniform(Shader* shader);
 };
 

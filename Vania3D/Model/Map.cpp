@@ -92,7 +92,6 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 		GameObject* gameObject = new GameObject();
 		Transform* transform = gameObject->addComponent<Transform>();
 		transform->model = globalTransformation;
-		transform->init = false;
 		MeshRenderer* meshRenderer = gameObject->addComponent<MeshRenderer>();
 		meshRenderer->model = model;
 		for (unsigned int i = 0; i < node->data->materialIndices.size(); i++) {
@@ -110,7 +109,6 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 				Transform* lightTransform = light->addComponent<Transform>();
 				lightTransform->model = globalTransformation;
 				lightTransform->position = globalTransformation * glm::vec4(0,0,0,1);
-				lightTransform->init = false;
 				light->addComponent<PointLight>();
 				PointLight* pointLight = light->getComponent<PointLight>();
 				pointLight->color = assignment(aiscene->mLights[i]->mColorDiffuse);

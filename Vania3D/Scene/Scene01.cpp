@@ -25,13 +25,14 @@ void Scene01::start() {
 
 	// camera
 	GameObject* camera = new GameObject();
+	camera->staticObject = false;
 	camera->addComponent<Camera>();
 
 	// player
 	GameObject* player = new GameObject();
+	player->staticObject = false;
 	Transform* playerTransform = player->addComponent<Transform>();
 	playerTransform->modelScale = glm::vec3(GLOBAL_SCALE);
-	playerTransform->kinematic = false;
 	playerTransform->position = glm::vec3(0, -0.6, 0);
 	PlayerController* playerController = player->addComponent<PlayerController>();
 	playerController->camera = camera;
@@ -55,7 +56,6 @@ void Scene01::start() {
 
 	// camera
 	Transform* cameraTransform = camera->addComponent<Transform>();
-	cameraTransform->kinematic = false;
 	cameraTransform->position = glm::vec3(0.0,2.0,4.0);
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
 	camera->addComponent<FrustumCulling>();
@@ -64,8 +64,8 @@ void Scene01::start() {
 
 	// light
 	GameObject* light = new GameObject();
+	light->staticObject = false;
 	Transform* lightTransform = light->addComponent<Transform>();
-	lightTransform->kinematic = false;
 	Offset* lightTarget = light->addComponent<Offset>();
 	lightTarget->offsetPosition = glm::vec3(0, 2.5, 0);
 	lightTarget->parent = playerTransform;

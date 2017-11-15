@@ -14,6 +14,8 @@ private:
 	void update();
 
 public:
+	bool staticObject = true;
+
 	GameObject();
 	virtual ~GameObject();
 

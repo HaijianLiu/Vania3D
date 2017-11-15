@@ -99,16 +99,16 @@ void Scene00::start() {
 
 	// camera
 	GameObject* camera = new GameObject();
+	camera->staticObject = false;
 	Transform* cameraTransform = camera->addComponent<Transform>();
-	cameraTransform->kinematic = false;
 	cameraTransform->position = glm::vec3(0.0,10.0,20.0);
 	camera->addComponent<Camera>();
 
 	// player
 	GameObject* player = new GameObject();
+	player->staticObject = false;
 	Transform* playerTransform = player->addComponent<Transform>();
 	playerTransform->modelScale = glm::vec3(0.05);
-	playerTransform->kinematic = false;
 	PlayerController* playerController = player->addComponent<PlayerController>();
 	playerController->camera = camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
