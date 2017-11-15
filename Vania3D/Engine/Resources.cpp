@@ -147,6 +147,14 @@ void Resources::start() {
 	this->loadTexture("T_Plains_Tree01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Tree01_N.TGA");
 
 
+	// Environments/Plains/Env_Plains_Organic/
+	this->loadModel("SM_Plains_LargeRock01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock01.FBX");
+	this->loadModel("SM_Plains_LargeRock02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock02.FBX");
+	this->loadModel("SM_Plains_LargeRock03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock03.FBX");
+	this->loadTexture("T_Plains_Rock01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Rock01_D.TGA");
+	this->loadTexture("T_Plains_Rock01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Rock01_N.TGA");
+
+
 	// Environments/Plains/Env_Plains_Ruins/
 	this->loadModel("SM_Plains_Castle_Circle_Railing_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Circle_Railing_01.FBX");
 	this->loadModel("SM_Plains_Castle_Fountain_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Fountain_01.FBX");
@@ -211,6 +219,11 @@ void Resources::start() {
 	this->createMaterial("M_Plains_FloorTrims", this->getShader("M_Plains_FloorTrims"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("albedoMap", this->getTexture("T_Plains_FloorsTrim_D"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("normalMap", this->getTexture("T_Plains_FloorsTrim_N"));
+	// M_Plains_LargeRock
+	this->loadShader("M_Plains_LargeRock", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_LargeRock.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->createMaterial("M_Plains_LargeRock", this->getShader("M_Plains_LargeRock"));
+	this->getMaterial("M_Plains_LargeRock")->addTexture("albedoMap", this->getTexture("T_Plains_Rock01_D"));
+	this->getMaterial("M_Plains_LargeRock")->addTexture("normalMap", this->getTexture("T_Plains_Rock01_N"));
 	// M_Plains_Pillars
 	this->loadShader("M_Plains_Pillars", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
 	this->createMaterial("M_Plains_Pillars", this->getShader("M_Plains_Pillars"));
