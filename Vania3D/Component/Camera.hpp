@@ -3,6 +3,9 @@
 #define Camera_hpp
 
 class Camera : public Component {
+	friend class FrustumCulling;
+	friend class CameraController;
+	
 private:
 	// camera attributes
 	float field, ratio, rangeStart, rangeEnd;

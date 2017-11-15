@@ -40,9 +40,8 @@ void RenderLayer::add(GameObject* gameObject) {
 < render >
 ------------------------------------------------------------------------------*/
 void RenderLayer::render(GameObject* camera) {
-	for (auto it = this->shaderLayers.begin(); it != this->shaderLayers.end(); it++) {
+	for (auto it = this->shaderLayers.begin(); it != this->shaderLayers.end(); it++)
 		it->second->render(camera);
-	}
 }
 
 
@@ -74,7 +73,7 @@ void ShaderLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 
 	MeshRenderData* meshRenderData = new MeshRenderData();
 	meshRenderData->transform = transform;
-	meshRenderData->model = meshRenderer->model;
+	meshRenderData->meshRenderer = meshRenderer;
 	meshRenderData->meshIndex = meshIndex;
 	
 	if (meshRenderer->materials[meshIndex]->twoSides) {
@@ -115,9 +114,10 @@ void ShaderLayer::render(GameObject* camera) {
 			// model
 			it->second->meshRenderDatas[i].transform->setUniform(this->shader);
 			// pose
-			it->second->meshRenderDatas[i].model->setPoseUniform(this->shader);
+			it->second->meshRenderDatas[i].meshRenderer->model->setPoseUniform(this->shader);
 			// draw
-			it->second->meshRenderDatas[i].model->drawMesh(it->second->meshRenderDatas[i].meshIndex);
+			if (!it->second->meshRenderDatas[i].meshRenderer->culling)
+				it->second->meshRenderDatas[i].meshRenderer->model->drawMesh(it->second->meshRenderDatas[i].meshIndex);
 		}
 	}
 	
@@ -130,9 +130,10 @@ void ShaderLayer::render(GameObject* camera) {
 				// model
 				it->second->meshRenderDatas[i].transform->setUniform(this->shader);
 				// pose
-				it->second->meshRenderDatas[i].model->setPoseUniform(this->shader);
+				it->second->meshRenderDatas[i].meshRenderer->model->setPoseUniform(this->shader);
 				// draw
-				it->second->meshRenderDatas[i].model->drawMesh(it->second->meshRenderDatas[i].meshIndex);
+				if (!it->second->meshRenderDatas[i].meshRenderer->culling)
+					it->second->meshRenderDatas[i].meshRenderer->model->drawMesh(it->second->meshRenderDatas[i].meshIndex);
 			}
 		}
 		glEnable(GL_CULL_FACE);

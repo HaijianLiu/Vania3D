@@ -4,7 +4,7 @@
 
 struct MeshRenderData {
 	Transform* transform;
-	Model* model;
+	MeshRenderer* meshRenderer;
 	unsigned int meshIndex;
 };
 

@@ -37,7 +37,7 @@ void Scene::startScene() {
         MeshRenderer* meshRenderer = this->gameObjects[i]->getComponent<MeshRenderer>();
 		if (meshRenderer && meshRenderer->castShadow)
 			this->shadowQueue.push_back(meshRenderer);
-		if (meshRenderer && meshRenderer->render) {
+		if (meshRenderer) {
 			this->renderLayer->add(this->gameObjects[i]);
 			this->renderQueue.push_back(meshRenderer);
 		}
@@ -57,11 +57,16 @@ void Scene::updateScene() {
 	// game objects update
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
 		this->gameObjects[i]->update();
+	// frustum culling
+	FrustumCulling* frustumCulling = this->mainCamera->getComponent<FrustumCulling>();
+	if (frustumCulling)
+		for (unsigned int i = 0; i < this->renderQueue.size(); i++)
+			frustumCulling->cullingSphere(this->renderQueue.at(i));
 	// shadow mapping
 	this->game->shadowMapping->render(&this->shadowQueue);
 	// final render
-//	this->game->renderPass->render(this->renderLayer, &this->pointLights, this->mainCamera);
-	this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
+	this->game->renderPass->render(this->renderLayer, &this->pointLights, this->mainCamera);
+//	this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
 }
 
 

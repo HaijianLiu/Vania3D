@@ -35,7 +35,7 @@ void Camera::update() {
 	this->view = glm::lookAt(transform->position, transform->position + this->front, this->up);
 
 	// projection matrix (field of view, ratio, display range : start unit <-> end units)
-	this->projection = glm::perspective(glm::radians(this->field),this->ratio,this->rangeStart,this->rangeEnd);
+	this->projection = glm::perspective(glm::radians(this->field), this->ratio, this->rangeStart, this->rangeEnd);
 }
 
 

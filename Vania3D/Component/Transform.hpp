@@ -5,6 +5,7 @@
 class Transform : public Component {
 	friend class Level;
 	friend class Map;
+	friend class FrustumCulling;
 
 private:
 	// uniform

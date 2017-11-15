@@ -39,6 +39,11 @@ void CameraController::update() {
 	if (this->game->input->getJoystickPress(JOY_R2))
 		this->zoom(-this->game->time->deltaTime * this->zoomSensitivity);
 
+	if (this->game->input->getJoystickTrigger(JOY_UP))
+		this->camera->getComponent<Camera>()->field = 90;
+	if (this->game->input->getJoystickTrigger(JOY_DOWN))
+		this->camera->getComponent<Camera>()->field = 45;
+
 	// update camera transform position
 	Camera* camera = this->camera->getComponent<Camera>();
 	Transform* transform = this->camera->getComponent<Transform>();

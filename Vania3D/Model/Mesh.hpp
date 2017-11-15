@@ -12,8 +12,11 @@ struct Vertex {
 
 class Mesh {
 	friend class Model;
+	friend class FrustumCulling;
+	
 private:
 	unsigned int vao, count, vaoBounding;
+	glm::vec3 boundingMax, boundingMin;
 
 public:
 	// constructor

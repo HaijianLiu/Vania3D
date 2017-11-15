@@ -239,6 +239,8 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	this->meshes.push_back(new Mesh(vertices, indices));
 	// create bounding box
 	this->meshes.back()->vaoBounding = this->createBox(boundingMax, boundingMin);
+	this->meshes.back()->boundingMax = boundingMax;
+	this->meshes.back()->boundingMin = boundingMin;
 }
 
 

@@ -4,9 +4,12 @@
 
 class MeshRenderer : public Component {
 	friend class ShadowMapping;
+	friend class FrustumCulling;
+	friend class ShaderLayer;
 
 private:
 	GameObject* camera;
+	bool culling = false;
 
 	void start();
 	void renderShadow();
@@ -20,7 +23,6 @@ public:
 
 	// properties
 	bool castShadow = false;
-	bool render = true;
 	bool lightmapStatic = true;
 
 	MeshRenderer();

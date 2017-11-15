@@ -3,6 +3,8 @@
 #define Model_hpp
 
 class Model {
+	friend class FrustumCulling;
+	
 private:
 	Node<Bone>* boneNode;
 	std::vector<Mesh*> meshes;

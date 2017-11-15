@@ -58,6 +58,7 @@ void Scene01::start() {
 	cameraTransform->kinematic = false;
 	cameraTransform->position = glm::vec3(0.0,2.0,4.0);
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
+	camera->addComponent<FrustumCulling>();
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 
