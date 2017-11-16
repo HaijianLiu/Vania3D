@@ -3,15 +3,12 @@
 #define Texture_hpp
 
 class Texture {
-private:
-
 public:
+	unsigned int id;
+
 	Texture(const char* path);
 	~Texture();
 
-	unsigned int id;
-
-	// static load functions
 	static unsigned int loadTexture(const char* path);
 };
 

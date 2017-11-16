@@ -20,6 +20,8 @@ private:
 	void createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
+	bool lod = false;
+	
 	Model();
 	Model(const char* path);
 	~Model();

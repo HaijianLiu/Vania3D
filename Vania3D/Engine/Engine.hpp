@@ -6,15 +6,17 @@
 ------------------------------------------------------------------------------*/
 #define GLOBAL_SCALE (0.01)
 #define UNIT_TO_PIXEL (100)
-// #define SCREEN_WIDTH (960)
-// #define SCREEN_HEIGHT (540)
-#define SCREEN_WIDTH (640)
-#define SCREEN_HEIGHT (360)
+#define SCREEN_WIDTH (960)
+#define SCREEN_HEIGHT (540)
+// #define SCREEN_WIDTH (640)
+// #define SCREEN_HEIGHT (360)
+// #define TEXTURE_COMPRESSION (0.5) // resize all textures from loader by value
+// #define RESOLUTION_COMPRESSION (0.5) // resize renderpass frame buffer size
+#define NUM_BONES_PER_VEREX (4)
+
 #define PI (3.141593)
 #define CAMERA_INVERSE_ON (1);
 #define CAMERA_INVERSE_OFF (-1);
-
-#define NUM_BONES_PER_VEREX (4)
 
 #define UNIFORM_TEX_ALBEDO "albedoMap" // GL_TEXTURE0
 #define UNIFORM_TEX_NORMAL "normalMap" // GL_TEXTURE1
@@ -76,6 +78,7 @@
 
 // include stbi
 #include "stb_image.h"
+#include "stb_image_resize.h"
 
 // include FMOD
 #include <fmod.hpp>

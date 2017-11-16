@@ -15,7 +15,7 @@ private:
 	Camera* camera;
 
 	Face frustum[6];
-	enum {NEAR = 0, FAR, TOP, BOTTOM, LEFT, RIGHT};
+	enum {FAR = 0, NEAR, TOP, BOTTOM, LEFT, RIGHT};
 
 	float nearHeight, nearWidth, farHeight, farWidth;
 
@@ -23,9 +23,11 @@ private:
 	void update();
 
 public:
+	float rangeLOD;
+
 	FrustumCulling();
 	~FrustumCulling();
-
+	
 	void cullingSphere(MeshRenderer* meshRenderer);
 };
 

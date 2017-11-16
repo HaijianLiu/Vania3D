@@ -120,6 +120,11 @@ void Resources::start() {
 	this->loadModel("SM_Plains_Floors_Rubble03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble03.FBX");
 	this->loadModel("SM_Plains_Floors_Rubble04", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble04.FBX");
 	this->loadModel("SM_Plains_Floors_Rubble05", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble05.FBX");
+	this->getModel("SM_Plains_Floors_Rubble")->lod = true;
+	this->getModel("SM_Plains_Floors_Rubble02")->lod = true;
+	this->getModel("SM_Plains_Floors_Rubble03")->lod = true;
+	this->getModel("SM_Plains_Floors_Rubble04")->lod = true;
+	this->getModel("SM_Plains_Floors_Rubble05")->lod = true;
 
 	this->loadTexture("T_Plains_FloorsTrim_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_FloorsTrim_D.TGA");
 	this->loadTexture("T_Plains_FloorsTrim_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_FloorsTrim_N.TGA");
@@ -140,6 +145,16 @@ void Resources::start() {
 	this->loadModel("SM_Plains_Tree_Stump01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Stump01.FBX");
 	this->loadModel("SM_Plains_Tree01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree01.FBX");
 	this->loadModel("SM_Plains_Vine02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Vine02.FBX");
+	this->getModel("SM_Plains_Fern01")->lod = true;
+	this->getModel("SM_Plains_Fern02")->lod = true;
+	this->getModel("SM_Plains_Fern03")->lod = true;
+	this->getModel("SM_Plains_Fern04")->lod = true;
+	this->getModel("SM_Plains_Flowers01")->lod = true;
+	this->getModel("SM_Plains_Flowers03")->lod = true;
+	this->getModel("SM_Plains_Grass01")->lod = true;
+	this->getModel("SM_Plains_Vine02")->lod = true;
+
+
 
 	this->loadTexture("T_Plains_Fern01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Fern01_D.TGA");
 	this->loadTexture("T_Plains_Fern01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Fern01_N.TGA");
