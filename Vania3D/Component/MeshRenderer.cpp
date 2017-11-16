@@ -38,5 +38,10 @@ void MeshRenderer::renderShadow() {
 	// pose
 	this->model->setPoseUniform(this->game->shadowMapping->shader);
 	// draw
-	this->model->draw();
+	for (unsigned int i = 0; i < this->model->meshes.size(); i++) {
+		glBindVertexArray(this->model->meshes[i]->vao);
+		this->model->meshes[i]->draw();
+		glBindVertexArray(0);
+	}
+
 }

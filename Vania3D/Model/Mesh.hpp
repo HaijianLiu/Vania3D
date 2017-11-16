@@ -14,6 +14,7 @@ class Mesh {
 	friend class Model;
 	friend class FrustumCulling;
 	friend class MaterialLayer;
+	friend class MeshRenderer;
 
 private:
 	unsigned int vao, count, vaoBounding;

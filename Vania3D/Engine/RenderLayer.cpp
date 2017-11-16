@@ -2,6 +2,8 @@
 
 #include "Engine.hpp"
 
+unsigned int numMeshRedered;
+
 /*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
@@ -98,8 +100,13 @@ void MaterialLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 < render >
 ------------------------------------------------------------------------------*/
 void RenderLayer::render(GameObject* camera) {
+	
+	numMeshRedered = 0;
+	
 	for (auto it = this->shaderLayers.begin(); it != this->shaderLayers.end(); it++)
 		it->second->render(camera);
+	
+	std::cout << numMeshRedered << std::endl;
 }
 
 void ShaderLayer::render(GameObject* camera) {
@@ -138,6 +145,7 @@ void MaterialLayer::render(Shader* shader) {
 				meshRenderer->model->setPoseUniform(shader);
 				// draw
 				it->first->draw();
+				numMeshRedered ++; // debug
 			}
 		}
 		glBindVertexArray(0);

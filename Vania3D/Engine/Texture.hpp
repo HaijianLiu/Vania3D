@@ -10,6 +10,7 @@ public:
 	~Texture();
 
 	static unsigned int loadTexture(const char* path);
+	static unsigned int resize(unsigned int textureID, int width, int height, unsigned int format);
 };
 
 #endif /* Texture_hpp */

@@ -50,6 +50,8 @@ void Resources::start() {
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
 	this->loadShader("prefilter", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/prefilter.fs.glsl");
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
+	this->loadShader("texture_output", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/Fragment/texture_output.fs.glsl");
+
 
 	// shadow mapping
 	// this->loadShader("shadow_mapping", "./Assets/Shaders/shadow_mapping.vs.glsl",  "./Assets/Shaders/shadow_mapping.fs.glsl");

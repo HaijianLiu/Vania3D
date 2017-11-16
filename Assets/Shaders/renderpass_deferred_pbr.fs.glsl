@@ -101,6 +101,11 @@ void main() {
 		lightReflection += (diffuseF * albedo / PI + specular) * vec3(1, 0.723, 0.522) * 5 * ndotl;
 	}
 
+	// shadow
+	vec4 fragPostionLightSpace = lightSpaceMatrix * vec4(position, 1.0);
+	float shadow = shadowMapping(fragPostionLightSpace, n, position);
+	lightReflection = mix(lightReflection, vec3(0), shadow);
+
 
 	// ibl ambient lighting
 	vec3 specularF = fresnelSchlickRoughness(max(dot(n, v), 0.0), f0, roughness);
@@ -122,12 +127,9 @@ void main() {
 	vec3 color = ambient + lightReflection;
 	// vec3 color = lightReflection;
 
-	// shadow
-	vec4 fragPostionLightSpace = lightSpaceMatrix * vec4(position, 1.0);
-	float shadow = shadowMapping(fragPostionLightSpace, n, position);
 
 	// exposion & cavity & shadow
-	color *= 5 * cavity * (1 - 0.8 * shadow);
+	color *= 5 * cavity;
 
 	// hdr tonemapping
 	color = color / (color + vec3(1.0));
@@ -135,8 +137,8 @@ void main() {
 	color = pow(color, vec3(1.0/2.2));
 
 	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
-	fragColor = vec4(texture(passes[2], uv).rgb, 1.0);
-	// fragColor = vec4(color, 1.0);
+	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
+	fragColor = vec4(color, 1.0);
 	// fragColor = vec4(vec3(texture(shadowMap, uv).r), 1.0);
 }
 

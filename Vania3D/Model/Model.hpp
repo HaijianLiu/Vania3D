@@ -5,6 +5,7 @@
 class Model {
 	friend class FrustumCulling;
 	friend class MaterialLayer;
+	friend class MeshRenderer;
 
 private:
 	Node<Bone>* boneNode;

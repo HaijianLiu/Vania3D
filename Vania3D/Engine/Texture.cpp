@@ -26,8 +26,8 @@ unsigned int Texture::loadTexture(const char* path) {
 
 	int width, height, nrComponents;
 	unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+	unsigned int format;
 	if (data) {
-		GLenum format;
 		if (nrComponents == 1)
 			format = GL_RED;
 		else if (nrComponents == 3)
@@ -52,4 +52,55 @@ unsigned int Texture::loadTexture(const char* path) {
 	}
 
 	return textureID;
+//	return Texture::resize(textureID, width * 0.25, height * 0.25, format);
+}
+
+
+unsigned int Texture::resize(unsigned int textureID, int width, int height, unsigned int format) {
+	// get instance
+	Game* game = Game::getInstance();
+	Shader* shader = game->resources->getShader("texture_output");
+	Window* window = game->window;
+
+	// Setup cubemap to render to
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	// pre-allocate enough memory for the LUT texture.
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RG, GL_FLOAT, 0);
+	// be sure to set wrapping mode to GL_CLAMP_TO_EDGE
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// Setup framebuffer
+	unsigned int captureFBO;
+	unsigned int captureRBO;
+	glGenFramebuffers(1, &captureFBO);
+	glGenRenderbuffers(1, &captureRBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
+
+	// Render screen-space quad with BRDF shader.
+	glViewport(0, 0, width, height);
+	shader->use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	shader->setInt("tex", 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	game->resources->quad->draw();
+
+	// Retset status
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	int scrWidth, scrHeight;
+	glfwGetFramebufferSize(window->window, &scrWidth, &scrHeight);
+	glViewport(0, 0, scrWidth, scrHeight);
+
+	glDeleteTextures(1, &textureID);
+
+	return texture;
 }
