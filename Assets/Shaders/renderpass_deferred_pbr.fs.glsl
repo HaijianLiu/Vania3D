@@ -128,6 +128,7 @@ void main() {
 	// vec3 color = lightReflection;
 
 
+
 	// exposion & cavity & shadow
 	color *= 5 * cavity;
 
@@ -135,6 +136,10 @@ void main() {
 	color = color / (color + vec3(1.0));
 	// gamma correct
 	color = pow(color, vec3(1.0/2.2));
+
+	// hard code fog
+	float fogFactor = (500 - position.z) / 500;
+	color = mix(vec3(0), color, fogFactor);
 
 	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
 	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);

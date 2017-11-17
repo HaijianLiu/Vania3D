@@ -84,7 +84,7 @@ void ShaderLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 
 void MaterialLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 	Mesh* mesh = gameObject->getComponent<MeshRenderer>()->model->meshes[meshIndex];
-	
+
 	if (this->meshRenderDatas.find(mesh) == this->meshRenderDatas.end()) {
 		MeshRenderData* meshRenderData = new MeshRenderData();
 		meshRenderData->gameObjects.push_back(gameObject);
@@ -100,12 +100,12 @@ void MaterialLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 < render >
 ------------------------------------------------------------------------------*/
 void RenderLayer::render(GameObject* camera) {
-	
+
 	numMeshRedered = 0;
-	
+
 	for (auto it = this->shaderLayers.begin(); it != this->shaderLayers.end(); it++)
 		it->second->render(camera);
-	
+
 	std::cout << numMeshRedered << std::endl;
 }
 

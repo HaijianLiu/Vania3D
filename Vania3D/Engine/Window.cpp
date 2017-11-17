@@ -64,16 +64,16 @@ GLFWwindow* Window::createWindow(const char* name, int screenWidth, int screenHe
 	// background
 	glClearColor(0.0,0.0,0.0,0.0);
 	// Set input mode GLFW_STICKY_KEYS
-	glfwSetInputMode(window,GLFW_STICKY_KEYS,GL_TRUE);
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	// Accept fragment if it closer to the camera than the former one
-	// glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LESS);
 	// set depth function to less than AND equal for skybox depth trick.
-	glDepthFunc(GL_LEQUAL);
+//	glDepthFunc(GL_LEQUAL);
 	// enable seamless cubemap sampling for lower mip levels in the pre-filter map.
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+//	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	// Cull triangles which normal is not towards the camera
 	glEnable(GL_CULL_FACE);
 	// Enable alpha channel

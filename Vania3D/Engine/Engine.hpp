@@ -6,10 +6,10 @@
 ------------------------------------------------------------------------------*/
 #define GLOBAL_SCALE (0.01)
 #define UNIT_TO_PIXEL (100)
-#define SCREEN_WIDTH (960)
-#define SCREEN_HEIGHT (540)
-// #define SCREEN_WIDTH (640)
-// #define SCREEN_HEIGHT (360)
+//#define SCREEN_WIDTH (960)
+//#define SCREEN_HEIGHT (540)
+ #define SCREEN_WIDTH (640)
+ #define SCREEN_HEIGHT (360)
 // #define TEXTURE_COMPRESSION (0.5) // resize all textures from loader by value
 // #define RESOLUTION_COMPRESSION (0.5) // resize renderpass frame buffer size
 #define NUM_BONES_PER_VEREX (4)

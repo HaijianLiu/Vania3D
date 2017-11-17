@@ -156,8 +156,6 @@ void Resources::start() {
 	this->getModel("SM_Plains_Grass01")->lod = true;
 	this->getModel("SM_Plains_Vine02")->lod = true;
 
-
-
 	this->loadTexture("T_Plains_Fern01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Fern01_D.TGA");
 	this->loadTexture("T_Plains_Fern01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Fern01_N.TGA");
 	this->loadTexture("T_Plains_Tree01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Tree01_D.TGA");
@@ -165,18 +163,32 @@ void Resources::start() {
 
 
 	// Environments/Plains/Env_Plains_Organic/
+	this->loadModel("SM_Plains_LargeRock_SpireLOD", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD.FBX");
+	this->loadModel("SM_Plains_LargeRock_SpireLOD2", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD2.FBX");
+	this->loadModel("SM_Plains_LargeRock_SpireLOD4", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD4.FBX");
+	this->loadModel("SM_Plains_LargeRock_SpireLOD5", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD5.FBX");
 	this->loadModel("SM_Plains_LargeRock01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock01.FBX");
 	this->loadModel("SM_Plains_LargeRock02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock02.FBX");
 	this->loadModel("SM_Plains_LargeRock03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock03.FBX");
+	this->loadTexture("T_Plains_Cliff01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Cliff01.TGA");
+	this->loadTexture("T_Plains_Cliff001", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Cliff001.TGA");
+	this->loadTexture("T_Plains_Ground01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Ground01_D.TGA");
+	this->loadTexture("T_Plains_Ground01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Ground01_N.TGA");
 	this->loadTexture("T_Plains_Rock01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Rock01_D.TGA");
 	this->loadTexture("T_Plains_Rock01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Rock01_N.TGA");
 
 
 	// Environments/Plains/Env_Plains_Ruins/
+	this->loadModel("SM_Plains_Buttress_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Buttress_01.FBX");
+	this->loadModel("SM_Plains_Buttress_02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Buttress_02.FBX");
+	this->loadModel("SM_Plains_Castle_Bridge_Wall_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Bridge_Wall_01.FBX");
 	this->loadModel("SM_Plains_Castle_Circle_Railing_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Circle_Railing_01.FBX");
 	this->loadModel("SM_Plains_Castle_Fountain_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Fountain_01.FBX");
 	this->loadModel("SM_Plains_Castle_Railing_Curved_45", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Railing_Curved_45.FBX");
 	this->loadModel("SM_Plains_Castle_Railing_Curved", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Railing_Curved.FBX");
+	this->loadModel("SM_Plains_CastleTower_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_01.FBX");
+	this->loadModel("SM_Plains_CastleTower_Ruin_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_Ruin_01.FBX");
+	this->loadModel("SM_Plains_CastleTower_Ruin_02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_Ruin_02.FBX");
 	this->loadModel("SM_Plains_CastleWall_Curved_Ruin_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleWall_Curved_Ruin_01.FBX");
 	this->loadModel("SM_Plains_Column_Large_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_01.FBX");
 	this->loadModel("SM_Plains_Column_Large_Broken_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_01.FBX");
@@ -185,6 +197,7 @@ void Resources::start() {
 	this->loadModel("SM_Plains_Ruin_BuildingLOD01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD01.FBX");
 	this->loadModel("SM_Plains_Ruin_BuildingLOD02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD02.FBX");
 	this->loadModel("SM_Plains_Ruin_BuildingLOD03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD03.FBX");
+	this->loadModel("SM_Plains_Wall_Straight_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Wall_Straight_01.FBX");
 
 	this->loadTexture("T_Plains_ExtCastle_StoneWall_01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_ExtCastle_StoneWall_01_D.TGA");
 	this->loadTexture("T_Plains_ExtCastle_StoneWall_01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_ExtCastle_StoneWall_01_N.TGA");
@@ -220,6 +233,12 @@ void Resources::start() {
 	this->createMaterial("M_Plains_Angel_Statue", this->getShader("M_Plains_Angel_Statue"));
 	this->getMaterial("M_Plains_Angel_Statue")->addTexture("albedoMap", this->getTexture("T_Plains_Angel_Statue_D"));
 	this->getMaterial("M_Plains_Angel_Statue")->addTexture("normalMap", this->getTexture("T_Plains_Angel_Statue_N"));
+	// M_Plains_Cliff1
+	this->loadShader("M_Plains_Cliff1", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Cliff1.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->createMaterial("M_Plains_Cliff1", this->getShader("M_Plains_Cliff1"));
+	this->getMaterial("M_Plains_Cliff1")->addTexture("albedoMap", this->getTexture("T_Plains_Cliff01"));
+	this->getMaterial("M_Plains_Cliff1")->addTexture("normalMap", this->getTexture("T_Plains_Cliff001"));
+	this->getMaterial("M_Plains_Cliff1")->twoSides = true;
 	// M_PLains_Fern01
 	this->loadShader("M_PLains_Fern01", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_PLains_Fern01.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
 	this->createMaterial("M_PLains_Fern01", this->getShader("M_PLains_Fern01"));
@@ -236,6 +255,11 @@ void Resources::start() {
 	this->createMaterial("M_Plains_FloorTrims", this->getShader("M_Plains_FloorTrims"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("albedoMap", this->getTexture("T_Plains_FloorsTrim_D"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("normalMap", this->getTexture("T_Plains_FloorsTrim_N"));
+	// M_Plains_FloorTrims
+	this->loadShader("M_Plains_GroundBrick", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_GroundBrick.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->createMaterial("M_Plains_GroundBrick", this->getShader("M_Plains_GroundBrick"));
+	this->getMaterial("M_Plains_GroundBrick")->addTexture("albedoMap", this->getTexture("T_Plains_Ground01_D"));
+	this->getMaterial("M_Plains_GroundBrick")->addTexture("normalMap", this->getTexture("T_Plains_Ground01_N"));
 	// M_Plains_LargeRock
 	this->loadShader("M_Plains_LargeRock", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_LargeRock.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
 	this->createMaterial("M_Plains_LargeRock", this->getShader("M_Plains_LargeRock"));

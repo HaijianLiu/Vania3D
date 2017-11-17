@@ -2,7 +2,7 @@
 #include "Engine.hpp"
 
 FrustumCulling::FrustumCulling() {
-	this->rangeLOD = 30;
+	this->rangeLOD = 40;
 }
 
 FrustumCulling::~FrustumCulling() {
