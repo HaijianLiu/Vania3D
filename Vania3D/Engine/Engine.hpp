@@ -6,13 +6,16 @@
 ------------------------------------------------------------------------------*/
 #define GLOBAL_SCALE (0.01)
 #define UNIT_TO_PIXEL (100)
-//#define SCREEN_WIDTH (960)
-//#define SCREEN_HEIGHT (540)
- #define SCREEN_WIDTH (640)
- #define SCREEN_HEIGHT (360)
+#define SCREEN_WIDTH (960)
+#define SCREEN_HEIGHT (540)
+//#define SCREEN_WIDTH (800)
+//#define SCREEN_HEIGHT (450)
+// #define SCREEN_WIDTH (640)
+// #define SCREEN_HEIGHT (360)
 // #define TEXTURE_COMPRESSION (0.5) // resize all textures from loader by value
 // #define RESOLUTION_COMPRESSION (0.5) // resize renderpass frame buffer size
 #define NUM_BONES_PER_VEREX (4)
+#define MAX_MESH_INSTANCE (100)
 
 #define PI (3.141593)
 #define CAMERA_INVERSE_ON (1);

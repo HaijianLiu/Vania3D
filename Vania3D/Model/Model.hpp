@@ -2,6 +2,10 @@
 #ifndef Model_hpp
 #define Model_hpp
 
+enum MESH_ATTRIBUTE_TYPE {
+	MESH_ATTRIBUTE_DEFAULT, MESH_ATTRIBUTE_INSTANCE, MESH_ATTRIBUTE_BONE
+};
+
 class Model {
 	friend class FrustumCulling;
 	friend class MaterialLayer;
@@ -12,7 +16,7 @@ private:
 	std::vector<Mesh*> meshes;
 	std::vector<Animation*> animations;
 	std::vector<glm::mat4> pose;
-
+	unsigned int attributeType;
 	unsigned int currentAnimation = 0;
 
 	// loads a model with supported assimp extensions from file and stores the resulting data
@@ -21,10 +25,11 @@ private:
 	void createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
-	bool lod = false;
+	bool distanceCulling = false;
+
 	
 	Model();
-	Model(const char* path);
+	Model(unsigned int attributeType, const char* path);
 	~Model();
 
 	void addAnimation(Animation* animation);

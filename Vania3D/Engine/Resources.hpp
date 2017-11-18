@@ -30,7 +30,7 @@ public:
 	void loadTexture(const char* name, const char* path);
 	Texture* getTexture(const char* name);
 	// model
-	void loadModel(std::string name, const char* path);
+	void loadModel(std::string name, unsigned int attributeType, const char* path);
 	Model* getModel(std::string name);
 	// light probe
 	void loadLightProbe(const char* name, const char* path);

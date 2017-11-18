@@ -129,7 +129,7 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* poin
 	}
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glBindVertexArray(0);
+	// glBindVertexArray(0);
 }
 
 
@@ -160,7 +160,7 @@ void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObj
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glBindVertexArray(0);
+	// glBindVertexArray(0);
 }
 
 

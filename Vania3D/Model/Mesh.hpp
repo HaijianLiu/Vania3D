@@ -15,17 +15,20 @@ class Mesh {
 	friend class FrustumCulling;
 	friend class MaterialLayer;
 	friend class MeshRenderer;
+	friend class MaterialLayer;
 
 private:
-	unsigned int vao, count, vaoBounding;
+	unsigned int vao, count, vaoBounding, vboInstanceMatrix, instanceSize = 0;
 	glm::vec3 boundingMax, boundingMin;
+	unsigned int attributeType;
 
 public:
 	// constructor
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, unsigned int attributeType);
 	~Mesh();
 
 	void draw();
+	void drawInstance(std::vector<glm::mat4>* instanceMatrices);
 	void drawBounding();
 };
 

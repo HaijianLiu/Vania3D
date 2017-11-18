@@ -8,7 +8,8 @@ Model::Model() {
 
 }
 
-Model::Model(const char* path) {
+Model::Model(unsigned int attributeType, const char* path) {
+	this->attributeType = attributeType;
 	this->load(path);
 }
 
@@ -236,7 +237,7 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 		}
 	}
 	// return a mesh object created from the extracted mesh data
-	this->meshes.push_back(new Mesh(vertices, indices));
+	this->meshes.push_back(new Mesh(vertices, indices, this->attributeType));
 	// create bounding box
 	this->meshes.back()->vaoBounding = this->createBox(boundingMax, boundingMin);
 	this->meshes.back()->boundingMax = boundingMax;

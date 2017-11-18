@@ -64,7 +64,7 @@ void Resources::start() {
 	..............................................................................*/
 	this->models.insert(std::make_pair("sphere", new Sphere()));
 
-	this->loadModel("player", "./Assets/Models/Ganfaul/mixamo_model.fbx");
+	this->loadModel("player", MESH_ATTRIBUTE_BONE, "./Assets/Models/Ganfaul/mixamo_model.fbx");
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_walk.fbx"));
@@ -103,30 +103,30 @@ void Resources::start() {
 	/* ElvenRuins
 	..............................................................................*/
 	// Environments/Misc/Exo_Deco02
-	this->loadModel("SM_Exo_Pew", "./Assets/Models/InfinityBladeGrassLands/Environments/Misc/Exo_Deco02/StaticMesh/SM_Exo_Pew.FBX");
+	this->loadModel("SM_Exo_Pew", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Misc/Exo_Deco02/StaticMesh/SM_Exo_Pew.FBX");
 
 	this->loadTexture("T_Pew_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Misc/Exo_Deco02/Textures/T_Pew_D.TGA");
 	this->loadTexture("T_Pew_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Misc/Exo_Deco02/Textures/T_Pew_N.TGA");
 
 
 	// Environments/Plains/Env_Plains_Floors/
-	this->loadModel("SM_Plains_Floors_Block01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block01.FBX");
-	this->loadModel("SM_Plains_Floors_Block02_Broken", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block02_Broken.FBX");
-	this->loadModel("SM_Plains_Floors_Block02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block02.FBX");
-	this->loadModel("SM_Plains_Floors_Block03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block03.FBX");
-	this->loadModel("SM_Plains_Floors_Block04", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block04.FBX");
-	this->loadModel("SM_Plains_Floors_Flat01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Flat01.FBX");
-	this->loadModel("SM_Plains_Floors_Flat02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Flat02.FBX");
-	this->loadModel("SM_Plains_Floors_Rubble", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble.FBX");
-	this->loadModel("SM_Plains_Floors_Rubble02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble02.FBX");
-	this->loadModel("SM_Plains_Floors_Rubble03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble03.FBX");
-	this->loadModel("SM_Plains_Floors_Rubble04", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble04.FBX");
-	this->loadModel("SM_Plains_Floors_Rubble05", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble05.FBX");
-	this->getModel("SM_Plains_Floors_Rubble")->lod = true;
-	this->getModel("SM_Plains_Floors_Rubble02")->lod = true;
-	this->getModel("SM_Plains_Floors_Rubble03")->lod = true;
-	this->getModel("SM_Plains_Floors_Rubble04")->lod = true;
-	this->getModel("SM_Plains_Floors_Rubble05")->lod = true;
+	this->loadModel("SM_Plains_Floors_Block01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block01.FBX");
+	this->loadModel("SM_Plains_Floors_Block02_Broken", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block02_Broken.FBX");
+	this->loadModel("SM_Plains_Floors_Block02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block02.FBX");
+	this->loadModel("SM_Plains_Floors_Block03", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block03.FBX");
+	this->loadModel("SM_Plains_Floors_Block04", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Block04.FBX");
+	this->loadModel("SM_Plains_Floors_Flat01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Flat01.FBX");
+	this->loadModel("SM_Plains_Floors_Flat02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Flat02.FBX");
+	this->loadModel("SM_Plains_Floors_Rubble", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble.FBX");
+	this->loadModel("SM_Plains_Floors_Rubble02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble02.FBX");
+	this->loadModel("SM_Plains_Floors_Rubble03", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble03.FBX");
+	this->loadModel("SM_Plains_Floors_Rubble04", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble04.FBX");
+	this->loadModel("SM_Plains_Floors_Rubble05", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/StaticMesh/SM_Plains_Floors_Rubble05.FBX");
+	this->getModel("SM_Plains_Floors_Rubble")->distanceCulling = true;
+	this->getModel("SM_Plains_Floors_Rubble02")->distanceCulling = true;
+	this->getModel("SM_Plains_Floors_Rubble03")->distanceCulling = true;
+	this->getModel("SM_Plains_Floors_Rubble04")->distanceCulling = true;
+	this->getModel("SM_Plains_Floors_Rubble05")->distanceCulling = true;
 
 	this->loadTexture("T_Plains_FloorsTrim_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_FloorsTrim_D.TGA");
 	this->loadTexture("T_Plains_FloorsTrim_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Floors/Textures/T_Plains_FloorsTrim_N.TGA");
@@ -135,26 +135,26 @@ void Resources::start() {
 
 
 	// Environments/Plains/Env_Plains_Flora/
-	this->loadModel("SM_Plains_Fern01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern01.FBX");
-	this->loadModel("SM_Plains_Fern02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern02.FBX");
-	this->loadModel("SM_Plains_Fern03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern03.FBX");
-	this->loadModel("SM_Plains_Fern04", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern04.FBX");
-	this->loadModel("SM_Plains_Flowers01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Flowers01.FBX");
-	this->loadModel("SM_Plains_Flowers03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Flowers03.FBX");
-	this->loadModel("SM_Plains_Grass01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Grass01.FBX");
-	this->loadModel("SM_Plains_Tree_Branch01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Branch01.FBX");
-	this->loadModel("SM_Plains_Tree_Branch02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Branch02.FBX");
-	this->loadModel("SM_Plains_Tree_Stump01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Stump01.FBX");
-	this->loadModel("SM_Plains_Tree01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree01.FBX");
-	this->loadModel("SM_Plains_Vine02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Vine02.FBX");
-	this->getModel("SM_Plains_Fern01")->lod = true;
-	this->getModel("SM_Plains_Fern02")->lod = true;
-	this->getModel("SM_Plains_Fern03")->lod = true;
-	this->getModel("SM_Plains_Fern04")->lod = true;
-	this->getModel("SM_Plains_Flowers01")->lod = true;
-	this->getModel("SM_Plains_Flowers03")->lod = true;
-	this->getModel("SM_Plains_Grass01")->lod = true;
-	this->getModel("SM_Plains_Vine02")->lod = true;
+	this->loadModel("SM_Plains_Fern01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern01.FBX");
+	this->loadModel("SM_Plains_Fern02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern02.FBX");
+	this->loadModel("SM_Plains_Fern03", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern03.FBX");
+	this->loadModel("SM_Plains_Fern04", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Fern04.FBX");
+	this->loadModel("SM_Plains_Flowers01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Flowers01.FBX");
+	this->loadModel("SM_Plains_Flowers03", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Flowers03.FBX");
+	this->loadModel("SM_Plains_Grass01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Grass01.FBX");
+	this->loadModel("SM_Plains_Tree_Branch01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Branch01.FBX");
+	this->loadModel("SM_Plains_Tree_Branch02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Branch02.FBX");
+	this->loadModel("SM_Plains_Tree_Stump01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree_Stump01.FBX");
+	this->loadModel("SM_Plains_Tree01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Tree01.FBX");
+	this->loadModel("SM_Plains_Vine02", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/StaticMesh/SM_Plains_Vine02.FBX");
+	this->getModel("SM_Plains_Fern01")->distanceCulling = true;
+	this->getModel("SM_Plains_Fern02")->distanceCulling = true;
+	this->getModel("SM_Plains_Fern03")->distanceCulling = true;
+	this->getModel("SM_Plains_Fern04")->distanceCulling = true;
+	this->getModel("SM_Plains_Flowers01")->distanceCulling = true;
+	this->getModel("SM_Plains_Flowers03")->distanceCulling = true;
+	this->getModel("SM_Plains_Grass01")->distanceCulling = true;
+	this->getModel("SM_Plains_Vine02")->distanceCulling = true;
 
 	this->loadTexture("T_Plains_Fern01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Fern01_D.TGA");
 	this->loadTexture("T_Plains_Fern01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Flora/Textures/T_Plains_Fern01_N.TGA");
@@ -163,13 +163,13 @@ void Resources::start() {
 
 
 	// Environments/Plains/Env_Plains_Organic/
-	this->loadModel("SM_Plains_LargeRock_SpireLOD", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD.FBX");
-	this->loadModel("SM_Plains_LargeRock_SpireLOD2", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD2.FBX");
-	this->loadModel("SM_Plains_LargeRock_SpireLOD4", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD4.FBX");
-	this->loadModel("SM_Plains_LargeRock_SpireLOD5", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD5.FBX");
-	this->loadModel("SM_Plains_LargeRock01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock01.FBX");
-	this->loadModel("SM_Plains_LargeRock02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock02.FBX");
-	this->loadModel("SM_Plains_LargeRock03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock03.FBX");
+	this->loadModel("SM_Plains_LargeRock_SpireLOD", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD.FBX");
+	this->loadModel("SM_Plains_LargeRock_SpireLOD2", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD2.FBX");
+	this->loadModel("SM_Plains_LargeRock_SpireLOD4", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD4.FBX");
+	this->loadModel("SM_Plains_LargeRock_SpireLOD5", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock_SpireLOD5.FBX");
+	this->loadModel("SM_Plains_LargeRock01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock01.FBX");
+	this->loadModel("SM_Plains_LargeRock02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock02.FBX");
+	this->loadModel("SM_Plains_LargeRock03", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/StaticMesh/SM_Plains_LargeRock03.FBX");
 	this->loadTexture("T_Plains_Cliff01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Cliff01.TGA");
 	this->loadTexture("T_Plains_Cliff001", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Cliff001.TGA");
 	this->loadTexture("T_Plains_Ground01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Organic/Textures/T_Plains_Ground01_D.TGA");
@@ -179,25 +179,25 @@ void Resources::start() {
 
 
 	// Environments/Plains/Env_Plains_Ruins/
-	this->loadModel("SM_Plains_Buttress_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Buttress_01.FBX");
-	this->loadModel("SM_Plains_Buttress_02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Buttress_02.FBX");
-	this->loadModel("SM_Plains_Castle_Bridge_Wall_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Bridge_Wall_01.FBX");
-	this->loadModel("SM_Plains_Castle_Circle_Railing_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Circle_Railing_01.FBX");
-	this->loadModel("SM_Plains_Castle_Fountain_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Fountain_01.FBX");
-	this->loadModel("SM_Plains_Castle_Railing_Curved_45", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Railing_Curved_45.FBX");
-	this->loadModel("SM_Plains_Castle_Railing_Curved", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Railing_Curved.FBX");
-	this->loadModel("SM_Plains_CastleTower_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_01.FBX");
-	this->loadModel("SM_Plains_CastleTower_Ruin_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_Ruin_01.FBX");
-	this->loadModel("SM_Plains_CastleTower_Ruin_02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_Ruin_02.FBX");
-	this->loadModel("SM_Plains_CastleWall_Curved_Ruin_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleWall_Curved_Ruin_01.FBX");
-	this->loadModel("SM_Plains_Column_Large_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_01.FBX");
-	this->loadModel("SM_Plains_Column_Large_Broken_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_01.FBX");
-	this->loadModel("SM_Plains_Column_Large_Broken_02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_02.FBX");
-	this->loadModel("SM_Plains_Column_Large_Broken_03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_03.FBX");
-	this->loadModel("SM_Plains_Ruin_BuildingLOD01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD01.FBX");
-	this->loadModel("SM_Plains_Ruin_BuildingLOD02", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD02.FBX");
-	this->loadModel("SM_Plains_Ruin_BuildingLOD03", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD03.FBX");
-	this->loadModel("SM_Plains_Wall_Straight_01", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Wall_Straight_01.FBX");
+	this->loadModel("SM_Plains_Buttress_01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Buttress_01.FBX");
+	this->loadModel("SM_Plains_Buttress_02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Buttress_02.FBX");
+	this->loadModel("SM_Plains_Castle_Bridge_Wall_01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Bridge_Wall_01.FBX");
+	this->loadModel("SM_Plains_Castle_Circle_Railing_01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Circle_Railing_01.FBX");
+	this->loadModel("SM_Plains_Castle_Fountain_01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Fountain_01.FBX");
+	this->loadModel("SM_Plains_Castle_Railing_Curved_45", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Railing_Curved_45.FBX");
+	this->loadModel("SM_Plains_Castle_Railing_Curved", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Railing_Curved.FBX");
+	this->loadModel("SM_Plains_CastleTower_01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_01.FBX");
+	this->loadModel("SM_Plains_CastleTower_Ruin_01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_Ruin_01.FBX");
+	this->loadModel("SM_Plains_CastleTower_Ruin_02", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleTower_Ruin_02.FBX");
+	this->loadModel("SM_Plains_CastleWall_Curved_Ruin_01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_CastleWall_Curved_Ruin_01.FBX");
+	this->loadModel("SM_Plains_Column_Large_01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_01.FBX");
+	this->loadModel("SM_Plains_Column_Large_Broken_01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_01.FBX");
+	this->loadModel("SM_Plains_Column_Large_Broken_02", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_02.FBX");
+	this->loadModel("SM_Plains_Column_Large_Broken_03", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Column_Large_Broken_03.FBX");
+	this->loadModel("SM_Plains_Ruin_BuildingLOD01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD01.FBX");
+	this->loadModel("SM_Plains_Ruin_BuildingLOD02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD02.FBX");
+	this->loadModel("SM_Plains_Ruin_BuildingLOD03", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Ruin_BuildingLOD03.FBX");
+	this->loadModel("SM_Plains_Wall_Straight_01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Wall_Straight_01.FBX");
 
 	this->loadTexture("T_Plains_ExtCastle_StoneWall_01_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_ExtCastle_StoneWall_01_D.TGA");
 	this->loadTexture("T_Plains_ExtCastle_StoneWall_01_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/Textures/T_Plains_ExtCastle_StoneWall_01_N.TGA");
@@ -214,8 +214,8 @@ void Resources::start() {
 
 
 	// Environments/Plains/Env_Plains_Statues/
-	this->loadModel("SM_Plains_Angel_Statue_01_nobase_torch", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/StaticMesh/SM_Plains_Angel_Statue_01_nobase_torch.FBX");
-	this->loadModel("SM_Plains_Angel_Statue_01_nobase", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/StaticMesh/SM_Plains_Angel_Statue_01_nobase.FBX");
+	this->loadModel("SM_Plains_Angel_Statue_01_nobase_torch", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/StaticMesh/SM_Plains_Angel_Statue_01_nobase_torch.FBX");
+	this->loadModel("SM_Plains_Angel_Statue_01_nobase", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/StaticMesh/SM_Plains_Angel_Statue_01_nobase.FBX");
 
 	this->loadTexture("T_Plains_Angel_Statue_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/Textures/T_Plains_Angel_Statue_D.TGA");
 	this->loadTexture("T_Plains_Angel_Statue_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/Textures/T_Plains_Angel_Statue_N.TGA");
@@ -419,8 +419,8 @@ Texture* Resources::getTexture(const char* name) {
 		return nullptr;
 	}
 }
-void Resources::loadModel(std::string name, const char* path) {
-	this->models.insert(std::make_pair(name, new Model(path)));
+void Resources::loadModel(std::string name, unsigned int attributeType, const char* path) {
+	this->models.insert(std::make_pair(name, new Model(attributeType, path)));
 }
 Model* Resources::getModel(std::string name) {
 	auto it = this->models.find(name);

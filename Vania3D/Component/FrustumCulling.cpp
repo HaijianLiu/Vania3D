@@ -61,7 +61,7 @@ void FrustumCulling::cullingSphere(MeshRenderer* meshRenderer) {
 		float radius = glm::length(boundingMax - geometryCenter);
 
 		// range lod check
-		if (meshRenderer->model->lod) {
+		if (meshRenderer->model->distanceCulling) {
 			if (glm::dot(geometryCenter - this->frustum[0].point, this->frustum[0].normal) < -radius) {
 				meshRenderer->culling = true;
 				return;

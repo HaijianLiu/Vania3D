@@ -55,6 +55,7 @@ void RenderLayer::add(GameObject* gameObject) {
 	}
 }
 
+
 void ShaderLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 	MeshRenderer* meshRenderer = gameObject->getComponent<MeshRenderer>();
 
@@ -96,6 +97,9 @@ void MaterialLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 }
 
 
+
+
+
 /*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
@@ -106,7 +110,7 @@ void RenderLayer::render(GameObject* camera) {
 	for (auto it = this->shaderLayers.begin(); it != this->shaderLayers.end(); it++)
 		it->second->render(camera);
 
-	std::cout << numMeshRedered << std::endl;
+//	std::cout << numMeshRedered << std::endl;
 }
 
 void ShaderLayer::render(GameObject* camera) {
@@ -133,21 +137,46 @@ void ShaderLayer::render(GameObject* camera) {
 
 void MaterialLayer::render(Shader* shader) {
 	for (auto it = this->meshRenderDatas.begin(); it != this->meshRenderDatas.end(); it++) {
-		// bind vao
 		glBindVertexArray(it->first->vao);
-		for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
-			MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
-			if (!meshRenderer->culling) {
-				Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
-				// model
-				transform->setUniform(shader);
-				// pose
-				meshRenderer->model->setPoseUniform(shader);
-				// draw
-				it->first->draw();
-				numMeshRedered ++; // debug
+		if (it->first->attributeType == MESH_ATTRIBUTE_INSTANCE) {
+			shader->setBool("instance", true);
+			std::vector<glm::mat4> instanceMatrix;
+			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
+				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
+				if (!meshRenderer->culling) {
+					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
+					// model
+					instanceMatrix.push_back(transform->model);
+				}
+			}
+			it->first->drawInstance(&instanceMatrix);
+		}
+		else if (it->first->attributeType == MESH_ATTRIBUTE_BONE) {
+			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
+				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
+				if (!meshRenderer->culling) {
+					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
+					// model
+					transform->setUniform(shader);
+					// pose
+					meshRenderer->model->setPoseUniform(shader);
+					it->first->draw();
+				}
 			}
 		}
-		glBindVertexArray(0);
+		else {
+			shader->setBool("instance", false);
+			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
+				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
+				if (!meshRenderer->culling) {
+					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
+					// model
+					transform->setUniform(shader);
+					it->first->draw();
+				}
+			}
+		}
+		// glBindVertexArray(0);
+		
 	}
 }
