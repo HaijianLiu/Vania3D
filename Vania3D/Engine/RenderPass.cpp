@@ -50,21 +50,6 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 		this->shader->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
 	}
 	this->shader->setInt(UNIFORM_TEX_SHADOW, 13);
-
-	Game* game = Game::getInstance();
-
-	game->resources->getShader("mix_two_textures")->use();
-
-	this->motionA = createFrameBuffer(1);
-	this->motionB = createFrameBuffer(1);
-	this->motionC = createFrameBuffer(1);
-
-	game->resources->getShader("mix_two_textures")->setInt("textureA", 14);
-	game->resources->getShader("mix_two_textures")->setInt("textureB", 15);
-	game->resources->getShader("mix_two_textures")->setInt("textureC", 16);
-	
-	game->resources->getShader("texture_output")->use();
-	game->resources->getShader("texture_output")->setInt("tex", 17);
 }
 
 
@@ -105,50 +90,9 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* poin
 		glBindTexture(GL_TEXTURE_2D, this->frameBuffer.passes[i]);
 	}
 
-//	render to A
-	glBindFramebuffer(GL_FRAMEBUFFER, this->motionA.fbo);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glBindVertexArray(0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
-	
-
-
-//	A + B = C or A + C = B
-	game->resources->getShader("mix_two_textures")->use();
-	
-	if (this->frameSwitch) glBindFramebuffer(GL_FRAMEBUFFER, this->motionC.fbo);
-	else glBindFramebuffer(GL_FRAMEBUFFER, this->motionB.fbo);
-	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	glActiveTexture(GL_TEXTURE14);
-	glBindTexture(GL_TEXTURE_2D, this->motionA.passes[0]);
-	
-	glActiveTexture(GL_TEXTURE15);
-	if (this->frameSwitch) glBindTexture(GL_TEXTURE_2D, this->motionB.passes[0]);
-	else glBindTexture(GL_TEXTURE_2D, this->motionC.passes[0]);
-	
-	glBindVertexArray(this->vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	
-	glBindVertexArray(0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
-	// c out put or B
-	game->resources->getShader("texture_output")->use();
-	
-	glActiveTexture(GL_TEXTURE17);
-	if (this->frameSwitch) glBindTexture(GL_TEXTURE_2D, this->motionC.passes[0]);
-	else glBindTexture(GL_TEXTURE_2D, this->motionB.passes[0]);
-
-	glBindVertexArray(this->vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	this->frameSwitch = !this->frameSwitch;
 }
 
 

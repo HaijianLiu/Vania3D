@@ -104,9 +104,24 @@ void Resources::start() {
 	// this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("normalMap", this->getTexture("P02_AC_Unit_01_normal"));
 	// this->getMaterial("P02_AC_Unit_01_LOD0")->addTexture("maskMap", this->getTexture("P02_AC_Unit_01_mask"));
 
-
 	/* ElvenRuins
 	..............................................................................*/
+	this->loadShader("FantasyDungeon", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/Fragment/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+
+	this->loadModel("Floor01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Floor/Floor01.FBX");
+	this->getModel("Floor01")->materialNames.push_back("pavement2");
+	this->loadTexture("pavement2_D", "./Assets/Models/FantasyDungeon/Textures/Floor/pavement2_D.TGA");
+	this->loadTexture("pavement2_N", "./Assets/Models/FantasyDungeon/Textures/Floor/pavement2_N.TGA");
+	this->loadTexture("pavement2_SRM", "./Assets/Models/FantasyDungeon/Textures/Floor/pavement2_SRM.TGA");
+	this->createMaterial("pavement2", this->getShader("FantasyDungeon"));
+	this->getMaterial("pavement2")->addTexture("albedoMap", this->getTexture("pavement2_D"));
+	this->getMaterial("pavement2")->addTexture("normalMap", this->getTexture("pavement2_N"));
+	this->getMaterial("pavement2")->addTexture("maskMap", this->getTexture("pavement2_SRM"));
+
+
+
+	/* ElvenRuins
+	..............................................................................
 	// Environments/Misc/Exo_Deco02
 	this->loadModel("SM_Exo_Pew", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/InfinityBladeGrassLands/Environments/Misc/Exo_Deco02/StaticMesh/SM_Exo_Pew.FBX");
 
@@ -224,10 +239,10 @@ void Resources::start() {
 
 	this->loadTexture("T_Plains_Angel_Statue_D", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/Textures/T_Plains_Angel_Statue_D.TGA");
 	this->loadTexture("T_Plains_Angel_Statue_N", "./Assets/Models/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Statues/Textures/T_Plains_Angel_Statue_N.TGA");
-
+*/
 
 	/* Shaders/ElvenRuins/
-	..............................................................................*/
+	..............................................................................
 	// M_Pew
 	this->loadShader("M_Pew", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Pew.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
 	this->createMaterial("M_Pew", this->getShader("M_Pew"));
@@ -296,8 +311,7 @@ void Resources::start() {
 	this->createMaterial("M_Plains_Tree_Stump01", this->getShader("M_Plains_Tree_Stump01"));
 	this->getMaterial("M_Plains_Tree_Stump01")->addTexture("albedoMap", this->getTexture("T_Plains_Tree01_D"));
 	this->getMaterial("M_Plains_Tree_Stump01")->addTexture("normalMap", this->getTexture("T_Plains_Tree01_N"));
-
-
+*/
 
 
 	/* FrozenCove
@@ -376,9 +390,6 @@ void Resources::start() {
 
 
 
-
-
-
 	/* Material
 	..............................................................................*/
 	// this->createMaterial("simple_flat_color", this->getShader("simple_flat_color"));
@@ -387,8 +398,8 @@ void Resources::start() {
 	..............................................................................*/
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/WinterForest_Ref.hdr");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/Road_to_MonumentValley_8k.jpg");
-	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Stadium_Center_8k.jpg");
-	// this->loadLightProbe("hdr", "./Assets/Models/InfinityBladeGrassLands/Maps/LevelContent/HDRI/HDRI_Epic_Courtyard_Daylight.HDR");
+	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/Stadium_Center_8k.jpg");
+	this->loadLightProbe("hdr", "./Assets/Models/InfinityBladeGrassLands/Maps/LevelContent/HDRI/HDRI_Epic_Courtyard_Daylight.HDR");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/test.jpg");
 }
 

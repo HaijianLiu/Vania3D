@@ -150,6 +150,7 @@ class Scene;
 #include "Scene.hpp"
 #include "Scene00.hpp"
 #include "Scene01.hpp"
+#include "Scene02.hpp"
 #include "SceneManager.hpp"
 
 

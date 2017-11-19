@@ -94,8 +94,11 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 		transform->model = globalTransformation;
 		MeshRenderer* meshRenderer = gameObject->addComponent<MeshRenderer>();
 		meshRenderer->model = model;
-		for (unsigned int i = 0; i < node->data->materialIndices.size(); i++) {
-			meshRenderer->materials.push_back(this->materialMapping[node->data->materialIndices[i]]);
+//		for (unsigned int i = 0; i < node->data->materialIndices.size(); i++) {
+//			meshRenderer->materials.push_back(this->materialMapping[node->data->materialIndices[i]]);
+//		}
+		for (unsigned int i = 0; i < model->materialNames.size(); i++) {
+			meshRenderer->materials.push_back(this->game->resources->getMaterial(model->materialNames[i]));
 		}
 		meshRenderer->lightProbe = this->game->resources->getLightProbe("hdr");
 		scene->addGameObject(node->name.c_str(), gameObject);

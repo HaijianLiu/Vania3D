@@ -15,6 +15,7 @@
 		600B9A551FB8333900B1F0D5 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600B9A531FB8333900B1F0D5 /* Map.cpp */; };
 		600B9A6E1FBADB3C00B1F0D5 /* RenderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600B9A6C1FBADB3C00B1F0D5 /* RenderLayer.cpp */; };
 		600B9A711FBC25F000B1F0D5 /* FrustumCulling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600B9A6F1FBC25F000B1F0D5 /* FrustumCulling.cpp */; };
+		600B9A7D1FC1566800B1F0D5 /* Scene02.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600B9A7B1FC1566800B1F0D5 /* Scene02.cpp */; };
 		600E63B71F99F19000F6A34A /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600E63B31F99F18F00F6A34A /* Transform.cpp */; };
 		600E63B81F99F19000F6A34A /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600E63B41F99F19000F6A34A /* MeshRenderer.cpp */; };
 		60132DFD1FA38D5900E71962 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60132DFB1FA38D5900E71962 /* Time.cpp */; };
@@ -94,6 +95,8 @@
 		600B9A6D1FBADB3C00B1F0D5 /* RenderLayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderLayer.hpp; sourceTree = "<group>"; };
 		600B9A6F1FBC25F000B1F0D5 /* FrustumCulling.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FrustumCulling.cpp; sourceTree = "<group>"; };
 		600B9A701FBC25F000B1F0D5 /* FrustumCulling.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FrustumCulling.hpp; sourceTree = "<group>"; };
+		600B9A7B1FC1566800B1F0D5 /* Scene02.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene02.cpp; sourceTree = "<group>"; };
+		600B9A7C1FC1566800B1F0D5 /* Scene02.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene02.hpp; sourceTree = "<group>"; };
 		600E63B31F99F18F00F6A34A /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
 		600E63B41F99F19000F6A34A /* MeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshRenderer.cpp; sourceTree = "<group>"; };
 		600E63B51F99F19000F6A34A /* MeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeshRenderer.hpp; sourceTree = "<group>"; };
@@ -342,6 +345,8 @@
 				604B57A51F98A251009DE302 /* Scene00.hpp */,
 				606101E41FB0034900558589 /* Scene01.cpp */,
 				606101E51FB0034900558589 /* Scene01.hpp */,
+				600B9A7B1FC1566800B1F0D5 /* Scene02.cpp */,
+				600B9A7C1FC1566800B1F0D5 /* Scene02.hpp */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -453,6 +458,7 @@
 				6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */,
 				602C98A41FAED44000B69E45 /* Offset.cpp in Sources */,
 				606101E61FB0034900558589 /* Scene01.cpp in Sources */,
+				600B9A7D1FC1566800B1F0D5 /* Scene02.cpp in Sources */,
 				604B57851F945A92009DE302 /* Mesh.cpp in Sources */,
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
 				60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */,

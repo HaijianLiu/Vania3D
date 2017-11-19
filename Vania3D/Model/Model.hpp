@@ -25,6 +25,7 @@ private:
 	void createMesh(aiMesh* aimesh, const aiScene* aiscene);
 
 public:
+	std::vector<std::string> materialNames;
 	bool distanceCulling = false;
 
 	
