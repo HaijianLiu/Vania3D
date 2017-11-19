@@ -40,8 +40,7 @@ void Resources::start() {
 	/* Shader
 	..............................................................................*/
 	// renderpass
-	this->loadShader("renderpass_color_1_passes", "./Assets/Shaders/renderpass_deferred_pbr.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_color_1_passes.fs.glsl");
-	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/renderpass_deferred_pbr.vs.glsl",  "./Assets/Shaders/renderpass_deferred_pbr.fs.glsl");
+	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_deferred_pbr.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl");
 	this->loadShader("deferred_pbr_bone", "./Assets/Shaders/Vertex/bones_5_locations.vs.glsl",  "./Assets/Shaders/Fragment/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->loadShader("simple", "./Assets/Shaders/Vertex/static_1_locations.vs.glsl", "./Assets/Shaders/Fragment/color_white_1_passes.fs.glsl");
 	this->createMaterial("simple", this->getShader("simple"));
