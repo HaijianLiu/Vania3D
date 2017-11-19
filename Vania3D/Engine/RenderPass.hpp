@@ -4,7 +4,7 @@
 
 struct FrameBuffer {
 	unsigned int fbo;
-	std::vector<unsigned int> passes;
+	std::vector<unsigned int> textures;
 };
 
 class RenderPass {
@@ -13,10 +13,9 @@ class RenderPass {
 
 private:
 	unsigned int vao;
-	Shader* shader;
-	FrameBuffer frameBuffer;
-	FrameBuffer motionA, motionB, motionC;
-	bool frameSwitch = false;
+	
+	Shader* deferredPBR;
+	FrameBuffer bufferG;
 
 	void init(Shader* shader, unsigned int number);
 	void render(RenderLayer* renderLayer, std::vector<GameObject*>* pointLights, GameObject* camera);

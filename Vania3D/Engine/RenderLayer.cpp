@@ -34,7 +34,7 @@ ShaderLayer::~ShaderLayer() {
 }
 
 MaterialLayer::~MaterialLayer() {
-
+	deleteMap(this->meshRenderDatas);
 }
 
 

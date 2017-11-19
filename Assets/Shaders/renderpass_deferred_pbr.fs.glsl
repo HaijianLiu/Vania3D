@@ -99,7 +99,8 @@ void main() {
 		// scale light by normal
 		float ndotl = max(dot(n, l), 0.0);
 		// add to outgoing radiance
-		lightReflection += (diffuseF * albedo / PI + specular) * vec3(1, 0.723, 0.522) * 5 * ndotl;
+		// lightReflection += (diffuseF * albedo / PI + specular) * vec3(1, 0.723, 0.522) * 5 * ndotl;
+		lightReflection += (diffuseF * albedo / PI + specular) * vec3(0.522, 0.723, 1) * 5 * ndotl;
 	}
 
 	// shadow
@@ -125,13 +126,13 @@ void main() {
 	// ambient
 	vec3 ambient = diffuseF * diffuse + specularF * diffuse * specular;
 
-	vec3 color = 0.5 * ambient + lightReflection;
+	vec3 color = ambient + lightReflection;
 	// vec3 color = lightReflection;
 
 
 
 	// exposion & cavity & shadow
-	color *= 5 * cavity;
+	color *= cavity;
 
 	// hdr tonemapping
 	color = color / (color + vec3(1.0));
