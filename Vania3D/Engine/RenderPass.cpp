@@ -5,7 +5,7 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 RenderPass::RenderPass() {
-	
+
 }
 
 
@@ -107,10 +107,8 @@ void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObj
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	// glBindVertexArray(0);
+	glBindVertexArray(0);
 }
-
-
 
 
 /*------------------------------------------------------------------------------
@@ -131,6 +129,9 @@ void RenderPass::setActiveLightProbe(LightProbe* lightProbe) {
 }
 
 
+/*------------------------------------------------------------------------------
+< create framebuffer >
+------------------------------------------------------------------------------*/
 FrameBuffer RenderPass::createFrameBuffer(unsigned int number) {
 	Game* game = Game::getInstance();
 	FrameBuffer frameBuffer;

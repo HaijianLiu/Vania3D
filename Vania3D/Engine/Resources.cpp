@@ -42,7 +42,7 @@ void Resources::start() {
 	// renderpass
 	this->loadShader("renderpass_color_1_passes", "./Assets/Shaders/renderpass_deferred_pbr.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_color_1_passes.fs.glsl");
 	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/renderpass_deferred_pbr.vs.glsl",  "./Assets/Shaders/renderpass_deferred_pbr.fs.glsl");
-	this->loadShader("deferred_pbr_bone", "./Assets/Shaders/Vertex/bones_5_locations.vs.glsl",  "./Assets/Shaders/Fragment/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("deferred_pbr_bone", "./Assets/Shaders/Vertex/bones_5_locations.vs.glsl",  "./Assets/Shaders/Fragment/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->loadShader("simple", "./Assets/Shaders/Vertex/static_1_locations.vs.glsl", "./Assets/Shaders/Fragment/color_white_1_passes.fs.glsl");
 	this->createMaterial("simple", this->getShader("simple"));
 
@@ -107,8 +107,8 @@ void Resources::start() {
 	/* FantasyDungeon
 	..............................................................................*/
 	// shaders
-	this->loadShader("FantasyDungeonSRM", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/FantasyDungeon/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
-	this->loadShader("FantasyDungeonGenSRM", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/Fragment/gen_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("FantasyDungeonSRM", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/FantasyDungeon/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
+	this->loadShader("FantasyDungeonGenSRM", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/Fragment/gen_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 
 	// BrickDamege
 	this->loadModel("Brick01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/BrickDamege/Brick01.FBX");
@@ -430,70 +430,70 @@ void Resources::start() {
 	/* Shaders/ElvenRuins/
 	..............................................................................
 	// M_Pew
-	this->loadShader("M_Pew", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Pew.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Pew", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Pew.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Pew", this->getShader("M_Pew"));
 	this->getMaterial("M_Pew")->addTexture("albedoMap", this->getTexture("T_Pew_D"));
 	this->getMaterial("M_Pew")->addTexture("normalMap", this->getTexture("T_Pew_N"));
 	// M_Plains_Angel_Statue
-	this->loadShader("M_Plains_Angel_Statue", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Angel_Statue.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_Angel_Statue", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Angel_Statue.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_Angel_Statue", this->getShader("M_Plains_Angel_Statue"));
 	this->getMaterial("M_Plains_Angel_Statue")->addTexture("albedoMap", this->getTexture("T_Plains_Angel_Statue_D"));
 	this->getMaterial("M_Plains_Angel_Statue")->addTexture("normalMap", this->getTexture("T_Plains_Angel_Statue_N"));
 	// M_Plains_Cliff1
-	this->loadShader("M_Plains_Cliff1", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Cliff1.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_Cliff1", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Cliff1.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_Cliff1", this->getShader("M_Plains_Cliff1"));
 	this->getMaterial("M_Plains_Cliff1")->addTexture("albedoMap", this->getTexture("T_Plains_Cliff01"));
 	this->getMaterial("M_Plains_Cliff1")->addTexture("normalMap", this->getTexture("T_Plains_Cliff001"));
 	this->getMaterial("M_Plains_Cliff1")->twoSides = true;
 	// M_PLains_Fern01
-	this->loadShader("M_PLains_Fern01", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_PLains_Fern01.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_PLains_Fern01", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_PLains_Fern01.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_PLains_Fern01", this->getShader("M_PLains_Fern01"));
 	this->getMaterial("M_PLains_Fern01")->addTexture("albedoMap", this->getTexture("T_Plains_Fern01_D"));
 	this->getMaterial("M_PLains_Fern01")->addTexture("normalMap", this->getTexture("T_Plains_Fern01_N"));
 	this->getMaterial("M_PLains_Fern01")->twoSides = true;
 	// M_Plains_Floors_Block
-	this->loadShader("M_Plains_Floors_Block", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Floors_Block.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_Floors_Block", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Floors_Block.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_Floors_Block", this->getShader("M_Plains_Floors_Block"));
 	this->getMaterial("M_Plains_Floors_Block")->addTexture("albedoMap", this->getTexture("T_Plains_Terrain_Floors01_D"));
 	this->getMaterial("M_Plains_Floors_Block")->addTexture("normalMap", this->getTexture("T_Plains_Terrain_Floors01_N"));
 	// M_Plains_FloorTrims
-	this->loadShader("M_Plains_FloorTrims", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_FloorTrims.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_FloorTrims", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_FloorTrims.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_FloorTrims", this->getShader("M_Plains_FloorTrims"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("albedoMap", this->getTexture("T_Plains_FloorsTrim_D"));
 	this->getMaterial("M_Plains_FloorTrims")->addTexture("normalMap", this->getTexture("T_Plains_FloorsTrim_N"));
 	// M_Plains_FloorTrims
-	this->loadShader("M_Plains_GroundBrick", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_GroundBrick.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_GroundBrick", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_GroundBrick.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_GroundBrick", this->getShader("M_Plains_GroundBrick"));
 	this->getMaterial("M_Plains_GroundBrick")->addTexture("albedoMap", this->getTexture("T_Plains_Ground01_D"));
 	this->getMaterial("M_Plains_GroundBrick")->addTexture("normalMap", this->getTexture("T_Plains_Ground01_N"));
 	// M_Plains_LargeRock
-	this->loadShader("M_Plains_LargeRock", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_LargeRock.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_LargeRock", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_LargeRock.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_LargeRock", this->getShader("M_Plains_LargeRock"));
 	this->getMaterial("M_Plains_LargeRock")->addTexture("albedoMap", this->getTexture("T_Plains_Rock01_D"));
 	this->getMaterial("M_Plains_LargeRock")->addTexture("normalMap", this->getTexture("T_Plains_Rock01_N"));
 	// M_Plains_Pillars
-	this->loadShader("M_Plains_Pillars", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_Pillars", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_Pillars", this->getShader("M_Plains_Pillars"));
 	this->getMaterial("M_Plains_Pillars")->addTexture("albedoMap", this->getTexture("T_Plains_Ruins_Pillars_D"));
 	this->getMaterial("M_Plains_Pillars")->addTexture("normalMap", this->getTexture("T_Plains_Ruins_Pillars_N"));
 	this->getMaterial("M_Plains_Pillars")->addTexture("metallicMap", this->getTexture("T_Plains_Ruins_Pillars_M"));
 	// M_Plains_Pillars02
-	this->loadShader("M_Plains_Pillars02", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars02.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_Pillars02", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars02.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_Pillars02", this->getShader("M_Plains_Pillars02"));
 	this->getMaterial("M_Plains_Pillars02")->addTexture("albedoMap", this->getTexture("T_Plains_Ruins_Pillars_02_D"));
 	this->getMaterial("M_Plains_Pillars02")->addTexture("normalMap", this->getTexture("T_Plains_Ruins_Pillars_02_N"));
 	// M_Plains_Pillars03
-	this->loadShader("M_Plains_Pillars03", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars03.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_Pillars03", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Pillars03.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_Pillars03", this->getShader("M_Plains_Pillars03"));
 	this->getMaterial("M_Plains_Pillars03")->addTexture("albedoMap", this->getTexture("T_Plains_Ruins_Pillars_03_D"));
 	this->getMaterial("M_Plains_Pillars03")->addTexture("normalMap", this->getTexture("T_Plains_Ruins_Pillars_03_N"));
 	// M_Plains_StoneWall
-	this->loadShader("M_Plains_StoneWall", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_StoneWall.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_StoneWall", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_StoneWall.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_StoneWall", this->getShader("M_Plains_StoneWall"));
 	this->getMaterial("M_Plains_StoneWall")->addTexture("albedoMap", this->getTexture("T_Plains_ExtCastle_StoneWall_01_D"));
 	this->getMaterial("M_Plains_StoneWall")->addTexture("normalMap", this->getTexture("T_Plains_ExtCastle_StoneWall_01_N"));
 	// M_Plains_Tree_Stump01
-	this->loadShader("M_Plains_Tree_Stump01", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Tree_Stump01.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
+	this->loadShader("M_Plains_Tree_Stump01", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/ElvenRuins/M_Plains_Tree_Stump01.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->createMaterial("M_Plains_Tree_Stump01", this->getShader("M_Plains_Tree_Stump01"));
 	this->getMaterial("M_Plains_Tree_Stump01")->addTexture("albedoMap", this->getTexture("T_Plains_Tree01_D"));
 	this->getMaterial("M_Plains_Tree_Stump01")->addTexture("normalMap", this->getTexture("T_Plains_Tree01_N"));
