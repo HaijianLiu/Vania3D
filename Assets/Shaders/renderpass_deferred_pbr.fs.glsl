@@ -125,7 +125,7 @@ void main() {
 	// ambient
 	vec3 ambient = diffuseF * diffuse + specularF * diffuse * specular;
 
-	vec3 color = ambient + lightReflection;
+	vec3 color = 0.5 * ambient + lightReflection;
 	// vec3 color = lightReflection;
 
 

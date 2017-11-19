@@ -36,7 +36,7 @@ void Scene02::start() {
 	player->staticObject = false;
 	Transform* playerTransform = player->addComponent<Transform>();
 	playerTransform->modelScale = glm::vec3(GLOBAL_SCALE);
-	playerTransform->position = glm::vec3(0, -0.6, 0);
+	playerTransform->position = glm::vec3(0, 0, 0);
 	PlayerController* playerController = player->addComponent<PlayerController>();
 	playerController->camera = camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
