@@ -38,48 +38,10 @@ RenderPass::~RenderPass() {
 < init >
 ------------------------------------------------------------------------------*/
 void RenderPass::init(Shader* shader, unsigned int number) {
-	// get game
-	Game* game = Game::getInstance();
+
 	this->shader = shader;
 
-	// configure (floating point) framebuffers
-	glGenFramebuffers(1, &this->fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
-
-	// create 2 floating point color buffers
-	unsigned int colorBuffers[number];
-	glGenTextures(number, colorBuffers);
-	for (unsigned int i = 0; i < number; i++) {
-		glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		// attach texture to framebuffer
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, colorBuffers[i], 0);
-		this->pass.push_back(colorBuffers[i]);
-	}
-
-	// tell OpenGL which color attachments we'll use (of this framebuffer) for rendering
-	unsigned int attachments[number];
-	for (unsigned int i = 0; i < number; i++) {
-		attachments[i] = GL_COLOR_ATTACHMENT0 + i;
-	}
-	glDrawBuffers(number, attachments);
-
-	// create and attach depth buffer (renderbuffer)
-	unsigned int depthRBO;
-	glGenRenderbuffers(1, &depthRBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, game->window->screenWidth, game->window->screenHeight);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
-
-	// check if framebuffer is complete
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	std::cout << "Framebuffer not complete!" << std::endl;
-
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	this->frameBuffer = createFrameBuffer(number);
 
 	// Set Shader
 	this->shader->use();
@@ -88,6 +50,21 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 		this->shader->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
 	}
 	this->shader->setInt(UNIFORM_TEX_SHADOW, 13);
+
+	Game* game = Game::getInstance();
+
+	game->resources->getShader("mix_two_textures")->use();
+
+	this->motionA = createFrameBuffer(1);
+	this->motionB = createFrameBuffer(1);
+	this->motionC = createFrameBuffer(1);
+
+	game->resources->getShader("mix_two_textures")->setInt("textureA", 14);
+	game->resources->getShader("mix_two_textures")->setInt("textureB", 15);
+	game->resources->getShader("mix_two_textures")->setInt("textureC", 16);
+	
+	game->resources->getShader("texture_output")->use();
+	game->resources->getShader("texture_output")->setInt("tex", 17);
 }
 
 
@@ -98,7 +75,7 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* poin
 	Game* game = Game::getInstance();
 
 	// bind framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// draw model
 	renderLayer->render(camera);
@@ -123,13 +100,55 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* poin
 	this->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
 
 	// render
-	for (unsigned int i = 0; i < this->pass.size(); i++) {
+	for (unsigned int i = 0; i < this->frameBuffer.passes.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, this->pass[i]);
+		glBindTexture(GL_TEXTURE_2D, this->frameBuffer.passes[i]);
 	}
+
+//	render to A
+	glBindFramebuffer(GL_FRAMEBUFFER, this->motionA.fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	// glBindVertexArray(0);
+	glBindVertexArray(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+	
+
+
+//	A + B = C or A + C = B
+	game->resources->getShader("mix_two_textures")->use();
+	
+	if (this->frameSwitch) glBindFramebuffer(GL_FRAMEBUFFER, this->motionC.fbo);
+	else glBindFramebuffer(GL_FRAMEBUFFER, this->motionB.fbo);
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	glActiveTexture(GL_TEXTURE14);
+	glBindTexture(GL_TEXTURE_2D, this->motionA.passes[0]);
+	
+	glActiveTexture(GL_TEXTURE15);
+	if (this->frameSwitch) glBindTexture(GL_TEXTURE_2D, this->motionB.passes[0]);
+	else glBindTexture(GL_TEXTURE_2D, this->motionC.passes[0]);
+	
+	glBindVertexArray(this->vao);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
+	glBindVertexArray(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+	// c out put or B
+	game->resources->getShader("texture_output")->use();
+	
+	glActiveTexture(GL_TEXTURE17);
+	if (this->frameSwitch) glBindTexture(GL_TEXTURE_2D, this->motionC.passes[0]);
+	else glBindTexture(GL_TEXTURE_2D, this->motionB.passes[0]);
+
+	glBindVertexArray(this->vao);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	this->frameSwitch = !this->frameSwitch;
 }
 
 
@@ -137,7 +156,7 @@ void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObj
 	Game* game = Game::getInstance();
 
 	// bind framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// render bounding box in line mode
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -156,7 +175,7 @@ void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObj
 	// bind shader
 	game->resources->getShader("renderpass_color_1_passes")->use();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, this->pass[0]);
+	glBindTexture(GL_TEXTURE_2D, this->frameBuffer.passes[0]);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -181,4 +200,51 @@ void RenderPass::setActiveLightProbe(LightProbe* lightProbe) {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->prefilter);
 	glActiveTexture(GL_TEXTURE12);
 	glBindTexture(GL_TEXTURE_2D, lightProbe->brdf);
+}
+
+
+FrameBuffer RenderPass::createFrameBuffer(unsigned int number) {
+	Game* game = Game::getInstance();
+	FrameBuffer frameBuffer;
+
+	// configure (floating point) framebuffers
+	glGenFramebuffers(1, &frameBuffer.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.fbo);
+
+	// create 2 floating point color buffers
+	unsigned int colorBuffers[number];
+	glGenTextures(number, colorBuffers);
+	for (unsigned int i = 0; i < number; i++) {
+		glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		// attach texture to framebuffer
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, colorBuffers[i], 0);
+		frameBuffer.passes.push_back(colorBuffers[i]);
+	}
+
+	// tell OpenGL which color attachments we'll use (of this framebuffer) for rendering
+	unsigned int attachments[number];
+	for (unsigned int i = 0; i < number; i++) {
+		attachments[i] = GL_COLOR_ATTACHMENT0 + i;
+	}
+	glDrawBuffers(number, attachments);
+
+	// create and attach depth buffer (renderbuffer)
+	unsigned int depthRBO;
+	glGenRenderbuffers(1, &depthRBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, game->window->screenWidth, game->window->screenHeight);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
+
+	// check if framebuffer is complete
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "Framebuffer not complete!" << std::endl;
+
+	glBindFramebuffer(GL_FRAMEBUFFER,0);
+
+	return frameBuffer;
 }

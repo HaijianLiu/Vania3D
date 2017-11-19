@@ -44,12 +44,17 @@ void Resources::start() {
 	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/renderpass_deferred_pbr.vs.glsl",  "./Assets/Shaders/renderpass_deferred_pbr.fs.glsl");
 	this->loadShader("deferred_pbr_bone", "./Assets/Shaders/Vertex/bones_5_locations.vs.glsl",  "./Assets/Shaders/Fragment/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/functions.fs.glsl");
 	this->loadShader("simple", "./Assets/Shaders/Vertex/static_1_locations.vs.glsl", "./Assets/Shaders/Fragment/color_white_1_passes.fs.glsl");
+	this->createMaterial("simple", this->getShader("simple"));
+
 
 	// ibl
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
 	this->loadShader("prefilter", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/prefilter.fs.glsl");
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
+	this->loadShader("texture_output", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/Fragment/texture_output.fs.glsl");
+
+	this->loadShader("mix_two_textures", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/Fragment/mix_two_textures.fs.glsl");
 	this->loadShader("texture_output", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/Fragment/texture_output.fs.glsl");
 
 
@@ -62,8 +67,6 @@ void Resources::start() {
 
 	/* Model
 	..............................................................................*/
-	this->models.insert(std::make_pair("sphere", new Sphere()));
-
 	this->loadModel("player", MESH_ATTRIBUTE_BONE, "./Assets/Models/Ganfaul/mixamo_model.fbx");
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_stay.fbx"));
 	this->getModel("player")->addAnimation(new Animation("./Assets/Models/Ganfaul/mixamo_idle_look.fbx"));
@@ -78,6 +81,8 @@ void Resources::start() {
 	this->getMaterial("player")->addTexture("normalMap", this->getTexture("player_normal"));
 	this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
 	this->getMaterial("player")->twoSides = true;
+
+	this->loadModel("sphere", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/sphere.fbx");
 
 
 	// this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
@@ -382,7 +387,8 @@ void Resources::start() {
 	..............................................................................*/
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/WinterForest_Ref.hdr");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/Road_to_MonumentValley_8k.jpg");
-	this->loadLightProbe("hdr", "./Assets/Models/InfinityBladeGrassLands/Maps/LevelContent/HDRI/HDRI_Epic_Courtyard_Daylight.HDR");
+	this->loadLightProbe("hdr", "./Assets/Textures/HDR/Stadium_Center_8k.jpg");
+	// this->loadLightProbe("hdr", "./Assets/Models/InfinityBladeGrassLands/Maps/LevelContent/HDRI/HDRI_Epic_Courtyard_Daylight.HDR");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/test.jpg");
 }
 

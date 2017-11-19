@@ -3,6 +3,7 @@
 #include "Engine.hpp"
 
 unsigned int numMeshRedered;
+unsigned int numDrawCall;
 
 /*------------------------------------------------------------------------------
 < Constructor >
@@ -106,11 +107,12 @@ void MaterialLayer::add(GameObject* gameObject, unsigned int meshIndex) {
 void RenderLayer::render(GameObject* camera) {
 
 	numMeshRedered = 0;
+	numDrawCall = 0;
 
 	for (auto it = this->shaderLayers.begin(); it != this->shaderLayers.end(); it++)
 		it->second->render(camera);
 
-//	std::cout << numMeshRedered << std::endl;
+	std::cout << "mesh: " <<numMeshRedered << "  draw: " << numDrawCall << std::endl;
 }
 
 void ShaderLayer::render(GameObject* camera) {
@@ -147,9 +149,11 @@ void MaterialLayer::render(Shader* shader) {
 					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
 					// model
 					instanceMatrix.push_back(transform->model);
+					numMeshRedered++;
 				}
 			}
 			it->first->drawInstance(&instanceMatrix);
+			numDrawCall++;
 		}
 		else if (it->first->attributeType == MESH_ATTRIBUTE_BONE) {
 			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
@@ -161,6 +165,8 @@ void MaterialLayer::render(Shader* shader) {
 					// pose
 					meshRenderer->model->setPoseUniform(shader);
 					it->first->draw();
+					numDrawCall++;
+					numMeshRedered++;
 				}
 			}
 		}
@@ -173,10 +179,11 @@ void MaterialLayer::render(Shader* shader) {
 					// model
 					transform->setUniform(shader);
 					it->first->draw();
+					numDrawCall++;
+					numMeshRedered++;
 				}
 			}
 		}
-		// glBindVertexArray(0);
-		
+//		 glBindVertexArray(0);
 	}
 }

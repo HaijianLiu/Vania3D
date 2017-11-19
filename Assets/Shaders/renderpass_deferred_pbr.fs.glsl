@@ -1,6 +1,6 @@
 
 #version 330 core
-out vec4 fragColor;
+layout (location = 0) out vec4 fragColor;
 
 uniform sampler2D shadowMap;
 uniform mat4 lightSpaceMatrix;
@@ -52,34 +52,35 @@ void main() {
 
 	// real time lights reflectance equation
 	vec3 lightReflection = vec3(0.0);
-	// for(int i = 0; i < 4; ++i) {
-	// 	// calculate per-light radiance
-	// 	vec3 l = normalize(lightPositions[i] - position);
-	// 	vec3 h = normalize(v + l);
-	// 	float distance = length(lightPositions[i] - position);
-	// 	float attenuation = 1.0 / (distance * distance);
-	// 	vec3 radiance = lightColors[i] * attenuation;
-	//
-	// 	// Cook-Torrance BRDF
-	// 	float specularD = normalDistributionGGX(n, h, roughness);
-	// 	float specularG = geometrySmith(n, v, l, roughness);
-	// 	vec3 specularF = fresnelSchlick(max(dot(h, v), 0.0), f0);
-	// 	vec3 nominator = specularD * specularG * specularF;
-	// 	float denominator = 4 * max(dot(n, v), 0.0) * max(dot(n, l), 0.0) + 0.001; // 0.001 to prevent divide by zero.
-	// 	vec3 specular = nominator / denominator;
-	//
-	// 	// vec2 brdf  = texture(brdfLUT, vec2(max(dot(n, v), 0.0), roughness)).rg;
-	// 	// specular = (specularF * brdf.x + brdf.y);
-	//
-	// 	vec3 diffuseF = vec3(1.0) - specularF;
-	// 	diffuseF *= 1.0 - metallic;
-	//
-	// 	// scale light by normal
-	// 	float ndotl = max(dot(n, l), 0.0);
-	//
-	// 	// add to outgoing radiance
-	// 	lightReflection += (diffuseF * albedo / PI + specular) * radiance * ndotl;
-	// }
+
+	for(int i = 0; i < 4; ++i) {
+		// calculate per-light radiance
+		vec3 l = normalize(lightPositions[i] - position);
+		vec3 h = normalize(v + l);
+		float distance = length(lightPositions[i] - position);
+		float attenuation = 1.0 / (distance * distance);
+		vec3 radiance = lightColors[i] * attenuation;
+
+		// Cook-Torrance BRDF
+		float specularD = normalDistributionGGX(n, h, roughness);
+		float specularG = geometrySmith(n, v, l, roughness);
+		vec3 specularF = fresnelSchlick(max(dot(h, v), 0.0), f0);
+		vec3 nominator = specularD * specularG * specularF;
+		float denominator = 4 * max(dot(n, v), 0.0) * max(dot(n, l), 0.0) + 0.001; // 0.001 to prevent divide by zero.
+		vec3 specular = nominator / denominator;
+
+		// vec2 brdf  = texture(brdfLUT, vec2(max(dot(n, v), 0.0), roughness)).rg;
+		// specular = (specularF * brdf.x + brdf.y);
+
+		vec3 diffuseF = vec3(1.0) - specularF;
+		diffuseF *= 1.0 - metallic;
+
+		// scale light by normal
+		float ndotl = max(dot(n, l), 0.0);
+
+		// add to outgoing radiance
+		lightReflection += (diffuseF * albedo / PI + specular) * radiance * ndotl;
+	}
 
 	// test for sun light
 	for(int i = 0; i < 1; i++) {
@@ -142,8 +143,8 @@ void main() {
 	color = mix(vec3(0), color, fogFactor);
 
 	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
-	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
-	fragColor = vec4(color, 1.0);
+	fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
+	// fragColor = vec4(color, 1.0);
 	// fragColor = vec4(vec3(texture(shadowMap, uv).r), 1.0);
 }
 
