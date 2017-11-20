@@ -69,7 +69,7 @@ void main() {
 		lightReflection += (diffuseF * albedo / PI + specular) * radiance * ndotl;
 	}
 
-	// test for sun light
+	test for sun light
 	for(int i = 0; i < 1; i++) {
 		// Cook-Torrance BRDF
 		vec3 l = normalize(vec3(58.7033, 63.2275, 14.8628) - position);
@@ -78,7 +78,7 @@ void main() {
 		float ndotl = max(dot(n, l), 0.0);
 		vec3 diffuseF = 1.0 - specular;
 		diffuseF *= 1.0 - metallic;
-		lightReflection += (diffuseF * albedo / PI + specular) * vec3(0.522, 0.723, 1) * 5 * ndotl;
+		lightReflection += (diffuseF * albedo / PI + specular) * vec3(0.522, 0.723, 1) * 1 * ndotl;
 	}
 
 	// shadow
@@ -101,8 +101,8 @@ void main() {
 	vec3 ambient = diffuseF * diffuse + specularF * diffuse * specular;
 
 
-	// vec3 color = lightReflection;
-	vec3 color = ambient + lightReflection;
+	vec3 color = lightReflection;
+	// vec3 color = ambient + lightReflection;
 
 	// exposion & cavity & shadow
 	color *= cavity;

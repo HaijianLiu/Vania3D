@@ -18,7 +18,7 @@ private:
 	RenderLayer* renderLayer; // for final render
 	std::vector<MeshRenderer*> shadowQueue; // a list for shadow casting game objects
 	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects for some purpose
-	std::vector<GameObject*> pointLights; // a list for point lights to be calculated
+	std::vector<PointLight*> pointLights; // a list for point lights to be calculated
 	
 	void startScene();
 	void updateScene();

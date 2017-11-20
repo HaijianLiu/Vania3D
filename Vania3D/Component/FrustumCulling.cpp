@@ -77,3 +77,26 @@ void FrustumCulling::cullingSphere(MeshRenderer* meshRenderer) {
 	}
 	meshRenderer->culling = false;
 }
+
+void FrustumCulling::cullingSphere(PointLight* pointLight) {
+	Transform* transform = pointLight->gameObject->getComponent<Transform>();
+	glm::vec3 geometryCenter = transform->position;
+	
+	// range lod check
+	if (pointLight->distanceCulling) {
+		if (glm::dot(geometryCenter - this->frustum[0].point, this->frustum[0].normal) < -pointLight->radius) {
+			pointLight->culling = true;
+			return;
+		}
+	}
+	// except the far plane
+	for(int i = 1; i < 6; i++) {
+		if (glm::dot(geometryCenter - this->frustum[i].point, this->frustum[i].normal) < -pointLight->radius) {
+			pointLight->culling = true;
+			return;
+		}
+	}
+	
+	pointLight->culling = false;
+}
+

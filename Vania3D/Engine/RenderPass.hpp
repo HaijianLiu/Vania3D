@@ -18,7 +18,7 @@ private:
 	FrameBuffer bufferG;
 
 	void init(Shader* shader, unsigned int number);
-	void render(RenderLayer* renderLayer, std::vector<GameObject*>* pointLights, GameObject* camera);
+	void render(RenderLayer* renderLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
 	// test
 	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 

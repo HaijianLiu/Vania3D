@@ -29,6 +29,7 @@ public:
 	~FrustumCulling();
 	
 	void cullingSphere(MeshRenderer* meshRenderer);
+	void cullingSphere(PointLight* pointLight);
 };
 
 #endif /* FrustumCulling_hpp */

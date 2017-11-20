@@ -40,7 +40,7 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 /*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
-void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* pointLights, GameObject* camera) {
+void RenderPass::render(RenderLayer* renderLayer, std::vector<PointLight*>* pointLights, GameObject* camera) {
 	Game* game = Game::getInstance();
 
 	// bind framebuffer
@@ -60,8 +60,8 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<GameObject*>* poin
 	std::string lightPositions = UNIFORM_VEC3_LIGHT_POSITION;
 	std::string lightColors = UNIFORM_VEC3_LIGHT_COLOR;
 	for (unsigned int i = 0; i < pointLights->size(); i++) {
-		this->deferredPBR->setVec3((lightPositions + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->getComponent<Transform>()->position);
-		this->deferredPBR->setVec3((lightColors + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->getComponent<PointLight>()->color);
+		this->deferredPBR->setVec3((lightPositions + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->gameObject->getComponent<Transform>()->position);
+		this->deferredPBR->setVec3((lightColors + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
 	}
 	// shadows
 	glActiveTexture(GL_TEXTURE13);
