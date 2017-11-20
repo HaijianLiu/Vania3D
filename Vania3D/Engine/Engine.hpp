@@ -30,8 +30,8 @@
 #define UNIFORM_TEX_BRDFLUT "brdfLUT" // GL_TEXTURE12
 #define UNIFORM_TEX_SHADOW "shadowMap" // GL_TEXTURE13
 
-#define UNIFORM_TEX_EQUIRECTANGULAR "equirectangular" // light probe
-#define UNIFORM_TEX_ENVIRONMENT "environment" // light probe
+#define UNIFORM_TEX_EQUIRECTANGULAR "equirectangularMap" // light probe
+#define UNIFORM_TEX_ENVIRONMENT "environmentMap" // light probe
 #define UNIFORM_TEX_PASSES "passes" // render pass shader
 
 #define UNIFORM_VEC3_CAMERA_POSITION "cameraPosition"
