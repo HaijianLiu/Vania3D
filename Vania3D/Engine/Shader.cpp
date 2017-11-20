@@ -38,9 +38,6 @@ void Shader::getUniformLocation(const char* name) {
 	int uniformLocation = glGetUniformLocation(this->programID, name);
 	std::string nameString = std::string(name);
 	this->uniformLocations.insert(std::make_pair(nameString, uniformLocation));
-//	this->uniformLocations.insert(std::make_pair("1", 2));
-//	this->uniformLocations.insert(std::make_pair("2", 2));
-//	this->uniformLocations.insert(std::make_pair("3", 2));
 }
 
 // utility uniform functions
@@ -103,30 +100,33 @@ void Shader::setMat4(const char* name, glm::mat4 mat) {
 /*------------------------------------------------------------------------------
 < loadShader >
 ------------------------------------------------------------------------------*/
-// load Shader
 unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath) {
 
-	// Create the shaders
+	// create the shaders
 	unsigned int vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-	
+
+	// check error
+	checkProgram(vertexShaderID);
+	checkProgram(fragmentShaderID);
+
 	// complie
 	vertexShaderID = complieShader(vertexShaderID, vertexPath);
 	fragmentShaderID = complieShader(fragmentShaderID, fragmentPath);
-	
-	// Link the program
+
+	// link the program
 	unsigned int programID = glCreateProgram();
 	glAttachShader(programID, vertexShaderID);
 	glAttachShader(programID, fragmentShaderID);
 	glLinkProgram(programID);
-	
+
 	// check error
 	checkProgram(programID);
 
-	// Detach shader
+	// detach shader
 	glDetachShader(programID, vertexShaderID);
 	glDetachShader(programID, fragmentShaderID);
-	// Delete shader
+	// delete shader
 	glDeleteShader(vertexShaderID);
 	glDeleteShader(fragmentShaderID);
 
@@ -135,103 +135,41 @@ unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath
 
 
 unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath, std::string functionPath) {
-
-	// Create the shaders
+	// create the shaders
 	unsigned int vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-	// Read the Vertex Shader code from the file
-	std::string vertexShaderCode;
-	std::ifstream vertexShaderStream(vertexPath, std::ios::in);
-	if (vertexShaderStream.is_open()) {
-		std::string line = "";
-		while (getline(vertexShaderStream, line)) {
-			vertexShaderCode += "\n" + line;
-		}
-		vertexShaderStream.close();
-	} else {
-		printf("[Shader] impossible to open: <%s>\n", vertexPath.c_str());
-		return 0;
-	}
+	// check error
+	checkProgram(vertexShaderID);
+	checkProgram(fragmentShaderID);
 
-	// Read the Fragment Shader code from the file
-	std::ifstream functionShaderStream(functionPath, std::ios::in);
-	std::string fragmentShaderCode;
-	std::ifstream fragmentShaderStream(fragmentPath, std::ios::in);
-	if (fragmentShaderStream.is_open()) {
-		std::string line = "";
-		while (getline(fragmentShaderStream,line)) {
-			fragmentShaderCode += "\n" + line;
-		}
-		fragmentShaderStream.close();
-	} else {
-		printf("[Shader] impossible to open: <%s>\n",fragmentPath.c_str());
-		return 0;
-	}
-	if (functionShaderStream.is_open()) {
-		std::string line = "";
-		while (getline(functionShaderStream, line)) {
-			fragmentShaderCode += "\n" + line;
-		}
-		functionShaderStream.close();
-	} else {
-		printf("[Shader] impossible to open: <%s>\n", functionPath.c_str());
-		return 0;
-	}
+	// complie
+	vertexShaderID = complieShader(vertexShaderID, vertexPath);
+	fragmentShaderID = complieShader(fragmentShaderID, fragmentPath, functionPath);
 
-	GLint result = GL_FALSE;
-	int infoLogLength;
-
-	// Compile Vertex Shader
-	const char* vertexSourcePointer = vertexShaderCode.c_str();
-	glShaderSource(vertexShaderID,1,&vertexSourcePointer,NULL);
-	glCompileShader(vertexShaderID);
-	// Check Vertex Shader
-	glGetShaderiv(vertexShaderID,GL_COMPILE_STATUS,&result);
-	glGetShaderiv(vertexShaderID,GL_INFO_LOG_LENGTH,&infoLogLength);
-	if (infoLogLength > 0) {
-		std::vector<char> vertexShaderErrorMessage(infoLogLength+1);
-		glGetShaderInfoLog(vertexShaderID,infoLogLength,NULL,&vertexShaderErrorMessage[0]);
-		printf("%s\n", &vertexShaderErrorMessage[0]);
-	}
-
-	// Compile Fragment Shader
-	const char* fragmentSourcePointer = fragmentShaderCode.c_str();
-	glShaderSource(fragmentShaderID,1,&fragmentSourcePointer,NULL);
-	glCompileShader(fragmentShaderID);
-	// Check Fragment Shader
-	glGetShaderiv(fragmentShaderID,GL_COMPILE_STATUS,&result);
-	glGetShaderiv(fragmentShaderID,GL_INFO_LOG_LENGTH,&infoLogLength);
-	if (infoLogLength > 0){
-		std::vector<char> fragmentShaderErrorMessage(infoLogLength+1);
-		glGetShaderInfoLog(fragmentShaderID,infoLogLength,NULL,&fragmentShaderErrorMessage[0]);
-		printf("%s\n",&fragmentShaderErrorMessage[0]);
-	}
-
-	// Link the program
+	// link the program
 	unsigned int programID = glCreateProgram();
-	glAttachShader(programID,vertexShaderID);
-	glAttachShader(programID,fragmentShaderID);
+	glAttachShader(programID, vertexShaderID);
+	glAttachShader(programID, fragmentShaderID);
 	glLinkProgram(programID);
-	// Check the program
-	glGetProgramiv(programID,GL_LINK_STATUS,&result);
-	glGetProgramiv(programID,GL_INFO_LOG_LENGTH,&infoLogLength);
-	if (infoLogLength > 0) {
-		std::vector<char> programErrorMessage(infoLogLength+1);
-		glGetProgramInfoLog(programID,infoLogLength,NULL,&programErrorMessage[0]);
-		printf("%s\n",&programErrorMessage[0]);
-	}
 
-	// Detach shader
+	// check error
+	checkProgram(programID);
+
+	// detach shader
 	glDetachShader(programID, vertexShaderID);
 	glDetachShader(programID, fragmentShaderID);
-	// Delete shader
+	// delete shader
 	glDeleteShader(vertexShaderID);
 	glDeleteShader(fragmentShaderID);
 
 	return programID;
 }
 
+
+/*------------------------------------------------------------------------------
+< load uniform location >
+------------------------------------------------------------------------------*/
 void Shader::loadUniformLocation(const char* path) {
 	FILE* file = fopen(path, "rb");
 	char lineHeader[128], restOfLine[1024];
@@ -269,31 +207,40 @@ void Shader::loadUniformLocation(const char* path) {
 	fclose(file);
 }
 
+
+/*------------------------------------------------------------------------------
+< complie shader >
+------------------------------------------------------------------------------*/
 unsigned int Shader::complieShader(unsigned int shaderID, std::string path) {
 	// read the shader code from the file
-	std::string shaderCode;
-	std::ifstream shaderStream(path, std::ios::in);
-	if (shaderStream.is_open()) {
-		std::string line = "";
-		while (getline(shaderStream, line)) {
-			shaderCode += "\n" + line;
-		}
-		shaderStream.close();
-	} else {
-		printf("[Shader] impossible to open: <%s>\n", path.c_str());
-		return shaderID;
-	}
-	
-	checkProgram(shaderID);
-	
-	// compile shader
+	std::string shaderCode = readCode(path);
+
+	// compile code
 	const char* sourcePointer = shaderCode.c_str();
 	glShaderSource(shaderID,1, &sourcePointer, NULL);
 	glCompileShader(shaderID);
-	
+
 	return shaderID;
 }
 
+unsigned int Shader::complieShader(unsigned int shaderID, std::string path, std::string function) {
+	// read the shader code from the file
+	std::string shaderCode = readCode(path);
+	std::string functionCode = readCode(function);
+	shaderCode = shaderCode + functionCode;
+
+	// compile code
+	const char* sourcePointer = shaderCode.c_str();
+	glShaderSource(shaderID,1, &sourcePointer, NULL);
+	glCompileShader(shaderID);
+
+	return shaderID;
+}
+
+
+/*------------------------------------------------------------------------------
+< check program >
+------------------------------------------------------------------------------*/
 void Shader::checkProgram(unsigned int shaderID) {
 	GLint result = GL_FALSE;
 	int infoLogLength;
@@ -306,6 +253,10 @@ void Shader::checkProgram(unsigned int shaderID) {
 	}
 }
 
+
+/*------------------------------------------------------------------------------
+< read code >
+------------------------------------------------------------------------------*/
 std::string Shader::readCode(std::string path) {
 	// read code from file
 	std::string code;
@@ -320,6 +271,6 @@ std::string Shader::readCode(std::string path) {
 		printf("[Shader] impossible to open: <%s>\n", path.c_str());
 		return NULL;
 	}
-	
+
 	return code;
 }

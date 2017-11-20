@@ -9,9 +9,11 @@ private:
 	
 	void getUniformLocation(const char* name);
 	void loadUniformLocation(const char* path);
-	static unsigned int complieShader(unsigned int shaderID, std::string path);
+	
 	static void checkProgram(unsigned int shaderID);
 	static std::string readCode(std::string path);
+	static unsigned int complieShader(unsigned int shaderID, std::string path);
+	static unsigned int complieShader(unsigned int shaderID, std::string path, std::string function);
 
 public:
 	unsigned int programID;
