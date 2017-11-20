@@ -45,24 +45,17 @@ void Resources::start() {
 	this->loadShader("simple", "./Assets/Shaders/Vertex/static_1_locations.vs.glsl", "./Assets/Shaders/Fragment/color_white_1_passes.fs.glsl");
 	this->createMaterial("simple", this->getShader("simple"));
 
-
 	// ibl
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
 	this->loadShader("irradianceConvolution", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/irradianceConvolution.fs.glsl");
 	this->loadShader("prefilter", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/prefilter.fs.glsl");
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
 	this->loadShader("texture_output", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/Fragment/texture_output.fs.glsl");
-
 	this->loadShader("mix_two_textures", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/Fragment/mix_two_textures.fs.glsl");
 	this->loadShader("texture_output", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/Fragment/texture_output.fs.glsl");
 
-
 	// shadow mapping
-	// this->loadShader("shadow_mapping", "./Assets/Shaders/shadow_mapping.vs.glsl",  "./Assets/Shaders/shadow_mapping.fs.glsl");
 	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/Vertex/bones_3_locations_shadowmapping.vs.glsl",  "./Assets/Shaders/Fragment/null.fs.glsl");
-
-	// test
-	// this->loadShader("simple_flat_color", "./Assets/Shaders/simple_flat_color.vs.glsl",  "./Assets/Shaders/simple_flat_color.fs.glsl");
 
 	/* Model
 	..............................................................................*/
