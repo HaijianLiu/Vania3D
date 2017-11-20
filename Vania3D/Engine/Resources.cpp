@@ -40,7 +40,7 @@ void Resources::start() {
 	/* Shader
 	..............................................................................*/
 	// renderpass
-	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_deferred_pbr.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl");
+	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_deferred_pbr.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl", "./Assets/Shaders/Functions/shadowMapping.fs.glsl");
 	this->loadShader("deferred_pbr_bone", "./Assets/Shaders/Vertex/bones_5_locations.vs.glsl",  "./Assets/Shaders/Fragment/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->loadShader("simple", "./Assets/Shaders/Vertex/static_1_locations.vs.glsl", "./Assets/Shaders/Fragment/color_white_1_passes.fs.glsl");
 	this->createMaterial("simple", this->getShader("simple"));
@@ -604,6 +604,15 @@ void Resources::loadShader(const char* name, const char* vertexPath, const char*
 	shader->addVertexCode(vertexPath);
 	shader->addFragmentCode(fragmentPath);
 	shader->addFragmentCode(functionPath);
+	shader->complie();
+	this->shaders.insert(std::make_pair(name, shader));
+}
+void Resources::loadShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* functionPath1, const char* functionPath2) {
+	Shader* shader = new Shader();
+	shader->addVertexCode(vertexPath);
+	shader->addFragmentCode(fragmentPath);
+	shader->addFragmentCode(functionPath1);
+	shader->addFragmentCode(functionPath2);
 	shader->complie();
 	this->shaders.insert(std::make_pair(name, shader));
 }

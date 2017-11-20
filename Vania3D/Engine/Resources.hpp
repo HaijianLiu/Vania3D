@@ -25,6 +25,7 @@ public:
 	// shader
 	void loadShader(const char* name, const char* vertexPath, const char* fragmentPath);
 	void loadShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* fuctionPath);
+	void loadShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* functionPath1, const char* functionPath2);
 	Shader* getShader(const char* name);
 	// texture
 	void loadTexture(const char* name, const char* path);
