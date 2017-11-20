@@ -6,7 +6,7 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 Shader::Shader() {
-	
+
 }
 
 
@@ -104,33 +104,37 @@ void Shader::complie() {
 	// create the shaders
 	unsigned int vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-	
-	// check error
-	checkProgram(vertexShaderID);
-	checkProgram(fragmentShaderID);
+
+// #ifdef DEBUG
+// 	std::cout << "[shader] " << this->fragmentPaths[0] << std::endl;
+// #endif
 	
 	// complie
 	vertexShaderID = complieShader(vertexShaderID, &this->vertexPaths);
 	fragmentShaderID = complieShader(fragmentShaderID, &this->fragmentPaths);
-	
+
+	// check error
+	checkProgram(vertexShaderID);
+	checkProgram(fragmentShaderID);
+
 	// link the program
 	unsigned int programID = glCreateProgram();
 	glAttachShader(programID, vertexShaderID);
 	glAttachShader(programID, fragmentShaderID);
 	glLinkProgram(programID);
-	
+
 	// check error
 	checkProgram(programID);
-	
+
 	// detach shader
 	glDetachShader(programID, vertexShaderID);
 	glDetachShader(programID, fragmentShaderID);
 	// delete shader
 	glDeleteShader(vertexShaderID);
 	glDeleteShader(fragmentShaderID);
-	
+
 	this->programID = programID;
-	
+
 	this->loadUniformLocation(vertexPaths[0].c_str());
 	this->loadUniformLocation(fragmentPaths[0].c_str());
 }
@@ -192,7 +196,7 @@ unsigned int Shader::complieShader(unsigned int shaderID, std::vector<std::strin
 	const char* sourcePointer = shaderCode.c_str();
 	glShaderSource(shaderID,1, &sourcePointer, NULL);
 	glCompileShader(shaderID);
-	
+
 	return shaderID;
 }
 

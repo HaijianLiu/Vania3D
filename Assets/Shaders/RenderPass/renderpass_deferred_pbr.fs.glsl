@@ -69,7 +69,7 @@ void main() {
 		lightReflection += (diffuseF * albedo / PI + specular) * radiance * ndotl;
 	}
 
-	test for sun light
+	// test for sun light
 	for(int i = 0; i < 1; i++) {
 		// Cook-Torrance BRDF
 		vec3 l = normalize(vec3(58.7033, 63.2275, 14.8628) - position);
@@ -98,11 +98,11 @@ void main() {
 	vec2 brdf  = texture(brdfLUT, vec2(max(dot(n, v), 0.0), roughness)).rg;
 	vec3 specular = prefilteredColor * (specularF * brdf.x + brdf.y);
 	// ambient
-	vec3 ambient = diffuseF * diffuse + specularF * diffuse * specular;
+	// vec3 ambient = diffuseF * diffuse + specularF * diffuse * specular;
+	vec3 ambient = specularF * diffuse * specular;
 
-
-	vec3 color = lightReflection;
-	// vec3 color = ambient + lightReflection;
+	// vec3 color = lightReflection;
+	vec3 color = ambient + lightReflection;
 
 	// exposion & cavity & shadow
 	color *= cavity;
@@ -117,7 +117,7 @@ void main() {
 	color = mix(vec3(0), color, fogFactor);
 
 	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
-	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
+	// fragColor = vec4(texture(passes[2], uv).rgb, 1.0);
 	fragColor = vec4(color, 1.0);
 	// fragColor = vec4(vec3(texture(shadowMap, uv).r), 1.0);
 }
