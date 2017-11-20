@@ -5,16 +5,8 @@
 /*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
-Shader::Shader(std::string vertexPath, std::string fragmentPath) {
-	this->programID = loadShader(vertexPath, fragmentPath);
-	this->loadUniformLocation(vertexPath.c_str());
-	this->loadUniformLocation(fragmentPath.c_str());
-}
-
-Shader::Shader(std::string vertexPath, std::string fragmentPath, std::string functionPath) {
-	this->programID = loadShader(vertexPath, fragmentPath, functionPath);
-	this->loadUniformLocation(vertexPath.c_str());
-	this->loadUniformLocation(fragmentPath.c_str());
+Shader::Shader() {
+	
 }
 
 
@@ -29,6 +21,14 @@ Shader::~Shader() {
 /*------------------------------------------------------------------------------
 < Set Functions >
 ------------------------------------------------------------------------------*/
+// add code
+void Shader::addVertexCode(std::string path) {
+	this->vertexPaths.push_back(path);
+}
+void Shader::addFragmentCode(std::string path) {
+	this->fragmentPaths.push_back(path);
+}
+
 // activate the shader
 void Shader::use() {
 	glUseProgram(this->programID);
@@ -100,70 +100,39 @@ void Shader::setMat4(const char* name, glm::mat4 mat) {
 /*------------------------------------------------------------------------------
 < loadShader >
 ------------------------------------------------------------------------------*/
-unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath) {
-
+void Shader::complie() {
 	// create the shaders
 	unsigned int vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
+	
 	// check error
 	checkProgram(vertexShaderID);
 	checkProgram(fragmentShaderID);
-
+	
 	// complie
-	vertexShaderID = complieShader(vertexShaderID, vertexPath);
-	fragmentShaderID = complieShader(fragmentShaderID, fragmentPath);
-
+	vertexShaderID = complieShader(vertexShaderID, &this->vertexPaths);
+	fragmentShaderID = complieShader(fragmentShaderID, &this->fragmentPaths);
+	
 	// link the program
 	unsigned int programID = glCreateProgram();
 	glAttachShader(programID, vertexShaderID);
 	glAttachShader(programID, fragmentShaderID);
 	glLinkProgram(programID);
-
+	
 	// check error
 	checkProgram(programID);
-
+	
 	// detach shader
 	glDetachShader(programID, vertexShaderID);
 	glDetachShader(programID, fragmentShaderID);
 	// delete shader
 	glDeleteShader(vertexShaderID);
 	glDeleteShader(fragmentShaderID);
-
-	return programID;
-}
-
-
-unsigned int Shader::loadShader(std::string vertexPath, std::string fragmentPath, std::string functionPath) {
-	// create the shaders
-	unsigned int vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-	unsigned int fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
-	// check error
-	checkProgram(vertexShaderID);
-	checkProgram(fragmentShaderID);
-
-	// complie
-	vertexShaderID = complieShader(vertexShaderID, vertexPath);
-	fragmentShaderID = complieShader(fragmentShaderID, fragmentPath, functionPath);
-
-	// link the program
-	unsigned int programID = glCreateProgram();
-	glAttachShader(programID, vertexShaderID);
-	glAttachShader(programID, fragmentShaderID);
-	glLinkProgram(programID);
-
-	// check error
-	checkProgram(programID);
-
-	// detach shader
-	glDetachShader(programID, vertexShaderID);
-	glDetachShader(programID, fragmentShaderID);
-	// delete shader
-	glDeleteShader(vertexShaderID);
-	glDeleteShader(fragmentShaderID);
-
-	return programID;
+	
+	this->programID = programID;
+	
+	this->loadUniformLocation(vertexPaths[0].c_str());
+	this->loadUniformLocation(fragmentPaths[0].c_str());
 }
 
 
@@ -211,29 +180,19 @@ void Shader::loadUniformLocation(const char* path) {
 /*------------------------------------------------------------------------------
 < complie shader >
 ------------------------------------------------------------------------------*/
-unsigned int Shader::complieShader(unsigned int shaderID, std::string path) {
+unsigned int Shader::complieShader(unsigned int shaderID, std::vector<std::string>* paths) {
 	// read the shader code from the file
-	std::string shaderCode = readCode(path);
+	std::string shaderCode;
+	for (unsigned int i = 0; i < paths->size(); i++) {
+		std::string code = readCode(paths->at(i));
+		shaderCode += code;
+	}
 
 	// compile code
 	const char* sourcePointer = shaderCode.c_str();
 	glShaderSource(shaderID,1, &sourcePointer, NULL);
 	glCompileShader(shaderID);
-
-	return shaderID;
-}
-
-unsigned int Shader::complieShader(unsigned int shaderID, std::string path, std::string function) {
-	// read the shader code from the file
-	std::string shaderCode = readCode(path);
-	std::string functionCode = readCode(function);
-	shaderCode = shaderCode + functionCode;
-
-	// compile code
-	const char* sourcePointer = shaderCode.c_str();
-	glShaderSource(shaderID,1, &sourcePointer, NULL);
-	glCompileShader(shaderID);
-
+	
 	return shaderID;
 }
 

@@ -593,10 +593,19 @@ void Resources::start() {
 < Load & Get >
 ------------------------------------------------------------------------------*/
 void Resources::loadShader(const char* name, const char* vertexPath, const char* fragmentPath) {
-	this->shaders.insert(std::make_pair(name, new Shader(vertexPath, fragmentPath)));
+	Shader* shader = new Shader();
+	shader->addVertexCode(vertexPath);
+	shader->addFragmentCode(fragmentPath);
+	shader->complie();
+	this->shaders.insert(std::make_pair(name, shader));
 }
 void Resources::loadShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* functionPath) {
-	this->shaders.insert(std::make_pair(name, new Shader(vertexPath, fragmentPath, functionPath)));
+	Shader* shader = new Shader();
+	shader->addVertexCode(vertexPath);
+	shader->addFragmentCode(fragmentPath);
+	shader->addFragmentCode(functionPath);
+	shader->complie();
+	this->shaders.insert(std::make_pair(name, shader));
 }
 Shader* Resources::getShader(const char* name) {
 	auto it = this->shaders.find(name);

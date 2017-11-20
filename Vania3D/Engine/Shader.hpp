@@ -4,25 +4,26 @@
 
 class Shader {
 private:
-	unsigned int loadShader(std::string vertexPath, std::string fragmentPath);
-	unsigned int loadShader(std::string vertexPath, std::string fragmentPath, std::string functionPath);
+	std::vector<std::string> vertexPaths, fragmentPaths;
+	std::unordered_map<std::string, int> uniformLocations;
 	
 	void getUniformLocation(const char* name);
 	void loadUniformLocation(const char* path);
 	
 	static void checkProgram(unsigned int shaderID);
 	static std::string readCode(std::string path);
-	static unsigned int complieShader(unsigned int shaderID, std::string path);
-	static unsigned int complieShader(unsigned int shaderID, std::string path, std::string function);
+	static unsigned int complieShader(unsigned int shaderID, std::vector<std::string>* paths);
 
 public:
 	unsigned int programID;
-	std::unordered_map<std::string, int> uniformLocations;
 
-	// constructor generates the shader on the fly
-	Shader(std::string vertexPath, std::string fragmentPath);
-	Shader(std::string vertexPath, std::string fragmentPath, std::string functionPath);
+	Shader();
 	~Shader();
+
+	// add codes before complie
+	void addVertexCode(std::string path);
+	void addFragmentCode(std::string path);
+	void complie();
 
 	// activate the shader
 	void use();
