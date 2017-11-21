@@ -10,6 +10,11 @@ struct Vertex {
 	float weight[NUM_BONES_PER_VEREX] = {0.0};
 };
 
+struct InstanceFX {
+	glm::mat4 model;
+	float animationTime;
+};
+
 class Mesh {
 	friend class Model;
 	friend class FrustumCulling;
@@ -29,6 +34,7 @@ public:
 
 	void draw();
 	void drawInstance(std::vector<glm::mat4>* instanceMatrices);
+	void drawFX(std::vector<InstanceFX>* instances);
 	void drawBounding();
 };
 

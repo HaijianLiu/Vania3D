@@ -75,7 +75,7 @@ void Resources::start() {
 	this->getMaterial("player")->twoSides = true;
 
 	this->loadModel("sphere", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/sphere.fbx");
-	this->loadModel("quad", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/quad.fbx");
+	this->loadModel("Fire1", MESH_ATTRIBUTE_INSTANCE_ANIMATION, "./Assets/Models/quad.fbx");
 
 
 	// this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
@@ -103,8 +103,15 @@ void Resources::start() {
 	this->loadShader("FantasyDungeonSRM", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/FantasyDungeon/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->loadShader("FantasyDungeonWet", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/FantasyDungeon/bgra_to_mrca_wet_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 
+	this->loadShader("FantasyDungeonFX", "./Assets/Shaders/Vertex/instance_7_locations_fx_animation.vs.glsl",  "./Assets/Shaders/FantasyDungeon/bgra_to_mrca_wet_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
+
 	// BaseTexture
 	this->loadTexture("Mask1", "./Assets/Models/FantasyDungeon/Textures/BaseTexture/Mask1.TGA");
+	// FX
+	this->loadTexture("fx_fire_D", "./Assets/Models/FantasyDungeon/Textures/FX/fx_fire_D.TGA");
+	this->createMaterial("Fire1", this->getShader("FantasyDungeonFX"));
+	this->getMaterial("Fire1")->addTexture("albedoMap", this->getTexture("fx_fire_D"));
+
 
 	// BrickDamege
 	this->loadModel("Brick01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/BrickDamege/Brick01.FBX");

@@ -155,6 +155,23 @@ void MaterialLayer::render(Shader* shader) {
 			it->first->drawInstance(&instanceMatrix);
 			numDrawCall++;
 		}
+		else if (it->first->attributeType == MESH_ATTRIBUTE_INSTANCE_ANIMATION) {
+			std::vector<InstanceFX> instances;
+			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
+				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
+				if (!meshRenderer->culling) {
+					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
+					// model
+					InstanceFX instanceFx;
+					instanceFx.model = transform->model;
+					instanceFx.animationTime = 0;
+					instances.push_back(instanceFx);
+					numMeshRedered++;
+				}
+			}
+			it->first->drawFX(&instances);
+			numDrawCall++;
+		}
 		else if (it->first->attributeType == MESH_ATTRIBUTE_BONE) {
 			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
 				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();

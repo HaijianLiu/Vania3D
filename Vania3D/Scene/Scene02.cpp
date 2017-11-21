@@ -77,8 +77,8 @@ void Scene02::start() {
 	testTransform->position = glm::vec3(0, 1, 0);
 	testTransform->scale = glm::vec3(20 * GLOBAL_SCALE);
 	MeshRenderer* testMesh = testObject->addComponent<MeshRenderer>();
-	testMesh->model = game->resources->getModel("quad");
-	testMesh->materials.push_back(game->resources->getMaterial("Door1"));
+	testMesh->model = game->resources->getModel("Fire1");
+	testMesh->materials.push_back(game->resources->getMaterial("Fire1"));
 	testObject->addComponent<Billboard>();
 	this->addGameObject("testObject", testObject);
 	
