@@ -124,6 +124,7 @@ class Scene;
 #include "MeshRenderer.hpp"
 #include "PointLight.hpp"
 #include "Billboard.hpp"
+#include "UVAnimation.hpp"
 
 #include "Resources.hpp"
 #include "RenderLayer.hpp"

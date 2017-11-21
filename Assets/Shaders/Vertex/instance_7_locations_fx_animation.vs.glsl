@@ -15,7 +15,7 @@ out vec3 normal;
 
 uniform mat4 projection;
 uniform mat4 view;
-uniform vec3 animation; // divideX, divideY, speed(frame per second)
+uniform vec3 animation; // divideX, divideY, sampleTime(frame per second)
 
 void main() {
 	mat4 model;
@@ -25,7 +25,9 @@ void main() {
 	model[3] = instanceMatrix3;
 
 	position = vec3(model * vec4(positionVertex, 1.0));
-	uv = uvVertex;
+	// uv = uvVertex;
+	uv.x = uvVertex.x / animation.x;
+	uv.y = uvVertex.y / animation.y;
 	normal = vec3(model * vec4(normalVertex, 0.0));
 
 	gl_Position =  projection * view * model * vec4(positionVertex, 1.0);

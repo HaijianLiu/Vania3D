@@ -25,7 +25,7 @@ void MeshRenderer::start() {
 	this->camera = this->gameObject->scene->mainCamera;
 	// initialize static shader uniforms before rendering
 	for (unsigned int i = 0; i < this->materials.size(); i++)
-		this->materials[i]->setUniformLocations();
+		this->materials[i]->setTextureUniformLocations();
 }
 
 

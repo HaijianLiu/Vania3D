@@ -80,6 +80,8 @@ void Scene02::start() {
 	testMesh->model = game->resources->getModel("Fire1");
 	testMesh->materials.push_back(game->resources->getMaterial("Fire1"));
 	testObject->addComponent<Billboard>();
+	UVAnimation* uvAnimation = new UVAnimation(4, 4, 0.1);
+	testObject->addComponent(uvAnimation);
 	this->addGameObject("testObject", testObject);
 	
 

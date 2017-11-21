@@ -5,6 +5,7 @@
 class Material {
 	friend class ShaderLayer;
 	friend class RenderLayer;
+	friend class UVAnimation;
 	
 private:
 	Shader* shader;
@@ -19,7 +20,7 @@ public:
 	~Material();
 
 	void addTexture(const char* textureUniform, Texture* texture);
-	void setUniformLocations();
+	void setTextureUniformLocations();
 	void bindTextures();
 };
 #endif /* Material_hpp */

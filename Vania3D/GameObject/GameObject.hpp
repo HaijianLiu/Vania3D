@@ -24,6 +24,11 @@ public:
 		this->components[typeid(T)] = component;
 		return component;
 	}
+	
+	template <typename T> void addComponent(T* component) {
+		component->gameObject = this;
+		this->components[typeid(T)] = component;
+	}
 
 	template <typename T> T* getComponent() {
 		auto iter = components.find(typeid(T));
