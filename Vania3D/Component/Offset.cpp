@@ -21,5 +21,5 @@ Offset::~Offset() {
 < update >
 ------------------------------------------------------------------------------*/
 void Offset::update() {
-	this->getGameObject()->getComponent<Transform>()->position = this->parent->position + this->offsetPosition;
+	this->gameObject->getComponent<Transform>()->position = this->parent->position + this->offsetPosition;
 }

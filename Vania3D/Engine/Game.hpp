@@ -16,6 +16,7 @@ public:
 	Input* input;
 	SceneManager* sceneManager;
 	RenderPass* renderPass;
+	ShadowMapping* shadowMapping;
 	Time* time;
 
 	static Game* getInstance();

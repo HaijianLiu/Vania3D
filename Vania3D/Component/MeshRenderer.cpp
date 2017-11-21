@@ -21,52 +21,27 @@ MeshRenderer::~MeshRenderer() {
 < start >
 ------------------------------------------------------------------------------*/
 void MeshRenderer::start() {
+	// get main camera from the scene
+	this->camera = this->gameObject->scene->mainCamera;
 	// initialize static shader uniforms before rendering
-	this->material->shader->use();
-	this->material->setUniformLocations();
+	for (unsigned int i = 0; i < this->materials.size(); i++)
+		this->materials[i]->setUniformLocations();
 }
 
 
 /*------------------------------------------------------------------------------
-< update >
+< render shadow >
 ------------------------------------------------------------------------------*/
-void MeshRenderer::update() {
-	GameObject* gameObject = this->getGameObject();
-	
-	this->material->shader->use();
-	// camera
-	this->material->shader->setMat4("projection", this->camera->getComponent<Camera>()->projection);
-	this->material->shader->setMat4("view", this->camera->getComponent<Camera>()->view);
-	this->material->shader->setMat4("model", gameObject->getComponent<Transform>()->model);
-	// texture
-	this->material->bindTextures();
+void MeshRenderer::renderShadow() {
 	// model
-	std::vector<glm::mat4> pose = this->model->pose;
-	for (unsigned int i = 0 ; i < pose.size() ; i++)
-		this->material->shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), pose[i]);
-	this->model->draw();
-}
+	this->gameObject->getComponent<Transform>()->setUniform(this->game->shadowMapping->shader);
+	// pose
+	this->model->setPoseUniform(this->game->shadowMapping->shader);
+	// draw
+	for (unsigned int i = 0; i < this->model->meshes.size(); i++) {
+		glBindVertexArray(this->model->meshes[i]->vao);
+		this->model->meshes[i]->draw();
+		glBindVertexArray(0);
+	}
 
-
-/*------------------------------------------------------------------------------
-< add material >
-------------------------------------------------------------------------------*/
-void MeshRenderer::addModel(Model* model) {
-	this->model = model;
-}
-
-
-/*------------------------------------------------------------------------------
-< add material >
-------------------------------------------------------------------------------*/
-void MeshRenderer::addMaterial(Material* material) {
-	this->material = material;
-}
-
-
-/*------------------------------------------------------------------------------
-< add light probe >
-------------------------------------------------------------------------------*/
-void MeshRenderer::addLightProbe(LightProbe* lightProbe) {
-	this->lightProbe = lightProbe;
 }

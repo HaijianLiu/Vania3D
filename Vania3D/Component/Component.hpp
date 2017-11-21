@@ -3,20 +3,19 @@
 #define Component_hpp
 
 class Component {
-private:
 	friend class GameObject;
-	GameObject* gameObject;
+	friend class RenderPass;
 
-public:
+protected:
 	Game* game;
-	
-	Component();
-	virtual ~Component();
+	GameObject* gameObject;
 
 	virtual void start();
 	virtual void update();
 
-	GameObject* getGameObject();
+public:
+	Component();
+	virtual ~Component();
 };
 
 #endif /* Component_hpp */

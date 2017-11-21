@@ -6,23 +6,30 @@ struct Vertex {
 	glm::vec3 position;
 	glm::vec3 normal;
 	glm::vec2 uv;
-	glm::vec3 tangent;
-	glm::vec3 bitangent;
 	unsigned int boneID[NUM_BONES_PER_VEREX] = {NULL};
 	float weight[NUM_BONES_PER_VEREX] = {0.0};
 };
 
 class Mesh {
+	friend class Model;
+	friend class FrustumCulling;
+	friend class MaterialLayer;
+	friend class MeshRenderer;
+	friend class MaterialLayer;
+
 private:
-	unsigned int vao, count;
+	unsigned int vao, count, vaoBounding, vboInstanceMatrix, instanceSize = 0;
+	glm::vec3 boundingMax, boundingMin;
+	unsigned int attributeType;
 
 public:
 	// constructor
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, unsigned int attributeType);
 	~Mesh();
 
-	/* functions */
 	void draw();
+	void drawInstance(std::vector<glm::mat4>* instanceMatrices);
+	void drawBounding();
 };
 
 #endif /* Mesh_hpp */

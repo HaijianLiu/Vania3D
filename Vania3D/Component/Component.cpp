@@ -31,11 +31,3 @@ void Component::start() {
 void Component::update() {
 
 }
-
-
-/*------------------------------------------------------------------------------
-< get GameObject >
-------------------------------------------------------------------------------*/
-GameObject* Component::getGameObject() {
-	return this->gameObject;
-}

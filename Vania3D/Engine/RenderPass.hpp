@@ -2,23 +2,32 @@
 #ifndef RenderPass_hpp
 #define RenderPass_hpp
 
+struct FrameBuffer {
+	unsigned int fbo;
+	std::vector<unsigned int> textures;
+};
+
 class RenderPass {
+	friend class Game;
+	friend class Scene;
+
 private:
-	unsigned int fbo, vao;
-	std::vector<unsigned int> pass;
+	unsigned int vao;
+	
+	Shader* deferredPBR;
+	FrameBuffer bufferG;
+
+	void init(Shader* shader, unsigned int number);
+	void render(RenderLayer* renderLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
+	// test
+	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
 public:
-	Shader* shader;
-
 	RenderPass();
 	~RenderPass();
 
-	void init(Shader* shader, unsigned int number);
-	void begin();
-	void end();
-	void render();
-
 	void setActiveLightProbe(LightProbe* lightProbe);
+	static FrameBuffer createFrameBuffer(unsigned int number);
 };
 
 #endif /* RenderPass_hpp */

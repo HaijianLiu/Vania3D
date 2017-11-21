@@ -96,65 +96,68 @@ Scene00::~Scene00() {
 ------------------------------------------------------------------------------*/
 void Scene00::start() {
 	Game* game = Game::getInstance();
-	
+
 	// camera
 	GameObject* camera = new GameObject();
-	Transform* cameraTransform = camera->addComponent<Transform>();
-	cameraTransform->position = glm::vec3(0.0,10.0,20.0);
+	camera->staticObject = false;
 	camera->addComponent<Camera>();
 	
 	// player
 	GameObject* player = new GameObject();
+	player->staticObject = false;
 	Transform* playerTransform = player->addComponent<Transform>();
-	playerTransform->modelScale = glm::vec3(0.05);
+	playerTransform->modelScale = glm::vec3(GLOBAL_SCALE);
+	playerTransform->position = glm::vec3(0, -0.6, 0);
 	PlayerController* playerController = player->addComponent<PlayerController>();
 	playerController->camera = camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
 	cameraController->camera = camera;
 	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
-	playerMeshRenderer->addModel(game->resources->getModel("player"));
-	playerMeshRenderer->addMaterial(game->resources->getMaterial("player"));
-	playerMeshRenderer->addLightProbe(game->resources->getLightProbe("hdr"));
-	playerMeshRenderer->camera = camera;
+	playerMeshRenderer->model = game->resources->getModel("player");
+	playerMeshRenderer->materials.push_back(game->resources->getMaterial("player"));
+	playerMeshRenderer->lightProbe = game->resources->getLightProbe("hdr");
+	playerMeshRenderer->castShadow = true;
 	this->addGameObject("player", player);
+	game->shadowMapping->target = player;
 	
 	// camera target
 	GameObject* cameraTarget = new GameObject();
 	Transform* cameraTargetTransform = cameraTarget->addComponent<Transform>();
 	Offset* cameraTargetOffset = cameraTarget->addComponent<Offset>();
 	cameraTargetOffset->parent = playerTransform;
-	cameraTargetOffset->offsetPosition = glm::vec3(0, 5, 0);
+	cameraTargetOffset->offsetPosition = glm::vec3(0, 1, 0);
 	this->addGameObject("cameraTarget", cameraTarget);
 	
 	// camera
+	Transform* cameraTransform = camera->addComponent<Transform>();
+	cameraTransform->position = glm::vec3(0.0,2.0,4.0);
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
-	camera->getComponent<Camera>()->offsetFromTarget = cameraTransform->position - camera->getComponent<Camera>()->target->position;
-	this->addCamera(camera);
-	
+	camera->addComponent<FrustumCulling>();
+	this->mainCamera = camera;
+	this->addGameObject("mainCamera", camera);
+
 	// light
 	GameObject* light[4];
 	for (int i = 0; i < 4; i++) {
 		light[i] = new GameObject();
+		light[i]->staticObject = false;
 		Transform* lightTransform = light[i]->addComponent<Transform>();
-		lightTransform->modelScale = glm::vec3(0.1);
+		lightTransform->modelScale = glm::vec3(5 * GLOBAL_SCALE);
 		light[i]->addComponent<PointLight>();
 		// for test
 		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
-		lightMeshRenderer->addModel(game->resources->getModel("sphere"));
-		lightMeshRenderer->addMaterial(game->resources->getMaterial("simple"));
-		lightMeshRenderer->camera = camera;
-		// ...
-		this->addLight(light[i]);
+		lightMeshRenderer->model = game->resources->getModel("sphere");
+		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
+		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
-	light[0]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f,  10.0f);
-	light[1]->getComponent<Transform>()->position = glm::vec3( 10.0f,  10.0f, -10.0f);
-	light[2]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f,  10.0f);
-	light[3]->getComponent<Transform>()->position = glm::vec3(-10.0f,  10.0f, -10.0f);
-	light[0]->getComponent<PointLight>()->color = glm::vec3(100.0f, 100.0f, 100.0f);
-	light[1]->getComponent<PointLight>()->color = glm::vec3(100.0f, 0.0f, 0.0f);
-	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 100.0f, 0.0f);
-	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 100.0f);
-	
+	light[0]->getComponent<Transform>()->position = glm::vec3( 3.0f,  2,  3.0f);
+	light[1]->getComponent<Transform>()->position = glm::vec3( 3.0f,  2, -3.0f);
+	light[2]->getComponent<Transform>()->position = glm::vec3(-3.0f,  2,  3.0f);
+	light[3]->getComponent<Transform>()->position = glm::vec3(-3.0f,  2, -3.0f);
+	light[0]->getComponent<PointLight>()->color = glm::vec3(20.0f, 20.0f, 20.0f);
+	light[1]->getComponent<PointLight>()->color = glm::vec3(20.0f, 0.0f, 0.0f);
+	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 20.0f, 0.0f);
+	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 20.0f);
 
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
@@ -169,8 +172,8 @@ void Scene00::start() {
 	//	glActiveTexture(GL_TEXTURE9);
 	//	glBindTexture(GL_TEXTURE_2D, noiseTexture);
 	//	game->resources->getShader("renderPass")->setInt("texNoise", 9);
-	
-	
+
+
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -182,9 +185,5 @@ void Scene00::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void Scene00::update() {
-	// show light spere, for test
-	for (unsigned int i = 0; i < this->lights.size(); i ++) {
-		this->lights[i]->getComponent<Transform>()->update();
-		this->lights[i]->getComponent<MeshRenderer>()->update();
-	}
+
 }

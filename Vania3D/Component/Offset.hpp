@@ -3,16 +3,17 @@
 #define OffsetTransform_hpp
 
 class Offset : public Component {
-public:
-	Transform* parent;
+private:
+	void update();
 
-	// offset
+public:
+	// target
+	Transform* parent;
+	// properties
 	glm::vec3 offsetPosition = glm::vec3(0);
 
 	Offset();
 	~Offset();
-
-	void update();
 };
 
 #endif /* OffsetTransform_hpp */

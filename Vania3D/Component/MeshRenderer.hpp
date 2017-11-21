@@ -3,24 +3,30 @@
 #define MeshRenderer_hpp
 
 class MeshRenderer : public Component {
+	friend class ShadowMapping;
+	friend class FrustumCulling;
+	friend class MaterialLayer;
+
 private:
-	Material* material;
-	LightProbe* lightProbe;
+	GameObject* camera;
+	bool culling = false;
+
+	void start();
+	void renderShadow();
 
 public:
+	// render targets
+	LightProbe* lightProbe;
+	// ....... add reflection probes here
+	std::vector<Material*> materials;
 	Model* model;
 
-	GameObject* camera;
+	// properties
+	bool castShadow = false;
+	bool lightmapStatic = true;
 
 	MeshRenderer();
 	~MeshRenderer();
-
-	void start();
-	void update();
-
-	void addModel(Model* model);
-	void addMaterial(Material* material);
-	void addLightProbe(LightProbe* lightProbe);
 };
 
 #endif /* MeshRenderer_hpp */

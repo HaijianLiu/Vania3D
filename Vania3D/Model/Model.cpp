@@ -8,7 +8,8 @@ Model::Model() {
 
 }
 
-Model::Model(const char* path) {
+Model::Model(unsigned int attributeType, const char* path) {
+	this->attributeType = attributeType;
 	this->load(path);
 }
 
@@ -55,6 +56,26 @@ void Model::draw() {
 	for(unsigned int i = 0; i < this->meshes.size(); i++) this->meshes[i]->draw();
 }
 
+void Model::drawMesh(unsigned int meshIndex) {
+	if (meshIndex < this->meshes.size())
+		this->meshes.at(meshIndex)->draw();
+}
+
+void Model::drawBounding() {
+	for(unsigned int i = 0; i < this->meshes.size(); i++) this->meshes[i]->drawBounding();
+}
+
+
+/*------------------------------------------------------------------------------
+< set position uniform >
+------------------------------------------------------------------------------*/
+void Model::setPoseUniform(Shader* shader) {
+	for (unsigned int i = 0 ; i < this->pose.size() ; i++) {
+		std::string boneName = UNIFORM_MATRIX_BONE;
+		shader->setMat4((boneName + "[" + std::to_string(i) + "]").c_str(), this->pose[i]);
+	}
+}
+
 
 /*------------------------------------------------------------------------------
 < load model >
@@ -63,7 +84,7 @@ loads a model with supported ASSIMP extensions from file and stores the resultin
 void Model::load(const char* path) {
 	// read file via ASSIMP
 	Assimp::Importer importer;
-	const aiScene* aiscene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_LimitBoneWeights);
+	const aiScene* aiscene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_LimitBoneWeights);
 	// check for errors
 	if(!aiscene || aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !aiscene->mRootNode) {
 		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
@@ -125,17 +146,28 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 	// data to fill
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
+	// for generating bounding box
+	glm::vec3 boundingMax = glm::vec3(0);
+	glm::vec3 boundingMin = glm::vec3(0);
 
 	/* vertices */
 	// walk through each of the mesh's vertices
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex;
+
 		glm::vec3 vector;
 		// positions
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
 		vertex.position = vector;
+		// update bounding box vertex
+		if (vector.x > boundingMax.x) boundingMax.x = vector.x;
+		if (vector.x < boundingMin.x) boundingMin.x = vector.x;
+		if (vector.y > boundingMax.y) boundingMax.y = vector.y;
+		if (vector.y < boundingMin.y) boundingMin.y = vector.y;
+		if (vector.z > boundingMax.z) boundingMax.z = vector.z;
+		if (vector.z < boundingMin.z) boundingMin.z = vector.z;
 		// normals
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
@@ -152,16 +184,7 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 			vertex.uv = vec;
 		}
 		else vertex.uv = glm::vec2(0.0f, 0.0f);
-		// tangent
-		// vector.x = mesh->mTangents[i].x;
-		// vector.y = mesh->mTangents[i].y;
-		// vector.z = mesh->mTangents[i].z;
-		// vertex.tangent = vector;
-		// bitangent
-		// vector.x = mesh->mBitangents[i].x;
-		// vector.y = mesh->mBitangents[i].y;
-		// vector.z = mesh->mBitangents[i].z;
-		// vertex.bitangent = vector;
+
 		vertices.push_back(vertex);
 	}
 
@@ -214,5 +237,69 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 		}
 	}
 	// return a mesh object created from the extracted mesh data
-	this->meshes.push_back(new Mesh(vertices, indices));
+	this->meshes.push_back(new Mesh(vertices, indices, this->attributeType));
+	// create bounding box
+	this->meshes.back()->vaoBounding = this->createBox(boundingMax, boundingMin);
+	this->meshes.back()->boundingMax = boundingMax;
+	this->meshes.back()->boundingMin = boundingMin;
+}
+
+
+/*------------------------------------------------------------------------------
+< create box via six values >
+------------------------------------------------------------------------------*/
+unsigned int Model::createBox(glm::vec3 boundingMax, glm::vec3 boundingMin) {
+	float boxVertices[] = {
+		boundingMin.x, boundingMax.y, boundingMin.z,
+		boundingMin.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMax.y, boundingMin.z,
+		boundingMin.x, boundingMax.y, boundingMin.z,
+
+		boundingMin.x, boundingMin.y, boundingMax.z,
+		boundingMin.x, boundingMin.y, boundingMin.z,
+		boundingMin.x, boundingMax.y, boundingMin.z,
+		boundingMin.x, boundingMax.y, boundingMin.z,
+		boundingMin.x, boundingMax.y, boundingMax.z,
+		boundingMin.x, boundingMin.y, boundingMax.z,
+
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+
+		boundingMin.x, boundingMin.y, boundingMax.z,
+		boundingMin.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMin.y, boundingMax.z,
+		boundingMin.x, boundingMin.y, boundingMax.z,
+
+		boundingMin.x, boundingMax.y, boundingMin.z,
+		boundingMax.x, boundingMax.y, boundingMin.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMax.x, boundingMax.y, boundingMax.z,
+		boundingMin.x, boundingMax.y, boundingMax.z,
+		boundingMin.x, boundingMax.y, boundingMin.z,
+
+		boundingMin.x, boundingMin.y, boundingMin.z,
+		boundingMin.x, boundingMin.y, boundingMax.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMax.x, boundingMin.y, boundingMin.z,
+		boundingMin.x, boundingMin.y, boundingMax.z,
+		boundingMax.x, boundingMin.y, boundingMax.z
+	};
+	unsigned int vao, vbo;
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(boxVertices), &boxVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	return vao;
 }

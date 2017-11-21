@@ -6,6 +6,7 @@
 ------------------------------------------------------------------------------*/
 Scene::Scene() {
 	this->game = Game::getInstance();
+	this->renderLayer = new RenderLayer();
 }
 
 
@@ -14,7 +15,7 @@ Scene::Scene() {
 ------------------------------------------------------------------------------*/
 Scene::~Scene() {
 	deleteVector(this->gameObjects);
-	deleteVector(this->lights);
+	delete this->renderLayer;
 }
 
 
@@ -26,16 +27,53 @@ void Scene::update() {
 }
 
 
-void Scene::updateRenderPass() {
-	// renderPass
-	this->game->renderPass->shader->use();
-	this->game->renderPass->shader->setVec3("cameraPos", this->camera->getComponent<Transform>()->position);
-
-	// lights
-	for (unsigned int i = 0; i < this->lights.size(); ++i) {
-		this->game->renderPass->shader->setVec3(("lightPositions[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<Transform>()->position);
-		this->game->renderPass->shader->setVec3(("lightColors[" + std::to_string(i) + "]").c_str(), this->lights[i]->getComponent<PointLight>()->color);
+/*------------------------------------------------------------------------------
+ < start scene > for scene manager
+------------------------------------------------------------------------------*/
+void Scene::startScene() {
+	this->start();
+	for (unsigned int i = 0; i < this->gameObjects.size(); i++) {
+		this->gameObjects[i]->start();
+		// mesh renderring list
+		MeshRenderer* meshRenderer = this->gameObjects[i]->getComponent<MeshRenderer>();
+		if (meshRenderer && meshRenderer->castShadow)
+			this->shadowQueue.push_back(meshRenderer);
+		if (meshRenderer) {
+			this->renderLayer->add(this->gameObjects[i]);
+			this->renderQueue.push_back(meshRenderer);
+		}
+		// point lights list
+		PointLight* pointLight = this->gameObjects[i]->getComponent<PointLight>();
+		if (pointLight)
+			this->pointLights.push_back(pointLight);
 	}
+	this->started = true;
+}
+
+
+/*------------------------------------------------------------------------------
+ < update scene > for scene manager
+------------------------------------------------------------------------------*/
+void Scene::updateScene() {
+	// user scene update
+	this->update();
+	// game objects update
+	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
+		this->gameObjects[i]->update();
+	// frustum culling
+	FrustumCulling* frustumCulling = this->mainCamera->getComponent<FrustumCulling>();
+	if (frustumCulling) {
+		for (unsigned int i = 0; i < this->renderQueue.size(); i++)
+			frustumCulling->cullingSphere(this->renderQueue.at(i));
+		for (unsigned int i = 0; i < this->pointLights.size(); i++)
+			frustumCulling->cullingSphere(this->pointLights.at(i));
+	}
+
+	// shadow mapping
+	this->game->shadowMapping->render(&this->shadowQueue);
+	// final render
+	this->game->renderPass->render(this->renderLayer, &this->pointLights, this->mainCamera);
+//	 this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
 }
 
 
@@ -43,25 +81,10 @@ void Scene::updateRenderPass() {
 < add gameobject >
 ------------------------------------------------------------------------------*/
 void Scene::addGameObject(const char* name, GameObject* gameObject) {
+	gameObject->scene = this;
 	this->gameObjects.push_back(gameObject);
 	this->gameObjectsMapping.insert(std::make_pair(name, this->index));
 	this->index ++;
-}
-
-
-/*------------------------------------------------------------------------------
-< add camera >
-------------------------------------------------------------------------------*/
-void Scene::addCamera(GameObject* camera) {
-	this->camera = camera;
-}
-
-
-/*------------------------------------------------------------------------------
-< add light >
-------------------------------------------------------------------------------*/
-void Scene::addLight(GameObject* light) {
-	this->lights.push_back(light);
 }
 
 

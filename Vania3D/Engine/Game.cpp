@@ -22,6 +22,7 @@ Game::~Game() {
 	delete this->resources;
 	delete this->sceneManager;
 	delete this->renderPass;
+	delete this->shadowMapping;
 	delete this->time;
 	delete this->input;
 }
@@ -36,6 +37,7 @@ void Game::start() {
 	this->resources = Resources::getInstance();
 	this->sceneManager = new SceneManager();
 	this->renderPass = new RenderPass();
+	this->shadowMapping = new ShadowMapping();
 	this->time = Time::getInstance();
 	this->input = Input::getInstance();
 
@@ -43,11 +45,15 @@ void Game::start() {
 	// resources
 	this->resources->start();
 	// render pass
-	this->renderPass->init(this->resources->getShader("renderPass"), 5);
+	this->renderPass->init(this->resources->getShader("renderpass_deferred_pbr"), 4); // 3 model textures + 1 model position + 1 alpha
+	// shadow mapping
+	this->shadowMapping->init(this->resources->getShader("shadow_mapping_depth"), 512);
+
 	// scene manager ????
-	this->sceneManager->addScene("Scene00", new Scene00());
-	this->sceneManager->addScene("SceneUnityTest", new SceneUnityTest());
-	this->sceneManager->setActiveScene("SceneUnityTest"); // default scene
+//	this->sceneManager->addScene("Scene00", new Scene00());
+//	this->sceneManager->addScene("Scene01", new Scene01());
+	this->sceneManager->addScene("Scene02", new Scene02());
+	this->sceneManager->setActiveScene("Scene02"); // set default scene
 }
 
 
@@ -58,8 +64,5 @@ void Game::update() {
 	// keep in order
 	this->time->update();
 	this->input->updateJoystick();
-	this->renderPass->begin();
 	this->sceneManager->update();
-	this->renderPass->end();
-	this->renderPass->render();
 }

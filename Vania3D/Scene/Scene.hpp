@@ -3,33 +3,37 @@
 #define Scene_hpp
 
 class Scene {
-private:
 	friend class SceneManager;
 
+private:
+	bool started = false;
+
+	// game objects list
 	std::vector<GameObject*> gameObjects; // component will be updated
 	unsigned int index = 0;
 	std::unordered_map<const char*, unsigned int> gameObjectsMapping;
+	// render list
+	RenderLayer* renderLayer; // for final render
+	std::vector<MeshRenderer*> shadowQueue; // a list for shadow casting game objects
+	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects for some purpose
+	std::vector<PointLight*> pointLights; // a list for point lights to be calculated
+	
+	void startScene();
+	void updateScene();
 
-	GameObject* camera;
-
-	void updateRenderPass();
-
-public:
+protected:
 	Game* game;
-	std::vector<GameObject*> lights; // component wont be updated
-
-	bool started = false;
-
-	Scene();
-	virtual ~Scene();
 
 	virtual void start() = 0;
 	virtual void update();
 
-	void addGameObject(const char* name, GameObject* gameObject);
-	void addLight(GameObject* light);
-	void addCamera(GameObject* camera);
+public:
+	GameObject* mainCamera;
+	
+	Scene();
+	virtual ~Scene();
 
+	void addGameObject(const char* name, GameObject* gameObject);
 	GameObject* getGameObject(const char* name);
 };
 
