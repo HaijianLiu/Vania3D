@@ -67,6 +67,21 @@ void Scene02::start() {
 
 	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
 	delete map;
+	
+	
+	
+	// test object
+	GameObject* testObject = new GameObject();
+	testObject->staticObject = false;
+	Transform* testTransform = testObject->addComponent<Transform>();
+	testTransform->position = glm::vec3(0, 1, 0);
+	testTransform->scale = glm::vec3(20 * GLOBAL_SCALE);
+	MeshRenderer* testMesh = testObject->addComponent<MeshRenderer>();
+	testMesh->model = game->resources->getModel("quad");
+	testMesh->materials.push_back(game->resources->getMaterial("Door1"));
+	testObject->addComponent<Billboard>();
+	this->addGameObject("testObject", testObject);
+	
 
 	// light
 	GameObject* light[4];

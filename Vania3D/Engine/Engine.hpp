@@ -123,6 +123,7 @@ class Scene;
 #include "Transform.hpp"
 #include "MeshRenderer.hpp"
 #include "PointLight.hpp"
+#include "Billboard.hpp"
 
 #include "Resources.hpp"
 #include "RenderLayer.hpp"

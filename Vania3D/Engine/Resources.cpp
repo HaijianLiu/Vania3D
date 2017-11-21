@@ -75,6 +75,7 @@ void Resources::start() {
 	this->getMaterial("player")->twoSides = true;
 
 	this->loadModel("sphere", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/sphere.fbx");
+	this->loadModel("quad", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/quad.fbx");
 
 
 	// this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
@@ -234,14 +235,13 @@ void Resources::start() {
 	this->loadTexture("brick1_N", "./Assets/Models/FantasyDungeon/Textures/Wall/brick1_N.TGA");
 	this->loadTexture("brick1_SRM", "./Assets/Models/FantasyDungeon/Textures/Wall/brick1_SRM.TGA");
 
+
+
 	// Chandelier
 	this->createMaterial("Chandelier", this->getShader("FantasyDungeonSRM"));
 	this->getMaterial("Chandelier")->addTexture("albedoMap", this->getTexture("chandelier_D"));
 	this->getMaterial("Chandelier")->addTexture("normalMap", this->getTexture("chandelier_N"));
 	this->getMaterial("Chandelier")->addTexture("maskMap", this->getTexture("chandelier_SRM"));
-
-
-
 	// BrickDamege
 	this->createMaterial("BrickDamege", this->getShader("FantasyDungeonSRM"));
 	this->getMaterial("BrickDamege")->addTexture("albedoMap", this->getTexture("BrickDamage_D"));

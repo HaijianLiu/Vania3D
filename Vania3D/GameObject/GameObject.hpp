@@ -4,16 +4,15 @@
 
 class GameObject {
 	friend class Scene;
-	friend class MeshRenderer;
 
 private:
-	Scene* scene;
 	std::unordered_map<std::type_index, Component*> components;
 
 	void start();
 	void update();
 
 public:
+	Scene* scene;
 	bool staticObject = true;
 
 	GameObject();

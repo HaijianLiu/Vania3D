@@ -4,8 +4,6 @@
 
 class Scene {
 	friend class SceneManager;
-	friend class Level;
-	friend class MeshRenderer;
 
 private:
 	bool started = false;
@@ -25,12 +23,13 @@ private:
 
 protected:
 	Game* game;
-	GameObject* mainCamera;
 
 	virtual void start() = 0;
 	virtual void update();
 
 public:
+	GameObject* mainCamera;
+	
 	Scene();
 	virtual ~Scene();
 

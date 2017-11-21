@@ -33,6 +33,7 @@
 		602434451F88EA8600DA6CA4 /* libfmodL.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A321F88C83000AE4BEB /* libfmodL.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602434481F88F04600DA6CA4 /* libassimp.3.3.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602C98A41FAED44000B69E45 /* Offset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602C98A21FAED44000B69E45 /* Offset.cpp */; };
+		60315E691FC31A13005D6AE0 /* Billboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60315E671FC31A13005D6AE0 /* Billboard.cpp */; };
 		604B57821F945A84009DE302 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57801F945A84009DE302 /* Model.cpp */; };
 		604B57851F945A92009DE302 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57831F945A92009DE302 /* Mesh.cpp */; };
 		604B57881F94928A009DE302 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57861F94928A009DE302 /* Texture.cpp */; };
@@ -122,6 +123,8 @@
 		602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = Frameworks/assimp/lib/libassimp.3.3.1.dylib; sourceTree = "<group>"; };
 		602C98A21FAED44000B69E45 /* Offset.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Offset.cpp; sourceTree = "<group>"; };
 		602C98A31FAED44000B69E45 /* Offset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Offset.hpp; sourceTree = "<group>"; };
+		60315E671FC31A13005D6AE0 /* Billboard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Billboard.cpp; sourceTree = "<group>"; };
+		60315E681FC31A13005D6AE0 /* Billboard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Billboard.hpp; sourceTree = "<group>"; };
 		604B57801F945A84009DE302 /* Model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		604B57811F945A84009DE302 /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Model.hpp; sourceTree = "<group>"; };
 		604B57831F945A92009DE302 /* Mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
@@ -319,6 +322,8 @@
 				602434391F88E70B00DA6CA4 /* Camera.hpp */,
 				600B9A6F1FBC25F000B1F0D5 /* FrustumCulling.cpp */,
 				600B9A701FBC25F000B1F0D5 /* FrustumCulling.hpp */,
+				60315E671FC31A13005D6AE0 /* Billboard.cpp */,
+				60315E681FC31A13005D6AE0 /* Billboard.hpp */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -456,6 +461,7 @@
 				60070A301F88C82A00AE4BEB /* main.cpp in Sources */,
 				60E579F81FA0B34700690EC1 /* Animation.cpp in Sources */,
 				6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */,
+				60315E691FC31A13005D6AE0 /* Billboard.cpp in Sources */,
 				602C98A41FAED44000B69E45 /* Offset.cpp in Sources */,
 				606101E61FB0034900558589 /* Scene01.cpp in Sources */,
 				600B9A7D1FC1566800B1F0D5 /* Scene02.cpp in Sources */,
