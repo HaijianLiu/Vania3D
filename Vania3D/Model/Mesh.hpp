@@ -34,16 +34,25 @@ class Mesh {
 	friend class FrustumCulling;
 	friend class MaterialLayer;
 	friend class MeshRenderer;
-	friend class MaterialLayer;
 
 private:
 	unsigned int vao, count, vaoBounding, vboInstanceMatrix, instanceSize = 0;
-	glm::vec3 boundingMax, boundingMin;
+	glm::vec3 boundingMax = glm::vec3(0), boundingMin = glm::vec3(0);
 	unsigned int attributeType;
+	
+	void createDefaultMesh(const aiMesh* aimesh);
+	void createInstanceMesh(const aiMesh* aimesh);
+	void createBoneMesh(const aiMesh* aimesh);
+	void createFxMesh(const aiMesh* aimesh);
+	
+	static void loadIndices(std::vector<unsigned int>* indices, const aiMesh* aimesh);
+	static void boneMapping(std::vector<Vertex>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh);
+	static void updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm::vec3& boundingMin);
+	static unsigned int createBox(glm::vec3 boundingMax, glm::vec3 boundingMin);
 
 public:
 	// constructor
-	Mesh(std::vector<Vertex>* vertices, std::vector<unsigned int>* indices, unsigned int attributeType);
+	Mesh(const aiMesh* aimesh, std::vector<glm::mat4>* pose, unsigned int attributeType);
 	~Mesh();
 
 	void draw();

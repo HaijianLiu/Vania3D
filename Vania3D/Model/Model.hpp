@@ -22,10 +22,6 @@ private:
 	// loads a model with supported assimp extensions from file and stores the resulting data
 	void load(const char* path);
 	void processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene);
-	void createMesh(aiMesh* aimesh, const aiScene* aiscene);
-	static void loadIndices(std::vector<unsigned int>* indices, const aiMesh* aimesh);
-	static void updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm::vec3& boundingMin);
-	static void boneMapping(std::vector<Vertex>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh);
 	
 public:
 	std::vector<std::string> materialNames;
@@ -44,7 +40,7 @@ public:
 	void drawBounding();
 	void setPoseUniform(Shader* shader);
 
-	static unsigned int createBox(glm::vec3 boundingMax, glm::vec3 boundingMin);
+
 };
 
 #endif /* Model_hpp */
