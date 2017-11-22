@@ -4,19 +4,30 @@
 
 class Emitter : public Component {
 private:
+	float lastSpawnTime = 0;
+	
 	std::vector<GameObject*> particles;
 	
 	void start();
 	void update();
 	
+	GameObject* activeParticle();
+	
 public:
-	unsigned int maxParticles = 10;
-	float lifeTime;
-	float initialLocation, initialSize, initialVelocity;
-	float sizeByLife, velocityByLife, colorOverTime;
 	Material* material;
 	
+	unsigned int maxParticles = 10;
+	float spawnTime = 0.1;
+	float lifeTime = 1;
+	
+	float initialLocation, initialSize, initialVelocity;
+	
+	float sizeByLife, velocityByLife, colorOverTime;
+	
+
+	
 	void createParticles(const char* name, Scene* scene);
+
 	
 	Emitter();
 	~Emitter();

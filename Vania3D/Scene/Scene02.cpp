@@ -72,6 +72,7 @@ void Scene02::start() {
 	partilesTransform->position = glm::vec3(0, 1, 0);
 	Emitter* partilesEmitter = partiles->addComponent<Emitter>();
 	partilesEmitter->material = game->resources->getMaterial("Fire1");
+	partilesEmitter->spawnTime = 0.3;
 	// .... setting
 	partilesEmitter->createParticles("particle", this);
 	this->addGameObject("emitter", partiles);

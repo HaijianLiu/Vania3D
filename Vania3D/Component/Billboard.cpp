@@ -21,14 +21,9 @@ Billboard::~Billboard() {
 < start >
 ------------------------------------------------------------------------------*/
 void Billboard::start() {
-	if (this->gameObject->staticObject)
-		this->gameObject->staticObject = false;
-
 	this->transform = this->gameObject->getComponent<Transform>();
-
 	GameObject* camera = this->gameObject->scene->mainCamera;
 	this->transformCamera = camera->getComponent<Transform>();
-
 }
 
 

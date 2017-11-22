@@ -13,8 +13,11 @@ private:
 
 public:
 	Scene* scene;
+	
 	bool active = true;
+	float lastActiveTime = 0;
 	bool staticObject = true;
+
 
 	GameObject();
 	virtual ~GameObject();

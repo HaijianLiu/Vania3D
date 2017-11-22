@@ -4,6 +4,7 @@
 
 class UVAnimation : public Component {
 	friend class MaterialLayer;
+	friend class Emitter;
 	
 private:
 	float animationStartTime;
