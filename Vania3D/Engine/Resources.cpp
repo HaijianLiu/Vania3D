@@ -56,6 +56,9 @@ void Resources::start() {
 
 	// shadow mapping
 	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/Vertex/bones_3_locations_shadowmapping.vs.glsl",  "./Assets/Shaders/Fragment/null.fs.glsl");
+	// fx
+	this->loadShader("fx_uv_animation", "./Assets/Shaders/Vertex/instance_7_locations_fx_animation.vs.glsl",  "./Assets/Shaders/Fragment/fx_1_passes.fs.glsl");
+	this->loadShader("fx_image", "./Assets/Shaders/Vertex/instance_7_locations_fx.vs.glsl",  "./Assets/Shaders/Fragment/fx_1_passes.fs.glsl");
 
 	/* Model
 	..............................................................................*/
@@ -74,8 +77,7 @@ void Resources::start() {
 	this->getMaterial("player")->addTexture("maskMap", this->getTexture("player_mask"));
 	this->getMaterial("player")->twoSides = true;
 
-	this->loadModel("sphere", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/sphere.fbx");
-	this->loadModel("Fire1", MESH_ATTRIBUTE_INSTANCE_ANIMATION, "./Assets/Models/quad.fbx");
+	this->loadModel("sphere", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/Basic/sphere.fbx");
 
 
 	// this->loadShader("deferredPBR_Kowloon", "./Assets/Shaders/deferredPBR_Kowloon.vs.glsl",  "./Assets/Shaders/deferredPBR_Kowloon.fs.glsl");
@@ -102,14 +104,14 @@ void Resources::start() {
 	// shaders
 	this->loadShader("FantasyDungeonSRM", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/FantasyDungeon/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->loadShader("FantasyDungeonWet", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl",  "./Assets/Shaders/FantasyDungeon/bgra_to_mrca_wet_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
-	this->loadShader("FantasyDungeonFX", "./Assets/Shaders/Vertex/instance_7_locations_fx_animation.vs.glsl",  "./Assets/Shaders/Fragment/fx_4_passes.fs.glsl");
+
 
 	// BaseTexture
 	this->loadTexture("Mask1", "./Assets/Models/FantasyDungeon/Textures/BaseTexture/Mask1.TGA");
 	// FX
 	this->loadTexture("fx_fire_D", "./Assets/Models/FantasyDungeon/Textures/FX/fx_fire_D.TGA");
-	this->createMaterial("Fire1", this->getShader("FantasyDungeonFX"));
-	this->getMaterial("Fire1")->addTexture("albedoMap", this->getTexture("fx_fire_D"));
+	this->createMaterial("fx_fire", this->getShader("fx_uv_animation"));
+	this->getMaterial("fx_fire")->addTexture("albedoMap", this->getTexture("fx_fire_D"));
 
 
 	// BrickDamege

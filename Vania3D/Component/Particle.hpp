@@ -6,13 +6,11 @@ class Particle : public Component {
 	friend class Emitter;
 	
 private:
-	void start();
 	void update();
 	
-	void scaleOverLife();
-	
 public:
-	float lifeTime;
+	float lifeTime = 1;
+	float gravity = 0;
 	glm::vec3 initScale, initVelocity;
 	
 	Particle();
