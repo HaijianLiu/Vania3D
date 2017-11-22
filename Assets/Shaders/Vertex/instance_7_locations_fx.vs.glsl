@@ -2,11 +2,11 @@
 #version 330 core
 layout (location = 0) in vec3 positionVertex;
 layout (location = 1) in vec2 uvVertex;
-layout (location = 3) in vec4 instanceMatrix0;
-layout (location = 4) in vec4 instanceMatrix1;
-layout (location = 5) in vec4 instanceMatrix2;
-layout (location = 6) in vec4 instanceMatrix3;
-layout (location = 7) in float animationTime;
+layout (location = 2) in vec4 instanceMatrix0;
+layout (location = 3) in vec4 instanceMatrix1;
+layout (location = 4) in vec4 instanceMatrix2;
+layout (location = 5) in vec4 instanceMatrix3;
+layout (location = 6) in float animationTime;
 
 out vec2 uv;
 out float alpha;

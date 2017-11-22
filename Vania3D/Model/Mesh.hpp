@@ -6,23 +6,20 @@ struct Vertex {
 	glm::vec3 position;
 	glm::vec3 normal;
 	glm::vec2 uv;
+};
+
+struct VertexBone {
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 uv;
 	unsigned int boneID[NUM_BONES_PER_VEREX] = {NULL};
 	float weight[NUM_BONES_PER_VEREX] = {0.0};
 };
 
-//struct VertexBone {
-//	glm::vec3 position;
-//	glm::vec3 normal;
-//	glm::vec2 uv;
-//	unsigned int boneID[NUM_BONES_PER_VEREX] = {NULL};
-//	float weight[NUM_BONES_PER_VEREX] = {0.0};
-//};
-//
-//struct VertexFx {
-//	glm::vec3 position;
-//	glm::vec3 normal;
-//	glm::vec2 uv;
-//};
+struct VertexFx {
+	glm::vec3 position;
+	glm::vec2 uv;
+};
 
 struct InstanceFx {
 	glm::mat4 model;
@@ -42,11 +39,11 @@ private:
 	
 	void createDefaultMesh(const aiMesh* aimesh);
 	void createInstanceMesh(const aiMesh* aimesh);
-	void createBoneMesh(const aiMesh* aimesh);
+	void createBoneMesh(const aiMesh* aimesh, std::vector<glm::mat4>* pose);
 	void createFxMesh(const aiMesh* aimesh);
 	
 	static void loadIndices(std::vector<unsigned int>* indices, const aiMesh* aimesh);
-	static void boneMapping(std::vector<Vertex>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh);
+	static void boneMapping(std::vector<VertexBone>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh);
 	static void updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm::vec3& boundingMin);
 	static unsigned int createBox(glm::vec3 boundingMax, glm::vec3 boundingMin);
 
