@@ -43,7 +43,7 @@ private:
 
 public:
 	// constructor
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, unsigned int attributeType);
+	Mesh(std::vector<Vertex>* vertices, std::vector<unsigned int>* indices, unsigned int attributeType);
 	~Mesh();
 
 	void draw();

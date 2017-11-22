@@ -143,14 +143,12 @@ load mesh vertices data to vao
 if vertices have bone weights then load them to vao too
 ------------------------------------------------------------------------------*/
 void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
-	
-	// data to fill
-	std::vector<Vertex> vertices;
-	
 	// for generating bounding box
 	glm::vec3 boundingMax = glm::vec3(0);
 	glm::vec3 boundingMin = glm::vec3(0);
 
+	// data to fill
+	std::vector<Vertex> vertices;
 	// vertices
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex;
@@ -161,27 +159,29 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 		this->updateBounding(vertex.position, boundingMax, boundingMin);
 		vertices.push_back(vertex);
 	}
-
 	// bones
 	this->boneMapping(&vertices, &this->pose, mesh);
-	
-	
 	// indices
 	std::vector<unsigned int> indices;
-	for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
-		aiFace face = mesh->mFaces[i];
-		for(unsigned int j = 0; j < face.mNumIndices; j++)
-			indices.push_back(face.mIndices[j]);
-	}
-	
+	this->loadIndices(&indices, mesh);
 	// return a mesh object created from the extracted mesh data
-	this->meshes.push_back(new Mesh(vertices, indices, this->attributeType));
+	this->meshes.push_back(new Mesh(&vertices, &indices, this->attributeType));
+	
+	
 	// create bounding box
 	this->meshes.back()->vaoBounding = this->createBox(boundingMax, boundingMin);
 	this->meshes.back()->boundingMax = boundingMax;
 	this->meshes.back()->boundingMin = boundingMin;
 }
 
+
+void Model::loadIndices(std::vector<unsigned int>* indices, const aiMesh* aimesh) {
+	for(unsigned int i = 0; i < aimesh->mNumFaces; i++) {
+		aiFace face = aimesh->mFaces[i];
+		for(unsigned int j = 0; j < face.mNumIndices; j++)
+			indices->push_back(face.mIndices[j]);
+	}
+}
 
 
 void Model::boneMapping(std::vector<Vertex>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh) {
