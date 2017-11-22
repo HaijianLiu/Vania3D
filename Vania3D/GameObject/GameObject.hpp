@@ -13,6 +13,7 @@ private:
 
 public:
 	Scene* scene;
+	bool active = true;
 	bool staticObject = true;
 
 	GameObject();

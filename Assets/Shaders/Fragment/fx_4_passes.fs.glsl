@@ -9,6 +9,5 @@ in vec3 normal;
 uniform sampler2D albedoMap;
 
 void main() {
-
 	albedoPass = vec4(pow(texture(albedoMap, uv).rgb, vec3(2.2)), 1);
 }

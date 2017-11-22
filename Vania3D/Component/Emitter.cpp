@@ -23,6 +23,7 @@ void Emitter::createParticles(const char* name, Scene* scene) {
 	for (unsigned int i = 0; i < this->maxParticles; i++) {
 		GameObject* particle = new GameObject();
 		particle->staticObject = false;
+		particle->active = false;
 		Transform* particleTransform = particle->addComponent<Transform>();
 		particleTransform->position = glm::vec3(0, 1, 0);
 		particleTransform->scale = glm::vec3(20 * GLOBAL_SCALE);

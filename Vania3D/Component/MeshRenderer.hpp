@@ -10,6 +10,7 @@ class MeshRenderer : public Component {
 	friend class ShadowMapping;
 	friend class FrustumCulling;
 	friend class MaterialLayer;
+	friend class Scene;
 
 private:
 	GameObject* camera;

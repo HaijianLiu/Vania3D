@@ -62,9 +62,12 @@ void Scene::startScene() {
 void Scene::updateScene() {
 	// user scene update
 	this->update();
+	
 	// game objects update
 	for (unsigned int i = 0; i < this->gameObjects.size(); i++)
-		this->gameObjects[i]->update();
+		if (this->gameObjects[i]->active)
+			this->gameObjects[i]->update();
+	
 	// frustum culling
 	FrustumCulling* frustumCulling = this->mainCamera->getComponent<FrustumCulling>();
 	if (frustumCulling) {
@@ -73,9 +76,16 @@ void Scene::updateScene() {
 		for (unsigned int i = 0; i < this->pointLights.size(); i++)
 			frustumCulling->cullingSphere(this->pointLights.at(i));
 	}
-
+	
+	// active culling
+	for (unsigned int i = 0; i < this->renderQueue.size(); i++)
+		if (!this->renderQueue.at(i)->gameObject->active)
+			this->renderQueue.at(i)->culling = true;
+	
+	
 	// shadow mapping
 	this->game->shadowMapping->render(&this->shadowQueue);
+	
 	// final render
 	this->game->renderPass->render(this->renderLayer, this->fxLayer, &this->pointLights, this->mainCamera);
 //	 this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);

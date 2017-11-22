@@ -5,6 +5,7 @@
 class Component {
 	friend class GameObject;
 	friend class RenderPass;
+	friend class Scene;
 
 protected:
 	Game* game;
