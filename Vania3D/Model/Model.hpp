@@ -3,7 +3,7 @@
 #define Model_hpp
 
 enum MESH_ATTRIBUTE_TYPE {
-	MESH_ATTRIBUTE_DEFAULT, MESH_ATTRIBUTE_INSTANCE, MESH_ATTRIBUTE_INSTANCE_ANIMATION, MESH_ATTRIBUTE_BONE
+	MESH_ATTRIBUTE_DEFAULT, MESH_ATTRIBUTE_BONE, MESH_ATTRIBUTE_INSTANCE, MESH_ATTRIBUTE_INSTANCE_FX
 };
 
 class Model {
@@ -23,7 +23,9 @@ private:
 	void load(const char* path);
 	void processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene);
 	void createMesh(aiMesh* aimesh, const aiScene* aiscene);
-
+	static void updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm::vec3& boundingMin);
+	static void boneMapping(std::vector<Vertex>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh);
+	
 public:
 	std::vector<std::string> materialNames;
 	bool distanceCulling = false;

@@ -63,20 +63,20 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, unsi
 			glVertexAttribDivisor(5, 1);
 			glVertexAttribDivisor(6, 1);
 			break;
-		case MESH_ATTRIBUTE_INSTANCE_ANIMATION:
+		case MESH_ATTRIBUTE_INSTANCE_FX:
 			glGenBuffers(1, &this->vboInstanceMatrix);
 			glBindBuffer(GL_ARRAY_BUFFER, this->vboInstanceMatrix);
-			glBufferData(GL_ARRAY_BUFFER, MAX_MESH_INSTANCE * sizeof(InstanceFX), nullptr, GL_DYNAMIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, MAX_MESH_INSTANCE * sizeof(InstanceFx), nullptr, GL_DYNAMIC_DRAW);
 			glEnableVertexAttribArray(3);
-			glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFX), (void*)0);
+			glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFx), (void*)0);
 			glEnableVertexAttribArray(4);
-			glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFX), (void*)sizeof(glm::vec4));
+			glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFx), (void*)sizeof(glm::vec4));
 			glEnableVertexAttribArray(5);
-			glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFX), (void*)(2 * sizeof(glm::vec4)));
+			glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFx), (void*)(2 * sizeof(glm::vec4)));
 			glEnableVertexAttribArray(6);
-			glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFX), (void*)(3 * sizeof(glm::vec4)));
+			glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFx), (void*)(3 * sizeof(glm::vec4)));
 			glEnableVertexAttribArray(7);
-			glVertexAttribPointer(7, 1, GL_FLOAT, GL_FALSE, sizeof(InstanceFX), (void*)(4 * sizeof(glm::vec4)));
+			glVertexAttribPointer(7, 1, GL_FLOAT, GL_FALSE, sizeof(InstanceFx), (void*)(4 * sizeof(glm::vec4)));
 			glVertexAttribDivisor(3, 1);
 			glVertexAttribDivisor(4, 1);
 			glVertexAttribDivisor(5, 1);
@@ -111,9 +111,9 @@ void Mesh::drawInstance(std::vector<glm::mat4>* instanceMatrices) {
 	glDrawElementsInstanced(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0, instanceMatrices->size());
 }
 
-void Mesh::drawFX(std::vector<InstanceFX>* instances) {
+void Mesh::drawFX(std::vector<InstanceFx>* instances) {
 	glBindBuffer(GL_ARRAY_BUFFER, this->vboInstanceMatrix);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, instances->size() * sizeof(InstanceFX), instances->data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, instances->size() * sizeof(InstanceFx), instances->data());
 	glDrawElementsInstanced(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0, instances->size());
 }
 

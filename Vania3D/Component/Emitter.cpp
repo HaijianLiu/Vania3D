@@ -20,7 +20,7 @@ void Emitter::update() {
 
 void Emitter::createParticles(const char* name, Scene* scene) {
 	std::string particleName = std::string(name);
-	game->resources->loadModel(particleName.c_str(), MESH_ATTRIBUTE_INSTANCE_ANIMATION, "./Assets/Models/Basic/quad.fbx"); // reload new model for seperate emitters
+	game->resources->loadModel(particleName.c_str(), MESH_ATTRIBUTE_INSTANCE_FX, "./Assets/Models/Basic/quad.fbx"); // reload new model for seperate emitters
 	for (unsigned int i = 0; i < this->maxParticles; i++) {
 		GameObject* particle = new GameObject();
 		particle->staticObject = false;

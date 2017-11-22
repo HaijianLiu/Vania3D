@@ -193,6 +193,7 @@ template <typename T> void deleteVectorMap(T map) {
 /*------------------------------------------------------------------------------
 < convert from Assimp to glm >
 ------------------------------------------------------------------------------*/
+glm::vec2 assignment(const aiVector2D& assimpVector);
 glm::vec3 assignment(const aiVector3D& assimpVector);
 glm::vec3 assignment(const aiColor3D& assimpColor);
 glm::quat assignment(const aiQuaternion& assimpQuaternion);

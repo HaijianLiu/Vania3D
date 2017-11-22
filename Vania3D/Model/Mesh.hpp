@@ -10,7 +10,21 @@ struct Vertex {
 	float weight[NUM_BONES_PER_VEREX] = {0.0};
 };
 
-struct InstanceFX {
+//struct VertexBone {
+//	glm::vec3 position;
+//	glm::vec3 normal;
+//	glm::vec2 uv;
+//	unsigned int boneID[NUM_BONES_PER_VEREX] = {NULL};
+//	float weight[NUM_BONES_PER_VEREX] = {0.0};
+//};
+//
+//struct VertexFx {
+//	glm::vec3 position;
+//	glm::vec3 normal;
+//	glm::vec2 uv;
+//};
+
+struct InstanceFx {
 	glm::mat4 model;
 	float animationTime;
 };
@@ -34,7 +48,7 @@ public:
 
 	void draw();
 	void drawInstance(std::vector<glm::mat4>* instanceMatrices);
-	void drawFX(std::vector<InstanceFX>* instances);
+	void drawFX(std::vector<InstanceFx>* instances);
 	void drawBounding();
 };
 

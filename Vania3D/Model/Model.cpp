@@ -143,91 +143,76 @@ load mesh vertices data to vao
 if vertices have bone weights then load them to vao too
 ------------------------------------------------------------------------------*/
 void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
+	
 	// data to fill
 	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
+	
 	// for generating bounding box
 	glm::vec3 boundingMax = glm::vec3(0);
 	glm::vec3 boundingMin = glm::vec3(0);
 
-	/* vertices */
-	// walk through each of the mesh's vertices
+	// vertices
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex;
-
-		glm::vec3 vector;
-		// positions
-		vector.x = mesh->mVertices[i].x;
-		vector.y = mesh->mVertices[i].y;
-		vector.z = mesh->mVertices[i].z;
-		vertex.position = vector;
-		// update bounding box vertex
-		if (vector.x > boundingMax.x) boundingMax.x = vector.x;
-		if (vector.x < boundingMin.x) boundingMin.x = vector.x;
-		if (vector.y > boundingMax.y) boundingMax.y = vector.y;
-		if (vector.y < boundingMin.y) boundingMin.y = vector.y;
-		if (vector.z > boundingMax.z) boundingMax.z = vector.z;
-		if (vector.z < boundingMin.z) boundingMin.z = vector.z;
-		// normals
-		vector.x = mesh->mNormals[i].x;
-		vector.y = mesh->mNormals[i].y;
-		vector.z = mesh->mNormals[i].z;
-		vertex.normal = vector;
-		// texture coordinates
-		// does the mesh contain texture coordinates?
-		if(mesh->mTextureCoords[0]) {
-			glm::vec2 vec;
-			// a vertex can contain up to 8 different texture coordinates
-			// use models where a vertex can have multiple texture coordinates
-			vec.x = mesh->mTextureCoords[0][i].x;
-			vec.y = mesh->mTextureCoords[0][i].y;
-			vertex.uv = vec;
-		}
+		vertex.position = assignment(mesh->mVertices[i]);
+		vertex.normal = assignment(mesh->mNormals[i]);
+		if(mesh->mTextureCoords[0]) vertex.uv = assignment(mesh->mTextureCoords[0][i]);
 		else vertex.uv = glm::vec2(0.0f, 0.0f);
-
+		this->updateBounding(vertex.position, boundingMax, boundingMin);
 		vertices.push_back(vertex);
 	}
 
-	/* indices */
-	// now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
+	// bones
+	this->boneMapping(&vertices, &this->pose, mesh);
+	
+	
+	// indices
+	std::vector<unsigned int> indices;
 	for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
 		aiFace face = mesh->mFaces[i];
-		// retrieve all indices of the face and store them in the indices vector
 		for(unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
+	
+	// return a mesh object created from the extracted mesh data
+	this->meshes.push_back(new Mesh(vertices, indices, this->attributeType));
+	// create bounding box
+	this->meshes.back()->vaoBounding = this->createBox(boundingMax, boundingMin);
+	this->meshes.back()->boundingMax = boundingMax;
+	this->meshes.back()->boundingMin = boundingMin;
+}
 
-	/* bones */
+
+
+void Model::boneMapping(std::vector<Vertex>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh) {
 	std::unordered_map<std::string, Bone> boneMapping;
 	unsigned int counter = 0;
-	for (unsigned int i = 0 ; i < mesh->mNumBones ; i++) {
+	for (unsigned int i = 0 ; i < aimesh->mNumBones ; i++) {
 		unsigned int boneIndex = 0;
-		std::string boneName = mesh->mBones[i]->mName.data;
-
-		// calculate bone index
-		// get bone offset from mesh
-		// create bones and a default pose
+		std::string boneName = aimesh->mBones[i]->mName.data;
+		
+		// calculate bone index, get bone offset from mesh, create bones and a default pose
 		if (boneMapping.find(boneName) == boneMapping.end()) {
 			boneIndex = counter;
 			counter++;
-			glm::mat4 offset = assignment(mesh->mBones[i]->mOffsetMatrix);
+			glm::mat4 offset = assignment(aimesh->mBones[i]->mOffsetMatrix);
 			Bone bone = Bone(boneIndex, offset);
 			boneMapping[boneName] = bone;
-			this->pose.push_back(glm::mat4(1.0));
+			pose->push_back(glm::mat4(1.0));
 		}
 		else {
 			boneIndex = boneMapping[boneName].index;
 		}
-
+		
 		// set vertices
-		for (unsigned int j = 0 ; j < mesh->mBones[i]->mNumWeights ; j++) {
-			unsigned int vertexID = mesh->mBones[i]->mWeights[j].mVertexId;
-			float weight = mesh->mBones[i]->mWeights[j].mWeight;
-
+		for (unsigned int j = 0 ; j < aimesh->mBones[i]->mNumWeights ; j++) {
+			unsigned int vertexID = aimesh->mBones[i]->mWeights[j].mVertexId;
+			float weight = aimesh->mBones[i]->mWeights[j].mWeight;
+			
 			for (int k = 0 ; k < NUM_BONES_PER_VEREX ; k++) {
-				if (vertices[vertexID].weight[k] == 0.0) {
-					vertices[vertexID].boneID[k] = boneIndex;
-					vertices[vertexID].weight[k] = weight;
+				if (vertices->at(vertexID).weight[k] == 0.0) {
+					vertices->at(vertexID).boneID[k] = boneIndex;
+					vertices->at(vertexID).weight[k] = weight;
 					break;
 				}
 				if (k == NUM_BONES_PER_VEREX - 1) {
@@ -236,12 +221,16 @@ void Model::createMesh(aiMesh* mesh, const aiScene* scene) {
 			}
 		}
 	}
-	// return a mesh object created from the extracted mesh data
-	this->meshes.push_back(new Mesh(vertices, indices, this->attributeType));
-	// create bounding box
-	this->meshes.back()->vaoBounding = this->createBox(boundingMax, boundingMin);
-	this->meshes.back()->boundingMax = boundingMax;
-	this->meshes.back()->boundingMin = boundingMin;
+}
+
+
+void Model::updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm::vec3& boundingMin) {
+	if (vertexPosition.x > boundingMax.x) boundingMax.x = vertexPosition.x;
+	if (vertexPosition.x < boundingMin.x) boundingMin.x = vertexPosition.x;
+	if (vertexPosition.y > boundingMax.y) boundingMax.y = vertexPosition.y;
+	if (vertexPosition.y < boundingMin.y) boundingMin.y = vertexPosition.y;
+	if (vertexPosition.z > boundingMax.z) boundingMax.z = vertexPosition.z;
+	if (vertexPosition.z < boundingMin.z) boundingMin.z = vertexPosition.z;
 }
 
 

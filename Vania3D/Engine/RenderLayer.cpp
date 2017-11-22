@@ -155,14 +155,14 @@ void MaterialLayer::render(Shader* shader) {
 			it->first->drawInstance(&instanceMatrix);
 			numDrawCall++;
 		}
-		else if (it->first->attributeType == MESH_ATTRIBUTE_INSTANCE_ANIMATION) {
+		else if (it->first->attributeType == MESH_ATTRIBUTE_INSTANCE_FX) {
 			Game* game = Game::getInstance();
-			std::vector<InstanceFX> instances;
+			std::vector<InstanceFx> instances;
 			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
 				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
 				Particle* particle = it->second->gameObjects[i]->getComponent<Particle>();
 				if (!meshRenderer->culling && meshRenderer->gameObject->active) {
-					InstanceFX instanceFx;
+					InstanceFx instanceFx;
 					instanceFx.model = it->second->gameObjects[i]->transform->model;
 					instanceFx.animationTime = game->time->currentTime - it->second->gameObjects[i]->lastActiveTime;
 					instances.push_back(instanceFx);

@@ -7,6 +7,10 @@
 /*------------------------------------------------------------------------------
 < convert from Assimp to glm >
 ------------------------------------------------------------------------------*/
+glm::vec2 assignment(const aiVector2D& assimpVector) {
+	return glm::vec2(assimpVector.x, assimpVector.y);
+}
+
 glm::vec3 assignment(const aiVector3D& assimpVector) {
 	return glm::vec3(assimpVector.x, assimpVector.y, assimpVector.z);
 }
