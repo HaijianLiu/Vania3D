@@ -145,7 +145,7 @@ void MaterialLayer::render(Shader* shader) {
 			std::vector<glm::mat4> instanceMatrix;
 			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
 				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
-				if (!meshRenderer->culling) {
+				if (!meshRenderer->culling && meshRenderer->gameObject->active) {
 					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
 					// model
 					instanceMatrix.push_back(transform->model);
@@ -160,13 +160,11 @@ void MaterialLayer::render(Shader* shader) {
 			std::vector<InstanceFX> instances;
 			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
 				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
-				UVAnimation* uvAnimation = it->second->gameObjects[i]->getComponent<UVAnimation>();
-				if (!meshRenderer->culling) {
-					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
-					// model
+				Particle* particle = it->second->gameObjects[i]->getComponent<Particle>();
+				if (!meshRenderer->culling && meshRenderer->gameObject->active) {
 					InstanceFX instanceFx;
-					instanceFx.model = transform->model;
-					instanceFx.animationTime = game->time->currentTime - uvAnimation->animationStartTime;
+					instanceFx.model = it->second->gameObjects[i]->transform->model;
+					instanceFx.animationTime = game->time->currentTime - it->second->gameObjects[i]->lastActiveTime;
 					instances.push_back(instanceFx);
 					numMeshRedered++;
 				}
@@ -177,7 +175,7 @@ void MaterialLayer::render(Shader* shader) {
 		else if (it->first->attributeType == MESH_ATTRIBUTE_BONE) {
 			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
 				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
-				if (!meshRenderer->culling) {
+				if (!meshRenderer->culling && meshRenderer->gameObject->active) {
 					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
 					// model
 					transform->setUniform(shader);
@@ -193,7 +191,7 @@ void MaterialLayer::render(Shader* shader) {
 			shader->setBool("instance", false);
 			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
 				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
-				if (!meshRenderer->culling) {
+				if (!meshRenderer->culling && meshRenderer->gameObject->active) {
 					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
 					// model
 					transform->setUniform(shader);

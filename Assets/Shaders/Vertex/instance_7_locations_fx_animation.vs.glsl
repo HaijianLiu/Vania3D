@@ -12,6 +12,7 @@ layout (location = 7) in float animationTime;
 out vec3 position;
 out vec2 uv;
 out vec3 normal;
+out float alpha;
 
 uniform mat4 projection;
 uniform mat4 view;
@@ -35,6 +36,7 @@ void main() {
 
 	position = vec3(model * vec4(positionVertex, 1.0));
 	normal = vec3(model * vec4(normalVertex, 0.0));
+	alpha = animationTime;
 
 	gl_Position =  projection * view * model * vec4(positionVertex, 1.0);
 }

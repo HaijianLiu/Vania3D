@@ -13,6 +13,7 @@ private:
 
 public:
 	Scene* scene;
+	Transform* transform;
 	
 	bool active = true;
 	float lastActiveTime = 0;

@@ -15,31 +15,10 @@ void Emitter::start() {
 }
 
 void Emitter::update() {
-	// spawn
-	if (game->time->currentTime > this->lastSpawnTime + this->spawnTime ) {
-		GameObject* particle = this->activeParticle();
-		if (particle) {
-			this->lastSpawnTime = game->time->currentTime;;
-			// Transform
-			particle->getComponent<Transform>()->position = this->gameObject->getComponent<Transform>()->position;
-			particle->getComponent<Transform>()->scale = glm::vec3(20 * GLOBAL_SCALE);
-			particle->getComponent<UVAnimation>()->animationStartTime = game->time->currentTime;
-		}
+	if (game->time->currentTime > this->lastSpawnTime + this->spawnTime) {
+		this->activeParticle();
+		this->lastSpawnTime = game->time->currentTime;
 	}
-	
-	// update
-	for (unsigned int i = 0; i < this->particles.size(); i++) {
-		if (this->particles[i]->active) {
-			if (game->time->currentTime > this->particles[i]->lastActiveTime + this->lifeTime) {
-				this->particles[i]->active = false;
-			}
-			else {
-				this->particles[i]->getComponent<Transform>()->position.y += 0.2 * game->time->deltaTime;
-//				this->particles[i]->getComponent<Transform>()->scale -= glm::vec3(GLOBAL_SCALE / this->lifeTime) * game->time->deltaTime;
-			}
-		}
-	}
-	
 }
 
 void Emitter::createParticles(const char* name, Scene* scene) {
@@ -49,8 +28,6 @@ void Emitter::createParticles(const char* name, Scene* scene) {
 		particle->staticObject = false;
 		particle->active = false;
 		Transform* particleTransform = particle->addComponent<Transform>();
-		particleTransform->position = glm::vec3(0, 1, 0);
-		particleTransform->scale = glm::vec3(20 * GLOBAL_SCALE);
 		MeshRenderer* particleMeshRenderer = particle->addComponent<MeshRenderer>();
 		particleMeshRenderer->model = game->resources->getModel("Fire1");
 		particleMeshRenderer->materials.push_back(game->resources->getMaterial("Fire1"));
@@ -58,18 +35,22 @@ void Emitter::createParticles(const char* name, Scene* scene) {
 		particle->addComponent<Billboard>();
 		UVAnimation* particleUVAnimation = new UVAnimation(4, 4, 0.1);
 		particle->addComponent(particleUVAnimation);
+		Particle* particleComponent = particle->addComponent<Particle>();
 		scene->addGameObject((particleName + std::to_string(i)).c_str(), particle);
-		this->particles.push_back(particle);
+		this->particles.push_back(particleComponent);
 	}
 }
 
-GameObject* Emitter::activeParticle() {
+void Emitter::activeParticle() {
 	for (unsigned int i = 0; i < this->particles.size(); i++) {
-		if (!this->particles[i]->active) {
-			this->particles[i]->active = true;
-			this->particles[i]->lastActiveTime = game->time->currentTime;
-			return this->particles[i];
+		if (!this->particles[i]->gameObject->active) {
+			this->particles[i]->gameObject->active = true;
+			this->particles[i]->gameObject->lastActiveTime = game->time->currentTime;
+			this->particles[i]->gameObject->transform->position = this->gameObject->transform->position;
+			this->particles[i]->initScale = glm::vec3(10 * GLOBAL_SCALE);
+			this->particles[i]->initVelocity = glm::vec3(glm::linearRand(-0.05, 0.05), glm::linearRand(-0.1, 0.1), glm::linearRand(-0.05, 0.05));
+			this->particles[i]->lifeTime = glm::linearRand(1.0, 1.5);
+			return;
 		}
 	}
-	return nullptr;
 }

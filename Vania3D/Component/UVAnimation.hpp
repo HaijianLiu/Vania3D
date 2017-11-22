@@ -7,7 +7,6 @@ class UVAnimation : public Component {
 	friend class Emitter;
 	
 private:
-	float animationStartTime;
 	void start();
 	
 public:

@@ -21,6 +21,7 @@ GameObject::~GameObject() {
 < start >
 ------------------------------------------------------------------------------*/
 void GameObject::start() {
+	this->transform = this->getComponent<Transform>();
 	for (const auto & conponent : this->components)
 		conponent.second->start();
 }

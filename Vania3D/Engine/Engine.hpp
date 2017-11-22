@@ -73,6 +73,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtc/random.hpp>
 
 // include assimp
 #include <assimp/Importer.hpp>
@@ -125,6 +126,7 @@ class Scene;
 #include "PointLight.hpp"
 #include "Billboard.hpp"
 #include "UVAnimation.hpp"
+#include "Particle.hpp"
 #include "Emitter.hpp"
 
 #include "Resources.hpp"
