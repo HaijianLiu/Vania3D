@@ -64,13 +64,22 @@ void Scene02::start() {
 	camera->addComponent<FrustumCulling>();
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
-
-	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
-	delete map;
-	
-	
 	
 	// test object
+	GameObject* testObject2 = new GameObject();
+	testObject2->staticObject = false;
+	Transform* testTransform2 = testObject2->addComponent<Transform>();
+	testTransform2->position = glm::vec3(0.1, 1, 0);
+	testTransform2->scale = glm::vec3(10 * GLOBAL_SCALE);
+	MeshRenderer* testMesh2 = testObject2->addComponent<MeshRenderer>();
+	testMesh2->model = game->resources->getModel("Fire1");
+	testMesh2->materials.push_back(game->resources->getMaterial("Fire1"));
+	testMesh2->renderLayer = RENDER_LAYER_FX;
+	testObject2->addComponent<Billboard>();
+	UVAnimation* uvAnimation2 = new UVAnimation(4, 4, 0.1);
+	testObject2->addComponent(uvAnimation2);
+	this->addGameObject("testObject2", testObject2);
+	
 	GameObject* testObject = new GameObject();
 	testObject->staticObject = false;
 	Transform* testTransform = testObject->addComponent<Transform>();
@@ -79,12 +88,17 @@ void Scene02::start() {
 	MeshRenderer* testMesh = testObject->addComponent<MeshRenderer>();
 	testMesh->model = game->resources->getModel("Fire1");
 	testMesh->materials.push_back(game->resources->getMaterial("Fire1"));
+	testMesh->renderLayer = RENDER_LAYER_FX;
 	testObject->addComponent<Billboard>();
 	UVAnimation* uvAnimation = new UVAnimation(4, 4, 0.1);
 	testObject->addComponent(uvAnimation);
 	this->addGameObject("testObject", testObject);
 	
 
+	
+	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
+	delete map;
+	
 	// light
 	GameObject* light[4];
 	for (int i = 0; i < 4; i++) {

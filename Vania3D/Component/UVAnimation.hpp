@@ -3,7 +3,10 @@
 #define UVAnimation_hpp
 
 class UVAnimation : public Component {
+	friend class MaterialLayer;
+	
 private:
+	float animationStartTime;
 	void start();
 	
 public:

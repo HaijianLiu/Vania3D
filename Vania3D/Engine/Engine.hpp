@@ -15,7 +15,7 @@
 // #define TEXTURE_COMPRESSION (0.5) // resize all textures from loader by value
 // #define RESOLUTION_COMPRESSION (0.5) // resize renderpass frame buffer size
 #define NUM_BONES_PER_VEREX (4)
-#define MAX_MESH_INSTANCE (100)
+#define MAX_MESH_INSTANCE (50)
 
 #define PI (3.141593)
 #define CAMERA_INVERSE_ON (1);

@@ -26,6 +26,7 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 	this->vao = game->resources->quad->vao;
 	this->deferredPBR = shader;
 	this->bufferG = createFrameBuffer(number);
+	this->bufferFx = createFrameBuffer(1);
 
 	// Set Shader
 	this->deferredPBR->use();
@@ -34,13 +35,14 @@ void RenderPass::init(Shader* shader, unsigned int number) {
 		this->deferredPBR->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
 	}
 	this->deferredPBR->setInt(UNIFORM_TEX_SHADOW, 13);
+	this->deferredPBR->setInt("fx", 14);
 }
 
 
 /*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
-void RenderPass::render(RenderLayer* renderLayer, std::vector<PointLight*>* pointLights, GameObject* camera) {
+void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera) {
 	Game* game = Game::getInstance();
 
 	// bind framebuffer
@@ -48,7 +50,13 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<PointLight*>* poin
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// draw model
 	renderLayer->render(camera);
-	// reset framebuffer
+	
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->bufferFx.fbo);
+	glBlitFramebuffer(0, 0, 1920, 1080, 0, 0, 1920, 1080, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDepthMask(GL_FALSE);
+	fxLayer->render(camera);
+	glDepthMask(GL_TRUE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// bind shader
@@ -67,6 +75,9 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<PointLight*>* poin
 	glActiveTexture(GL_TEXTURE13);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
 	this->deferredPBR->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
+	
+	glActiveTexture(GL_TEXTURE14);
+	glBindTexture(GL_TEXTURE_2D, this->bufferFx.textures[0]);
 
 	// render
 	for (unsigned int i = 0; i < this->bufferG.textures.size(); i++) {
@@ -76,7 +87,6 @@ void RenderPass::render(RenderLayer* renderLayer, std::vector<PointLight*>* poin
 
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glBindVertexArray(0);
 }
 
 

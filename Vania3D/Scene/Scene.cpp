@@ -7,6 +7,7 @@
 Scene::Scene() {
 	this->game = Game::getInstance();
 	this->renderLayer = new RenderLayer();
+	this->fxLayer = new RenderLayer();
 }
 
 
@@ -16,6 +17,7 @@ Scene::Scene() {
 Scene::~Scene() {
 	deleteVector(this->gameObjects);
 	delete this->renderLayer;
+	delete this->fxLayer;
 }
 
 
@@ -39,7 +41,10 @@ void Scene::startScene() {
 		if (meshRenderer && meshRenderer->castShadow)
 			this->shadowQueue.push_back(meshRenderer);
 		if (meshRenderer) {
-			this->renderLayer->add(this->gameObjects[i]);
+			if (meshRenderer->renderLayer == RENDER_LAYER_DEFAULT)
+				this->renderLayer->add(this->gameObjects[i]);
+			if (meshRenderer->renderLayer == RENDER_LAYER_FX)
+				this->fxLayer->add(this->gameObjects[i]);
 			this->renderQueue.push_back(meshRenderer);
 		}
 		// point lights list
@@ -72,7 +77,7 @@ void Scene::updateScene() {
 	// shadow mapping
 	this->game->shadowMapping->render(&this->shadowQueue);
 	// final render
-	this->game->renderPass->render(this->renderLayer, &this->pointLights, this->mainCamera);
+	this->game->renderPass->render(this->renderLayer, this->fxLayer, &this->pointLights, this->mainCamera);
 //	 this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
 }
 

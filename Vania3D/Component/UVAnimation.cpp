@@ -23,6 +23,7 @@ UVAnimation::~UVAnimation() {
 < start >
 ------------------------------------------------------------------------------*/
 void UVAnimation::start() {
+	this->animationStartTime = this->game->time->currentTime;
 	glm::vec3 animation = glm::vec3(this->divideX, this->divideY, this->sampleTime);
 	MeshRenderer* meshRenderer = this->gameObject->getComponent<MeshRenderer>();
 	for (unsigned int i = 0; i < meshRenderer->materials.size(); i++) {

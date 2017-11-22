@@ -18,16 +18,22 @@ uniform mat4 view;
 uniform vec3 animation; // divideX, divideY, sampleTime(frame per second)
 
 void main() {
+	// instance model
 	mat4 model;
 	model[0] = instanceMatrix0;
 	model[1] = instanceMatrix1;
 	model[2] = instanceMatrix2;
 	model[3] = instanceMatrix3;
 
+	// instance uv
+	float maxCount = animation.x * animation.y;
+	float currentCount = mod(floor(animationTime / animation.z), maxCount);
+	float currentX = mod(currentCount, animation.x);
+	float currentY = floor(currentCount / animation.x);
+	uv.x = uvVertex.x / animation.x + currentX / animation.x;
+	uv.y = uvVertex.y / animation.y + currentX / animation.y;
+
 	position = vec3(model * vec4(positionVertex, 1.0));
-	// uv = uvVertex;
-	uv.x = uvVertex.x / animation.x;
-	uv.y = uvVertex.y / animation.y;
 	normal = vec3(model * vec4(normalVertex, 0.0));
 
 	gl_Position =  projection * view * model * vec4(positionVertex, 1.0);

@@ -2,6 +2,9 @@
 #version 330 core
 out vec4 fragColor;
 
+uniform sampler2D fx;
+uniform sampler2D fxPosition;
+
 uniform sampler2D shadowMap;
 uniform mat4 lightSpaceMatrix;
 
@@ -42,6 +45,9 @@ void main() {
 	float metallic = mrc.r;
 	float roughness = mrc.g;
 	float cavity = mrc.b;
+
+	vec3 fxColor = texture(fx, uv).rgb;
+	vec3 fxPositionColor = texture(fxPosition, uv).rgb;
 
 	vec3 v = normalize(cameraPosition - position);
 	vec3 r = reflect(-v, n);
@@ -107,6 +113,8 @@ void main() {
 	// exposion & cavity & shadow
 	color *= cavity;
 
+	color += fxColor;
+
 	// hdr tonemapping
 	color = color / (color + vec3(1.0));
 	// gamma correct
@@ -117,7 +125,8 @@ void main() {
 	color = mix(vec3(0), color, fogFactor);
 
 	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
-	// fragColor = vec4(texture(passes[2], uv).rgb, 1.0);
+	// fragColor = vec4(texture(passes[0], uv).rgb, 1.0);
 	fragColor = vec4(color, 1.0);
+	// fragColor = vec4(fxColor, 1.0);
 	// fragColor = vec4(vec3(texture(shadowMap, uv).r), 1.0);
 }

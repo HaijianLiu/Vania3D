@@ -51,7 +51,7 @@ void RenderLayer::add(GameObject* gameObject) {
 			this->shaderLayers.insert(std::make_pair(meshRenderer->materials[i]->shader->programID, shaderLayer));
 		}
 		else {
-			shaderLayers[meshRenderer->materials[i]->shader->programID]->add(gameObject, i);
+			this->shaderLayers[meshRenderer->materials[i]->shader->programID]->add(gameObject, i);
 		}
 	}
 }
@@ -111,7 +111,7 @@ void RenderLayer::render(GameObject* camera) {
 
 	for (auto it = this->shaderLayers.begin(); it != this->shaderLayers.end(); it++)
 		it->second->render(camera);
-
+	
 	std::cout << "mesh: " <<numMeshRedered << "  draw: " << numDrawCall << std::endl;
 }
 
@@ -156,15 +156,17 @@ void MaterialLayer::render(Shader* shader) {
 			numDrawCall++;
 		}
 		else if (it->first->attributeType == MESH_ATTRIBUTE_INSTANCE_ANIMATION) {
+			Game* game = Game::getInstance();
 			std::vector<InstanceFX> instances;
 			for (unsigned int i = 0; i < it->second->gameObjects.size(); i++) {
 				MeshRenderer* meshRenderer = it->second->gameObjects[i]->getComponent<MeshRenderer>();
+				UVAnimation* uvAnimation = it->second->gameObjects[i]->getComponent<UVAnimation>();
 				if (!meshRenderer->culling) {
 					Transform* transform = it->second->gameObjects[i]->getComponent<Transform>();
 					// model
 					InstanceFX instanceFx;
 					instanceFx.model = transform->model;
-					instanceFx.animationTime = 0;
+					instanceFx.animationTime = game->time->currentTime - uvAnimation->animationStartTime;
 					instances.push_back(instanceFx);
 					numMeshRedered++;
 				}
@@ -201,6 +203,5 @@ void MaterialLayer::render(Shader* shader) {
 				}
 			}
 		}
-//		 glBindVertexArray(0);
 	}
 }

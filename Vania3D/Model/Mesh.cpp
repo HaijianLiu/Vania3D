@@ -76,7 +76,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, unsi
 			glEnableVertexAttribArray(6);
 			glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFX), (void*)(3 * sizeof(glm::vec4)));
 			glEnableVertexAttribArray(7);
-			glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFX), (void*)sizeof(offsetof(InstanceFX, animationTime)));
+			glVertexAttribPointer(7, 1, GL_FLOAT, GL_FALSE, sizeof(InstanceFX), (void*)(4 * sizeof(glm::vec4)));
 			glVertexAttribDivisor(3, 1);
 			glVertexAttribDivisor(4, 1);
 			glVertexAttribDivisor(5, 1);

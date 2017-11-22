@@ -16,9 +16,10 @@ private:
 	
 	Shader* deferredPBR;
 	FrameBuffer bufferG;
+	FrameBuffer bufferFx;
 
 	void init(Shader* shader, unsigned int number);
-	void render(RenderLayer* renderLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
+	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
 	// test
 	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
