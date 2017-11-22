@@ -51,12 +51,15 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	// draw model
 	renderLayer->render(camera);
 	
+	// draw fx
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->bufferFx.fbo);
 	glBlitFramebuffer(0, 0, 1920, 1080, 0, 0, 1920, 1080, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	glClear(GL_COLOR_BUFFER_BIT);
+	glBlendFunc(GL_ONE, GL_ONE);
 	glDepthMask(GL_FALSE);
 	fxLayer->render(camera);
 	glDepthMask(GL_TRUE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// bind shader

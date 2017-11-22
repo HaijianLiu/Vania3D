@@ -66,35 +66,16 @@ void Scene02::start() {
 	this->addGameObject("mainCamera", camera);
 	
 	// test object
-	GameObject* testObject2 = new GameObject();
-	testObject2->staticObject = false;
-	Transform* testTransform2 = testObject2->addComponent<Transform>();
-	testTransform2->position = glm::vec3(0.1, 1, 0);
-	testTransform2->scale = glm::vec3(10 * GLOBAL_SCALE);
-	MeshRenderer* testMesh2 = testObject2->addComponent<MeshRenderer>();
-	testMesh2->model = game->resources->getModel("Fire1");
-	testMesh2->materials.push_back(game->resources->getMaterial("Fire1"));
-	testMesh2->renderLayer = RENDER_LAYER_FX;
-	testObject2->addComponent<Billboard>();
-	UVAnimation* uvAnimation2 = new UVAnimation(4, 4, 0.1);
-	testObject2->addComponent(uvAnimation2);
-	this->addGameObject("testObject2", testObject2);
+	GameObject* partiles = new GameObject();
+	partiles->staticObject = false;
+	Transform* partilesTransform = partiles->addComponent<Transform>();
+	partilesTransform->position = glm::vec3(0, 1, 0);
+	Emitter* partilesEmitter = partiles->addComponent<Emitter>();
+	partilesEmitter->material = game->resources->getMaterial("Fire1");
+	// .... setting
+	partilesEmitter->createParticles("particle", this);
+	this->addGameObject("emitter", partiles);
 	
-	GameObject* testObject = new GameObject();
-	testObject->staticObject = false;
-	Transform* testTransform = testObject->addComponent<Transform>();
-	testTransform->position = glm::vec3(0, 1, 0);
-	testTransform->scale = glm::vec3(20 * GLOBAL_SCALE);
-	MeshRenderer* testMesh = testObject->addComponent<MeshRenderer>();
-	testMesh->model = game->resources->getModel("Fire1");
-	testMesh->materials.push_back(game->resources->getMaterial("Fire1"));
-	testMesh->renderLayer = RENDER_LAYER_FX;
-	testObject->addComponent<Billboard>();
-	UVAnimation* uvAnimation = new UVAnimation(4, 4, 0.1);
-	testObject->addComponent(uvAnimation);
-	this->addGameObject("testObject", testObject);
-	
-
 	
 	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
 	delete map;

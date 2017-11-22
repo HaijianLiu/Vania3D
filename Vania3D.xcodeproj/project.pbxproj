@@ -54,6 +54,7 @@
 		6082F4B51FAB073000B177DA /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4B31FAB073000B177DA /* Sphere.cpp */; };
 		609F90701F9EFF2400238D61 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 609F906E1F9EFF2400238D61 /* Bone.cpp */; };
 		60CD446B1FC41E4B00ADF152 /* UVAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD44691FC41E4B00ADF152 /* UVAnimation.cpp */; };
+		60CD446E1FC5261600ADF152 /* Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD446C1FC5261600ADF152 /* Emitter.cpp */; };
 		60E579F81FA0B34700690EC1 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F61FA0B34700690EC1 /* Animation.cpp */; };
 		60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */; };
 		60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579FC1FA0C35100690EC1 /* Node.cpp */; };
@@ -168,6 +169,8 @@
 		609F906F1F9EFF2400238D61 /* Bone.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bone.hpp; sourceTree = "<group>"; };
 		60CD44691FC41E4B00ADF152 /* UVAnimation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UVAnimation.cpp; sourceTree = "<group>"; };
 		60CD446A1FC41E4B00ADF152 /* UVAnimation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UVAnimation.hpp; sourceTree = "<group>"; };
+		60CD446C1FC5261600ADF152 /* Emitter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Emitter.cpp; sourceTree = "<group>"; };
+		60CD446D1FC5261600ADF152 /* Emitter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Emitter.hpp; sourceTree = "<group>"; };
 		60E579F61FA0B34700690EC1 /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		60E579F71FA0B34700690EC1 /* Animation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
 		60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Keyframe.cpp; sourceTree = "<group>"; };
@@ -332,6 +335,8 @@
 				60315E681FC31A13005D6AE0 /* Billboard.hpp */,
 				60CD44691FC41E4B00ADF152 /* UVAnimation.cpp */,
 				60CD446A1FC41E4B00ADF152 /* UVAnimation.hpp */,
+				60CD446C1FC5261600ADF152 /* Emitter.cpp */,
+				60CD446D1FC5261600ADF152 /* Emitter.hpp */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -495,6 +500,7 @@
 				60132DFD1FA38D5900E71962 /* Time.cpp in Sources */,
 				6024342D1F88D89200DA6CA4 /* Engine.cpp in Sources */,
 				604B578E1F95F61A009DE302 /* SceneManager.cpp in Sources */,
+				60CD446E1FC5261600ADF152 /* Emitter.cpp in Sources */,
 				604B57881F94928A009DE302 /* Texture.cpp in Sources */,
 				60159E211FB067DE00EDC9CA /* Level.cpp in Sources */,
 				60CD446B1FC41E4B00ADF152 /* UVAnimation.cpp in Sources */,
