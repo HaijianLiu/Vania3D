@@ -20,6 +20,7 @@ public:
 	void start();
 
 	Quad* quad;
+	QuadInstance2vec3* quadinstance2vec3;
 	Skybox* skybox;
 
 	// shader

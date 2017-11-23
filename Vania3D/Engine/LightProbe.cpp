@@ -59,6 +59,8 @@ unsigned int LightProbe::loadHDR(const char* path) {
 		std::cout << "Texture failed to load at path: " << path << std::endl;
 		stbi_image_free(data);
 	}
+	
+	stbi_set_flip_vertically_on_load(false);
 
 	return textureID;
 }

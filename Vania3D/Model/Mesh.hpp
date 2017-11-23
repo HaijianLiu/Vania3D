@@ -33,7 +33,7 @@ class Mesh {
 	friend class MeshRenderer;
 
 private:
-	unsigned int vao, count, vaoBounding, vboInstance, instanceSize = 0;
+	unsigned int vao, count, vaoBounding, vboInstance;
 	glm::vec3 boundingMax = glm::vec3(0), boundingMin = glm::vec3(0);
 	unsigned int attributeType;
 

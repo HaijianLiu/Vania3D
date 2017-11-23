@@ -103,6 +103,7 @@ class Scene;
 #include "Texture.hpp"
 #include "Skybox.hpp"
 #include "Quad.hpp"
+#include "QuadInstance2vec3.hpp"
 #include "Time.hpp"
 
 #include "Node.hpp"

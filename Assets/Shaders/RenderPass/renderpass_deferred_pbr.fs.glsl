@@ -2,13 +2,16 @@
 #version 330 core
 out vec4 fragColor;
 
+in vec2 uv;
+
+// parameters
+const float PI = 3.14159265359;
+
 uniform sampler2D fx;
-uniform sampler2D fxPosition;
 
 uniform sampler2D shadowMap;
 uniform mat4 lightSpaceMatrix;
 
-in vec2 uv;
 uniform sampler2D passes[4];
 
 // ibl
@@ -21,11 +24,9 @@ uniform vec3 lightPositions[19];
 uniform vec3 lightColors[19];
 
 // transform
-uniform mat4 projection;
 uniform vec3 cameraPosition;
 
-// parameters
-const float PI = 3.14159265359;
+
 
 // brdf
 vec3 cookTorranceBRDF(vec3 n, vec3 v, vec3 l, float roughness, vec3 f0);
@@ -47,7 +48,6 @@ void main() {
 	float cavity = mrc.b;
 
 	vec3 fxColor = texture(fx, uv).rgb;
-	vec3 fxPositionColor = texture(fxPosition, uv).rgb;
 
 	vec3 v = normalize(cameraPosition - position);
 	vec3 r = reflect(-v, n);
