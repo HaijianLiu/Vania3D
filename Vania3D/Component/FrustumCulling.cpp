@@ -1,14 +1,25 @@
 
 #include "Engine.hpp"
 
+/*------------------------------------------------------------------------------
+< Constructor >
+------------------------------------------------------------------------------*/
 FrustumCulling::FrustumCulling() {
 	this->rangeLOD = 40;
 }
 
+
+/*------------------------------------------------------------------------------
+< Destructor >
+------------------------------------------------------------------------------*/
 FrustumCulling::~FrustumCulling() {
 
 }
 
+
+/*------------------------------------------------------------------------------
+< start >
+------------------------------------------------------------------------------*/
 void FrustumCulling::start() {
 	this->transform = this->gameObject->getComponent<Transform>();
 	this->camera = this->gameObject->getComponent<Camera>();
@@ -22,6 +33,9 @@ void FrustumCulling::start() {
 }
 
 
+/*------------------------------------------------------------------------------
+< update >
+------------------------------------------------------------------------------*/
 void FrustumCulling::update() {
 	glm::vec3 nearCenter = this->transform->position + this->camera->front * this->camera->rangeStart;
 	glm::vec3 farCenter = this->transform->position + this->camera->front * this->rangeLOD;
@@ -51,6 +65,9 @@ void FrustumCulling::update() {
 }
 
 
+/*------------------------------------------------------------------------------
+< culling sphere for mesh >
+------------------------------------------------------------------------------*/
 void FrustumCulling::cullingSphere(MeshRenderer* meshRenderer) {
 	Transform* transform = meshRenderer->gameObject->getComponent<Transform>();
 
@@ -78,10 +95,14 @@ void FrustumCulling::cullingSphere(MeshRenderer* meshRenderer) {
 	meshRenderer->culling = false;
 }
 
+
+/*------------------------------------------------------------------------------
+< culling sphere for light >
+------------------------------------------------------------------------------*/
 void FrustumCulling::cullingSphere(PointLight* pointLight) {
 	Transform* transform = pointLight->gameObject->getComponent<Transform>();
 	glm::vec3 geometryCenter = transform->position;
-	
+
 	// range lod check
 	if (pointLight->distanceCulling) {
 		if (glm::dot(geometryCenter - this->frustum[0].point, this->frustum[0].normal) < -pointLight->radius) {
@@ -96,7 +117,6 @@ void FrustumCulling::cullingSphere(PointLight* pointLight) {
 			return;
 		}
 	}
-	
+
 	pointLight->culling = false;
 }
-

@@ -1,16 +1,25 @@
 
 #include "Engine.hpp"
 
+/*------------------------------------------------------------------------------
+< Constructor >
+------------------------------------------------------------------------------*/
 Emitter::Emitter() {
-	
+
 }
 
 
+/*------------------------------------------------------------------------------
+< Destructor >
+------------------------------------------------------------------------------*/
 Emitter::~Emitter() {
-	
+
 }
 
 
+/*------------------------------------------------------------------------------
+< update >
+------------------------------------------------------------------------------*/
 void Emitter::update() {
 	if (game->time->currentTime > this->lastSpawnTime + this->spawnTime) {
 		this->activeParticle();
@@ -18,6 +27,11 @@ void Emitter::update() {
 	}
 }
 
+
+/*------------------------------------------------------------------------------
+< create particles >
+create particles game objects and add them to scene render lise
+------------------------------------------------------------------------------*/
 void Emitter::createParticles(const char* name, Scene* scene) {
 	std::string particleName = std::string(name);
 	game->resources->loadModel(particleName.c_str(), MESH_ATTRIBUTE_INSTANCE_FX, "./Assets/Models/Basic/quad.fbx"); // reload new model for seperate emitters
@@ -41,6 +55,10 @@ void Emitter::createParticles(const char* name, Scene* scene) {
 	}
 }
 
+
+/*------------------------------------------------------------------------------
+< active particle by spawn time >
+------------------------------------------------------------------------------*/
 void Emitter::activeParticle() {
 	for (unsigned int i = 0; i < this->particles.size(); i++) {
 		if (!this->particles[i]->gameObject->active) {
@@ -53,7 +71,7 @@ void Emitter::activeParticle() {
 			this->particles[i]->initScale = glm::vec3(this->initScale);
 			this->particles[i]->initVelocity = glm::vec3(glm::linearRand(-this->velocityHorizonalRange, this->velocityHorizonalRange), glm::linearRand(-this->velocityVerticalRange, this->velocityVerticalRange), glm::linearRand(-this->velocityHorizonalRange, this->velocityHorizonalRange));
 			this->particles[i]->gravity = this->gravity;
-			
+
 			return;
 		}
 	}

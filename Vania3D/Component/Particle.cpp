@@ -1,15 +1,25 @@
 
 #include "Engine.hpp"
 
+/*------------------------------------------------------------------------------
+< Constructor >
+------------------------------------------------------------------------------*/
 Particle::Particle() {
-	
+
 }
 
+
+/*------------------------------------------------------------------------------
+< Destructor >
+------------------------------------------------------------------------------*/
 Particle::~Particle() {
-	
+
 }
 
 
+/*------------------------------------------------------------------------------
+< update >
+------------------------------------------------------------------------------*/
 void Particle::update() {
 	float particleTime = game->time->currentTime - this->gameObject->lastActiveTime;
 	if (particleTime > this->lifeTime)
@@ -21,5 +31,3 @@ void Particle::update() {
 	float factor = particleTime / this->lifeTime; // 0 >> 1
 	this->gameObject->transform->scale = this->initScale * (float)glm::sin(PI * factor);
 }
-
-

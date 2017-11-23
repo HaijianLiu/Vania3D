@@ -229,14 +229,12 @@ Mesh::~Mesh() {
 }
 
 
-
 /*------------------------------------------------------------------------------
 < draw >
 ------------------------------------------------------------------------------*/
 void Mesh::draw() {
 	glDrawElements(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0);
 }
-
 
 void Mesh::drawBounding() {
 	glBindVertexArray(this->vaoBounding);
@@ -246,8 +244,76 @@ void Mesh::drawBounding() {
 
 
 /*------------------------------------------------------------------------------
- < create bounding box >
- ------------------------------------------------------------------------------*/
+< load face indices >
+------------------------------------------------------------------------------*/
+void Mesh::loadIndices(std::vector<unsigned int>* indices, const aiMesh* aimesh) {
+	for(unsigned int i = 0; i < aimesh->mNumFaces; i++) {
+		aiFace face = aimesh->mFaces[i];
+		for(unsigned int j = 0; j < face.mNumIndices; j++)
+			indices->push_back(face.mIndices[j]);
+	}
+}
+
+
+/*------------------------------------------------------------------------------
+< bone mapping >
+------------------------------------------------------------------------------*/
+void Mesh::boneMapping(std::vector<VertexBone>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh) {
+	std::unordered_map<std::string, Bone> boneMapping;
+	unsigned int counter = 0;
+	for (unsigned int i = 0 ; i < aimesh->mNumBones ; i++) {
+		unsigned int boneIndex = 0;
+		std::string boneName = aimesh->mBones[i]->mName.data;
+
+		// calculate bone index, get bone offset from mesh, create bones and a default pose
+		if (boneMapping.find(boneName) == boneMapping.end()) {
+			boneIndex = counter;
+			counter++;
+			glm::mat4 offset = assignment(aimesh->mBones[i]->mOffsetMatrix);
+			Bone bone = Bone(boneIndex, offset);
+			boneMapping[boneName] = bone;
+			pose->push_back(glm::mat4(1.0));
+		}
+		else {
+			boneIndex = boneMapping[boneName].index;
+		}
+
+		// set vertices
+		for (unsigned int j = 0 ; j < aimesh->mBones[i]->mNumWeights ; j++) {
+			unsigned int vertexID = aimesh->mBones[i]->mWeights[j].mVertexId;
+			float weight = aimesh->mBones[i]->mWeights[j].mWeight;
+
+			for (int k = 0 ; k < NUM_BONES_PER_VEREX ; k++) {
+				if (vertices->at(vertexID).weight[k] == 0.0) {
+					vertices->at(vertexID).boneID[k] = boneIndex;
+					vertices->at(vertexID).weight[k] = weight;
+					break;
+				}
+				if (k == NUM_BONES_PER_VEREX - 1) {
+					printf("[WARNNING] vertex: %d weight: %f out of the number of NUM_BONES_PER_VEREX!\n", vertexID, weight);
+				}
+			}
+		}
+	}
+}
+
+
+/*------------------------------------------------------------------------------
+< update bounding >
+------------------------------------------------------------------------------*/
+void Mesh::updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm::vec3& boundingMin) {
+	if (vertexPosition.x > boundingMax.x) boundingMax.x = vertexPosition.x;
+	if (vertexPosition.x < boundingMin.x) boundingMin.x = vertexPosition.x;
+	if (vertexPosition.y > boundingMax.y) boundingMax.y = vertexPosition.y;
+	if (vertexPosition.y < boundingMin.y) boundingMin.y = vertexPosition.y;
+	if (vertexPosition.z > boundingMax.z) boundingMax.z = vertexPosition.z;
+	if (vertexPosition.z < boundingMin.z) boundingMin.z = vertexPosition.z;
+}
+
+
+/*------------------------------------------------------------------------------
+< create bounding box >
+------------------------------------------------------------------------------*/
 unsigned int Mesh::createBox(glm::vec3 boundingMax, glm::vec3 boundingMin) {
 	float boxVertices[] = {
 		boundingMin.x, boundingMax.y, boundingMin.z,
@@ -302,62 +368,4 @@ unsigned int Mesh::createBox(glm::vec3 boundingMax, glm::vec3 boundingMin) {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
 	return vao;
-}
-
-void Mesh::loadIndices(std::vector<unsigned int>* indices, const aiMesh* aimesh) {
-	for(unsigned int i = 0; i < aimesh->mNumFaces; i++) {
-		aiFace face = aimesh->mFaces[i];
-		for(unsigned int j = 0; j < face.mNumIndices; j++)
-			indices->push_back(face.mIndices[j]);
-	}
-}
-
-
-void Mesh::boneMapping(std::vector<VertexBone>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh) {
-	std::unordered_map<std::string, Bone> boneMapping;
-	unsigned int counter = 0;
-	for (unsigned int i = 0 ; i < aimesh->mNumBones ; i++) {
-		unsigned int boneIndex = 0;
-		std::string boneName = aimesh->mBones[i]->mName.data;
-
-		// calculate bone index, get bone offset from mesh, create bones and a default pose
-		if (boneMapping.find(boneName) == boneMapping.end()) {
-			boneIndex = counter;
-			counter++;
-			glm::mat4 offset = assignment(aimesh->mBones[i]->mOffsetMatrix);
-			Bone bone = Bone(boneIndex, offset);
-			boneMapping[boneName] = bone;
-			pose->push_back(glm::mat4(1.0));
-		}
-		else {
-			boneIndex = boneMapping[boneName].index;
-		}
-
-		// set vertices
-		for (unsigned int j = 0 ; j < aimesh->mBones[i]->mNumWeights ; j++) {
-			unsigned int vertexID = aimesh->mBones[i]->mWeights[j].mVertexId;
-			float weight = aimesh->mBones[i]->mWeights[j].mWeight;
-
-			for (int k = 0 ; k < NUM_BONES_PER_VEREX ; k++) {
-				if (vertices->at(vertexID).weight[k] == 0.0) {
-					vertices->at(vertexID).boneID[k] = boneIndex;
-					vertices->at(vertexID).weight[k] = weight;
-					break;
-				}
-				if (k == NUM_BONES_PER_VEREX - 1) {
-					printf("[WARNNING] vertex: %d weight: %f out of the number of NUM_BONES_PER_VEREX!\n", vertexID, weight);
-				}
-			}
-		}
-	}
-}
-
-
-void Mesh::updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm::vec3& boundingMin) {
-	if (vertexPosition.x > boundingMax.x) boundingMax.x = vertexPosition.x;
-	if (vertexPosition.x < boundingMin.x) boundingMin.x = vertexPosition.x;
-	if (vertexPosition.y > boundingMax.y) boundingMax.y = vertexPosition.y;
-	if (vertexPosition.y < boundingMin.y) boundingMin.y = vertexPosition.y;
-	if (vertexPosition.z > boundingMax.z) boundingMax.z = vertexPosition.z;
-	if (vertexPosition.z < boundingMin.z) boundingMin.z = vertexPosition.z;
 }

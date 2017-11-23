@@ -56,6 +56,7 @@
 		60CD446B1FC41E4B00ADF152 /* UVAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD44691FC41E4B00ADF152 /* UVAnimation.cpp */; };
 		60CD446E1FC5261600ADF152 /* Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD446C1FC5261600ADF152 /* Emitter.cpp */; };
 		60CD44741FC5592200ADF152 /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD44721FC5592200ADF152 /* Particle.cpp */; };
+		60CD44781FC6A11600ADF152 /* FxTorchFire.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD44761FC6A11600ADF152 /* FxTorchFire.cpp */; };
 		60E579F81FA0B34700690EC1 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F61FA0B34700690EC1 /* Animation.cpp */; };
 		60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */; };
 		60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579FC1FA0C35100690EC1 /* Node.cpp */; };
@@ -174,6 +175,8 @@
 		60CD446D1FC5261600ADF152 /* Emitter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Emitter.hpp; sourceTree = "<group>"; };
 		60CD44721FC5592200ADF152 /* Particle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Particle.cpp; sourceTree = "<group>"; };
 		60CD44731FC5592200ADF152 /* Particle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Particle.hpp; sourceTree = "<group>"; };
+		60CD44761FC6A11600ADF152 /* FxTorchFire.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FxTorchFire.cpp; sourceTree = "<group>"; };
+		60CD44771FC6A11600ADF152 /* FxTorchFire.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FxTorchFire.hpp; sourceTree = "<group>"; };
 		60E579F61FA0B34700690EC1 /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		60E579F71FA0B34700690EC1 /* Animation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
 		60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Keyframe.cpp; sourceTree = "<group>"; };
@@ -220,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				600709FD1F88C49A00AE4BEB /* main.cpp */,
+				60CD44751FC6A06100ADF152 /* Prefab */,
 				605740881FAD9DE1005B7358 /* GameObject */,
 				604B578F1F95FA63009DE302 /* Component */,
 				602434271F88D86400DA6CA4 /* Engine */,
@@ -392,6 +396,15 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		60CD44751FC6A06100ADF152 /* Prefab */ = {
+			isa = PBXGroup;
+			children = (
+				60CD44761FC6A11600ADF152 /* FxTorchFire.cpp */,
+				60CD44771FC6A11600ADF152 /* FxTorchFire.hpp */,
+			);
+			path = Prefab;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -493,6 +506,7 @@
 				602C98A41FAED44000B69E45 /* Offset.cpp in Sources */,
 				606101E61FB0034900558589 /* Scene01.cpp in Sources */,
 				600B9A7D1FC1566800B1F0D5 /* Scene02.cpp in Sources */,
+				60CD44781FC6A11600ADF152 /* FxTorchFire.cpp in Sources */,
 				604B57851F945A92009DE302 /* Mesh.cpp in Sources */,
 				6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */,
 				60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */,

@@ -25,9 +25,17 @@ Model::~Model() {
 
 
 /*------------------------------------------------------------------------------
+< load animation >
+loads a model with supported ASSIMP extensions from file and stores the resulting animation keyframes in a node tree.
+------------------------------------------------------------------------------*/
+void Model::addAnimation(Animation* animation) {
+	this->animations.push_back(animation);
+}
+
+
+/*------------------------------------------------------------------------------
 < update pose >
-update pose data
-via animations keyframes data and the given time in seconds
+update pose data with animations keyframes data and the given time in seconds
 ------------------------------------------------------------------------------*/
 void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
 	// animation always starts from the beginning
@@ -41,11 +49,13 @@ void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
 
 
 /*------------------------------------------------------------------------------
-< load animation >
-loads a model with supported ASSIMP extensions from file and stores the resulting animation keyframes in a node tree.
+< set position uniform >
 ------------------------------------------------------------------------------*/
-void Model::addAnimation(Animation* animation) {
-	this->animations.push_back(animation);
+void Model::setPoseUniform(Shader* shader) {
+	for (unsigned int i = 0 ; i < this->pose.size() ; i++) {
+		std::string boneName = UNIFORM_MATRIX_BONE;
+		shader->setMat4((boneName + "[" + std::to_string(i) + "]").c_str(), this->pose[i]);
+	}
 }
 
 
@@ -58,17 +68,6 @@ void Model::draw() {
 
 void Model::drawBounding() {
 	for(unsigned int i = 0; i < this->meshes.size(); i++) this->meshes[i]->drawBounding();
-}
-
-
-/*------------------------------------------------------------------------------
-< set position uniform >
-------------------------------------------------------------------------------*/
-void Model::setPoseUniform(Shader* shader) {
-	for (unsigned int i = 0 ; i < this->pose.size() ; i++) {
-		std::string boneName = UNIFORM_MATRIX_BONE;
-		shader->setMat4((boneName + "[" + std::to_string(i) + "]").c_str(), this->pose[i]);
-	}
 }
 
 
@@ -130,4 +129,3 @@ void Model::processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene
 		this->processNode(ainode->mChildren[i], node->children[i], aiscene);
 	}
 }
-

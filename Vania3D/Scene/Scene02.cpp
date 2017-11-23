@@ -66,26 +66,9 @@ void Scene02::start() {
 	this->addGameObject("mainCamera", camera);
 	
 	// partiles
-	GameObject* partiles = new GameObject();
-	partiles->staticObject = false;
-	Transform* partilesTransform = partiles->addComponent<Transform>();
-	partilesTransform->position = glm::vec3(0, 1, 0);
-	Emitter* partilesEmitter = partiles->addComponent<Emitter>();
-	partilesEmitter->material = game->resources->getMaterial("fx_fire");
-	partilesEmitter->animation = true;
-	partilesEmitter->divideX = 4;
-	partilesEmitter->divideY = 4;
-	partilesEmitter->sampleTime = 0.1;
-	partilesEmitter->maxParticles = 26;
-	partilesEmitter->spawnTime = 0.01;
-	partilesEmitter->minLifeTime = 1;
-	partilesEmitter->maxLifeTime = 1.5;
-	partilesEmitter->initScale = 10 * GLOBAL_SCALE;
-	partilesEmitter->velocityHorizonalRange = 0.05;
-	partilesEmitter->velocityVerticalRange = 0.1;
-	partilesEmitter->gravity = -0.5;
-	partilesEmitter->createParticles("fireDistortion", this);
-	this->addGameObject("fireDistortion", partiles);
+	FxTorchFire* fxTorchFire = FxTorchFire::getInstance();
+	glm::mat4 fxTorchFireTransformation = glm::translate(glm::vec3(0, 1, 0));
+	fxTorchFire->createPrefab("fire", fxTorchFireTransformation, this);
 	
 	
 	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
