@@ -169,7 +169,7 @@ void MaterialLayer::render(Shader* shader) {
 					numMeshRedered++;
 				}
 			}
-			it->first->drawFX(&instances);
+			it->first->drawInstance(&instances);
 			numDrawCall++;
 		}
 		else if (it->first->attributeType == MESH_ATTRIBUTE_BONE) {

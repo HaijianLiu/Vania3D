@@ -19,7 +19,6 @@ private:
 	unsigned int attributeType;
 	unsigned int currentAnimation = 0;
 
-	// loads a model with supported assimp extensions from file and stores the resulting data
 	void load(const char* path);
 	void processNode(aiNode* ainode, Node<Bone>* node, const aiScene* aiscene);
 	
@@ -27,20 +26,16 @@ public:
 	std::vector<std::string> materialNames;
 	bool distanceCulling = false;
 
-	
 	Model();
 	Model(unsigned int attributeType, const char* path);
 	~Model();
 
 	void addAnimation(Animation* animation);
 	void updatePose(unsigned int animationIndex, float timeInSeconds);
-
-	void draw();
-	void drawMesh(unsigned int meshIndex);
-	void drawBounding();
 	void setPoseUniform(Shader* shader);
 
-
+	void draw();
+	void drawBounding();
 };
 
 #endif /* Model_hpp */

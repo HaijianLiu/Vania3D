@@ -6,7 +6,7 @@
 ------------------------------------------------------------------------------*/
 Mesh::Mesh(const aiMesh* aimesh, std::vector<glm::mat4>* pose, unsigned int attributeType) {
 	this->attributeType = attributeType;
-	
+
 	switch (attributeType) {
 		case MESH_ATTRIBUTE_DEFAULT:
 			this->createDefaultMesh(aimesh);
@@ -21,6 +21,9 @@ Mesh::Mesh(const aiMesh* aimesh, std::vector<glm::mat4>* pose, unsigned int attr
 			this->createFxMesh(aimesh);
 			break;
 	}
+
+	// create bounding box
+	this->vaoBounding = this->createBox(this->boundingMax, this->boundingMin);
 }
 
 
@@ -40,10 +43,8 @@ void Mesh::createDefaultMesh(const aiMesh* aimesh) {
 	// indices
 	std::vector<unsigned int> indices;
 	this->loadIndices(&indices, aimesh);
-	// create bounding box
-	this->vaoBounding = this->createBox(this->boundingMax, this->boundingMin);
-	
-	
+
+
 	// vertex buffer, element buffer
 	unsigned int vbo, ebo;
 	// set the vertex buffers and its attribute pointers.
@@ -69,16 +70,16 @@ void Mesh::createDefaultMesh(const aiMesh* aimesh) {
 	// vertex uv
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	
+
 	glBindVertexArray(0);
 }
 
 
 void Mesh::createInstanceMesh(const aiMesh* aimesh) {
 	this->createDefaultMesh(aimesh);
-	
-	glGenBuffers(1, &this->vboInstanceMatrix);
-	glBindBuffer(GL_ARRAY_BUFFER, this->vboInstanceMatrix);
+
+	glGenBuffers(1, &this->vboInstance);
+	glBindBuffer(GL_ARRAY_BUFFER, this->vboInstance);
 	glBufferData(GL_ARRAY_BUFFER, MAX_MESH_INSTANCE * sizeof(glm::mat4), nullptr, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
@@ -92,7 +93,7 @@ void Mesh::createInstanceMesh(const aiMesh* aimesh) {
 	glVertexAttribDivisor(4, 1);
 	glVertexAttribDivisor(5, 1);
 	glVertexAttribDivisor(6, 1);
-	
+
 	glBindVertexArray(0);
 }
 
@@ -115,10 +116,8 @@ void Mesh::createBoneMesh(const aiMesh* aimesh, std::vector<glm::mat4>* pose) {
 	// indices
 	std::vector<unsigned int> indices;
 	this->loadIndices(&indices, aimesh);
-	// create bounding box
-	this->vaoBounding = this->createBox(this->boundingMax, this->boundingMin);
 
-	
+
 	// vertex buffer, element buffer
 	unsigned int vbo, ebo;
 	// set the vertex buffers and its attribute pointers.
@@ -126,17 +125,17 @@ void Mesh::createBoneMesh(const aiMesh* aimesh, std::vector<glm::mat4>* pose) {
 	glGenVertexArrays(1, &this->vao);
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
-	
+
 	// bind
 	glBindVertexArray(this->vao);
 	this->count = indices.size();
-	
+
 	// load data into vertex buffers
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexBone), vertices.data(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
-	
+
 	// set the vertex attribute pointers
 	// vertex Positions
 	glEnableVertexAttribArray(0);
@@ -153,7 +152,7 @@ void Mesh::createBoneMesh(const aiMesh* aimesh, std::vector<glm::mat4>* pose) {
 	// vertex bone weight
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, NUM_BONES_PER_VEREX, GL_FLOAT, GL_FALSE, sizeof(VertexBone), (void*)offsetof(VertexBone, weight));
-	
+
 	glBindVertexArray(0);
 }
 
@@ -173,10 +172,8 @@ void Mesh::createFxMesh(const aiMesh* aimesh) {
 	// indices
 	std::vector<unsigned int> indices;
 	this->loadIndices(&indices, aimesh);
-	// create bounding box
-	this->vaoBounding = this->createBox(this->boundingMax, this->boundingMin);
-	
-	
+
+
 	// vertex buffer, element buffer
 	unsigned int vbo, ebo;
 	// set the vertex buffers and its attribute pointers.
@@ -200,8 +197,8 @@ void Mesh::createFxMesh(const aiMesh* aimesh) {
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexFx), (void*)offsetof(VertexFx, uv));
 	// instance
-	glGenBuffers(1, &this->vboInstanceMatrix);
-	glBindBuffer(GL_ARRAY_BUFFER, this->vboInstanceMatrix);
+	glGenBuffers(1, &this->vboInstance);
+	glBindBuffer(GL_ARRAY_BUFFER, this->vboInstance);
 	glBufferData(GL_ARRAY_BUFFER, MAX_MESH_INSTANCE * sizeof(InstanceFx), nullptr, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceFx), (void*)0);
@@ -228,6 +225,7 @@ void Mesh::createFxMesh(const aiMesh* aimesh) {
 ------------------------------------------------------------------------------*/
 Mesh::~Mesh() {
 	glDeleteVertexArrays(1, &this->vao);
+	glDeleteVertexArrays(1, &this->vaoBounding);
 }
 
 
@@ -239,17 +237,6 @@ void Mesh::draw() {
 	glDrawElements(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0);
 }
 
-void Mesh::drawInstance(std::vector<glm::mat4>* instanceMatrices) {
-	glBindBuffer(GL_ARRAY_BUFFER, this->vboInstanceMatrix);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, instanceMatrices->size() * sizeof(glm::mat4), instanceMatrices->data());
-	glDrawElementsInstanced(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0, instanceMatrices->size());
-}
-
-void Mesh::drawFX(std::vector<InstanceFx>* instances) {
-	glBindBuffer(GL_ARRAY_BUFFER, this->vboInstanceMatrix);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, instances->size() * sizeof(InstanceFx), instances->data());
-	glDrawElementsInstanced(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0, instances->size());
-}
 
 void Mesh::drawBounding() {
 	glBindVertexArray(this->vaoBounding);
@@ -269,35 +256,35 @@ unsigned int Mesh::createBox(glm::vec3 boundingMax, glm::vec3 boundingMin) {
 		boundingMax.x, boundingMin.y, boundingMin.z,
 		boundingMax.x, boundingMax.y, boundingMin.z,
 		boundingMin.x, boundingMax.y, boundingMin.z,
-		
+
 		boundingMin.x, boundingMin.y, boundingMax.z,
 		boundingMin.x, boundingMin.y, boundingMin.z,
 		boundingMin.x, boundingMax.y, boundingMin.z,
 		boundingMin.x, boundingMax.y, boundingMin.z,
 		boundingMin.x, boundingMax.y, boundingMax.z,
 		boundingMin.x, boundingMin.y, boundingMax.z,
-		
+
 		boundingMax.x, boundingMin.y, boundingMin.z,
 		boundingMax.x, boundingMin.y, boundingMax.z,
 		boundingMax.x, boundingMax.y, boundingMax.z,
 		boundingMax.x, boundingMax.y, boundingMax.z,
 		boundingMax.x, boundingMax.y, boundingMin.z,
 		boundingMax.x, boundingMin.y, boundingMin.z,
-		
+
 		boundingMin.x, boundingMin.y, boundingMax.z,
 		boundingMin.x, boundingMax.y, boundingMax.z,
 		boundingMax.x, boundingMax.y, boundingMax.z,
 		boundingMax.x, boundingMax.y, boundingMax.z,
 		boundingMax.x, boundingMin.y, boundingMax.z,
 		boundingMin.x, boundingMin.y, boundingMax.z,
-		
+
 		boundingMin.x, boundingMax.y, boundingMin.z,
 		boundingMax.x, boundingMax.y, boundingMin.z,
 		boundingMax.x, boundingMax.y, boundingMax.z,
 		boundingMax.x, boundingMax.y, boundingMax.z,
 		boundingMin.x, boundingMax.y, boundingMax.z,
 		boundingMin.x, boundingMax.y, boundingMin.z,
-		
+
 		boundingMin.x, boundingMin.y, boundingMin.z,
 		boundingMin.x, boundingMin.y, boundingMax.z,
 		boundingMax.x, boundingMin.y, boundingMin.z,
@@ -313,7 +300,7 @@ unsigned int Mesh::createBox(glm::vec3 boundingMax, glm::vec3 boundingMin) {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(boxVertices), &boxVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	
+
 	return vao;
 }
 
@@ -332,7 +319,7 @@ void Mesh::boneMapping(std::vector<VertexBone>* vertices, std::vector<glm::mat4>
 	for (unsigned int i = 0 ; i < aimesh->mNumBones ; i++) {
 		unsigned int boneIndex = 0;
 		std::string boneName = aimesh->mBones[i]->mName.data;
-		
+
 		// calculate bone index, get bone offset from mesh, create bones and a default pose
 		if (boneMapping.find(boneName) == boneMapping.end()) {
 			boneIndex = counter;
@@ -345,12 +332,12 @@ void Mesh::boneMapping(std::vector<VertexBone>* vertices, std::vector<glm::mat4>
 		else {
 			boneIndex = boneMapping[boneName].index;
 		}
-		
+
 		// set vertices
 		for (unsigned int j = 0 ; j < aimesh->mBones[i]->mNumWeights ; j++) {
 			unsigned int vertexID = aimesh->mBones[i]->mWeights[j].mVertexId;
 			float weight = aimesh->mBones[i]->mWeights[j].mWeight;
-			
+
 			for (int k = 0 ; k < NUM_BONES_PER_VEREX ; k++) {
 				if (vertices->at(vertexID).weight[k] == 0.0) {
 					vertices->at(vertexID).boneID[k] = boneIndex;
@@ -374,4 +361,3 @@ void Mesh::updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm:
 	if (vertexPosition.z > boundingMax.z) boundingMax.z = vertexPosition.z;
 	if (vertexPosition.z < boundingMin.z) boundingMin.z = vertexPosition.z;
 }
-

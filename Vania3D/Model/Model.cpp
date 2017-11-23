@@ -56,11 +56,6 @@ void Model::draw() {
 	for(unsigned int i = 0; i < this->meshes.size(); i++) this->meshes[i]->draw();
 }
 
-void Model::drawMesh(unsigned int meshIndex) {
-	if (meshIndex < this->meshes.size())
-		this->meshes.at(meshIndex)->draw();
-}
-
 void Model::drawBounding() {
 	for(unsigned int i = 0; i < this->meshes.size(); i++) this->meshes[i]->drawBounding();
 }

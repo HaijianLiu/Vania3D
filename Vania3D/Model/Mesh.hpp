@@ -33,15 +33,15 @@ class Mesh {
 	friend class MeshRenderer;
 
 private:
-	unsigned int vao, count, vaoBounding, vboInstanceMatrix, instanceSize = 0;
+	unsigned int vao, count, vaoBounding, vboInstance, instanceSize = 0;
 	glm::vec3 boundingMax = glm::vec3(0), boundingMin = glm::vec3(0);
 	unsigned int attributeType;
-	
+
 	void createDefaultMesh(const aiMesh* aimesh);
 	void createInstanceMesh(const aiMesh* aimesh);
 	void createBoneMesh(const aiMesh* aimesh, std::vector<glm::mat4>* pose);
 	void createFxMesh(const aiMesh* aimesh);
-	
+
 	static void loadIndices(std::vector<unsigned int>* indices, const aiMesh* aimesh);
 	static void boneMapping(std::vector<VertexBone>* vertices, std::vector<glm::mat4>* pose, const aiMesh* aimesh);
 	static void updateBounding(glm::vec3 vertexPosition, glm::vec3& boundingMax, glm::vec3& boundingMin);
@@ -53,9 +53,13 @@ public:
 	~Mesh();
 
 	void draw();
-	void drawInstance(std::vector<glm::mat4>* instanceMatrices);
-	void drawFX(std::vector<InstanceFx>* instances);
 	void drawBounding();
+
+	template <typename T> void drawInstance(std::vector<T>* instances) {
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboInstance);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, instances->size() * sizeof(T), instances->data());
+		glDrawElementsInstanced(GL_TRIANGLES, this->count, GL_UNSIGNED_INT, 0, instances->size());
+	}
 };
 
 #endif /* Mesh_hpp */
