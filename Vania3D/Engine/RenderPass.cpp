@@ -20,22 +20,38 @@ RenderPass::~RenderPass() {
 /*------------------------------------------------------------------------------
 < init >
 ------------------------------------------------------------------------------*/
-void RenderPass::init(Shader* shader, unsigned int number) {
+void RenderPass::init() {
 	Game* game = Game::getInstance();
-
-	this->vao = game->resources->quad->vao;
-	this->deferredPBR = shader;
-	this->bufferG = createFrameBuffer(number);
-	this->bufferFx = createFrameBuffer(1);
-
-	// Set Shader
-	this->deferredPBR->use();
+	this->quad = game->resources->quad;
+	
+	// shader
+	this->finalShader = game->resources->getShader("renderpass_deferred_pbr");
+	this->finalShader->use();
 	std::string passes = UNIFORM_TEX_PASSES;
-	for (unsigned i = 0; i < number; i++) {
-		this->deferredPBR->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
-	}
-	this->deferredPBR->setInt(UNIFORM_TEX_SHADOW, 13);
-	this->deferredPBR->setInt("fx", 14);
+	for (unsigned i = 0; i < 4; i++)
+		this->finalShader->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
+	this->finalShader->setInt(UNIFORM_TEX_SHADOW, 13);
+	this->finalShader->setInt("fx", 14);
+	
+	// final pass
+	glGenFramebuffers(1, &this->finalPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->finalPass.fbo);
+	this->finalPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
+	this->finalPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT1, GL_RGB));
+	this->finalPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT2, GL_RGB));
+	this->finalPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT3, GL_RGB16F));
+	RenderPass::drawBuffers(4);
+	RenderPass::createDepthAttachment(GL_DEPTH_COMPONENT24);
+	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	
+	// fx pass
+	glGenFramebuffers(1, &this->fxPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->fxPass.fbo);
+	this->fxPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB16F));
+	RenderPass::drawBuffers(1);
+	RenderPass::createDepthAttachment(GL_DEPTH_COMPONENT24);
+	glBindFramebuffer(GL_FRAMEBUFFER,0);
+
 }
 
 
@@ -46,14 +62,14 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	Game* game = Game::getInstance();
 
 	// bind framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, this->bufferG.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->finalPass.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// draw model
 	renderLayer->render(camera);
 	
 	// draw fx
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->bufferFx.fbo);
-	glBlitFramebuffer(0, 0, 1920, 1080, 0, 0, 1920, 1080, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->fxPass.fbo);
+	glBlitFramebuffer(0, 0, game->window->screenWidth, game->window->screenHeight, 0, 0, game->window->screenWidth, game->window->screenHeight, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBlendFunc(GL_ONE, GL_ONE);
 	glDepthMask(GL_FALSE);
@@ -63,33 +79,32 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// bind shader
-	this->deferredPBR->use();
+	this->finalShader->use();
 
 	// camera
-	this->deferredPBR->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->getComponent<Transform>()->position);
+	this->finalShader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->getComponent<Transform>()->position);
 	// lights
 	std::string lightPositions = UNIFORM_VEC3_LIGHT_POSITION;
 	std::string lightColors = UNIFORM_VEC3_LIGHT_COLOR;
 	for (unsigned int i = 0; i < pointLights->size(); i++) {
-		this->deferredPBR->setVec3((lightPositions + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->gameObject->getComponent<Transform>()->position);
-		this->deferredPBR->setVec3((lightColors + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
+		this->finalShader->setVec3((lightPositions + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->gameObject->getComponent<Transform>()->position);
+		this->finalShader->setVec3((lightColors + "[" + std::to_string(i) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
 	}
 	// shadows
 	glActiveTexture(GL_TEXTURE13);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
-	this->deferredPBR->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
+	this->finalShader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
 	
 	glActiveTexture(GL_TEXTURE14);
-	glBindTexture(GL_TEXTURE_2D, this->bufferFx.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->fxPass.textures[0]);
 
 	// render
-	for (unsigned int i = 0; i < this->bufferG.textures.size(); i++) {
+	for (unsigned int i = 0; i < this->finalPass.textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, this->bufferG.textures[i]);
+		glBindTexture(GL_TEXTURE_2D, this->finalPass.textures[i]);
 	}
 
-	glBindVertexArray(this->vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	this->quad->draw();
 }
 
 
@@ -97,7 +112,7 @@ void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObj
 	Game* game = Game::getInstance();
 
 	// bind framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, this->bufferG.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->finalPass.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// render bounding box in line mode
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -116,11 +131,10 @@ void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObj
 	// bind shader
 	game->resources->getShader("renderpass_color_1_passes")->use();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, this->bufferG.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->finalPass.textures[0]);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glBindVertexArray(this->vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glBindVertexArray(0);
+	
+	this->quad->draw();
 }
 
 
@@ -128,11 +142,11 @@ void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObj
 < set active light probe >
 ------------------------------------------------------------------------------*/
 void RenderPass::setActiveLightProbe(LightProbe* lightProbe) {
-	this->deferredPBR->use();
+	this->finalShader->use();
 	// ibl
-	this->deferredPBR->setInt(UNIFORM_TEX_IRRADIANCE, 10);
-	this->deferredPBR->setInt(UNIFORM_TEX_PREFILTER, 11);
-	this->deferredPBR->setInt(UNIFORM_TEX_BRDFLUT, 12);
+	this->finalShader->setInt(UNIFORM_TEX_IRRADIANCE, 10);
+	this->finalShader->setInt(UNIFORM_TEX_PREFILTER, 11);
+	this->finalShader->setInt(UNIFORM_TEX_BRDFLUT, 12);
 	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->irradiance);
 	glActiveTexture(GL_TEXTURE11);
@@ -142,51 +156,47 @@ void RenderPass::setActiveLightProbe(LightProbe* lightProbe) {
 }
 
 
-/*------------------------------------------------------------------------------
-< create framebuffer >
-------------------------------------------------------------------------------*/
-FrameBuffer RenderPass::createFrameBuffer(unsigned int number) {
+unsigned int RenderPass::createColorAttachment(GLenum attachment, GLint internalFormat) {
 	Game* game = Game::getInstance();
-	FrameBuffer frameBuffer;
-
-	// configure (floating point) framebuffers
-	glGenFramebuffers(1, &frameBuffer.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.fbo);
-
-	// create 2 floating point color buffers
-	unsigned int colorBuffers[number];
-	glGenTextures(number, colorBuffers);
-	for (unsigned int i = 0; i < number; i++) {
-		glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
+	
+	// create attachment
+	unsigned int colorAttachment;
+	glGenTextures(1, &colorAttachment);
+	glBindTexture(GL_TEXTURE_2D, colorAttachment);
+	
+	if (internalFormat == GL_RGB)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	else if (internalFormat == GL_RGB16F)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		// attach texture to framebuffer
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, colorBuffers[i], 0);
-		frameBuffer.textures.push_back(colorBuffers[i]);
-	}
+	else if (internalFormat == GL_RGB32F)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
+	else return -1;
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	
+	// attach texture to framebuffer
+	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, colorAttachment, 0);
+	
+	return colorAttachment;
+}
 
-	// tell OpenGL which color attachments we'll use (of this framebuffer) for rendering
-	unsigned int attachments[number];
-	for (unsigned int i = 0; i < number; i++) {
-		attachments[i] = GL_COLOR_ATTACHMENT0 + i;
-	}
-	glDrawBuffers(number, attachments);
 
-	// create and attach depth buffer (renderbuffer)
+void RenderPass::createDepthAttachment(GLenum internalformat) {
+	Game* game = Game::getInstance();
+	
 	unsigned int depthRBO;
 	glGenRenderbuffers(1, &depthRBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, game->window->screenWidth, game->window->screenHeight);
+	glRenderbufferStorage(GL_RENDERBUFFER, internalformat, game->window->screenWidth, game->window->screenHeight);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
+}
 
-	// check if framebuffer is complete
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "Framebuffer not complete!" << std::endl;
-
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
-
-	return frameBuffer;
+void RenderPass::drawBuffers(GLsizei n) {
+	unsigned int attachments[n];
+	for (unsigned int i = 0; i < n; i++)
+		attachments[i] = GL_COLOR_ATTACHMENT0 + i;
+	glDrawBuffers(n, attachments);
 }

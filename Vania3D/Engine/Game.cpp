@@ -45,7 +45,7 @@ void Game::start() {
 	// resources
 	this->resources->start();
 	// render pass
-	this->renderPass->init(this->resources->getShader("renderpass_deferred_pbr"), 4); // 3 model textures + 1 model position + 1 alpha
+	this->renderPass->init();
 	// shadow mapping
 	this->shadowMapping->init(this->resources->getShader("shadow_mapping_depth"), 512);
 

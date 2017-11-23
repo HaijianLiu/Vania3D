@@ -12,15 +12,16 @@ class RenderPass {
 	friend class Scene;
 
 private:
-	unsigned int vao;
+	Quad* quad;
 	
-	Shader* deferredPBR;
-	FrameBuffer bufferG;
-	FrameBuffer bufferFx;
+	Shader* finalShader;
+	FrameBuffer finalPass;
+	
+	FrameBuffer fxPass;
+	FrameBuffer pointLightingPass;
 
-	void init(Shader* shader, unsigned int number);
+	void init();
 	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
-	// test
 	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
 public:
@@ -28,7 +29,10 @@ public:
 	~RenderPass();
 
 	void setActiveLightProbe(LightProbe* lightProbe);
-	static FrameBuffer createFrameBuffer(unsigned int number);
+
+	static unsigned int createColorAttachment(GLenum attachment, GLint internalFormat);
+	static void createDepthAttachment(GLenum internalformat);
+	static void drawBuffers(GLsizei n);
 };
 
 #endif /* RenderPass_hpp */

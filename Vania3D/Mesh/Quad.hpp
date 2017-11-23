@@ -3,8 +3,6 @@
 #define Quad_hpp
 
 class Quad {
-	friend class RenderPass;
-	
 private:
 	unsigned int vao;
 
