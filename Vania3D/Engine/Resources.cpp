@@ -112,12 +112,15 @@ void Resources::start() {
 	this->loadTexture("fx_fire_D", "./Assets/Models/FantasyDungeon/Textures/FX/fx_fire_D.TGA");
 	this->createMaterial("fx_fire", this->getShader("fx_uv_animation"));
 	this->getMaterial("fx_fire")->addTexture("albedoMap", this->getTexture("fx_fire_D"));
-	this->loadTexture("fx_smoke_D", "./Assets/Models/FantasyDungeon/Textures/FX/fx_smoke_D.TGA");
-	this->createMaterial("fx_smoke", this->getShader("fx_image"));
-	this->getMaterial("fx_smoke")->addTexture("albedoMap", this->getTexture("fx_smoke_D"));
-	this->loadTexture("fx_Waterfall2_D", "./Assets/Models/FantasyDungeon/Textures/FX/fx_Waterfall2_D.TGA");
-	this->createMaterial("fx_Waterfall2", this->getShader("fx_image"));
-	this->getMaterial("fx_Waterfall2")->addTexture("albedoMap", this->getTexture("fx_Waterfall2_D"));
+	this->loadTexture("fx_fire_smoke_D", "./Assets/Models/FantasyDungeon/Textures/FX/fx_fire_smoke_D.TGA");
+	this->createMaterial("fx_fire_smoke", this->getShader("fx_image"));
+	this->getMaterial("fx_fire_smoke")->addTexture("albedoMap", this->getTexture("fx_fire_smoke_D"));
+	this->loadTexture("fx_fire_drop_D", "./Assets/Models/FantasyDungeon/Textures/FX/fx_fire_drop_D.TGA");
+	this->createMaterial("fx_fire_drop", this->getShader("fx_image"));
+	this->getMaterial("fx_fire_drop")->addTexture("albedoMap", this->getTexture("fx_fire_drop_D"));
+	this->loadTexture("fx_fire_spark_D", "./Assets/Models/FantasyDungeon/Textures/FX/fx_fire_spark_D.TGA");
+	this->createMaterial("fx_fire_spark", this->getShader("fx_image"));
+	this->getMaterial("fx_fire_spark")->addTexture("albedoMap", this->getTexture("fx_fire_spark_D"));
 
 
 	// BrickDamege

@@ -58,7 +58,7 @@ void main() {
 	// real time lights reflectance equation
 	vec3 lightReflection = vec3(0.0);
 
-	for(int i = 0; i < 4; ++i) {
+	for(int i = 0; i < 5; ++i) {
 		// Cook-Torrance BRDF
 		vec3 l = normalize(lightPositions[i] - position);
 		vec3 specular = cookTorranceBRDF(n, v, l, roughness, f0);
