@@ -65,7 +65,7 @@ void Scene02::start() {
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 	
-	// test object
+	// partiles
 	GameObject* partiles = new GameObject();
 	partiles->staticObject = false;
 	Transform* partilesTransform = partiles->addComponent<Transform>();
@@ -76,7 +76,7 @@ void Scene02::start() {
 	partilesEmitter->divideX = 4;
 	partilesEmitter->divideY = 4;
 	partilesEmitter->sampleTime = 0.1;
-	partilesEmitter->maxParticles = 40;
+	partilesEmitter->maxParticles = 26;
 	partilesEmitter->spawnTime = 0.01;
 	partilesEmitter->minLifeTime = 1;
 	partilesEmitter->maxLifeTime = 1.5;
@@ -84,9 +84,8 @@ void Scene02::start() {
 	partilesEmitter->velocityHorizonalRange = 0.05;
 	partilesEmitter->velocityVerticalRange = 0.1;
 	partilesEmitter->gravity = -0.5;
-	// .... setting
-	partilesEmitter->createParticles("particle", this);
-	this->addGameObject("emitter", partiles);
+	partilesEmitter->createParticles("fireDistortion", this);
+	this->addGameObject("fireDistortion", partiles);
 	
 	
 	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
