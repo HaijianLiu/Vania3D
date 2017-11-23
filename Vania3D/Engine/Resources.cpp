@@ -51,7 +51,7 @@ void Resources::start() {
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
 
 	// lighting
-	this->loadShader("point_light_layer", "./Assets/Shaders/Vertex/quad_instance_4_locations_lighting_layer.vs.glsl",  "./Assets/Shaders/Fragment/pointlight_1_passes.fs.glsl");
+	this->loadShader("point_light_layer", "./Assets/Shaders/Vertex/quad_instance_4_locations_lighting_layer.vs.glsl",  "./Assets/Shaders/Fragment/pointlight_1_passes.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl");
 
 	// shadow mapping
 	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/Vertex/bones_3_locations_shadowmapping.vs.glsl",  "./Assets/Shaders/Fragment/null.fs.glsl");

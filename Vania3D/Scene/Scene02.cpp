@@ -99,6 +99,16 @@ void Scene02::start() {
 //	light[1]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 0.0f);
 //	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 0.0f);
 	light[3]->getComponent<PointLight>()->color = glm::vec3(5, 10, 15);
+	
+	
+//	GameObject* light2[10];
+//	for (int i = 0; i < 5; i++) {
+//		light2[i] = new GameObject();
+//		light2[i]->staticObject = false;
+//		Transform* lightTransform = light2[i]->addComponent<Transform>();
+//		light2[i]->addComponent<PointLight>();
+//		this->addGameObject(("light2" + std::to_string(i)).c_str(), light2[i]);
+//	}
 
 	// IBL
 	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));

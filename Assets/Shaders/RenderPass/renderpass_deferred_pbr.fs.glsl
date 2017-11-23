@@ -8,6 +8,7 @@ in vec2 uv;
 const float PI = 3.14159265359;
 
 uniform sampler2D fx;
+uniform sampler2D pointLightPass;
 
 uniform sampler2D shadowMap;
 uniform mat4 lightSpaceMatrix;
@@ -19,14 +20,8 @@ uniform samplerCube irradianceMap;
 uniform samplerCube prefilterMap;
 uniform sampler2D brdfLUT;
 
-// lights
-uniform vec3 lightPositions[19];
-uniform vec3 lightColors[19];
-
 // transform
 uniform vec3 cameraPosition;
-
-
 
 // brdf
 vec3 cookTorranceBRDF(vec3 n, vec3 v, vec3 l, float roughness, vec3 f0);
@@ -48,6 +43,7 @@ void main() {
 	float cavity = mrc.b;
 
 	vec3 fxColor = texture(fx, uv).rgb;
+	vec3 pointLightColor = texture(pointLightPass, uv).rgb;
 
 	vec3 v = normalize(cameraPosition - position);
 	vec3 r = reflect(-v, n);
@@ -57,23 +53,6 @@ void main() {
 
 	// real time lights reflectance equation
 	vec3 lightReflection = vec3(0.0);
-
-	for(int i = 0; i < 5; ++i) {
-		// Cook-Torrance BRDF
-		vec3 l = normalize(lightPositions[i] - position);
-		vec3 specular = cookTorranceBRDF(n, v, l, roughness, f0);
-		// vec2 brdf  = texture(brdfLUT, vec2(max(dot(n, v), 0.0), roughness)).rg;
-		// specular = (specularF * brdf.x + brdf.y);
-		// calculate light radiance
-		float distance = length(lightPositions[i] - position);
-		float attenuation = 1.0 / (distance * distance);
-		vec3 radiance = lightColors[i] * attenuation;
-		// add to outgoing radiance
-		float ndotl = max(dot(n, l), 0.0);
-		vec3 diffuseF = vec3(1.0) - specular;
-		diffuseF *= 1.0 - metallic;
-		lightReflection += (diffuseF * albedo / PI + specular) * radiance * ndotl;
-	}
 
 	// test for sun light
 	for(int i = 0; i < 1; i++) {
@@ -108,7 +87,9 @@ void main() {
 	vec3 ambient = specularF * diffuse * specular;
 
 	// vec3 color = lightReflection;
-	vec3 color = ambient + lightReflection;
+	vec3 color = ambient + lightReflection + pointLightColor;
+	// vec3 color = pointLightColor;
+
 
 	// exposion & cavity & shadow
 	color *= cavity;
@@ -127,6 +108,6 @@ void main() {
 	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
 	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
 	fragColor = vec4(color, 1.0);
-	// fragColor = vec4(fxColor, 1.0);
+	// fragColor = vec4(pointLightColor, 1.0);
 	// fragColor = vec4(vec3(texture(shadowMap, uv).r), 1.0);
 }

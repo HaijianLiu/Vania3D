@@ -15,8 +15,9 @@ private:
 	Quad* quad;
 	
 	Shader* finalShader;
-	FrameBuffer finalPass;
+	Shader* pointLightingShader;
 	
+	FrameBuffer deferredPass;
 	FrameBuffer fxPass;
 	FrameBuffer pointLightingPass;
 

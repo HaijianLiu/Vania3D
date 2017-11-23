@@ -4,6 +4,7 @@
 
 class PointLight : public Component {
 	friend class FrustumCulling;
+	friend class RenderPass;
 	
 private:
 	bool culling = false;
