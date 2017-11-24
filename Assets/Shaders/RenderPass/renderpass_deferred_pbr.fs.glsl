@@ -10,7 +10,10 @@ uniform sampler2D lightingPass;
 uniform sampler2D shadowMap;
 uniform mat4 lightSpaceMatrix;
 
-uniform sampler2D passes[4];
+uniform sampler2D albedoPass;
+uniform sampler2D normalPass;
+uniform sampler2D mrcPass;
+uniform sampler2D positionPass;
 
 // ibl
 uniform samplerCube irradianceMap;
@@ -29,10 +32,10 @@ float shadowMapping(mat4 lightSpaceMatrix, vec3 n, vec3 position);
 
 void main() {
 	// passes
-	vec3 albedo = texture(passes[0], uv).rgb;
-	vec3 n = texture(passes[1], uv).rgb;
-	vec3 mrc = texture(passes[2], uv).rgb;
-	vec3 position = texture(passes[3], uv).rgb;
+	vec3 albedo = texture(albedoPass, uv).rgb;
+	vec3 n = texture(normalPass, uv).rgb;
+	vec3 mrc = texture(mrcPass, uv).rgb;
+	vec3 position = texture(positionPass, uv).rgb;
 	// mrc mask
 	float metallic = mrc.r;
 	float roughness = mrc.g;
@@ -85,9 +88,5 @@ void main() {
 	// float fogFactor = (10 - cameraPosition.z) / 10;
 	// color = mix(vec3(0), color, fogFactor);
 
-	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
-	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
 	fragColor = vec4(color, 1.0);
-	// fragColor = vec4(lightingColor, 1.0);
-	// fragColor = vec4(vec3(texture(shadowMap, uv).r), 1.0);
 }
