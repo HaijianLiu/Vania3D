@@ -110,9 +110,6 @@ void Scene02::start() {
 //		this->addGameObject(("light2" + std::to_string(i)).c_str(), light2[i]);
 //	}
 
-	// IBL
-	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
-
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);

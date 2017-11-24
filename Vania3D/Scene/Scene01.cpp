@@ -98,11 +98,7 @@ void Scene01::start() {
 //	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 10.0f, 0.0f);
 //	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 10.0f);
 
-	// IBL
-	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
-
-
-
+	
 	// Enable alpha channel after generate prefilter map
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);

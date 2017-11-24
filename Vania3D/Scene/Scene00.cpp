@@ -159,9 +159,6 @@ void Scene00::start() {
 	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 20.0f, 0.0f);
 	light[3]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 20.0f);
 
-	// IBL
-	game->renderPass->setActiveLightProbe(game->resources->getLightProbe("hdr"));
-
 
 	//kernel
 	//	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);

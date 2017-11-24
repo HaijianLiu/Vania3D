@@ -45,7 +45,7 @@ void Game::start() {
 	// resources
 	this->resources->start();
 	// render pass
-	this->renderPass->init();
+	this->renderPass->start();
 	// shadow mapping
 	this->shadowMapping->init(this->resources->getShader("shadow_mapping_depth"), 512);
 
