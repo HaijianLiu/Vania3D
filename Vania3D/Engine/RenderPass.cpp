@@ -41,13 +41,13 @@ void RenderPass::init() {
 	for (unsigned i = 0; i < 4; i++)
 		this->finalShader->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
 	this->finalShader->setInt(UNIFORM_TEX_SHADOW, 13);
-	this->finalShader->setInt("fx", 14);
+	this->finalShader->setInt("fxPass", 14);
 	this->finalShader->setInt("lightingPass", 15);
 	
 	// fx pass
 	glGenFramebuffers(1, &this->fxPass.fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->fxPass.fbo);
-	this->fxPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB16F));
+	this->fxPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
 	drawBuffers(1);
 	createDepthAttachment(GL_DEPTH_COMPONENT24);
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
@@ -55,7 +55,7 @@ void RenderPass::init() {
 	// point lighting pass
 	glGenFramebuffers(1, &this->lightingPass.fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
-	this->lightingPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
+	this->lightingPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
 	drawBuffers(1);
 	createDepthAttachment(GL_DEPTH_COMPONENT24);
 	glBindFramebuffer(GL_FRAMEBUFFER,0);

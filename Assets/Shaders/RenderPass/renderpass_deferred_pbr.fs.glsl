@@ -4,7 +4,7 @@ out vec4 fragColor;
 
 in vec2 uv;
 
-uniform sampler2D fx;
+uniform sampler2D fxPass;
 uniform sampler2D lightingPass;
 
 uniform sampler2D shadowMap;
@@ -38,7 +38,7 @@ void main() {
 	float roughness = mrc.g;
 	float cavity = mrc.b;
 
-	vec3 fxColor = texture(fx, uv).rgb;
+	vec3 fxColor = texture(fxPass, uv).rgb;
 	vec3 lightingColor = texture(lightingPass, uv).rgb;
 
 	vec3 v = normalize(cameraPosition - position);
