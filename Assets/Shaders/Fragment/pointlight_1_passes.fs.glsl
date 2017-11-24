@@ -3,13 +3,17 @@
 layout (location = 0) out vec4 pointLightPass;
 
 in vec2 uv;
-in vec3 lightColor;
-in vec3 lightPosition;
 
 uniform sampler2D albedoPass;
 uniform sampler2D normalPass;
 uniform sampler2D mrcPass;
 uniform sampler2D positionPass;
+
+uniform vec3 lightColor[128];
+uniform vec3 lightPosition[128];
+uniform float lightRadius[128];
+uniform int lightSize;
+
 uniform vec3 cameraPosition;
 
 const float PI = 3.14159265359;
@@ -26,26 +30,31 @@ void main() {
 	float metallic = mrc.r;
 	float roughness = mrc.g;
 	float cavity = mrc.b;
+	// normals
+	vec3 v = normalize(cameraPosition - position);
+	vec3 r = reflect(-v, n);
 	// f0
 	vec3 f0 = vec3(0.04);
 	f0 = mix(f0, albedo, vec3(metallic));
-	// normals
-	vec3 v = normalize(cameraPosition - position);
-	vec3 l = normalize(lightPosition - position);
-	vec3 r = reflect(-v, n);
-	// light radiance
-	float distance = length(lightPosition - position);
-	float attenuation = 1.0 / (distance * distance);
-	vec3 radiance = lightColor * attenuation;
 
+	vec3 pointLight = vec3(0);
+	for (int i = 0; i < lightSize; i++) {
+		// light radiance
+		float d = length(lightPosition[i] - position);
+		if (d < lightRadius[i])
+		{
+			float attenuation = 1.0 / (d * d);
+			vec3 radiance = lightColor[i] * attenuation;
+			// normals
+			vec3 l = normalize(lightPosition[i] - position);
+			// Cook-Torrance BRDF
+			vec3 specular = cookTorranceBRDF(n, v, l, roughness, f0);
+			// outgoing radiance
+			vec3 diffuseF = vec3(1.0) - specular;
+			diffuseF *= 1.0 - metallic;
+			pointLight += (diffuseF * albedo / PI + specular) * radiance * max(dot(n, l), 0.0);
+		}
+	}
 
-	// Cook-Torrance BRDF
-	vec3 specular = cookTorranceBRDF(n, v, l, roughness, f0);
-
-	// outgoing radiance
-	float ndotl = max(dot(n, l), 0.0);
-	vec3 diffuseF = vec3(1.0) - specular;
-	diffuseF *= 1.0 - metallic;
-	pointLightPass = vec4((diffuseF * albedo / PI + specular) * radiance * ndotl, 1);
-	// pointLightPass = pointLightPass / (pointLightPass + vec4(1.0));
+	pointLightPass = vec4(pointLight, 1);
 }

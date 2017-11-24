@@ -8,13 +8,13 @@ class PointLight : public Component {
 	
 private:
 	bool culling = false;
-	float radius;
 
 	void start();
 
 public:
 	glm::vec3 color = glm::vec3(1);
 	float intensity = 1;
+	float radius;
 	bool distanceCulling = true;
 
 	PointLight();
