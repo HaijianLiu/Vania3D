@@ -15,11 +15,11 @@ private:
 	Quad* quad;
 	
 	Shader* finalShader;
-	Shader* pointLightingShader;
+	Shader* lightingShader;
 	
 	FrameBuffer deferredPass;
 	FrameBuffer fxPass;
-	FrameBuffer pointLightingPass;
+	FrameBuffer lightingPass;
 
 	void init();
 	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera);

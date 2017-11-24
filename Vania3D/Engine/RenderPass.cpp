@@ -42,7 +42,7 @@ void RenderPass::init() {
 		this->finalShader->setInt((passes + "[" + std::to_string(i) + "]").c_str(), i);
 	this->finalShader->setInt(UNIFORM_TEX_SHADOW, 13);
 	this->finalShader->setInt("fx", 14);
-	this->finalShader->setInt("pointLightPass", 15);
+	this->finalShader->setInt("lightingPass", 15);
 	
 	// fx pass
 	glGenFramebuffers(1, &this->fxPass.fbo);
@@ -53,19 +53,19 @@ void RenderPass::init() {
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
 	
 	// point lighting pass
-	glGenFramebuffers(1, &this->pointLightingPass.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->pointLightingPass.fbo);
-	this->pointLightingPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
+	glGenFramebuffers(1, &this->lightingPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
+	this->lightingPass.textures.push_back(RenderPass::createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
 	drawBuffers(1);
 	createDepthAttachment(GL_DEPTH_COMPONENT24);
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
 	
-	this->pointLightingShader = game->resources->getShader("point_light_layer");
-	this->pointLightingShader->use();
-	this->pointLightingShader->setInt("albedoPass", 0);
-	this->pointLightingShader->setInt("normalPass", 1);
-	this->pointLightingShader->setInt("mrcPass", 2);
-	this->pointLightingShader->setInt("positionPass", 3);
+	this->lightingShader = game->resources->getShader("lighting_pass");
+	this->lightingShader->use();
+	this->lightingShader->setInt("albedoPass", 0);
+	this->lightingShader->setInt("normalPass", 1);
+	this->lightingShader->setInt("mrcPass", 2);
+	this->lightingShader->setInt("positionPass", 3);
 }
 
 
@@ -93,28 +93,28 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	
 
 	// point lighting pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->pointLightingPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// uniforms
-	this->pointLightingShader->use();
+	this->lightingShader->use();
 	for (unsigned int i = 0; i < this->deferredPass.textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, this->deferredPass.textures[i]);
 	}
 	// camera
-	this->pointLightingShader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->transform->position);
+	this->lightingShader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->transform->position);
 	// light
 	int lightSize = 0;
 	for (unsigned int i = 0; i < pointLights->size(); i++) {
 		if (!pointLights->at(i)->culling) {
-			this->pointLightingShader->setVec3(("lightColor[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
-			this->pointLightingShader->setVec3(("lightPosition[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->gameObject->transform->position);
-			this->pointLightingShader->setFloat(("lightRadius[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->radius);
+			this->lightingShader->setVec3(("lightColor[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
+			this->lightingShader->setVec3(("lightPosition[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->gameObject->transform->position);
+			this->lightingShader->setFloat(("lightRadius[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->radius);
 			lightSize++;
 		}
 	}
-	this->pointLightingShader->setInt("lightSize", lightSize);
+	this->lightingShader->setInt("lightSize", lightSize);
 	// draw
 	game->resources->quad->draw();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -135,7 +135,7 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glActiveTexture(GL_TEXTURE14);
 	glBindTexture(GL_TEXTURE_2D, this->fxPass.textures[0]);
 	glActiveTexture(GL_TEXTURE15);
-	glBindTexture(GL_TEXTURE_2D, this->pointLightingPass.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->lightingPass.textures[0]);
 
 	// render
 	for (unsigned int i = 0; i < this->deferredPass.textures.size(); i++) {

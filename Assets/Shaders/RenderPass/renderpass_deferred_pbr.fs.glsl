@@ -4,11 +4,8 @@ out vec4 fragColor;
 
 in vec2 uv;
 
-// parameters
-const float PI = 3.14159265359;
-
 uniform sampler2D fx;
-uniform sampler2D pointLightPass;
+uniform sampler2D lightingPass;
 
 uniform sampler2D shadowMap;
 uniform mat4 lightSpaceMatrix;
@@ -24,7 +21,6 @@ uniform sampler2D brdfLUT;
 uniform vec3 cameraPosition;
 
 // brdf
-vec3 cookTorranceBRDF(vec3 n, vec3 v, vec3 l, float roughness, vec3 f0);
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 f0, float roughness) {
 	return f0 + (max(vec3(1.0 - roughness), f0) - f0) * pow(1.0 - cosTheta, 5.0);
 }
@@ -43,32 +39,13 @@ void main() {
 	float cavity = mrc.b;
 
 	vec3 fxColor = texture(fx, uv).rgb;
-	vec3 pointLightColor = texture(pointLightPass, uv).rgb;
+	vec3 lightingColor = texture(lightingPass, uv).rgb;
 
 	vec3 v = normalize(cameraPosition - position);
 	vec3 r = reflect(-v, n);
 
 	vec3 f0 = vec3(0.04);
 	f0 = mix(f0, albedo, vec3(metallic));
-
-	// real time lights reflectance equation
-	vec3 lightReflection = vec3(0.0);
-
-	// test for sun light
-	for(int i = 0; i < 1; i++) {
-		// Cook-Torrance BRDF
-		vec3 l = normalize(vec3(58.7033, 63.2275, 14.8628) - position);
-		vec3 specular = cookTorranceBRDF(n, v, l, roughness, f0);
-		// add to outgoing radiance
-		float ndotl = max(dot(n, l), 0.0);
-		vec3 diffuseF = 1.0 - specular;
-		diffuseF *= 1.0 - metallic;
-		lightReflection += (diffuseF * albedo / PI + specular) * vec3(0.522, 0.723, 1) * 1 * ndotl;
-	}
-
-	// shadow
-	float shadow = shadowMapping(lightSpaceMatrix, n, position);
-	lightReflection = mix(lightReflection, vec3(0), shadow);
 
 	// ibl ambient lighting
 	vec3 specularF = fresnelSchlickRoughness(max(dot(n, v), 0.0), f0, roughness);
@@ -86,10 +63,13 @@ void main() {
 	// vec3 ambient = diffuseF * diffuse + specularF * diffuse * specular;
 	vec3 ambient = specularF * diffuse * specular;
 
-	// vec3 color = lightReflection;
-	vec3 color = ambient + lightReflection + pointLightColor;
-	// vec3 color = pointLightColor;
 
+	// shadow
+	float shadow = shadowMapping(lightSpaceMatrix, n, position);
+	lightingColor = mix(lightingColor, vec3(0), shadow);
+
+	vec3 color = ambient + lightingColor;
+	// vec3 color = lightingColor;
 
 	// exposion & cavity & shadow
 	color *= cavity;
@@ -102,12 +82,12 @@ void main() {
 	color = pow(color, vec3(1.0/2.2));
 
 	// hard code fog
-	float fogFactor = (10 - position.z) / 10;
-	color = mix(vec3(0), color, fogFactor);
+	// float fogFactor = (10 - cameraPosition.z) / 10;
+	// color = mix(vec3(0), color, fogFactor);
 
 	// fragColor = vec4(mix(vec3(0), color, alpha), 1.0);
 	// fragColor = vec4(texture(passes[1], uv).rgb, 1.0);
 	fragColor = vec4(color, 1.0);
-	// fragColor = vec4(pointLightColor, 1.0);
+	// fragColor = vec4(lightingColor, 1.0);
 	// fragColor = vec4(vec3(texture(shadowMap, uv).r), 1.0);
 }

@@ -1,6 +1,6 @@
 
 #version 330 core
-layout (location = 0) out vec4 pointLightPass;
+layout (location = 0) out vec4 lightingPass;
 
 in vec2 uv;
 
@@ -29,7 +29,6 @@ void main() {
 	// mrc mask
 	float metallic = mrc.r;
 	float roughness = mrc.g;
-	float cavity = mrc.b;
 	// normals
 	vec3 v = normalize(cameraPosition - position);
 	vec3 r = reflect(-v, n);
@@ -37,12 +36,21 @@ void main() {
 	vec3 f0 = vec3(0.04);
 	f0 = mix(f0, albedo, vec3(metallic));
 
-	vec3 pointLight = vec3(0);
+	vec3 lightingColor = vec3(0);
+
+	// direct light
+	for(int i = 0; i < 1; i++) {
+		vec3 l = normalize(vec3(58, 63, 14) - position);
+		vec3 specular = cookTorranceBRDF(n, v, l, roughness, f0);
+		vec3 diffuseF = 1.0 - specular;
+		diffuseF *= 1.0 - metallic;
+		lightingColor += (diffuseF * albedo / PI + specular) * vec3(0.522, 0.723, 1) * max(dot(n, l), 0.0);
+	}
+
 	for (int i = 0; i < lightSize; i++) {
 		// light radiance
 		float d = length(lightPosition[i] - position);
-		if (d < lightRadius[i])
-		{
+		if (d < lightRadius[i]) {
 			float attenuation = 1.0 / (d * d);
 			vec3 radiance = lightColor[i] * attenuation;
 			// normals
@@ -52,9 +60,9 @@ void main() {
 			// outgoing radiance
 			vec3 diffuseF = vec3(1.0) - specular;
 			diffuseF *= 1.0 - metallic;
-			pointLight += (diffuseF * albedo / PI + specular) * radiance * max(dot(n, l), 0.0);
+			lightingColor += (diffuseF * albedo / PI + specular) * radiance * max(dot(n, l), 0.0);
 		}
 	}
 
-	pointLightPass = vec4(pointLight, 1);
+	lightingPass = vec4(lightingColor, 1);
 }

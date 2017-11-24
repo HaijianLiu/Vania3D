@@ -42,7 +42,7 @@ void Resources::start() {
 	/* Shader
 	..............................................................................*/
 	// renderpass
-	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_deferred_pbr.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl", "./Assets/Shaders/Functions/shadowMapping.fs.glsl");
+	this->loadShader("renderpass_deferred_pbr", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_deferred_pbr.fs.glsl", "./Assets/Shaders/Functions/shadowMapping.fs.glsl");
 
 	// ibl
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");
@@ -51,7 +51,7 @@ void Resources::start() {
 	this->loadShader("brdf", "./Assets/Shaders/brdf.vs.glsl",  "./Assets/Shaders/brdf.fs.glsl");
 
 	// lighting
-	this->loadShader("point_light_layer", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/Fragment/pointlight_1_passes.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl");
+	this->loadShader("lighting_pass", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/Fragment/lighting_1_passes.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl");
 
 	// shadow mapping
 	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/Vertex/bones_3_locations_shadowmapping.vs.glsl",  "./Assets/Shaders/Fragment/null.fs.glsl");
