@@ -23,6 +23,13 @@ RenderPass::~RenderPass() {
 void RenderPass::start() {
 	Game* game = Game::getInstance();
 	this->quad = game->resources->quad;
+	LightProbe* lightProbe = game->resources->getLightProbe("hdr");
+	glActiveTexture(GL_TEXTURE10);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->irradiance);
+	glActiveTexture(GL_TEXTURE11);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->prefilter);
+	glActiveTexture(GL_TEXTURE12);
+	glBindTexture(GL_TEXTURE_2D, lightProbe->brdf);
 
 	// deferred pass
 	glGenFramebuffers(1, &this->deferredPass.fbo);
@@ -33,7 +40,7 @@ void RenderPass::start() {
 	this->deferredPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT3, GL_RGB16F));
 	drawBuffers(4);
 	createDepthAttachment(GL_DEPTH_COMPONENT24);
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// fx pass
 	glGenFramebuffers(1, &this->fxPass.fbo);
@@ -41,16 +48,30 @@ void RenderPass::start() {
 	this->fxPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
 	drawBuffers(1);
 	createDepthAttachment(GL_DEPTH_COMPONENT24);
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// ambient pass
+	glGenFramebuffers(1, &this->ambientPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->ambientPass.fbo);
+	this->ambientPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
+	drawBuffers(1);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	this->ambientShader = game->resources->getShader("ambient_pass");
+	this->ambientShader->use();
+	this->ambientShader->setInt("albedoPass", 0);
+	this->ambientShader->setInt("normalPass", 1);
+	this->ambientShader->setInt("mrcPass", 2);
+	this->ambientShader->setInt("positionPass", 3);
+	this->ambientShader->setInt("irradianceMap", 10);
+	this->ambientShader->setInt("prefilterMap", 11);
+	this->ambientShader->setInt("brdfLUT", 12);
 
 	// lighting pass
 	glGenFramebuffers(1, &this->lightingPass.fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
 	this->lightingPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
 	drawBuffers(1);
-	createDepthAttachment(GL_DEPTH_COMPONENT24);
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
-
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	this->lightingShader = game->resources->getShader("lighting_pass");
 	this->lightingShader->use();
 	this->lightingShader->setInt("albedoPass", 0);
@@ -59,25 +80,16 @@ void RenderPass::start() {
 	this->lightingShader->setInt("positionPass", 3);
 
 	// final shader
-	LightProbe* lightProbe = game->resources->getLightProbe("hdr");
 	this->finalShader = game->resources->getShader("renderpass_deferred_pbr");
 	this->finalShader->use();
 	this->finalShader->setInt("albedoPass", 0);
 	this->finalShader->setInt("normalPass", 1);
 	this->finalShader->setInt("mrcPass", 2);
 	this->finalShader->setInt("positionPass", 3);
-	this->finalShader->setInt(UNIFORM_TEX_IRRADIANCE, 10);
-	this->finalShader->setInt(UNIFORM_TEX_PREFILTER, 11);
-	this->finalShader->setInt(UNIFORM_TEX_BRDFLUT, 12);
 	this->finalShader->setInt(UNIFORM_TEX_SHADOW, 13);
 	this->finalShader->setInt("fxPass", 14);
 	this->finalShader->setInt("lightingPass", 15);
-	glActiveTexture(GL_TEXTURE10);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->irradiance);
-	glActiveTexture(GL_TEXTURE11);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->prefilter);
-	glActiveTexture(GL_TEXTURE12);
-	glBindTexture(GL_TEXTURE_2D, lightProbe->brdf);
+	this->finalShader->setInt("ambientPass", 16);
 }
 
 
@@ -104,14 +116,23 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glDepthMask(GL_TRUE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	// lighting pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->lightingShader->use();
+	// active g-buffer textures
 	for (unsigned int i = 0; i < this->deferredPass.textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, this->deferredPass.textures[i]);
 	}
+
+	// ambient pass
+	glBindFramebuffer(GL_FRAMEBUFFER, this->ambientPass.fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	this->ambientShader->use();
+	this->ambientShader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->transform->position);
+	game->resources->quad->draw();
+
+	// lighting pass
+	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	this->lightingShader->use();
 	this->lightingShader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->transform->position);
 	int lightSize = 0;
 	for (unsigned int i = 0; i < pointLights->size(); i++) {
@@ -128,18 +149,15 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 
 	// final pass
 	this->finalShader->use();
-	this->finalShader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->transform->position);
+	this->finalShader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
 	glActiveTexture(GL_TEXTURE13);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
-	this->finalShader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
 	glActiveTexture(GL_TEXTURE14);
 	glBindTexture(GL_TEXTURE_2D, this->fxPass.textures[0]);
 	glActiveTexture(GL_TEXTURE15);
 	glBindTexture(GL_TEXTURE_2D, this->lightingPass.textures[0]);
-	for (unsigned int i = 0; i < this->deferredPass.textures.size(); i++) {
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, this->deferredPass.textures[i]);
-	}
+	glActiveTexture(GL_TEXTURE16);
+	glBindTexture(GL_TEXTURE_2D, this->ambientPass.textures[0]);
 	this->quad->draw();
 }
 
