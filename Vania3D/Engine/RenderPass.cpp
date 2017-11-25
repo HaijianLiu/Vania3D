@@ -78,18 +78,27 @@ void RenderPass::start() {
 	this->lightingShader->setInt("normalPass", 1);
 	this->lightingShader->setInt("mrcPass", 2);
 	this->lightingShader->setInt("positionPass", 3);
+	
+	// shadow pass
+	glGenFramebuffers(1, &this->shadowPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->shadowPass.fbo);
+	this->shadowPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RED));
+	drawBuffers(1);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	this->shadowShader = game->resources->getShader("shadow_pass");
+	this->shadowShader->use();
+	this->shadowShader->setInt("normalPass", 1);
+	this->shadowShader->setInt("positionPass", 3);
+	this->shadowShader->setInt("shadowMap", 4);
 
 	// final shader
-	this->finalShader = game->resources->getShader("renderpass_deferred_pbr");
-	this->finalShader->use();
-	this->finalShader->setInt("albedoPass", 0);
-	this->finalShader->setInt("normalPass", 1);
-	this->finalShader->setInt("mrcPass", 2);
-	this->finalShader->setInt("positionPass", 3);
-	this->finalShader->setInt(UNIFORM_TEX_SHADOW, 13);
-	this->finalShader->setInt("fxPass", 14);
-	this->finalShader->setInt("lightingPass", 15);
-	this->finalShader->setInt("ambientPass", 16);
+	this->combineShader = game->resources->getShader("renderpass_combine");
+	this->combineShader->use();
+	this->combineShader->setInt("mrcPass", 2);
+	this->combineShader->setInt("fxPass", 4);
+	this->combineShader->setInt("ambientPass", 5);
+	this->combineShader->setInt("lightingPass", 6);
+	this->combineShader->setInt("shadowPass", 7);
 }
 
 
@@ -114,7 +123,6 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glDepthMask(GL_FALSE);
 	fxLayer->render(camera);
 	glDepthMask(GL_TRUE);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// active g-buffer textures
 	for (unsigned int i = 0; i < this->deferredPass.textures.size(); i++) {
@@ -145,20 +153,31 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	}
 	this->lightingShader->setInt("lightSize", lightSize);
 	game->resources->quad->draw();
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// final pass
-	this->finalShader->use();
-	this->finalShader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
-	glActiveTexture(GL_TEXTURE13);
+	
+	// shadow pass
+	glBindFramebuffer(GL_FRAMEBUFFER, this->shadowPass.fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	this->shadowShader->use();
+	this->shadowShader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
+	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
-	glActiveTexture(GL_TEXTURE14);
+	game->resources->quad->draw();
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+	// final pass
+	this->combineShader->use();
+	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, this->fxPass.textures[0]);
-	glActiveTexture(GL_TEXTURE15);
-	glBindTexture(GL_TEXTURE_2D, this->lightingPass.textures[0]);
-	glActiveTexture(GL_TEXTURE16);
+	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, this->ambientPass.textures[0]);
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, this->lightingPass.textures[0]);
+	glActiveTexture(GL_TEXTURE7);
+	glBindTexture(GL_TEXTURE_2D, this->shadowPass.textures[0]);
 	this->quad->draw();
+	
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
@@ -212,6 +231,8 @@ unsigned int RenderPass::createColorAttachment(GLenum attachment, GLint internal
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
 	else if (internalFormat == GL_RGB32F)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
+	else if (internalFormat == GL_RED)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, game->window->screenWidth, game->window->screenHeight, 0, GL_RED, GL_FLOAT, NULL);
 	else return -1;
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
