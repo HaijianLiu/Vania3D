@@ -50,9 +50,10 @@ void Game::start() {
 	this->shadowMapping->init(this->resources->getShader("shadow_mapping_depth"), 512);
 
 	// scene manager ????
-//	this->sceneManager->addScene("Scene00", new Scene00());
-//	this->sceneManager->addScene("Scene01", new Scene01());
+	// this->sceneManager->addScene("Scene00", new Scene00());
+	// this->sceneManager->addScene("Scene01", new Scene01());
 	this->sceneManager->addScene("Scene02", new Scene02());
+	this->sceneManager->addScene("Scene03", new Scene03());
 	this->sceneManager->setActiveScene("Scene02"); // set default scene
 }
 

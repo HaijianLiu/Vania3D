@@ -79,7 +79,6 @@ void Level::processNode(Node<ModelInfo>* node, glm::mat4 parentTransformation, G
 		MeshRenderer* meshRenderer = gameObject->addComponent<MeshRenderer>();
 		meshRenderer->model = model;
 		meshRenderer->materials.push_back(game->resources->getMaterial(modelName));
-		meshRenderer->lightProbe = game->resources->getLightProbe("hdr");
 		scene->addGameObject(node->name.c_str(), gameObject);
 	}
 

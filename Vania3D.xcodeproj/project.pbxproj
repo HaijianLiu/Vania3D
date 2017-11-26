@@ -61,6 +61,7 @@
 		60E579F81FA0B34700690EC1 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F61FA0B34700690EC1 /* Animation.cpp */; };
 		60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579F91FA0BB9B00690EC1 /* Keyframe.cpp */; };
 		60E579FE1FA0C35100690EC1 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E579FC1FA0C35100690EC1 /* Node.cpp */; };
+		60EEC57B1FCA5D8E0068B59D /* Scene03.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EEC5791FCA5D8E0068B59D /* Scene03.cpp */; };
 		60FA8C771FB5615200E31651 /* ShadowMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60FA8C751FB5615200E31651 /* ShadowMapping.cpp */; };
 /* End PBXBuildFile section */
 
@@ -186,6 +187,8 @@
 		60E579FA1FA0BB9B00690EC1 /* Keyframe.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyframe.hpp; sourceTree = "<group>"; };
 		60E579FC1FA0C35100690EC1 /* Node.cpp */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		60E579FD1FA0C35100690EC1 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
+		60EEC5791FCA5D8E0068B59D /* Scene03.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene03.cpp; sourceTree = "<group>"; };
+		60EEC57A1FCA5D8E0068B59D /* Scene03.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene03.hpp; sourceTree = "<group>"; };
 		60FA8C751FB5615200E31651 /* ShadowMapping.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShadowMapping.cpp; sourceTree = "<group>"; };
 		60FA8C761FB5615200E31651 /* ShadowMapping.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ShadowMapping.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -379,6 +382,8 @@
 				606101E51FB0034900558589 /* Scene01.hpp */,
 				600B9A7B1FC1566800B1F0D5 /* Scene02.cpp */,
 				600B9A7C1FC1566800B1F0D5 /* Scene02.hpp */,
+				60EEC5791FCA5D8E0068B59D /* Scene03.cpp */,
+				60EEC57A1FCA5D8E0068B59D /* Scene03.hpp */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -522,6 +527,7 @@
 				600B9A711FBC25F000B1F0D5 /* FrustumCulling.cpp in Sources */,
 				604B57A31F9890AF009DE302 /* Scene.cpp in Sources */,
 				602434311F88DA2300DA6CA4 /* Shader.cpp in Sources */,
+				60EEC57B1FCA5D8E0068B59D /* Scene03.cpp in Sources */,
 				60132DFD1FA38D5900E71962 /* Time.cpp in Sources */,
 				6024342D1F88D89200DA6CA4 /* Engine.cpp in Sources */,
 				604B578E1F95F61A009DE302 /* SceneManager.cpp in Sources */,

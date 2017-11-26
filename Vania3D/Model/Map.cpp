@@ -100,7 +100,6 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 		for (unsigned int i = 0; i < model->materialNames.size(); i++) {
 			meshRenderer->materials.push_back(this->game->resources->getMaterial(model->materialNames[i]));
 		}
-		meshRenderer->lightProbe = this->game->resources->getLightProbe("hdr");
 		scene->addGameObject(node->name.c_str(), gameObject);
 	}
 	// light

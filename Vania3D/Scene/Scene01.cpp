@@ -41,7 +41,6 @@ void Scene01::start() {
 	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
 	playerMeshRenderer->model = game->resources->getModel("player");
 	playerMeshRenderer->materials.push_back(game->resources->getMaterial("player"));
-	playerMeshRenderer->lightProbe = game->resources->getLightProbe("hdr");
     playerMeshRenderer->castShadow = true;
 	this->addGameObject("player", player);
 	game->shadowMapping->target = player;

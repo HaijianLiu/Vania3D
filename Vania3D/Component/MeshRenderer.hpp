@@ -20,9 +20,6 @@ private:
 	void renderShadow();
 
 public:
-	// render targets
-	LightProbe* lightProbe;
-	// ....... add reflection probes here
 	std::vector<Material*> materials;
 	Model* model;
 
