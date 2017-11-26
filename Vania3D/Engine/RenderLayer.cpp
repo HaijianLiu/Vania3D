@@ -112,7 +112,7 @@ void RenderLayer::render(GameObject* camera) {
 	for (auto it = this->shaderLayers.begin(); it != this->shaderLayers.end(); it++)
 		it->second->render(camera);
 	
-	std::cout << "mesh: " <<numMeshRedered << "  draw: " << numDrawCall << std::endl;
+//    std::cout << "mesh: " <<numMeshRedered << "  draw: " << numDrawCall << std::endl;
 }
 
 void ShaderLayer::render(GameObject* camera) {

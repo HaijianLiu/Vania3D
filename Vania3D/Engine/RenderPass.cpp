@@ -16,6 +16,25 @@ RenderPass::~RenderPass() {
 
 }
 
+std::vector<glm::vec3> genSSAOKernel(unsigned int kernelSize) {
+
+	std::vector<glm::vec3> ssaoKernel;
+
+	std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
+	std::default_random_engine generator;
+
+	for (unsigned int i = 0; i < kernelSize; ++i) {
+		glm::vec3 sample(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, randomFloats(generator));
+		sample = glm::normalize(sample);
+		sample *= randomFloats(generator);
+		float scale = float(i) / kernelSize;
+		// scale samples s.t. they're more aligned to center of kernel
+		scale = 0.1f + (1.0f - 0.1f) * scale * scale;
+		sample *= scale;
+		ssaoKernel.push_back(sample);
+	}
+	return ssaoKernel;
+}
 
 /*------------------------------------------------------------------------------
 < start >
@@ -78,7 +97,7 @@ void RenderPass::start() {
 	this->lightingShader->setInt("normalPass", 1);
 	this->lightingShader->setInt("mrcPass", 2);
 	this->lightingShader->setInt("positionPass", 3);
-	
+
 	// shadow pass
 	glGenFramebuffers(1, &this->shadowPass.fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->shadowPass.fbo);
@@ -91,6 +110,20 @@ void RenderPass::start() {
 	this->shadowShader->setInt("positionPass", 3);
 	this->shadowShader->setInt("shadowMap", 4);
 
+	// ssao pass
+	glGenFramebuffers(1, &this->ssaoPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->ssaoPass.fbo);
+	this->ssaoPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RED));
+	drawBuffers(1);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	this->ssaoShader = game->resources->getShader("ssao_pass");
+	this->ssaoShader->use();
+	this->ssaoShader->setInt("normalPass", 1);
+	this->ssaoShader->setInt("positionPass", 3);
+	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
+	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
+		this->ssaoShader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
+
 	// final shader
 	this->combineShader = game->resources->getShader("renderpass_combine");
 	this->combineShader->use();
@@ -99,6 +132,7 @@ void RenderPass::start() {
 	this->combineShader->setInt("ambientPass", 5);
 	this->combineShader->setInt("lightingPass", 6);
 	this->combineShader->setInt("shadowPass", 7);
+	this->combineShader->setInt("ssaoPass", 8);
 }
 
 
@@ -123,6 +157,7 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glDepthMask(GL_FALSE);
 	fxLayer->render(camera);
 	glDepthMask(GL_TRUE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// active g-buffer textures
 	for (unsigned int i = 0; i < this->deferredPass.textures.size(); i++) {
@@ -153,7 +188,7 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	}
 	this->lightingShader->setInt("lightSize", lightSize);
 	game->resources->quad->draw();
-	
+
 	// shadow pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->shadowPass.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -162,9 +197,20 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
 	game->resources->quad->draw();
-	
+
+	// ssao pass
+	Camera* cameraComponent = camera->getComponent<Camera>();
+	glBindFramebuffer(GL_FRAMEBUFFER, this->ssaoPass.fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	this->ssaoShader->use();
+	glm::mat4 normalMatrix = glm::transpose(glm::inverse(glm::mat3(cameraComponent->view)));
+	this->ssaoShader->setMat4("normalMatrix", normalMatrix);
+	cameraComponent->setUniforms(this->ssaoShader);
+	game->resources->quad->draw();
+
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
+
 	// final pass
 	this->combineShader->use();
 	glActiveTexture(GL_TEXTURE4);
@@ -175,9 +221,9 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glBindTexture(GL_TEXTURE_2D, this->lightingPass.textures[0]);
 	glActiveTexture(GL_TEXTURE7);
 	glBindTexture(GL_TEXTURE_2D, this->shadowPass.textures[0]);
+	glActiveTexture(GL_TEXTURE8);
+	glBindTexture(GL_TEXTURE_2D, this->ssaoPass.textures[0]);
 	this->quad->draw();
-	
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 

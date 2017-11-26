@@ -14,12 +14,13 @@ class RenderPass {
 private:
 	Quad* quad;
 
+	FrameBuffer deferredPass, fxPass, ambientPass, lightingPass, shadowPass, ssaoPass;
+
 	Shader* combineShader;
 	Shader* ambientShader;
 	Shader* lightingShader;
 	Shader* shadowShader;
-
-	FrameBuffer deferredPass, fxPass, ambientPass, lightingPass, shadowPass;
+	Shader* ssaoShader;
 
 	void start();
 	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera);

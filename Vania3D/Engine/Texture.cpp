@@ -18,7 +18,7 @@ Texture::~Texture() {
 
 
 /*------------------------------------------------------------------------------
-< functions >
+< load texture >
 ------------------------------------------------------------------------------*/
 unsigned int Texture::loadTexture(const char* path) {
 	unsigned int textureID;
@@ -56,6 +56,33 @@ unsigned int Texture::loadTexture(const char* path) {
 }
 
 
+/*------------------------------------------------------------------------------
+< generate noise texture >
+------------------------------------------------------------------------------*/
+unsigned int Texture::genNoiseTexture(int width, int height) {
+	std::vector<glm::vec3> noises;
+	std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
+	std::default_random_engine generator;
+	for (unsigned int i = 0; i < width * height; i++) {
+		glm::vec3 noise(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, 0.0f); // rotate around z-axis (in tangent space)
+		noises.push_back(noise);
+	}
+	unsigned int noiseTexture;
+	glGenTextures(1, &noiseTexture);
+	glBindTexture(GL_TEXTURE_2D, noiseTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, noises.data());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	return noiseTexture;
+}
+
+
+/*------------------------------------------------------------------------------
+< resize texture >
+------------------------------------------------------------------------------*/
 unsigned int Texture::resize(unsigned int textureID, int width, int height, unsigned int format) {
 	// get instance
 	Game* game = Game::getInstance();

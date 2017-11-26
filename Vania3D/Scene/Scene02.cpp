@@ -64,16 +64,16 @@ void Scene02::start() {
 	camera->addComponent<FrustumCulling>();
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
-	
+
 	// partiles
 	FxTorchFire* fxTorchFire = FxTorchFire::getInstance();
 	glm::mat4 fxTorchFireTransformation = glm::translate(glm::vec3(0, 1, 0));
 	fxTorchFire->createPrefab("fire", fxTorchFireTransformation, this);
-	
-	
+
+
 	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
 	delete map;
-	
+
 	// light
 	GameObject* light[4];
 	for (int i = 0; i < 4; i++) {
@@ -99,8 +99,8 @@ void Scene02::start() {
 //	light[1]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 0.0f);
 //	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 0.0f);
 	light[3]->getComponent<PointLight>()->color = glm::vec3(5, 10, 15);
-	
-	
+
+
 //	GameObject* light2[10];
 //	for (int i = 0; i < 5; i++) {
 //		light2[i] = new GameObject();
@@ -110,9 +110,6 @@ void Scene02::start() {
 //		this->addGameObject(("light2" + std::to_string(i)).c_str(), light2[i]);
 //	}
 
-	// Enable alpha channel after generate prefilter map
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
 }
 
 

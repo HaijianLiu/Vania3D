@@ -44,8 +44,8 @@ void Shader::getUniformLocation(const char* name) {
 void Shader::setBool(const char* name, bool value) {
 	if (this->uniformLocations.find(name) != this->uniformLocations.end())
 		glUniform1i(this->uniformLocations[name], (int)value );
-	else
-		std::cout << name << std::endl;
+	// else
+		// std::cout << name << std::endl;
 }
 void Shader::setInt(const char* name, int value) {
 	if (this->uniformLocations.find(name) != this->uniformLocations.end())
@@ -105,10 +105,6 @@ void Shader::complie() {
 	unsigned int vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-// #ifdef DEBUG
-// 	std::cout << "[shader] " << this->fragmentPaths[0] << std::endl;
-// #endif
-	
 	// complie
 	vertexShaderID = complieShader(vertexShaderID, &this->vertexPaths);
 	fragmentShaderID = complieShader(fragmentShaderID, &this->fragmentPaths);
