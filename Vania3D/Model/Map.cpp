@@ -121,6 +121,11 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 			}
 		}
 	}
+	// FxTorchFire
+	if (modelName == "FxTorchFire") {
+		FxTorchFire* fxTorchFire = FxTorchFire::getInstance();
+		fxTorchFire->createPrefab(node->name, globalTransformation, scene);
+	}
 
 	for (unsigned int i = 0; i < node->children.size(); i++)
 		this->processNode(node->children[i], globalTransformation, scene, aiscene);

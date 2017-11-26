@@ -65,12 +65,6 @@ void Scene02::start() {
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 
-	// partiles
-	FxTorchFire* fxTorchFire = FxTorchFire::getInstance();
-	glm::mat4 fxTorchFireTransformation = glm::translate(glm::vec3(0, 1, 0));
-	fxTorchFire->createPrefab("fire", fxTorchFireTransformation, this);
-
-
 	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
 	delete map;
 
