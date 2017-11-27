@@ -77,7 +77,8 @@ void Mesh::createDefaultMesh(const aiMesh* aimesh) {
 
 void Mesh::createInstanceMesh(const aiMesh* aimesh) {
 	this->createDefaultMesh(aimesh);
-
+	
+	glBindVertexArray(this->vao);
 	glGenBuffers(1, &this->vboInstance);
 	glBindBuffer(GL_ARRAY_BUFFER, this->vboInstance);
 	glBufferData(GL_ARRAY_BUFFER, MAX_MESH_INSTANCE * sizeof(glm::mat4), nullptr, GL_DYNAMIC_DRAW);

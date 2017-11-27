@@ -44,7 +44,7 @@ void main() {
 		vec3 specular = cookTorranceBRDF(n, v, l, roughness, f0);
 		vec3 diffuseF = 1.0 - specular;
 		diffuseF *= 1.0 - metallic;
-		lightingColor += (diffuseF * albedo / PI + specular) * vec3(0.522, 0.723, 1) * max(dot(n, l), 0.0);
+		lightingColor += (diffuseF * albedo / PI + specular) * vec3(1, 1, 1) * 0.3 * max(dot(n, l), 0.0);
 	}
 
 	for (int i = 0; i < lightSize; i++) {

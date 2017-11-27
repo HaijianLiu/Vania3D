@@ -61,8 +61,8 @@ void Scene03::start() {
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 
-	// Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map.fbx");
-	// delete map;
+	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map2.fbx");
+	delete map;
 
 	// light
 	GameObject* light[4];
@@ -73,32 +73,23 @@ void Scene03::start() {
 		lightTransform->modelScale = glm::vec3(5 * GLOBAL_SCALE);
 		light[i]->addComponent<PointLight>();
 		// for test
-		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
-		lightMeshRenderer->model = game->resources->getModel("sphere");
-		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
+//		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
+//		lightMeshRenderer->model = game->resources->getModel("sphere");
+//		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
 		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
-	light[0]->getComponent<Transform>()->position = glm::vec3(4.5, 2.5, 0);
-	light[1]->getComponent<Transform>()->position = glm::vec3(1.5, 2, 0);
-	light[2]->getComponent<Transform>()->position = glm::vec3(0, 2, 0);
-	light[3]->getComponent<Transform>()->position = glm::vec3(-1.5, 2, 0);
+	light[0]->getComponent<Transform>()->position = glm::vec3(0, 2.5, -5);
+	light[1]->getComponent<Transform>()->position = glm::vec3(0, 2.5, 0);
+	light[2]->getComponent<Transform>()->position = glm::vec3(0, 5, -15);
+	light[3]->getComponent<Transform>()->position = glm::vec3(0, 7.5, -25);
 	light[0]->getComponent<PointLight>()->color = glm::vec3(2, 4, 5);
-//	light[1]->getComponent<PointLight>()->color = glm::vec3(20.0f, 0.0f, 0.0f);
-//	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 20.0f, 0.0f);
-//	light[0]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 0.0f);
-//	light[1]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 0.0f);
-//	light[2]->getComponent<PointLight>()->color = glm::vec3(0.0f, 0.0f, 0.0f);
-	light[3]->getComponent<PointLight>()->color = glm::vec3(5, 10, 15);
-
-
-//	GameObject* light2[10];
-//	for (int i = 0; i < 5; i++) {
-//		light2[i] = new GameObject();
-//		light2[i]->staticObject = false;
-//		Transform* lightTransform = light2[i]->addComponent<Transform>();
-//		light2[i]->addComponent<PointLight>();
-//		this->addGameObject(("light2" + std::to_string(i)).c_str(), light2[i]);
-//	}
+	light[0]->getComponent<PointLight>()->intensity = 5;
+	light[1]->getComponent<PointLight>()->color = glm::vec3(1, 1, 1);
+	light[1]->getComponent<PointLight>()->intensity = 5;
+	light[2]->getComponent<PointLight>()->color = glm::vec3(2, 4, 5);
+	light[2]->getComponent<PointLight>()->intensity = 5;
+	light[3]->getComponent<PointLight>()->color = glm::vec3(2, 4, 5);
+	light[3]->getComponent<PointLight>()->intensity = 5;
 
 }
 

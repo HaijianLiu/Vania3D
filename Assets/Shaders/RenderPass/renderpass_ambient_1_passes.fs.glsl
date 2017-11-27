@@ -55,5 +55,10 @@ void main() {
 	// vec3 ambient = diffuseF * diffuse + specularF * diffuse * specular;
 	vec3 ambient = specularF * diffuse * specular;
 
+	// fog
+	float fog = (80 - length(position - cameraPosition)) / 60;
+	fog = clamp(fog, 0, 1);
+	ambient = mix(vec3(0.1), ambient, fog);
+
 	ambientPass = vec4(ambient, 1.0);
 }

@@ -119,6 +119,13 @@ void Resources::start() {
 	this->getMaterial("fx_fire_spark")->addTexture("albedoMap", this->getTexture("fx_fire_spark_D"));
 
 
+	// Arch
+	this->loadModel("Arch01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/FantasyDungeon/Meshes/Arch/Arch01.FBX");
+	this->getModel("Arch01")->materialNames.push_back("Arch");
+	this->getModel("Arch01")->materialNames.push_back("brick2");
+	this->loadTexture("Arch_D", "./Assets/Models/FantasyDungeon/Textures/Arch/Arch_D.TGA");
+	this->loadTexture("Arch_N", "./Assets/Models/FantasyDungeon/Textures/Arch/Arch_N.TGA");
+
 	// BrickDamege
 	this->loadModel("Brick01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/BrickDamege/Brick01.FBX");
 	this->getModel("Brick01")->materialNames.push_back("BrickDamege");
@@ -150,13 +157,17 @@ void Resources::start() {
 	this->loadTexture("chandelier_SRM", "./Assets/Models/FantasyDungeon/Textures/Chandelier/chandelier_SRM.TGA");
 
 	// Column
-	this->loadModel("Column02", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Column/Column02.FBX");
+	this->loadModel("Column02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/FantasyDungeon/Meshes/Column/Column02.FBX");
 	this->getModel("Column02")->materialNames.push_back("column");
-	this->loadModel("Column04", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Column/Column04.FBX");
+	this->loadModel("Column03", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/FantasyDungeon/Meshes/Column/Column03.FBX");
+	this->getModel("Column03")->materialNames.push_back("column");
+	this->loadModel("Column04", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/FantasyDungeon/Meshes/Column/Column04.FBX");
 	this->getModel("Column04")->materialNames.push_back("column");
 	this->loadTexture("Column_D", "./Assets/Models/FantasyDungeon/Textures/Column/Column_D.TGA");
 	this->loadTexture("Column_N", "./Assets/Models/FantasyDungeon/Textures/Column/Column_N.TGA");
 	this->loadTexture("Column_SRM", "./Assets/Models/FantasyDungeon/Textures/Column/Column_SRM.TGA");
+	this->loadTexture("Column_damage_D", "./Assets/Models/FantasyDungeon/Textures/Column/Column_damage_D.TGA");
+	this->loadTexture("Column_damage_N", "./Assets/Models/FantasyDungeon/Textures/Column/Column_damage_N.TGA");
 
 	// Curbstone
 	this->loadModel("curbstone01_2", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Curbstone/curbstone01_2.FBX");
@@ -170,9 +181,11 @@ void Resources::start() {
 	this->getModel("curbstone01")->materialNames.push_back("pavement1");
 	this->loadModel("curbstone02_2", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Curbstone/curbstone02_2.FBX");
 	this->getModel("curbstone02_2")->materialNames.push_back("curbstone");
+	this->loadModel("curbstone02_2a", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Curbstone/curbstone02_2a.FBX");
+	this->getModel("curbstone02_2a")->materialNames.push_back("curbstone");
 	this->loadModel("curbstone02_door1", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Curbstone/curbstone02_door1.FBX");
 	this->getModel("curbstone02_door1")->materialNames.push_back("curbstone");
-	this->loadModel("curbstone02", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Curbstone/curbstone02.FBX");
+	this->loadModel("curbstone02", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/FantasyDungeon/Meshes/Curbstone/curbstone02.FBX");
 	this->getModel("curbstone02")->materialNames.push_back("curbstone");
 	this->loadTexture("curbstone_D", "./Assets/Models/FantasyDungeon/Textures/Curbstone/curbstone_D.TGA");
 	this->loadTexture("curbstone_N", "./Assets/Models/FantasyDungeon/Textures/Curbstone/curbstone_N.TGA");	this->loadTexture("curbstone_SRM", "./Assets/Models/FantasyDungeon/Textures/Curbstone/curbstone_SRM.TGA");
@@ -190,7 +203,7 @@ void Resources::start() {
 	this->loadTexture("DoorArch_SRM", "./Assets/Models/FantasyDungeon/Textures/Door/DoorArch_SRM.TGA");
 
 	// Floor
-	this->loadModel("Floor01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Floor/Floor01.FBX");
+	this->loadModel("Floor01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/FantasyDungeon/Meshes/Floor/Floor01.FBX");
 	this->getModel("Floor01")->materialNames.push_back("pavement2");
 	this->loadTexture("Dirt_D", "./Assets/Models/FantasyDungeon/Textures/Floor/Dirt_D.TGA");
 	this->loadTexture("Dirt_N", "./Assets/Models/FantasyDungeon/Textures/Floor/Dirt_N.TGA");
@@ -211,15 +224,34 @@ void Resources::start() {
 	this->loadTexture("Jail_SRM", "./Assets/Models/FantasyDungeon/Textures/Jail/Jail_SRM.TGA");
 
 	// Roof
+	this->loadModel("Roof01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/FantasyDungeon/Meshes/Roof/Roof01.FBX");
+	this->getModel("Roof01")->materialNames.push_back("brick1");
+	this->getModel("Roof01")->materialNames.push_back("Roof");
 	this->loadModel("Roof03", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Roof/Roof03.FBX");
 	this->getModel("Roof03")->materialNames.push_back("brick1");
+	this->loadModel("Roof16", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Roof/Roof16.FBX");
+	this->getModel("Roof16")->materialNames.push_back("brick1");
+	this->getModel("Roof16")->materialNames.push_back("Roof");
 	this->loadModel("RoofBorder01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Roof/RoofBorder01.FBX");
 	this->getModel("RoofBorder01")->materialNames.push_back("Roof");
 	this->loadTexture("Roof_D", "./Assets/Models/FantasyDungeon/Textures/Roof/Roof_D.TGA");
 	this->loadTexture("Roof_N", "./Assets/Models/FantasyDungeon/Textures/Roof/Roof_N.TGA");
-	this->loadTexture("Roof_SRM", "./Assets/Models/FantasyDungeon/Textures/Roof/Roof_SRM.TGA");
 
 	// Stairs
+	this->loadModel("Railing01_1", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Stairs/Railing01_1.FBX");
+	this->getModel("Railing01_1")->materialNames.push_back("Stairs");
+	this->getModel("Railing01_1")->materialNames.push_back("Railing");
+	this->loadModel("Railing_base01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Stairs/Railing_base01.FBX");
+	this->getModel("Railing_base01")->materialNames.push_back("Stairs");
+	this->loadModel("Stairs01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Stairs/Stairs01.FBX");
+	this->getModel("Stairs01")->materialNames.push_back("Stairs");
+	this->getModel("Stairs01")->materialNames.push_back("brick2");
+	this->loadModel("StairsDamage01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Stairs/StairsDamage01.FBX");
+	this->getModel("StairsDamage01")->materialNames.push_back("Stairs");
+	this->getModel("StairsDamage01")->materialNames.push_back("column_damage");
+	this->getModel("StairsDamage01")->materialNames.push_back("brick2");
+	this->loadTexture("Railing_D", "./Assets/Models/FantasyDungeon/Textures/Stairs/Railing_D.TGA");
+	this->loadTexture("Railing_N", "./Assets/Models/FantasyDungeon/Textures/Stairs/Railing_N.TGA");
 	this->loadTexture("Stairs_D", "./Assets/Models/FantasyDungeon/Textures/Stairs/Stairs_D.TGA");
 	this->loadTexture("Stairs_N", "./Assets/Models/FantasyDungeon/Textures/Stairs/Stairs_N.TGA");
 	this->loadTexture("Stairs_SRM", "./Assets/Models/FantasyDungeon/Textures/Stairs/Stairs_SRM.TGA");
@@ -228,12 +260,14 @@ void Resources::start() {
 	this->loadModel("Niche", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/Niche.FBX");
 	this->getModel("Niche")->materialNames.push_back("Stairs");
 	this->getModel("Niche")->materialNames.push_back("brick2");
-	this->loadModel("Wall01", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/Wall01.FBX");
+	this->loadModel("Wall01", MESH_ATTRIBUTE_INSTANCE, "./Assets/Models/FantasyDungeon/Meshes/Wall/Wall01.FBX");
 	this->getModel("Wall01")->materialNames.push_back("brick2");
-	this->loadModel("wall01Arch1", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/wall01Arch1.FBX");
-	this->getModel("wall01Arch1")->materialNames.push_back("brick2");
+	this->loadModel("Wall08", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/Wall08.FBX");
+	this->getModel("Wall08")->materialNames.push_back("brick2");
 	this->loadModel("wall09", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/wall09.FBX");
 	this->getModel("wall09")->materialNames.push_back("brick2");
+	this->loadModel("wall01Arch1", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/wall01Arch1.FBX");
+	this->getModel("wall01Arch1")->materialNames.push_back("brick2");
 	this->loadModel("WallDamaged02", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/WallDamaged02.FBX");
 	this->getModel("WallDamaged02")->materialNames.push_back("BrickDamege");
 	this->loadModel("WallDamaged03", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/WallDamaged03.FBX");
@@ -241,15 +275,22 @@ void Resources::start() {
 	this->loadModel("Windows", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/FantasyDungeon/Meshes/Wall/Windows.FBX");
 	this->getModel("Windows")->materialNames.push_back("Sink");
 	this->getModel("Windows")->materialNames.push_back("Jail");
-	this->loadTexture("brick2_D", "./Assets/Models/FantasyDungeon/Textures/Wall/brick2_D.TGA");
-	this->loadTexture("brick2_N", "./Assets/Models/FantasyDungeon/Textures/Wall/brick2_N.TGA");
-	this->loadTexture("brick2_SRM", "./Assets/Models/FantasyDungeon/Textures/Wall/brick2_SRM.TGA");
 	this->loadTexture("brick1_D", "./Assets/Models/FantasyDungeon/Textures/Wall/brick1_D.TGA");
 	this->loadTexture("brick1_N", "./Assets/Models/FantasyDungeon/Textures/Wall/brick1_N.TGA");
 	this->loadTexture("brick1_SRM", "./Assets/Models/FantasyDungeon/Textures/Wall/brick1_SRM.TGA");
-
+	this->loadTexture("brick2_D", "./Assets/Models/FantasyDungeon/Textures/Wall/brick2_D.TGA");
+	this->loadTexture("brick2_N", "./Assets/Models/FantasyDungeon/Textures/Wall/brick2_N.TGA");
+	this->loadTexture("brick2_SRM", "./Assets/Models/FantasyDungeon/Textures/Wall/brick2_SRM.TGA");
+	this->loadTexture("Brick4_D", "./Assets/Models/FantasyDungeon/Textures/Wall/Brick4_D.TGA");
+	this->loadTexture("Brick4_N", "./Assets/Models/FantasyDungeon/Textures/Wall/Brick4_N.TGA");
+	this->loadTexture("Brick4_SRM", "./Assets/Models/FantasyDungeon/Textures/Wall/Brick4_SRM.TGA");
 
 	// Materials
+	// Arch
+	this->createMaterial("Arch", this->getShader("FantasyDungeonSRM"));
+	this->getMaterial("Arch")->addTexture("albedoMap", this->getTexture("Arch_D"));
+	this->getMaterial("Arch")->addTexture("normalMap", this->getTexture("Arch_N"));
+	this->getMaterial("Arch")->addTexture("maskMap", this->getTexture("Brick4_SRM"));
 	// Chandelier
 	this->createMaterial("Chandelier", this->getShader("FantasyDungeonSRM"));
 	this->getMaterial("Chandelier")->addTexture("albedoMap", this->getTexture("chandelier_D"));
@@ -275,6 +316,11 @@ void Resources::start() {
 	this->getMaterial("column")->addTexture("albedoMap", this->getTexture("Column_D"));
 	this->getMaterial("column")->addTexture("normalMap", this->getTexture("Column_N"));
 	this->getMaterial("column")->addTexture("maskMap", this->getTexture("Column_SRM"));
+	// column_damage
+	this->createMaterial("column_damage", this->getShader("FantasyDungeonSRM"));
+	this->getMaterial("column_damage")->addTexture("albedoMap", this->getTexture("Column_damage_D"));
+	this->getMaterial("column_damage")->addTexture("normalMap", this->getTexture("Column_damage_N"));
+	this->getMaterial("column_damage")->addTexture("maskMap", this->getTexture("Brick4_SRM"));
 	// curbstone
 	this->createMaterial("curbstone", this->getShader("FantasyDungeonSRM"));
 	this->getMaterial("curbstone")->addTexture("albedoMap", this->getTexture("curbstone_D"));
@@ -307,11 +353,16 @@ void Resources::start() {
 	this->getMaterial("pavement2")->addTexture("normalMap", this->getTexture("pavement2_N"));
 	this->getMaterial("pavement2")->addTexture("maskMap", this->getTexture("pavement2_SRM"));
 	this->getMaterial("pavement2")->addTexture("factorMap", this->getTexture("Mask1"));
+	// Railing
+	this->createMaterial("Railing", this->getShader("FantasyDungeonSRM"));
+	this->getMaterial("Railing")->addTexture("albedoMap", this->getTexture("Railing_D"));
+	this->getMaterial("Railing")->addTexture("normalMap", this->getTexture("Railing_N"));
+	this->getMaterial("Railing")->addTexture("maskMap", this->getTexture("Brick4_SRM"));
 	// Roof
 	this->createMaterial("Roof", this->getShader("FantasyDungeonSRM"));
 	this->getMaterial("Roof")->addTexture("albedoMap", this->getTexture("Roof_D"));
 	this->getMaterial("Roof")->addTexture("normalMap", this->getTexture("Roof_N"));
-	this->getMaterial("Roof")->addTexture("maskMap", this->getTexture("Roof_SRM"));
+	this->getMaterial("Roof")->addTexture("maskMap", this->getTexture("Brick4_SRM"));
 	// Sink
 	this->createMaterial("Sink", this->getShader("FantasyDungeonSRM"));
 	this->getMaterial("Sink")->addTexture("albedoMap", this->getTexture("Sink_D"));

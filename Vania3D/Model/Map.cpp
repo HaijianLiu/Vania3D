@@ -114,7 +114,6 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 				light->addComponent<PointLight>();
 				PointLight* pointLight = light->getComponent<PointLight>();
 				pointLight->color = assignment(aiscene->mLights[i]->mColorDiffuse);
-				pointLight->color = 0.001f * pointLight->color;
 				scene->addGameObject(lightName.c_str(), light);
 				break;
 			}
