@@ -164,6 +164,7 @@ class Scene;
 #include "Scene01.hpp"
 #include "Scene02.hpp"
 #include "Scene03.hpp"
+#include "Scene04.hpp"
 #include "SceneManager.hpp"
 
 
