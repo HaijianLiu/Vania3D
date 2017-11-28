@@ -54,7 +54,8 @@ void Game::start() {
 	// this->sceneManager->addScene("Scene01", new Scene01());
 	// this->sceneManager->addScene("Scene02", new Scene02());
 	this->sceneManager->addScene("Scene03", new Scene03());
-	this->sceneManager->setActiveScene("Scene03"); // set default scene
+	this->sceneManager->addScene("Scene04", new Scene04());
+	this->sceneManager->setActiveScene("Scene04"); // set default scene
 }
 
 

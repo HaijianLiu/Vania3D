@@ -53,6 +53,7 @@
 		6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4B01FA9A11200B177DA /* CameraController.cpp */; };
 		6082F4B51FAB073000B177DA /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4B31FAB073000B177DA /* Sphere.cpp */; };
 		609F90701F9EFF2400238D61 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 609F906E1F9EFF2400238D61 /* Bone.cpp */; };
+		60C894E31FCD8CA400CA8C35 /* Scene04.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60C894E11FCD8CA400CA8C35 /* Scene04.cpp */; };
 		60CD446B1FC41E4B00ADF152 /* UVAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD44691FC41E4B00ADF152 /* UVAnimation.cpp */; };
 		60CD446E1FC5261600ADF152 /* Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD446C1FC5261600ADF152 /* Emitter.cpp */; };
 		60CD44741FC5592200ADF152 /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60CD44721FC5592200ADF152 /* Particle.cpp */; };
@@ -171,6 +172,8 @@
 		60967CD01FB217D000297515 /* UnityScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UnityScene.cpp; sourceTree = "<group>"; };
 		609F906E1F9EFF2400238D61 /* Bone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bone.cpp; sourceTree = "<group>"; };
 		609F906F1F9EFF2400238D61 /* Bone.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bone.hpp; sourceTree = "<group>"; };
+		60C894E11FCD8CA400CA8C35 /* Scene04.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene04.cpp; sourceTree = "<group>"; };
+		60C894E21FCD8CA400CA8C35 /* Scene04.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene04.hpp; sourceTree = "<group>"; };
 		60CD44691FC41E4B00ADF152 /* UVAnimation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UVAnimation.cpp; sourceTree = "<group>"; };
 		60CD446A1FC41E4B00ADF152 /* UVAnimation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UVAnimation.hpp; sourceTree = "<group>"; };
 		60CD446C1FC5261600ADF152 /* Emitter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Emitter.cpp; sourceTree = "<group>"; };
@@ -384,6 +387,8 @@
 				600B9A7C1FC1566800B1F0D5 /* Scene02.hpp */,
 				60EEC5791FCA5D8E0068B59D /* Scene03.cpp */,
 				60EEC57A1FCA5D8E0068B59D /* Scene03.hpp */,
+				60C894E11FCD8CA400CA8C35 /* Scene04.cpp */,
+				60C894E21FCD8CA400CA8C35 /* Scene04.hpp */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -507,6 +512,7 @@
 				602434371F88DCBC00DA6CA4 /* RenderPass.cpp in Sources */,
 				609F90701F9EFF2400238D61 /* Bone.cpp in Sources */,
 				6057408E1FADBBFC005B7358 /* PlayerController.cpp in Sources */,
+				60C894E31FCD8CA400CA8C35 /* Scene04.cpp in Sources */,
 				600E63B81F99F19000F6A34A /* MeshRenderer.cpp in Sources */,
 				604B57AC1F99C148009DE302 /* Material.cpp in Sources */,
 				60070A301F88C82A00AE4BEB /* main.cpp in Sources */,
