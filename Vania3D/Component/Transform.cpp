@@ -21,8 +21,12 @@ Transform::~Transform() {
 < update >
 ------------------------------------------------------------------------------*/
 void Transform::update() {
-	if (!this->gameObject->staticObject)
-		this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
+	if (!this->gameObject->staticObject) this->updateMatrix();
+		
+}
+
+void Transform::updateMatrix() {
+	this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
 }
 
 

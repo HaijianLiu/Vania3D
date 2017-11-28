@@ -61,8 +61,8 @@ void Scene04::start() {
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 
-	// Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map2.fbx");
-	// delete map;
+	 Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map2.fbx");
+	 delete map;
 
 	// light
 	GameObject* light[4];
@@ -73,9 +73,9 @@ void Scene04::start() {
 		lightTransform->modelScale = glm::vec3(5 * GLOBAL_SCALE);
 		light[i]->addComponent<PointLight>();
 		// for test
-//		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
-//		lightMeshRenderer->model = game->resources->getModel("sphere");
-//		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
+		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
+		lightMeshRenderer->model = game->resources->getModel("sphere");
+		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
 		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3(0, 2.5, -5);
@@ -90,7 +90,6 @@ void Scene04::start() {
 	light[2]->getComponent<PointLight>()->intensity = 5;
 	light[3]->getComponent<PointLight>()->color = glm::vec3(2, 4, 5);
 	light[3]->getComponent<PointLight>()->intensity = 5;
-
 }
 
 

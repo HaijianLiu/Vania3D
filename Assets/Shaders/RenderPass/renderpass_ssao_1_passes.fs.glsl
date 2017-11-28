@@ -50,4 +50,5 @@ void main() {
 	}
 
 	ssaoPass = vec4(vec3(1.0 - (occlusion / kernelSize)), 1);
+	// ssaoPass = vec4(1);
 }

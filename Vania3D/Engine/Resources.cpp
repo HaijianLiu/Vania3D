@@ -85,6 +85,9 @@ void Resources::start() {
 
 	// sphere
 	this->loadModel("sphere", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/Basic/sphere.fbx");
+	// this->loadModel("grid64", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/Basic/grid64.FBX");
+	// this->loadModel("landscape_100x5", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/Basic/landscape_100x5.fbx");
+
 
 	/* LightProbe
 	..............................................................................*/
@@ -93,6 +96,19 @@ void Resources::start() {
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/Stadium_Center_8k.jpg");
 	this->loadLightProbe("hdr", "./Assets/Models/InfinityBladeGrassLands/Maps/LevelContent/HDRI/HDRI_Epic_Courtyard_Daylight.HDR");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/test.jpg");
+
+
+	/* Ocean
+	..............................................................................*/
+	// this->loadTexture("seafoam2", "./Assets/Models/Ocean/seafoam2.TGA");
+	// this->loadTexture("Water_N", "./Assets/Models/Ocean/Water_N.TGA");
+	// this->loadTexture("seafoam2_MRC", "./Assets/Models/Ocean/seafoam2_MRC.TGA");
+	// this->loadShader("ocean", "./Assets/Shaders/Ocean/static_3_locations_Ocean.vs.glsl",  "./Assets/Shaders/Ocean/spec_to_mrca_4_passes_ocean.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
+	// // brick1
+	// this->createMaterial("ocean", this->getShader("ocean"));
+	// this->getMaterial("ocean")->addTexture("albedoMap", this->getTexture("seafoam2"));
+	// this->getMaterial("ocean")->addTexture("normalMap", this->getTexture("Water_N"));
+	// this->getMaterial("ocean")->addTexture("maskMap", this->getTexture("seafoam2_MRC"));
 
 
 	/* FantasyDungeon

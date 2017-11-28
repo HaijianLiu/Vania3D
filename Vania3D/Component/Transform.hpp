@@ -28,6 +28,7 @@ public:
 	glm::vec3 front();
 	void rotate(glm::vec3 direction, float radian);
 	void setUniform(Shader* shader);
+	void updateMatrix();
 };
 
 #endif /* Transform_hpp */
