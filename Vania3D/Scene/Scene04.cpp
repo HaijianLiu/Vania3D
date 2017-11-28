@@ -68,14 +68,15 @@ void Scene04::start() {
 	GameObject* light[4];
 	for (int i = 0; i < 4; i++) {
 		light[i] = new GameObject();
-		light[i]->staticObject = false;
 		Transform* lightTransform = light[i]->addComponent<Transform>();
 		lightTransform->modelScale = glm::vec3(5 * GLOBAL_SCALE);
+		lightTransform->updateMatrix();
 		light[i]->addComponent<PointLight>();
 		// for test
 		MeshRenderer* lightMeshRenderer = light[i]->addComponent<MeshRenderer>();
 		lightMeshRenderer->model = game->resources->getModel("sphere");
 		lightMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
+		light[i]->addComponent<BakedShadow>();
 		this->addGameObject(("light" + std::to_string(i)).c_str(), light[i]);
 	}
 	light[0]->getComponent<Transform>()->position = glm::vec3(0, 2.5, -5);

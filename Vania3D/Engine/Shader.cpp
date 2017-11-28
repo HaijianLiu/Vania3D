@@ -190,7 +190,7 @@ unsigned int Shader::complieShader(unsigned int shaderID, std::vector<std::strin
 
 	// compile code
 	const char* sourcePointer = shaderCode.c_str();
-	glShaderSource(shaderID,1, &sourcePointer, NULL);
+	glShaderSource(shaderID, 1, &sourcePointer, NULL);
 	glCompileShader(shaderID);
 
 	return shaderID;

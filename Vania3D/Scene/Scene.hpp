@@ -15,9 +15,10 @@ private:
 	// render list
 	RenderLayer* renderLayer; // for final render
 	RenderLayer* fxLayer;
-	std::vector<MeshRenderer*> shadowQueue; // a list for shadow casting game objects
-	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects for some purpose
+	std::vector<MeshRenderer*> shadowQueue; // a list for real time shadow casting
+	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects
 	std::vector<PointLight*> pointLights; // a list for point lights to be calculated
+	std::vector<BakedShadow*> bakedShadows; // a list for baked shadows
 	
 	void startScene();
 	void updateScene();

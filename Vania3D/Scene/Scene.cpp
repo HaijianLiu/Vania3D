@@ -51,7 +51,15 @@ void Scene::startScene() {
 		PointLight* pointLight = this->gameObjects[i]->getComponent<PointLight>();
 		if (pointLight)
 			this->pointLights.push_back(pointLight);
+		// baked shadows list
+		BakedShadow* bakedShadow = this->gameObjects[i]->getComponent<BakedShadow>();
+		if (bakedShadow)
+			this->bakedShadows.push_back(bakedShadow);
 	}
+	// bake shadows
+	for (unsigned int i = 0; i < this->bakedShadows.size(); i++)
+		bakedShadows.at(i)->bake(&this->renderQueue);
+	
 	this->started = true;
 }
 

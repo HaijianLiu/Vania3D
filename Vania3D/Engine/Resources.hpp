@@ -3,6 +3,8 @@
 #define Resources_hpp
 
 class Resources {
+	friend class BakedShadow;
+	
 private:
 	// Resource storage
 	std::unordered_map<const char*, Shader*> shaders;

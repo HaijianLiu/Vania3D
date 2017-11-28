@@ -9,12 +9,13 @@ class Component {
 
 protected:
 	Game* game;
-	GameObject* gameObject;
 
 	virtual void start();
 	virtual void update();
 
 public:
+	GameObject* gameObject;
+	
 	Component();
 	virtual ~Component();
 };

@@ -12,11 +12,24 @@ uniform sampler2D positionPass;
 uniform vec3 lightColor[128];
 uniform vec3 lightPosition[128];
 uniform float lightRadius[128];
+uniform samplerCube bakedShadow[128];
 uniform int lightSize;
 
 uniform vec3 cameraPosition;
 
 const float PI = 3.14159265359;
+
+// array of offset direction for sampling
+vec3 gridSamplingDisk[20] = vec3[] (
+	vec3(1, 1,  1), vec3( 1, -1,  1), vec3(-1, -1,  1), vec3(-1, 1,  1),
+	vec3(1, 1, -1), vec3( 1, -1, -1), vec3(-1, -1, -1), vec3(-1, 1, -1),
+	vec3(1, 1,  0), vec3( 1, -1,  0), vec3(-1, -1,  0), vec3(-1, 1,  0),
+	vec3(1, 0,  1), vec3(-1,  0,  1), vec3( 1,  0, -1), vec3(-1, 0, -1),
+	vec3(0, 1,  1), vec3( 0, -1,  1), vec3( 0, -1, -1), vec3( 0, 1, -1)
+);
+
+const float bias = 0.15;
+const int samples = 20;
 
 vec3 cookTorranceBRDF(vec3 n, vec3 v, vec3 l, float roughness, vec3 f0);
 
@@ -36,6 +49,8 @@ void main() {
 	vec3 f0 = vec3(0.04);
 	f0 = mix(f0, albedo, vec3(metallic));
 
+	float viewDistance = length(position - cameraPosition);
+
 	vec3 lightingColor = vec3(0);
 
 	// direct light
@@ -48,9 +63,23 @@ void main() {
 	}
 
 	for (int i = 0; i < lightSize; i++) {
-		// light radiance
+
+
+
 		float d = length(lightPosition[i] - position);
-		if (d < lightRadius[i]) {
+
+		float shadow = 0;
+		// float diskRadius = (1.0 + (viewDistance / lightRadius[i])) / 25.0;
+		//
+		// for (int j = 0; j < samples; j++) {
+		// 	float closestDepth = texture(bakedShadow[i], position - lightPosition[i] + gridSamplingDisk[j] * diskRadius).r;
+		// 	closestDepth *= lightRadius[i];   // undo mapping [0;1]
+		// 	if(d - bias > closestDepth) shadow += 1;
+		// }
+		// shadow /= float(samples);
+
+		// light radiance
+		if (d < lightRadius[i] && shadow == 0) {
 			float attenuation = 1.0 / (d * d);
 			vec3 radiance = lightColor[i] * attenuation;
 			// normals

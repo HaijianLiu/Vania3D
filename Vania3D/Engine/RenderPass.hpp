@@ -26,13 +26,14 @@ private:
 	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
 	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
-	static unsigned int createColorAttachment(GLenum attachment, GLint internalFormat);
-	static void createDepthAttachment(GLenum internalformat);
-	static void drawBuffers(GLsizei n);
-
 public:
 	RenderPass();
 	~RenderPass();
+	
+	static unsigned int createColorAttachment(GLenum attachment, GLint internalFormat);
+	static unsigned int createCubeAttachment(GLint internalFormat, GLint size);
+	static void createDepthAttachment(GLenum internalformat);
+	static void drawBuffers(GLsizei n);
 };
 
 #endif /* RenderPass_hpp */

@@ -3,12 +3,12 @@
 #define ShadowMapping_hpp
 
 class ShadowMapping {
-private:
 	friend class Game;
 	friend class RenderPass;
 	friend class Scene;
 	friend class MeshRenderer;
-
+	
+private:
 	Shader* shader;
 	float retina;
 	unsigned int fbo, depthMap, size;

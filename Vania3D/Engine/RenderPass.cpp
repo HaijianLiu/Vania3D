@@ -294,6 +294,33 @@ unsigned int RenderPass::createColorAttachment(GLenum attachment, GLint internal
 
 
 /*------------------------------------------------------------------------------
+< create cube attachment >
+------------------------------------------------------------------------------*/
+unsigned int RenderPass::createCubeAttachment(GLint internalFormat, GLint size) {
+	// create attachment
+	unsigned int cubeAttachment;
+	glGenTextures(1, &cubeAttachment);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeAttachment);
+	
+	if (internalFormat == GL_DEPTH_COMPONENT)
+		for (unsigned int i = 0; i < 6; ++i)
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, size, size, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	else return -1;
+	
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	
+	// attach texture to framebuffer
+	glFramebufferTexture(GL_FRAMEBUFFER, internalFormat, cubeAttachment, 0);
+	
+	return cubeAttachment;
+}
+
+
+/*------------------------------------------------------------------------------
 < create depth attachment >
 ------------------------------------------------------------------------------*/
 void RenderPass::createDepthAttachment(GLenum internalformat) {

@@ -136,6 +136,7 @@ class Scene;
 #include "ShadowMapping.hpp"
 #include "Camera.hpp"
 #include "FrustumCulling.hpp"
+#include "BakedShadow.hpp"
 
 #include "GameObject.hpp"
 

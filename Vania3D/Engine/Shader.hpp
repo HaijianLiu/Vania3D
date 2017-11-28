@@ -3,6 +3,8 @@
 #define Shader_hpp
 
 class Shader {
+	friend class BakedShadow;
+	
 private:
 	std::vector<std::string> vertexPaths, fragmentPaths;
 	std::unordered_map<std::string, int> uniformLocations;
@@ -10,10 +12,11 @@ private:
 	void getUniformLocation(const char* name);
 	void loadUniformLocation(const char* path);
 	
+	// compile
 	static void checkProgram(unsigned int shaderID);
 	static std::string readCode(std::string path);
 	static unsigned int complieShader(unsigned int shaderID, std::vector<std::string>* paths);
-
+	
 public:
 	unsigned int programID;
 
