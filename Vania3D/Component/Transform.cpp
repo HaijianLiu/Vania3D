@@ -22,7 +22,11 @@ Transform::~Transform() {
 ------------------------------------------------------------------------------*/
 void Transform::update() {
 	if (!this->gameObject->staticObject)
-		this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
+        this->updateModel();
+}
+
+void Transform::updateModel() {
+    this->model = glm::translate(this->position) * glm::scale(this->scale * this->modelScale) * glm::mat4_cast(this->rotation);
 }
 
 

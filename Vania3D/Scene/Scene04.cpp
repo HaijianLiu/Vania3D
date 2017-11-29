@@ -23,6 +23,25 @@ Scene04::~Scene04() {
 void Scene04::start() {
 	Game* game = Game::getInstance();
 	Resources* resources = game->resources;
+    
+
+    // sky
+    resources->loadShader("sky", "./Assets/Shaders/Vertex/static_2_locations_sky.vs.glsl", "./Assets/Shaders/Fragment/color_1_passes_sky.fs.glsl");
+    resources->loadModel("sky", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/RedwoodForest/Map/sky.fbx");
+    resources->loadTexture("sky", "./Assets/Models/RedwoodForest/Map/sky.tga");
+    resources->createMaterial("sky", resources->getShader("sky"));
+    resources->getMaterial("sky")->addTexture("albedoMap", resources->getTexture("sky"));
+    
+    GameObject* sky = new GameObject();
+    Transform* skyTransform = sky->addComponent<Transform>();
+    skyTransform->rotation = glm::rotation(glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+    skyTransform->scale = glm::vec3(100);
+    skyTransform->updateModel();
+    MeshRenderer* skyMeshRenderer = sky->addComponent<MeshRenderer>();
+    skyMeshRenderer->renderLayer = RENDER_LAYER_FX;
+    skyMeshRenderer->model = resources->getModel("sky");
+    skyMeshRenderer->materials.push_back(resources->getMaterial("sky"));
+    this->addGameObject("sky", sky);
 
 	// camera
 	GameObject* camera = new GameObject();
@@ -39,9 +58,9 @@ void Scene04::start() {
 	playerController->camera = camera;
 	CameraController* cameraController = player->addComponent<CameraController>();
 	cameraController->camera = camera;
-//	MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
-//	playerMeshRenderer->model = game->resources->getModel("player");
-//	playerMeshRenderer->materials.push_back(game->resources->getMaterial("player"));
+//    MeshRenderer* playerMeshRenderer = player->addComponent<MeshRenderer>();
+//    playerMeshRenderer->model = game->resources->getModel("player");
+//    playerMeshRenderer->materials.push_back(game->resources->getMaterial("player"));
 //	playerMeshRenderer->castShadow = true;
 	this->addGameObject("player", player);
 //	game->shadowMapping->target = player;
@@ -56,7 +75,7 @@ void Scene04::start() {
 
 	// camera
 	Transform* cameraTransform = camera->addComponent<Transform>();
-	cameraTransform->position = glm::vec3(0.0,2.0,4.0);
+	cameraTransform->position = glm::vec3(0.0,0.0,4.0);
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
 	camera->addComponent<FrustumCulling>();
 	this->mainCamera = camera;
