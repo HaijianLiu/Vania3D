@@ -78,7 +78,8 @@ void Scene::updateScene() {
 	}
 
 	// shadow mapping
-	this->game->shadowMapping->render(&this->shadowQueue);
+	if (this->shadowQueue.size() > 0)
+		this->game->shadowMapping->render(&this->shadowQueue);
 
 	// final render
 	this->game->renderPass->render(this->renderLayer, this->fxLayer, &this->pointLights, this->mainCamera);
