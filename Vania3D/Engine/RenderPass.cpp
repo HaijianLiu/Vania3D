@@ -5,7 +5,14 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 RenderPass::RenderPass() {
-
+	Game* game = Game::getInstance();
+	// default shaders
+	this->lightProbe = game->resources->getLightProbe("hdr"); game->resources->getLightProbe("hdr");
+	this->shadowShader = game->resources->getShader("shadow_pass");
+	this->ambientShader = game->resources->getShader("ambient_pass");
+	this->lightingShader = game->resources->getShader("lighting_pass");
+	this->combineShader = game->resources->getShader("renderpass_combine");
+	this->ssaoShader = game->resources->getShader("ssao_pass");
 }
 
 
@@ -42,13 +49,14 @@ std::vector<glm::vec3> genSSAOKernel(unsigned int kernelSize) {
 void RenderPass::start() {
 	Game* game = Game::getInstance();
 	this->quad = game->resources->quad;
-	LightProbe* lightProbe = game->resources->getLightProbe("hdr");
+	
+	// hdr
 	glActiveTexture(GL_TEXTURE10);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->irradiance);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, this->lightProbe->irradiance);
 	glActiveTexture(GL_TEXTURE11);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe->prefilter);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, this->lightProbe->prefilter);
 	glActiveTexture(GL_TEXTURE12);
-	glBindTexture(GL_TEXTURE_2D, lightProbe->brdf);
+	glBindTexture(GL_TEXTURE_2D, this->lightProbe->brdf);
 
 	// deferred pass
 	glGenFramebuffers(1, &this->deferredPass.fbo);
@@ -75,7 +83,6 @@ void RenderPass::start() {
 	this->ambientPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
 	drawBuffers(1);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->ambientShader = game->resources->getShader("ambient_pass");
 	this->ambientShader->use();
 	this->ambientShader->setInt("albedoPass", 0);
 	this->ambientShader->setInt("normalPass", 1);
@@ -91,7 +98,6 @@ void RenderPass::start() {
 	this->lightingPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
 	drawBuffers(1);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->lightingShader = game->resources->getShader("lighting_pass");
 	this->lightingShader->use();
 	this->lightingShader->setInt("albedoPass", 0);
 	this->lightingShader->setInt("normalPass", 1);
@@ -104,7 +110,6 @@ void RenderPass::start() {
 	this->shadowPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RED));
 	drawBuffers(1);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->shadowShader = game->resources->getShader("shadow_pass");
 	this->shadowShader->use();
 	this->shadowShader->setInt("normalPass", 1);
 	this->shadowShader->setInt("positionPass", 3);
@@ -116,7 +121,6 @@ void RenderPass::start() {
 	this->ssaoPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RED));
 	drawBuffers(1);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->ssaoShader = game->resources->getShader("ssao_pass");
 	this->ssaoShader->use();
 	this->ssaoShader->setInt("normalPass", 1);
 	this->ssaoShader->setInt("positionPass", 3);
@@ -125,7 +129,6 @@ void RenderPass::start() {
 		this->ssaoShader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
 
 	// final shader
-	this->combineShader = game->resources->getShader("renderpass_combine");
 	this->combineShader->use();
 	this->combineShader->setInt("mrcPass", 2);
 	this->combineShader->setInt("fxPass", 4);

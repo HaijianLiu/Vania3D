@@ -5,6 +5,9 @@
 < Constructor >
 ------------------------------------------------------------------------------*/
 ShadowMapping::ShadowMapping() {
+	this->game = Game::getInstance();
+	this->shader = game->resources->getShader("shadow_mapping_depth");
+	this->size = 1024;
 	this->lightPositionOffset = glm::vec3(1, 4, -1);
 	this->range = 4;
 	this->nearPlane = 0;
@@ -23,19 +26,13 @@ ShadowMapping::~ShadowMapping() {
 /*------------------------------------------------------------------------------
  < init framebuffer and shadow map >
 ------------------------------------------------------------------------------*/
-void ShadowMapping::init(Shader* shader, unsigned int size) {
-	// save shadow mapping shader
-	this->shader = shader;
-	// map size and screen size
-	this->size = size;
-	this->retina = Game::getInstance()->window->retina;
-
+void ShadowMapping::start() {
 	// configure depth map fbo
 	glGenFramebuffers(1, &this->fbo);
 	// create depth texture
 	glGenTextures(1, &this->depthMap);
 	glBindTexture(GL_TEXTURE_2D, this->depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, size, size, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, this->size, this->size, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -58,8 +55,6 @@ void ShadowMapping::init(Shader* shader, unsigned int size) {
  < render >
 ------------------------------------------------------------------------------*/
 void ShadowMapping::render(std::vector<MeshRenderer*>* shadowQueue) {
-	Game* game = Game::getInstance();
-
 	// bind framebuffer and view port
 	glViewport(0, 0, this->size, this->size);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
@@ -78,5 +73,5 @@ void ShadowMapping::render(std::vector<MeshRenderer*>* shadowQueue) {
 
 	// reset framebuffer and view port
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, SCREEN_WIDTH * this->retina, SCREEN_HEIGHT * this->retina);
+	glViewport(0, 0, this->game->window->screenWidth, this->game->window->screenHeight);
 }

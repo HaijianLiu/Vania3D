@@ -35,27 +35,27 @@ void Game::start() {
 	/* create objects */
 	this->window = new Window("vania", SCREEN_WIDTH, SCREEN_HEIGHT);
 	this->resources = Resources::getInstance();
-	this->sceneManager = new SceneManager();
-	this->renderPass = new RenderPass();
-	this->shadowMapping = new ShadowMapping();
 	this->time = Time::getInstance();
 	this->input = Input::getInstance();
-
-	/* start */
+	
 	// resources
 	this->resources->start();
+	
 	// render pass
+	this->renderPass = new RenderPass();
 	this->renderPass->start();
 	// shadow mapping
-	this->shadowMapping->init(this->resources->getShader("shadow_mapping_depth"), 512);
+	this->shadowMapping = new ShadowMapping();
+	this->shadowMapping->start();
 
-	// scene manager ????
-	// this->sceneManager->addScene("Scene00", new Scene00());
-	// this->sceneManager->addScene("Scene01", new Scene01());
-	// this->sceneManager->addScene("Scene02", new Scene02());
+	// create scenes
+	this->sceneManager = new SceneManager();
+	this->sceneManager->addScene("Scene00", new Scene00());
+	this->sceneManager->addScene("Scene01", new Scene01());
+	this->sceneManager->addScene("Scene02", new Scene02());
 	this->sceneManager->addScene("Scene03", new Scene03());
 	this->sceneManager->addScene("Scene04", new Scene04());
-	this->sceneManager->setActiveScene("Scene04"); // set default scene
+	this->sceneManager->setActiveScene("Scene03"); // set default scene
 }
 
 

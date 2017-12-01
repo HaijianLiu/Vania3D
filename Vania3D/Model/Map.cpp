@@ -93,10 +93,11 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 		Transform* transform = gameObject->addComponent<Transform>();
 		transform->model = globalTransformation;
 		MeshRenderer* meshRenderer = gameObject->addComponent<MeshRenderer>();
+		// meshRenderer->castShadow = true;
 		meshRenderer->model = model;
-//		for (unsigned int i = 0; i < node->data->materialIndices.size(); i++) {
-//			meshRenderer->materials.push_back(this->materialMapping[node->data->materialIndices[i]]);
-//		}
+		// for (unsigned int i = 0; i < node->data->materialIndices.size(); i++) {
+		// 	meshRenderer->materials.push_back(this->materialMapping[node->data->materialIndices[i]]);
+		// }
 		for (unsigned int i = 0; i < model->materialNames.size(); i++) {
 			meshRenderer->materials.push_back(this->game->resources->getMaterial(model->materialNames[i]));
 		}

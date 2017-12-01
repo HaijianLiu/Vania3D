@@ -27,7 +27,7 @@ void main() {
 	// exposion & cavity & shadow
 	color = color * cavity * ssao;
 	// fx color pass
-	color += fxColor; // scene03
+	color += 5 * fxColor; // hard coded exposion
 	// hdr tonemapping & gamma correct
 	color = color / (color + vec3(1.0));
 	color = pow(color, vec3(1.0/2.2));

@@ -54,6 +54,7 @@ void Resources::start() {
 
 	// shadow mapping
 	this->loadShader("shadow_mapping_depth", "./Assets/Shaders/Vertex/bones_3_locations_shadowmapping.vs.glsl",  "./Assets/Shaders/Fragment/null.fs.glsl");
+	this->loadShader("shadow_mapping_depth_static", "./Assets/Shaders/Vertex/static_1_locations_shadowmapping.vs.glsl",  "./Assets/Shaders/Fragment/null.fs.glsl");
 
 	// ibl
 	this->loadShader("equirectangularToCubemap", "./Assets/Shaders/cubemap.vs.glsl",  "./Assets/Shaders/equirectangularToCubemap.fs.glsl");

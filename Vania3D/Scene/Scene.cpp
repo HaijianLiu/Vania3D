@@ -25,7 +25,7 @@ Scene::~Scene() {
 < update >
 ------------------------------------------------------------------------------*/
 void Scene::update() {
-
+	
 }
 
 
@@ -83,7 +83,7 @@ void Scene::updateScene() {
 
 	// final render
 	this->game->renderPass->render(this->renderLayer, this->fxLayer, &this->pointLights, this->mainCamera);
-//	 this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
+	// this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
 }
 
 

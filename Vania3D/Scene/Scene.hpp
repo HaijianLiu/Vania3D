@@ -24,7 +24,7 @@ private:
 
 protected:
 	Game* game;
-    
+
 	virtual void start() = 0;
 	virtual void update();
 

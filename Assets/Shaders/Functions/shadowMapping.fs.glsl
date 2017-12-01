@@ -13,8 +13,8 @@ float shadowMapping(mat4 lightSpaceMatrix, vec3 n, vec3 position) {
 	float currentDepth = projection.z;
 	// calculate bias (based on depth map resolution and slope)
 	vec3 normal = normalize(n);
-	// vec3 lightDirection = normalize(vec3(-10.0f, 10.0f, -1.0f) - position);
-	vec3 lightDirection = normalize(vec3(-1.0f, 1.0f, -1.0f));
+	vec3 lightDirection = normalize(vec3(5.0f, 5.0f, -1.0f) - position);
+	// vec3 lightDirection = normalize(vec3(-1.0f, 1.0f, -1.0f));
 	float bias = max(0.05 * (1.0 - dot(normal, lightDirection)), 0.005);
 	// check whether current frag pos is in shadow
 	// float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
