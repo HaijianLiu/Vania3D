@@ -8,7 +8,6 @@ public:
 	~Scene04();
 
 	void start();
-	void update();
 };
 
 #endif /* Scene04_hpp */

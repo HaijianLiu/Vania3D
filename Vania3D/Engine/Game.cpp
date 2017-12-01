@@ -37,10 +37,10 @@ void Game::start() {
 	this->resources = Resources::getInstance();
 	this->time = Time::getInstance();
 	this->input = Input::getInstance();
-	
+
 	// resources
 	this->resources->start();
-	
+
 	// render pass
 	this->renderPass = new RenderPass();
 	this->renderPass->start();
@@ -55,7 +55,8 @@ void Game::start() {
 	this->sceneManager->addScene("Scene02", new Scene02());
 	this->sceneManager->addScene("Scene03", new Scene03());
 	this->sceneManager->addScene("Scene04", new Scene04());
-	this->sceneManager->setActiveScene("Scene04"); // set default scene
+	this->sceneManager->addScene("Scene05", new Scene05());
+	this->sceneManager->setActiveScene("Scene05"); // set default scene
 }
 
 

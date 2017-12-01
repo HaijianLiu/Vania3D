@@ -49,6 +49,7 @@
 		6057408E1FADBBFC005B7358 /* PlayerController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6057408C1FADBBFC005B7358 /* PlayerController.cpp */; };
 		605740911FADF9C4005B7358 /* PointLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6057408F1FADF9C4005B7358 /* PointLight.cpp */; };
 		606101E61FB0034900558589 /* Scene01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 606101E41FB0034900558589 /* Scene01.cpp */; };
+		606838381FD17360003D8173 /* Scene05.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 606838361FD17360003D8173 /* Scene05.cpp */; };
 		6082F4AF1FA737C000B177DA /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4AE1FA737BF00B177DA /* Input.cpp */; };
 		6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4B01FA9A11200B177DA /* CameraController.cpp */; };
 		6082F4B51FAB073000B177DA /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6082F4B31FAB073000B177DA /* Sphere.cpp */; };
@@ -162,6 +163,8 @@
 		605740901FADF9C4005B7358 /* PointLight.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PointLight.hpp; sourceTree = "<group>"; };
 		606101E41FB0034900558589 /* Scene01.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene01.cpp; sourceTree = "<group>"; };
 		606101E51FB0034900558589 /* Scene01.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene01.hpp; sourceTree = "<group>"; };
+		606838361FD17360003D8173 /* Scene05.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene05.cpp; sourceTree = "<group>"; };
+		606838371FD17360003D8173 /* Scene05.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene05.hpp; sourceTree = "<group>"; };
 		6082F4AD1FA737BF00B177DA /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Input.hpp; sourceTree = "<group>"; };
 		6082F4AE1FA737BF00B177DA /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
 		6082F4B01FA9A11200B177DA /* CameraController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CameraController.cpp; sourceTree = "<group>"; };
@@ -389,6 +392,8 @@
 				60EEC57A1FCA5D8E0068B59D /* Scene03.hpp */,
 				60C894E11FCD8CA400CA8C35 /* Scene04.cpp */,
 				60C894E21FCD8CA400CA8C35 /* Scene04.hpp */,
+				606838361FD17360003D8173 /* Scene05.cpp */,
+				606838371FD17360003D8173 /* Scene05.hpp */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -506,6 +511,7 @@
 				60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */,
 				60FA8C771FB5615200E31651 /* ShadowMapping.cpp in Sources */,
 				6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */,
+				606838381FD17360003D8173 /* Scene05.cpp in Sources */,
 				6082F4AF1FA737C000B177DA /* Input.cpp in Sources */,
 				604B57821F945A84009DE302 /* Model.cpp in Sources */,
 				604B57A61F98A251009DE302 /* Scene00.cpp in Sources */,
