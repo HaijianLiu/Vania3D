@@ -44,7 +44,6 @@ void Map::load(Scene* scene, const char* path) {
 	this->modelNode->data = new ModelProperties();
 	this->processNode(aiscene->mRootNode, this->modelNode, aiscene);
 
-	//
 	this->createGameObjects(scene, aiscene);
 }
 
@@ -93,7 +92,7 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 		Transform* transform = gameObject->addComponent<Transform>();
 		transform->model = globalTransformation;
 		MeshRenderer* meshRenderer = gameObject->addComponent<MeshRenderer>();
-		// meshRenderer->castShadow = true;
+		meshRenderer->castShadow = true;
 		meshRenderer->model = model;
 		// for (unsigned int i = 0; i < node->data->materialIndices.size(); i++) {
 		// 	meshRenderer->materials.push_back(this->materialMapping[node->data->materialIndices[i]]);
@@ -103,6 +102,7 @@ void Map::processNode(Node<ModelProperties>* node, glm::mat4 parentTransformatio
 		}
 		scene->addGameObject(node->name.c_str(), gameObject);
 	}
+	
 	// light
 	if (modelName.substr(0, 10) == "PointLight") {
 		for (unsigned int i = 0; i < aiscene->mNumLights; i++) {
