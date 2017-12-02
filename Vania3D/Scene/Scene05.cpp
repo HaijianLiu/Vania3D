@@ -59,18 +59,10 @@ void Scene05::start() {
 	cameraController->camera = camera;
 	this->addGameObject("player", player);
 
-	// camera target
-	GameObject* cameraTarget = new GameObject();
-	Transform* cameraTargetTransform = cameraTarget->addComponent<Transform>();
-	Offset* cameraTargetOffset = cameraTarget->addComponent<Offset>();
-	cameraTargetOffset->parent = playerTransform;
-	cameraTargetOffset->offsetPosition = glm::vec3(0, 1, 0);
-	this->addGameObject("cameraTarget", cameraTarget);
-
 	// camera
 	Transform* cameraTransform = camera->addComponent<Transform>();
 	cameraTransform->position = glm::vec3(0.0,2.0,4.0);
-	camera->getComponent<Camera>()->target = cameraTargetTransform;
+	camera->getComponent<Camera>()->target = playerTransform;
 	camera->addComponent<FrustumCulling>();
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
@@ -104,11 +96,11 @@ void Scene05::start() {
 	
 	
 	// renderpass
+	delete game->renderPass;
+	game->renderPass = new RenderPass();
 	game->resources->loadShader("renderpass_combine_scene04", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/RenderPassScene04/renderpass_combine.fs.glsl");
 	game->resources->loadShader("ambient_pass_scene04", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPassScene04/renderpass_ambient_1_passes.fs.glsl");
 	game->resources->loadShader("lighting_pass_scene04", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPassScene04/renderpass_lighting_1_passes.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl");
-	delete game->renderPass;
-	game->renderPass = new RenderPass();
 	game->renderPass->combineShader = game->resources->getShader("renderpass_combine_scene04");
 	game->renderPass->ambientShader = game->resources->getShader("ambient_pass_scene04");
 	game->renderPass->lightingShader = game->resources->getShader("lighting_pass_scene04");
@@ -133,15 +125,44 @@ void Scene05::start() {
 	resources->loadShader("Library", "./Assets/Shaders/Vertex/static_3_locations.vs.glsl", "./Assets/Shaders/Fragment/mrca_4_passes.fs.glsl",  "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	
 	
+	// ModularMeshes/Floor
+	resources->loadModel("SM_Floor_OneSided", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/MansionHall/Meshes/ModularMeshes/Floor/SM_Floor_OneSided.FBX");
+	resources->getModel("SM_Floor_OneSided")->materialNames.push_back("M_Floor_WorldAligned_Inst");
+	resources->loadTexture("T_Carpet_BaseColor", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Floor/T_Carpet_BaseColor.TGA");
+	resources->loadTexture("T_Carpet_Normal", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Floor/T_Carpet_Normal.TGA");
+	resources->loadTexture("T_Carpet_Rough", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Floor/T_Carpet_Rough.TGA");
+	resources->loadTexture("T_FloorDirt_BaseColor", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Floor/T_FloorDirt_BaseColor.TGA");
+	resources->loadTexture("T_FloorDirt_Normal", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Floor/T_FloorDirt_Normal.TGA");
+	resources->loadTexture("T_FloorDirt_Roughness", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Floor/T_FloorDirt_Roughness.TGA");
+	// M_Carpet_WorldAligned_Inst
+	resources->createMaterial("M_Carpet_WorldAligned_Inst", resources->getShader("Library"));
+	resources->getMaterial("M_Carpet_WorldAligned_Inst")->addTexture("albedoMap", resources->getTexture("T_Carpet_BaseColor"));
+	resources->getMaterial("M_Carpet_WorldAligned_Inst")->addTexture("normalMap", resources->getTexture("T_Carpet_Normal"));
+	resources->getMaterial("M_Carpet_WorldAligned_Inst")->addTexture("maskMap", resources->getTexture("T_Carpet_Rough"));
+	// M_Floor_WorldAligned_Inst
+	resources->createMaterial("M_Floor_WorldAligned_Inst", resources->getShader("Library"));
+	resources->getMaterial("M_Floor_WorldAligned_Inst")->addTexture("albedoMap", resources->getTexture("T_FloorDirt_BaseColor"));
+	resources->getMaterial("M_Floor_WorldAligned_Inst")->addTexture("normalMap", resources->getTexture("T_FloorDirt_Normal"));
+	resources->getMaterial("M_Floor_WorldAligned_Inst")->addTexture("maskMap", resources->getTexture("T_FloorDirt_Roughness"));
 	
-	
-	
-	
+	// ModularMeshes/Stairs
+	resources->loadModel("SM_StairsMain", MESH_ATTRIBUTE_DEFAULT, "./Assets/Models/MansionHall/Meshes/ModularMeshes/Stairs/SM_StairsMain.FBX");
+	resources->getModel("SM_StairsMain")->materialNames.push_back("M_Stairs_Main");
+	resources->getModel("SM_StairsMain")->materialNames.push_back("M_Carpet_WorldAligned_Inst");
+	resources->loadTexture("T_Stairs_Main_BaseColor", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Stairs/T_Stairs_Main_BaseColor.TGA");
+	resources->loadTexture("T_Stairs_Main_Normal", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Stairs/T_Stairs_Main_Normal.TGA");
+	resources->loadTexture("T_Stairs_Main_Rough", "./Assets/Models/MansionHall/Meshes/ModularMeshes/Stairs/T_Stairs_Main_Rough.TGA");
+	// M_Stairs_Main
+	resources->createMaterial("M_Stairs_Main", resources->getShader("Library"));
+	resources->getMaterial("M_Stairs_Main")->addTexture("albedoMap", resources->getTexture("T_Stairs_Main_BaseColor"));
+	resources->getMaterial("M_Stairs_Main")->addTexture("normalMap", resources->getTexture("T_Stairs_Main_Normal"));
+	resources->getMaterial("M_Stairs_Main")->addTexture("maskMap", resources->getTexture("T_Stairs_Main_Rough"));
+
 	
 	
 	
 	// map
-	Map* map = new Map(this, "./Assets/Models/Library/Maps/Map.fbx");
+	Map* map = new Map(this, "./Assets/Models/MansionHall/Maps/Map.fbx");
 	delete map;
 }
 
