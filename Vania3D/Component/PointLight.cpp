@@ -22,8 +22,8 @@ PointLight::~PointLight() {
 ------------------------------------------------------------------------------*/
 void PointLight::start() {
 	float lightMax = glm::max(glm::max(this->color.x, this->color.y), this->color.z) * this->intensity;
-	this->radius = 6 * glm::sqrt(lightMax / 5);
-	
+	this->radius = 8 * glm::sqrt(lightMax / 5);
+
 //	float constant = 1.0;
 //	float linear = 0.7;
 //	float quadratic = 1.8;

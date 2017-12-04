@@ -50,7 +50,7 @@ void main() {
 	for (int i = 0; i < lightSize; i++) {
 		// light radiance
 		float d = length(lightPosition[i] - position);
-		if (d < lightRadius[i]) {
+		// if (d < lightRadius[i]) {
 			float attenuation = 1.0 / (d * d);
 			vec3 radiance = lightColor[i] * attenuation;
 			// normals
@@ -61,7 +61,7 @@ void main() {
 			vec3 diffuseF = vec3(1.0) - specular;
 			diffuseF *= 1.0 - metallic;
 			lightingColor += (diffuseF * albedo / PI + specular) * radiance * max(dot(n, l), 0.0);
-		}
+		// }
 	}
 
 	lightingPass = vec4(lightingColor, 1);

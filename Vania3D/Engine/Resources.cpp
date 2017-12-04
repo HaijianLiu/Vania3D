@@ -66,6 +66,7 @@ void Resources::start() {
 	this->loadShader("deferred_pbr_bone", "./Assets/Shaders/Vertex/bones_5_locations.vs.glsl",  "./Assets/Shaders/Fragment/bgra_to_mrca_4_passes.fs.glsl", "./Assets/Shaders/Functions/getNormalFromMap.fs.glsl");
 	this->loadShader("simple", "./Assets/Shaders/Vertex/static_1_locations.vs.glsl", "./Assets/Shaders/Fragment/color_white_1_passes.fs.glsl");
 	this->createMaterial("simple", this->getShader("simple"));
+	this->loadShader("renderpass_color_1_passes", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_color_1_passes.fs.glsl");
 
 	/* Model
 	..............................................................................*/
