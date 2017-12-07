@@ -21,32 +21,6 @@
 #define CAMERA_INVERSE_ON (1);
 #define CAMERA_INVERSE_OFF (-1);
 
-#define UNIFORM_TEX_ALBEDO "albedoMap" // GL_TEXTURE0
-#define UNIFORM_TEX_NORMAL "normalMap" // GL_TEXTURE1
-#define UNIFORM_TEX_MASK "maskMap" // GL_TEXTURE2
-
-#define UNIFORM_TEX_IRRADIANCE "irradianceMap" // GL_TEXTURE10
-#define UNIFORM_TEX_PREFILTER "prefilterMap" // GL_TEXTURE11
-#define UNIFORM_TEX_BRDFLUT "brdfLUT" // GL_TEXTURE12
-#define UNIFORM_TEX_SHADOW "shadowMap" // GL_TEXTURE13
-
-#define UNIFORM_TEX_EQUIRECTANGULAR "equirectangularMap" // light probe
-#define UNIFORM_TEX_ENVIRONMENT "environmentMap" // light probe
-#define UNIFORM_TEX_PASSES "passes" // render pass shader
-
-#define UNIFORM_VEC3_CAMERA_POSITION "cameraPosition"
-#define UNIFORM_VEC3_LIGHT_POSITION "lightPositions" // light
-#define UNIFORM_VEC3_LIGHT_COLOR "lightColors" // light
-#define UNIFORM_VEC3_COLOR "color" // flat color shader
-
-#define UNIFORM_MATRIX_MODEL "model"
-#define UNIFORM_MATRIX_VIEW "view"
-#define UNIFORM_MATRIX_PROJECTION "projection"
-#define UNIFORM_MATRIX_BONE "bones"
-#define UNIFORM_MATRIX_LIGHTSPACE "lightSpaceMatrix"
-
-
-
 
 /*------------------------------------------------------------------------------
 < Libraries >

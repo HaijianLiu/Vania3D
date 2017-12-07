@@ -43,6 +43,6 @@ void Camera::update() {
 < set uniforms >
 ------------------------------------------------------------------------------*/
 void Camera::setUniforms(Shader* shader) {
-	shader->setMat4(UNIFORM_MATRIX_PROJECTION, this->projection);
-	shader->setMat4(UNIFORM_MATRIX_VIEW, this->view);
+	shader->setMat4("projection", this->projection);
+	shader->setMat4("view", this->view);
 }

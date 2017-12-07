@@ -172,14 +172,14 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glBindFramebuffer(GL_FRAMEBUFFER, this->ambientPass.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->ambientShader->use();
-	this->ambientShader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->transform->position);
+	this->ambientShader->setVec3("cameraPosition", camera->transform->position);
 	game->resources->quad->draw();
 
 	// lighting pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->lightingShader->use();
-	this->lightingShader->setVec3(UNIFORM_VEC3_CAMERA_POSITION, camera->transform->position);
+	this->lightingShader->setVec3("cameraPosition", camera->transform->position);
 	int lightSize = 0;
 	for (unsigned int i = 0; i < pointLights->size(); i++) {
 		if (!pointLights->at(i)->culling) {
@@ -196,7 +196,7 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glBindFramebuffer(GL_FRAMEBUFFER, this->shadowPass.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->shadowShader->use();
-	this->shadowShader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, game->shadowMapping->lightSpace);
+	this->shadowShader->setMat4("lightSpaceMatrix", game->shadowMapping->lightSpace);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
 	game->resources->quad->draw();

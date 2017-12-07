@@ -38,7 +38,7 @@ glm::vec3 Transform::front() {
 }
 
 void Transform::setUniform(Shader* shader) {
-	shader->setMat4(UNIFORM_MATRIX_MODEL, model);
+	shader->setMat4("model", model);
 }
 
 

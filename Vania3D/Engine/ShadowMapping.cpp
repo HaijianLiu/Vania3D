@@ -66,7 +66,7 @@ void ShadowMapping::render(std::vector<MeshRenderer*>* shadowQueue) {
 	Transform* targetTransform = this->target->getComponent<Transform>();
 	this->view = glm::lookAt(this->lightPositionOffset + targetTransform->position, targetTransform->position, game->worldUp);
 	this->lightSpace = this->projection * this->view;
-	this->shader->setMat4(UNIFORM_MATRIX_LIGHTSPACE, this->lightSpace);
+	this->shader->setMat4("lightSpaceMatrix", this->lightSpace);
 	// draw
 	for (unsigned int i = 0; i < shadowQueue->size(); i++)
 		shadowQueue->at(i)->renderShadow();

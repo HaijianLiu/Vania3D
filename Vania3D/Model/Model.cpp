@@ -53,8 +53,7 @@ void Model::updatePose(unsigned int animationIndex, float timeInSeconds) {
 ------------------------------------------------------------------------------*/
 void Model::setPoseUniform(Shader* shader) {
 	for (unsigned int i = 0 ; i < this->pose.size() ; i++) {
-		std::string boneName = UNIFORM_MATRIX_BONE;
-		shader->setMat4((boneName + "[" + std::to_string(i) + "]").c_str(), this->pose[i]);
+		shader->setMat4(("bones[" + std::to_string(i) + "]").c_str(), this->pose[i]);
 	}
 }
 

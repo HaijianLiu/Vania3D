@@ -118,15 +118,15 @@ unsigned int LightProbe::genCubemap(unsigned int hdr, int size, bool mipmap) {
 	shader->use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, hdr);
-	shader->setInt(UNIFORM_TEX_EQUIRECTANGULAR, 0);
-	shader->setMat4(UNIFORM_MATRIX_PROJECTION, captureProjection);
+	shader->setInt("equirectangularMap", 0);
+	shader->setMat4("projection", captureProjection);
 
 	 // Configure the viewport to the capture dimensions.
 	glViewport(0, 0, size, size);
 	// Capture textures.
 	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
 	for (unsigned int i = 0; i < 6; ++i) {
-		shader->setMat4(UNIFORM_MATRIX_VIEW, captureViews[i]);
+		shader->setMat4("view", captureViews[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		game->resources->skybox->draw();
@@ -189,15 +189,15 @@ unsigned int LightProbe::genIrradianceMap(unsigned int cubemap, int size) {
 	shader->use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
-	shader->setInt(UNIFORM_TEX_ENVIRONMENT, 0);
-	shader->setMat4(UNIFORM_MATRIX_PROJECTION, captureProjection);
+	shader->setInt("environmentMap", 0);
+	shader->setMat4("projection", captureProjection);
 
 	 // Configure the viewport to the capture dimensions.
 	glViewport(0, 0, size, size);
 	// Capture textures.
 	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
 	for (unsigned int i = 0; i < 6; ++i) {
-		shader->setMat4(UNIFORM_MATRIX_VIEW, captureViews[i]);
+		shader->setMat4("view", captureViews[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, irradianceMap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		game->resources->skybox->draw();
@@ -252,8 +252,8 @@ unsigned int LightProbe::genPrefilterMap(unsigned int cubemap, int size) {
 	shader->use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
-	shader->setInt(UNIFORM_TEX_ENVIRONMENT, 0);
-	shader->setMat4(UNIFORM_MATRIX_PROJECTION, captureProjection);
+	shader->setInt("environmentMap", 0);
+	shader->setMat4("projection", captureProjection);
 
 	// Setup framebuffer
 	unsigned int captureFBO;
@@ -277,7 +277,7 @@ unsigned int LightProbe::genPrefilterMap(unsigned int cubemap, int size) {
 		float roughness = (float)mip / (float)(maxMipLevels - 1);
 		shader->setFloat("roughness", roughness);
 		for (unsigned int i = 0; i < 6; ++i) {
-			shader->setMat4(UNIFORM_MATRIX_VIEW, captureViews[i]);
+			shader->setMat4("view", captureViews[i]);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, prefilterMap, mip);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			game->resources->skybox->draw();
