@@ -33,20 +33,14 @@ void PlayerController::update() {
 	if (game->time->currentTime - this->lastAttack > 3.0) {
 		if (abs(axisLS.x) > 0.6 || abs(axisLS.z) > 0.6) {
 			direction = worldToCamera * game->input->getNormalLS();
-			axisLS = worldToCamera * axisLS;
-
-			playerTransform->position.x += 4 * axisLS.x * game->time->deltaTime;
-			playerTransform->position.z += 4 * axisLS.z * game->time->deltaTime;
-
+			playerTransform->position.x += 4 * direction.x * game->time->deltaTime;
+			playerTransform->position.z += 4 * direction.z * game->time->deltaTime;
 			this->animation = 3;
 		}
 		else if (abs(axisLS.x) > 0.1 || abs(axisLS.z) > 0.1){
 			direction = worldToCamera * game->input->getNormalLS();
-			axisLS = worldToCamera * axisLS;
-
-			playerTransform->position.x += 2 * axisLS.x * game->time->deltaTime;
-			playerTransform->position.z += 2 * axisLS.z * game->time->deltaTime;
-
+			playerTransform->position.x += direction.x * game->time->deltaTime;
+			playerTransform->position.z += direction.z * game->time->deltaTime;
 			this->animation = 2;
 		}
 		else {
