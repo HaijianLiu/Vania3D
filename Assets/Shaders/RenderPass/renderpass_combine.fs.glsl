@@ -1,6 +1,6 @@
 
 #version 330 core
-out vec4 fragColor;
+layout (location = 0) out vec4 combinePass;
 
 in vec2 uv;
 
@@ -33,5 +33,5 @@ void main() {
 	color = pow(color, vec3(1.0/2.2));
 
 	// final
-	fragColor = vec4(color, 1.0);
+	combinePass = vec4(color, 1.0);
 }

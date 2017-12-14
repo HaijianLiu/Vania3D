@@ -11,8 +11,9 @@ RenderPass::RenderPass() {
 	this->shadowShader = game->resources->getShader("shadow_pass");
 	this->ambientShader = game->resources->getShader("ambient_pass");
 	this->lightingShader = game->resources->getShader("lighting_pass");
-	this->combineShader = game->resources->getShader("renderpass_combine");
 	this->ssaoShader = game->resources->getShader("ssao_pass");
+	this->combineShader = game->resources->getShader("renderpass_combine");
+	this->lutShader = game->resources->getShader("lut_pass");
 }
 
 
@@ -128,7 +129,12 @@ void RenderPass::start() {
 	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
 		this->ssaoShader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
 
-	// final shader
+	// combine pass
+	glGenFramebuffers(1, &this->combinePass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->combinePass.fbo);
+	this->combinePass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
+	drawBuffers(1);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	this->combineShader->use();
 	this->combineShader->setInt("mrcPass", 2);
 	this->combineShader->setInt("fxPass", 4);
@@ -136,6 +142,10 @@ void RenderPass::start() {
 	this->combineShader->setInt("lightingPass", 6);
 	this->combineShader->setInt("shadowPass", 7);
 	this->combineShader->setInt("ssaoPass", 8);
+	
+	// lut pass
+	this->lutShader->use();
+	this->lutShader->setInt("combinePass", 0);
 }
 
 
@@ -211,10 +221,9 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	cameraComponent->setUniforms(this->ssaoShader);
 	game->resources->quad->draw();
 
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// final pass
+	// combine pass
+	glBindFramebuffer(GL_FRAMEBUFFER, this->combinePass.fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->combineShader->use();
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, this->fxPass.textures[0]);
@@ -226,6 +235,14 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	glBindTexture(GL_TEXTURE_2D, this->shadowPass.textures[0]);
 	glActiveTexture(GL_TEXTURE8);
 	glBindTexture(GL_TEXTURE_2D, this->ssaoPass.textures[0]);
+	this->quad->draw();
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+	// lut pass
+	this->lutShader->use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, this->combinePass.textures[0]);
 	this->quad->draw();
 }
 

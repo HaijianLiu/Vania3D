@@ -47,6 +47,7 @@ void Resources::start() {
 	this->loadShader("lighting_pass", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_lighting_1_passes.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl");
 	this->loadShader("shadow_pass", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_shadow_1_passes.fs.glsl", "./Assets/Shaders/Functions/shadowMapping.fs.glsl");
 	this->loadShader("ssao_pass", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_ssao_1_passes.fs.glsl");
+	this->loadShader("lut_pass", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_lut_1_passes.fs.glsl");
 
 	// fx
 	this->loadShader("fx_uv_animation", "./Assets/Shaders/Vertex/instance_7_locations_fx_animation.vs.glsl",  "./Assets/Shaders/RenderPass/renderpass_fx_1_passes.fs.glsl");
