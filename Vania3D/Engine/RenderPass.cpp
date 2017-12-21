@@ -146,6 +146,7 @@ void RenderPass::start() {
 	// lut pass
 	this->lutShader->use();
 	this->lutShader->setInt("combinePass", 0);
+	this->lutShader->setInt("lut", 1);
 }
 
 
@@ -243,6 +244,8 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	this->lutShader->use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, this->combinePass.textures[0]);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("clut_default_a")->id);
 	this->quad->draw();
 }
 

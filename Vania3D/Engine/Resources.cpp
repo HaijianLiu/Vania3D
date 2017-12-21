@@ -96,6 +96,10 @@ void Resources::start() {
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/Stadium_Center_8k.jpg");
 	this->loadLightProbe("hdr", "./Assets/Models/InfinityBladeGrassLands/Maps/LevelContent/HDRI/HDRI_Epic_Courtyard_Daylight.HDR");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/test.jpg");
+	
+	/* LUT
+	..............................................................................*/
+	this->loadTexture("clut_default_a", "./Assets/Textures/LUT/clut_default_a.TGA");
 
 }
 
