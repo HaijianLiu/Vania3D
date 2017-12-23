@@ -52,7 +52,21 @@ unsigned int Texture::loadTexture(const char* path) {
 	}
 
 	return textureID;
-//	return Texture::resize(textureID, width * 0.25, height * 0.25, format);
+}
+
+
+/*------------------------------------------------------------------------------
+< set texture mode >
+------------------------------------------------------------------------------*/
+void Texture::setTexMode(unsigned int & textureID, unsigned int type) {
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	if (type == TEXTURE_MODE_NEAREST) {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
 }
 
 

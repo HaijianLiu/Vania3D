@@ -99,8 +99,8 @@ void Resources::start() {
 
 	/* LUT
 	..............................................................................*/
-	this->loadTexture("clut_default_a", "./Assets/Textures/LUT/clut_default_a.TGA");
-	this->loadTexture("screen", "./Assets/Textures/LUT/Funny-Anime-Wallpaper-750x421.jpg");
+	this->loadTexture("clut_default_a", "./Assets/Textures/LUT/LUT_Warm.TGA");
+	Texture::setTexMode(this->getTexture("clut_default_a")->id, TEXTURE_MODE_NEAREST);
 }
 
 
