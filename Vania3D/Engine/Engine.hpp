@@ -103,6 +103,7 @@ class Scene;
 #include "UVAnimation.hpp"
 #include "Particle.hpp"
 #include "Emitter.hpp"
+#include "LutController.hpp"
 
 #include "Resources.hpp"
 #include "RenderLayer.hpp"

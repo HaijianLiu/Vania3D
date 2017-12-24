@@ -46,6 +46,7 @@
 		604B57A31F9890AF009DE302 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57A11F9890AF009DE302 /* Scene.cpp */; };
 		604B57A61F98A251009DE302 /* Scene00.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57A41F98A251009DE302 /* Scene00.cpp */; };
 		604B57AC1F99C148009DE302 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57AA1F99C148009DE302 /* Material.cpp */; };
+		6052D7AE1FEF694900AB7BD1 /* LutController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6052D7AC1FEF694900AB7BD1 /* LutController.cpp */; };
 		6057408E1FADBBFC005B7358 /* PlayerController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6057408C1FADBBFC005B7358 /* PlayerController.cpp */; };
 		605740911FADF9C4005B7358 /* PointLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6057408F1FADF9C4005B7358 /* PointLight.cpp */; };
 		606101E61FB0034900558589 /* Scene01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 606101E41FB0034900558589 /* Scene01.cpp */; };
@@ -157,6 +158,8 @@
 		604B57A51F98A251009DE302 /* Scene00.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene00.hpp; sourceTree = "<group>"; };
 		604B57AA1F99C148009DE302 /* Material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		604B57AB1F99C148009DE302 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
+		6052D7AC1FEF694900AB7BD1 /* LutController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LutController.cpp; sourceTree = "<group>"; };
+		6052D7AD1FEF694900AB7BD1 /* LutController.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LutController.hpp; sourceTree = "<group>"; };
 		6057408C1FADBBFC005B7358 /* PlayerController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerController.cpp; sourceTree = "<group>"; };
 		6057408D1FADBBFC005B7358 /* PlayerController.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PlayerController.hpp; sourceTree = "<group>"; };
 		6057408F1FADF9C4005B7358 /* PointLight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PointLight.cpp; sourceTree = "<group>"; };
@@ -358,6 +361,8 @@
 				60CD446D1FC5261600ADF152 /* Emitter.hpp */,
 				60CD44721FC5592200ADF152 /* Particle.cpp */,
 				60CD44731FC5592200ADF152 /* Particle.hpp */,
+				6052D7AC1FEF694900AB7BD1 /* LutController.cpp */,
+				6052D7AD1FEF694900AB7BD1 /* LutController.hpp */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -512,6 +517,7 @@
 				60FA8C771FB5615200E31651 /* ShadowMapping.cpp in Sources */,
 				6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */,
 				606838381FD17360003D8173 /* Scene05.cpp in Sources */,
+				6052D7AE1FEF694900AB7BD1 /* LutController.cpp in Sources */,
 				6082F4AF1FA737C000B177DA /* Input.cpp in Sources */,
 				604B57821F945A84009DE302 /* Model.cpp in Sources */,
 				604B57A61F98A251009DE302 /* Scene00.cpp in Sources */,
