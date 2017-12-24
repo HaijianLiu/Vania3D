@@ -97,9 +97,9 @@ void Resources::start() {
 	this->loadLightProbe("hdr", "./Assets/Models/InfinityBladeGrassLands/Maps/LevelContent/HDRI/HDRI_Epic_Courtyard_Daylight.HDR");
 	// this->loadLightProbe("hdr", "./Assets/Textures/HDR/test.jpg");
 
-	/* LUT
+	/* default LUT
 	..............................................................................*/
-	this->loadTexture("clut_default_a", "./Assets/Textures/LUT/TX_LUT1.TGA");
+	this->loadTexture("clut_default_a", "./Assets/Textures/LUT/clut_default_a.TGA");
 	Texture::setTexMode(this->getTexture("clut_default_a")->id, TEXTURE_MODE_NEAREST);
 }
 

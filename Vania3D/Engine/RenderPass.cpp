@@ -14,6 +14,8 @@ RenderPass::RenderPass() {
 	this->ssaoShader = game->resources->getShader("ssao_pass");
 	this->combineShader = game->resources->getShader("renderpass_combine");
 	this->lutShader = game->resources->getShader("lut_pass");
+	// default lut
+	this->currentLut = game->resources->getTexture("clut_default_a")->id;
 }
 
 
@@ -244,9 +246,8 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 	this->lutShader->use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, this->combinePass.textures[0]);
-	// glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("screen")->id);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, game->resources->getTexture("clut_default_a")->id);
+	glBindTexture(GL_TEXTURE_2D, this->currentLut);
 	
 	this->quad->draw();
 }
