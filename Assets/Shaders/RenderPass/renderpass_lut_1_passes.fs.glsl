@@ -15,8 +15,8 @@ void main() {
 
 	// lut mapping
 	highp vec2 uvMapping;
-	uvMapping.x = (blueIndex + 1.0 / 32.0 + 15.0 * combineColor.r / 16.0) / 16.0;
-	uvMapping.y = (0.5 + 15.0 * combineColor.g) / 16.0;
+	uvMapping.x = (blueIndex + 0.03125 + 0.9375 * combineColor.r) * 0.0625;
+	uvMapping.y = 0.03125 + 0.9375 * combineColor.g;
 
 	lutPass = vec4(texture(lut, uvMapping).rgb, 1);
 }
