@@ -72,7 +72,7 @@ void Scene03::start() {
 	magic->staticObject = false;
 	Transform* magicTransform = magic->addComponent<Transform>();
 	magicTransform->modelScale = glm::vec3(10 * GLOBAL_SCALE);
-	Offset* magicOffset = magic->addComponent<Offset>();
+	BoneOffset* magicOffset = magic->addComponent<BoneOffset>();
 	magicOffset->parent = playerTransform;
 	magicOffset->offsetPosition = glm::vec3(0, 1, 1);
 	// for test

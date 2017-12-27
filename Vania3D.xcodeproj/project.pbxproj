@@ -20,6 +20,7 @@
 		600E63B81F99F19000F6A34A /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600E63B41F99F19000F6A34A /* MeshRenderer.cpp */; };
 		60132DFD1FA38D5900E71962 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60132DFB1FA38D5900E71962 /* Time.cpp */; };
 		60159E211FB067DE00EDC9CA /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60159E1F1FB067DE00EDC9CA /* Level.cpp */; };
+		601E9EF51FF372EA00C94F8A /* BoneOffset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 601E9EF31FF372EA00C94F8A /* BoneOffset.cpp */; };
 		6024342D1F88D89200DA6CA4 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602434281F88D89200DA6CA4 /* Engine.cpp */; };
 		6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6024342C1F88D89200DA6CA4 /* Window.cpp */; };
 		602434311F88DA2300DA6CA4 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6024342F1F88DA2300DA6CA4 /* Shader.cpp */; };
@@ -115,6 +116,8 @@
 		60132DFC1FA38D5900E71962 /* Time.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
 		60159E1F1FB067DE00EDC9CA /* Level.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Level.cpp; sourceTree = "<group>"; };
 		60159E201FB067DE00EDC9CA /* Level.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Level.hpp; sourceTree = "<group>"; };
+		601E9EF31FF372EA00C94F8A /* BoneOffset.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BoneOffset.cpp; sourceTree = "<group>"; };
+		601E9EF41FF372EA00C94F8A /* BoneOffset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoneOffset.hpp; sourceTree = "<group>"; };
 		602434281F88D89200DA6CA4 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
 		602434291F88D89200DA6CA4 /* Window.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		6024342B1F88D89200DA6CA4 /* Engine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Engine.hpp; sourceTree = "<group>"; };
@@ -343,6 +346,8 @@
 				600E63B61F99F19000F6A34A /* Transform.hpp */,
 				602C98A21FAED44000B69E45 /* Offset.cpp */,
 				602C98A31FAED44000B69E45 /* Offset.hpp */,
+				601E9EF31FF372EA00C94F8A /* BoneOffset.cpp */,
+				601E9EF41FF372EA00C94F8A /* BoneOffset.hpp */,
 				6082F4B01FA9A11200B177DA /* CameraController.cpp */,
 				6082F4B11FA9A11200B177DA /* CameraController.hpp */,
 				6057408C1FADBBFC005B7358 /* PlayerController.cpp */,
@@ -515,6 +520,7 @@
 				600B9A551FB8333900B1F0D5 /* Map.cpp in Sources */,
 				60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */,
 				60FA8C771FB5615200E31651 /* ShadowMapping.cpp in Sources */,
+				601E9EF51FF372EA00C94F8A /* BoneOffset.cpp in Sources */,
 				6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */,
 				606838381FD17360003D8173 /* Scene05.cpp in Sources */,
 				6052D7AE1FEF694900AB7BD1 /* LutController.cpp in Sources */,

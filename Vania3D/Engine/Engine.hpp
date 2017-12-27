@@ -121,6 +121,7 @@ class Scene;
 < Component >
 ------------------------------------------------------------------------------*/
 #include "Offset.hpp"
+#include "BoneOffset.hpp"
 #include "PlayerController.hpp"
 #include "CameraController.hpp"
 
