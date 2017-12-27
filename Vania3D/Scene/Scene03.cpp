@@ -67,6 +67,20 @@ void Scene03::start() {
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 	
+	// magic
+	GameObject* magic = new GameObject();
+	magic->staticObject = false;
+	Transform* magicTransform = magic->addComponent<Transform>();
+	magicTransform->modelScale = glm::vec3(10 * GLOBAL_SCALE);
+	Offset* magicOffset = magic->addComponent<Offset>();
+	magicOffset->parent = playerTransform;
+	magicOffset->offsetPosition = glm::vec3(0, 1, 1);
+	// for test
+	MeshRenderer* magicMeshRenderer = magic->addComponent<MeshRenderer>();
+	magicMeshRenderer->model = game->resources->getModel("sphere");
+	magicMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
+	this->addGameObject("magic", magic);
+	
 	// light
 	GameObject* light[4];
 	for (int i = 0; i < 4; i++) {
