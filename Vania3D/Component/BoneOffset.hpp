@@ -5,20 +5,20 @@
 class BoneOffset : public Component {
 private:
 	std::string boneName;
-	
+	glm::mat4 boneOffset = glm::mat4(1);
+
 	void start();
 	void update();
+
+	void getBoneOffset();
+	void processNode(Node<Bone>* node);
 
 public:
 	GameObject* parent;
 	unsigned int boneIndex = 0;
-	glm::mat4 boneOffset = glm::mat4(1);
 
 	BoneOffset();
 	~BoneOffset();
-	
-	void getBoneOffset();
-	void processNode(Node<Bone>* node);
 };
 
 #endif /* BoneOffset_hpp */
