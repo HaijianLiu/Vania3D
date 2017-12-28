@@ -7,6 +7,7 @@ class Transform : public Component {
 	friend class Map;
 	friend class FrustumCulling;
 	friend class MaterialLayer;
+	friend class BoneOffset;
 
 private:
 	// uniform

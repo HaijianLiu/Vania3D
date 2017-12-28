@@ -10,6 +10,7 @@ class Model {
 	friend class FrustumCulling;
 	friend class MaterialLayer;
 	friend class MeshRenderer;
+	friend class BoneOffset;
 
 private:
 	Node<Bone>* boneNode;
