@@ -67,26 +67,40 @@ void Scene03::start() {
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
 	
-	// magic
-	GameObject* magic[52];
-	Transform* magicTransform[52];
-	BoneOffset* magicOffset[52];
-	MeshRenderer* magicMeshRenderer[52];
+	// magic 52
+//	GameObject* magic[52];
+//	Transform* magicTransform[52];
+//	BoneOffset* magicOffset[52];
+//	MeshRenderer* magicMeshRenderer[52];
+//
+//	for (unsigned int i = 0; i < 52; i++) {
+//		magic[i] = new GameObject();
+//		magic[i]->staticObject = false;
+//		magicTransform[i] = magic[i]->addComponent<Transform>();
+//		magicTransform[i]->modelScale = glm::vec3(20 * GLOBAL_SCALE);
+//		magicOffset[i] = magic[i]->addComponent<BoneOffset>();
+//		magicOffset[i]->parent = player;
+//		magicOffset[i]->boneIndex = i;
+//		// for test
+//		magicMeshRenderer[i] = magic[i]->addComponent<MeshRenderer>();
+//		magicMeshRenderer[i]->model = game->resources->getModel("sphere");
+//		magicMeshRenderer[i]->materials.push_back(game->resources->getMaterial("simple"));
+//		this->addGameObject(("magic" + std::to_string(i)).c_str(), magic[i]);
+//	}
 	
-	for (unsigned int i = 0; i < 52; i++) {
-		magic[i] = new GameObject();
-		magic[i]->staticObject = false;
-		magicTransform[i] = magic[i]->addComponent<Transform>();
-		magicTransform[i]->modelScale = glm::vec3(20 * GLOBAL_SCALE);
-		magicOffset[i] = magic[i]->addComponent<BoneOffset>();
-		magicOffset[i]->parent = player;
-		magicOffset[i]->boneIndex = i;
-		// for test
-		magicMeshRenderer[i] = magic[i]->addComponent<MeshRenderer>();
-		magicMeshRenderer[i]->model = game->resources->getModel("sphere");
-		magicMeshRenderer[i]->materials.push_back(game->resources->getMaterial("simple"));
-		this->addGameObject(("magic" + std::to_string(i)).c_str(), magic[i]);
-	}
+	// magic string
+	GameObject* magic = new GameObject();
+	magic->staticObject = false;
+	Transform* magicTransform = magic->addComponent<Transform>();
+	magicTransform->modelScale = glm::vec3(20 * GLOBAL_SCALE);
+	BoneOffset* magicOffset = magic->addComponent<BoneOffset>();
+	magicOffset->parent = player;
+	magicOffset->boneName = "LeftHandMiddle1";
+	// for test
+	MeshRenderer* magicMeshRenderer = magic->addComponent<MeshRenderer>();
+	magicMeshRenderer->model = game->resources->getModel("sphere");
+	magicMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
+	this->addGameObject("magic", magic);
 	
 	
 	

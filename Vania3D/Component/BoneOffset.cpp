@@ -40,8 +40,10 @@ void BoneOffset::update() {
 < process bone node to find bone offset matrix >
 ------------------------------------------------------------------------------*/
 void BoneOffset::processNode(Node<Bone>* node) {
-	if (node->data->index == this->boneIndex)
-		this->boneOffset =  node->data->offset;
+	if (node->name == this->boneName) {
+		this->boneOffset = node->data->offset;
+		this->boneIndex = node->data->index;
+	}
 	else
 		for (unsigned int i = 0; i < node->children.size(); i++)
 			this->processNode(node->children.at(i));

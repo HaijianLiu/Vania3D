@@ -4,8 +4,6 @@
 
 class BoneOffset : public Component {
 private:
-	std::string boneName;
-
 	glm::mat4 boneOffset = glm::mat4(1);
 	Model* model;
 
@@ -17,6 +15,7 @@ private:
 public:
 	GameObject* parent;
 	unsigned int boneIndex = 0;
+	std::string boneName;
 
 	BoneOffset();
 	~BoneOffset();
