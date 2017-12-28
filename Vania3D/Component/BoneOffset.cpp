@@ -21,7 +21,9 @@ BoneOffset::~BoneOffset() {
 < start >
 ------------------------------------------------------------------------------*/
 void BoneOffset::start() {
-	this->getBoneOffset();
+	this->model = this->parent->getComponent<MeshRenderer>()->model;
+	Node<Bone>* node = this->model->boneNode;
+	this->processNode(node);
 	this->boneOffset = glm::inverse(this->boneOffset);
 }
 
@@ -30,18 +32,13 @@ void BoneOffset::start() {
 < update >
 ------------------------------------------------------------------------------*/
 void BoneOffset::update() {
-	this->gameObject->transform->position = this->parent->transform->model * this->parent->getComponent<MeshRenderer>()->model->pose.at(this->boneIndex) * this->boneOffset * glm::vec4(0,0,0,1);
+	this->gameObject->transform->position = this->parent->transform->model * this->model->pose.at(this->boneIndex) * this->boneOffset * glm::vec4(0,0,0,1);
 }
 
 
 /*------------------------------------------------------------------------------
-< get bone node offset matrix >
+< process bone node to find bone offset matrix >
 ------------------------------------------------------------------------------*/
-void BoneOffset::getBoneOffset() {
-	Node<Bone>* node = this->parent->getComponent<MeshRenderer>()->model->boneNode;
-	this->processNode(node);
-}
-
 void BoneOffset::processNode(Node<Bone>* node) {
 	if (node->data->index == this->boneIndex)
 		this->boneOffset =  node->data->offset;

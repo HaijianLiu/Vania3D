@@ -5,12 +5,13 @@
 class BoneOffset : public Component {
 private:
 	std::string boneName;
+
 	glm::mat4 boneOffset = glm::mat4(1);
+	Model* model;
 
 	void start();
 	void update();
 
-	void getBoneOffset();
 	void processNode(Node<Bone>* node);
 
 public:
