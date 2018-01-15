@@ -61,7 +61,7 @@ void Scene03::start() {
 	
 	// camera
 	Transform* cameraTransform = camera->addComponent<Transform>();
-	cameraTransform->position = glm::vec3(0.0,2.0,4.0);
+	cameraTransform->position = glm::vec3(0.0,1.0,4.0);
 	camera->getComponent<Camera>()->target = cameraTargetTransform;
 	camera->addComponent<FrustumCulling>();
 	this->mainCamera = camera;
