@@ -2,11 +2,6 @@
 #ifndef RenderPipeline_hpp
 #define RenderPipeline_hpp
 
-struct FrameBuffer {
-	unsigned int fbo;
-	std::vector<unsigned int> textures;
-};
-
 class RenderPipeline {
 	friend class Game;
 	friend class Scene;
