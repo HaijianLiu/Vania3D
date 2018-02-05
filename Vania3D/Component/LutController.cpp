@@ -119,27 +119,27 @@ void LutController::update() {
 		this->currentLutIndex ++;
 		if (this->currentLutIndex > this->luts.size() - 1)
 			this->currentLutIndex = 0;
-		this->game->renderPass->currentLut = this->luts.at(this->currentLutIndex);
+		this->game->renderPipeline->currentLut = this->luts.at(this->currentLutIndex);
 	}
 	
 	if (this->game->input->getJoystickTrigger(JOY_LEFT)) {
 		this->currentLutIndex --;
 		if (this->currentLutIndex < 0)
 			this->currentLutIndex = this->luts.size() - 1;
-		this->game->renderPass->currentLut = this->luts.at(this->currentLutIndex);
+		this->game->renderPipeline->currentLut = this->luts.at(this->currentLutIndex);
 	}
 	
 	if (this->game->input->getButtonTrigger(GLFW_KEY_LEFT)) {
 		this->currentLutIndex ++;
 		if (this->currentLutIndex > this->luts.size() - 1)
 			this->currentLutIndex = 0;
-		this->game->renderPass->currentLut = this->luts.at(this->currentLutIndex);
+		this->game->renderPipeline->currentLut = this->luts.at(this->currentLutIndex);
 	}
 	
 	if (this->game->input->getButtonTrigger(GLFW_KEY_RIGHT)) {
 		this->currentLutIndex --;
 		if (this->currentLutIndex < 0)
 			this->currentLutIndex = this->luts.size() - 1;
-		this->game->renderPass->currentLut = this->luts.at(this->currentLutIndex);
+		this->game->renderPipeline->currentLut = this->luts.at(this->currentLutIndex);
 	}
 }

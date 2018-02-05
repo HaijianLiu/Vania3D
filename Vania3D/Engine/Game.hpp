@@ -15,7 +15,7 @@ public:
 	Resources* resources;
 	Input* input;
 	SceneManager* sceneManager;
-	RenderPass* renderPass;
+	RenderPipeline* renderPipeline;
 	ShadowMapping* shadowMapping;
 	Time* time;
 

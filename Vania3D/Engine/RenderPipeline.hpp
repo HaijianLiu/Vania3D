@@ -1,13 +1,13 @@
 
-#ifndef RenderPass_hpp
-#define RenderPass_hpp
+#ifndef RenderPipeline_hpp
+#define RenderPipeline_hpp
 
 struct FrameBuffer {
 	unsigned int fbo;
 	std::vector<unsigned int> textures;
 };
 
-class RenderPass {
+class RenderPipeline {
 	friend class Game;
 	friend class Scene;
 	friend class LutController;
@@ -34,10 +34,10 @@ public:
 	Shader* combineShader;
 	Shader* lutShader;
 
-	RenderPass();
-	~RenderPass();
+	RenderPipeline();
+	~RenderPipeline();
 
 	void start();
 };
 
-#endif /* RenderPass_hpp */
+#endif /* RenderPipeline_hpp */

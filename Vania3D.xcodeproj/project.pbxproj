@@ -25,7 +25,7 @@
 		6024342E1F88D89200DA6CA4 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6024342C1F88D89200DA6CA4 /* Window.cpp */; };
 		602434311F88DA2300DA6CA4 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6024342F1F88DA2300DA6CA4 /* Shader.cpp */; };
 		602434341F88DA7100DA6CA4 /* Resources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602434321F88DA7100DA6CA4 /* Resources.cpp */; };
-		602434371F88DCBC00DA6CA4 /* RenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602434351F88DCBC00DA6CA4 /* RenderPass.cpp */; };
+		602434371F88DCBC00DA6CA4 /* RenderPipeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602434351F88DCBC00DA6CA4 /* RenderPipeline.cpp */; };
 		6024343A1F88E70B00DA6CA4 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602434381F88E70B00DA6CA4 /* Camera.cpp */; };
 		6024343D1F88E79A00DA6CA4 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6024343B1F88E79A00DA6CA4 /* Game.cpp */; };
 		602434421F88EA8600DA6CA4 /* libglfw.3.2.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60070A371F88C83B00AE4BEB /* libglfw.3.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -126,8 +126,8 @@
 		602434301F88DA2300DA6CA4 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
 		602434321F88DA7100DA6CA4 /* Resources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Resources.cpp; sourceTree = "<group>"; };
 		602434331F88DA7100DA6CA4 /* Resources.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Resources.hpp; sourceTree = "<group>"; };
-		602434351F88DCBC00DA6CA4 /* RenderPass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderPass.cpp; sourceTree = "<group>"; };
-		602434361F88DCBC00DA6CA4 /* RenderPass.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };
+		602434351F88DCBC00DA6CA4 /* RenderPipeline.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderPipeline.cpp; sourceTree = "<group>"; };
+		602434361F88DCBC00DA6CA4 /* RenderPipeline.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderPipeline.hpp; sourceTree = "<group>"; };
 		602434381F88E70B00DA6CA4 /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		602434391F88E70B00DA6CA4 /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		6024343B1F88E79A00DA6CA4 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
@@ -288,8 +288,8 @@
 				602434301F88DA2300DA6CA4 /* Shader.hpp */,
 				602434321F88DA7100DA6CA4 /* Resources.cpp */,
 				602434331F88DA7100DA6CA4 /* Resources.hpp */,
-				602434351F88DCBC00DA6CA4 /* RenderPass.cpp */,
-				602434361F88DCBC00DA6CA4 /* RenderPass.hpp */,
+				602434351F88DCBC00DA6CA4 /* RenderPipeline.cpp */,
+				602434361F88DCBC00DA6CA4 /* RenderPipeline.hpp */,
 				600B9A6C1FBADB3C00B1F0D5 /* RenderLayer.cpp */,
 				600B9A6D1FBADB3C00B1F0D5 /* RenderLayer.hpp */,
 				60FA8C751FB5615200E31651 /* ShadowMapping.cpp */,
@@ -527,7 +527,7 @@
 				6082F4AF1FA737C000B177DA /* Input.cpp in Sources */,
 				604B57821F945A84009DE302 /* Model.cpp in Sources */,
 				604B57A61F98A251009DE302 /* Scene00.cpp in Sources */,
-				602434371F88DCBC00DA6CA4 /* RenderPass.cpp in Sources */,
+				602434371F88DCBC00DA6CA4 /* RenderPipeline.cpp in Sources */,
 				609F90701F9EFF2400238D61 /* Bone.cpp in Sources */,
 				6057408E1FADBBFC005B7358 /* PlayerController.cpp in Sources */,
 				60C894E31FCD8CA400CA8C35 /* Scene04.cpp in Sources */,

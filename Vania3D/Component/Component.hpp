@@ -4,7 +4,7 @@
 
 class Component {
 	friend class GameObject;
-	friend class RenderPass;
+	friend class RenderPipeline;
 	friend class Scene;
 
 protected:

@@ -4,7 +4,7 @@
 
 class ShadowMapping {
 	friend class Game;
-	friend class RenderPass;
+	friend class RenderPipeline;
 	friend class Scene;
 	friend class MeshRenderer;
 

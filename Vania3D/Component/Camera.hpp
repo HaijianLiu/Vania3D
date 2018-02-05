@@ -5,7 +5,7 @@
 class Camera : public Component {
 	friend class FrustumCulling;
 	friend class CameraController;
-	friend class RenderPass;
+	friend class RenderPipeline;
 	
 private:
 	// camera attributes

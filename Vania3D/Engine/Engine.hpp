@@ -107,7 +107,7 @@ class Scene;
 
 #include "Resources.hpp"
 #include "RenderLayer.hpp"
-#include "RenderPass.hpp"
+#include "RenderPipeline.hpp"
 #include "ShadowMapping.hpp"
 #include "Camera.hpp"
 #include "FrustumCulling.hpp"

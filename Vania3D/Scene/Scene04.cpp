@@ -193,12 +193,12 @@ void Scene04::start() {
 	game->resources->loadShader("renderpass_combine_scene04", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/RenderPassScene04/renderpass_combine.fs.glsl");
 	game->resources->loadShader("ambient_pass_scene04", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPassScene04/renderpass_ambient_1_passes.fs.glsl");
 	game->resources->loadShader("lighting_pass_scene04", "./Assets/Shaders/Vertex/quad.vs.glsl",  "./Assets/Shaders/RenderPassScene04/renderpass_lighting_1_passes.fs.glsl", "./Assets/Shaders/Functions/cookTorranceBRDF.fs.glsl");
-	delete game->renderPass;
-	game->renderPass = new RenderPass();
-	game->renderPass->combineShader = game->resources->getShader("renderpass_combine_scene04");
-	game->renderPass->ambientShader = game->resources->getShader("ambient_pass_scene04");
-	game->renderPass->lightingShader = game->resources->getShader("lighting_pass_scene04");
-	game->renderPass->start();
+	delete game->renderPipeline;
+	game->renderPipeline = new RenderPipeline();
+	game->renderPipeline->combineShader = game->resources->getShader("renderpass_combine_scene04");
+	game->renderPipeline->ambientShader = game->resources->getShader("ambient_pass_scene04");
+	game->renderPipeline->lightingShader = game->resources->getShader("lighting_pass_scene04");
+	game->renderPipeline->start();
 	
 	// shadow
 	GameObject* shadowTarget = new GameObject();

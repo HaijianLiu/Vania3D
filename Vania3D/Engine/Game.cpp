@@ -21,7 +21,7 @@ Game::~Game() {
 	delete this->window;
 	delete this->resources;
 	delete this->sceneManager;
-	delete this->renderPass;
+	delete this->renderPipeline;
 	delete this->shadowMapping;
 	delete this->time;
 	delete this->input;
@@ -41,9 +41,9 @@ void Game::start() {
 	// resources
 	this->resources->start();
 
-	// render pass
-	this->renderPass = new RenderPass();
-	this->renderPass->start();
+	// render pipeline
+	this->renderPipeline = new RenderPipeline();
+	this->renderPipeline->start();
 	// shadow mapping
 	this->shadowMapping = new ShadowMapping();
 	this->shadowMapping->start();

@@ -4,7 +4,7 @@
 /*------------------------------------------------------------------------------
 < Constructor >
 ------------------------------------------------------------------------------*/
-RenderPass::RenderPass() {
+RenderPipeline::RenderPipeline() {
 	Game* game = Game::getInstance();
 	// default shaders
 	this->lightProbe = game->resources->getLightProbe("hdr"); game->resources->getLightProbe("hdr");
@@ -22,7 +22,7 @@ RenderPass::RenderPass() {
 /*------------------------------------------------------------------------------
 < Desstructor >
 ------------------------------------------------------------------------------*/
-RenderPass::~RenderPass() {
+RenderPipeline::~RenderPipeline() {
 
 }
 
@@ -49,7 +49,7 @@ std::vector<glm::vec3> genSSAOKernel(unsigned int kernelSize) {
 /*------------------------------------------------------------------------------
 < start >
 ------------------------------------------------------------------------------*/
-void RenderPass::start() {
+void RenderPipeline::start() {
 	Game* game = Game::getInstance();
 	this->quad = game->resources->quad;
 	
@@ -155,7 +155,7 @@ void RenderPass::start() {
 /*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
-void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera) {
+void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera) {
 	Game* game = Game::getInstance();
 	int width = game->window->screenWidth;
 	int height = game->window->screenHeight;
@@ -256,7 +256,7 @@ void RenderPass::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vec
 /*------------------------------------------------------------------------------
 < render bounding box >
 ------------------------------------------------------------------------------*/
-void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera) {
+void RenderPipeline::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera) {
 	Game* game = Game::getInstance();
 
 	// bind framebuffer
@@ -289,7 +289,7 @@ void RenderPass::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObj
 /*------------------------------------------------------------------------------
 < create color attachment >
 ------------------------------------------------------------------------------*/
-unsigned int RenderPass::createColorAttachment(GLenum attachment, GLint internalFormat) {
+unsigned int RenderPipeline::createColorAttachment(GLenum attachment, GLint internalFormat) {
 	Game* game = Game::getInstance();
 
 	// create attachment
@@ -322,7 +322,7 @@ unsigned int RenderPass::createColorAttachment(GLenum attachment, GLint internal
 /*------------------------------------------------------------------------------
 < create depth attachment >
 ------------------------------------------------------------------------------*/
-void RenderPass::createDepthAttachment(GLenum internalformat) {
+void RenderPipeline::createDepthAttachment(GLenum internalformat) {
 	Game* game = Game::getInstance();
 
 	unsigned int depthRBO;
@@ -336,7 +336,7 @@ void RenderPass::createDepthAttachment(GLenum internalformat) {
 /*------------------------------------------------------------------------------
 < set draw buffers >
 ------------------------------------------------------------------------------*/
-void RenderPass::drawBuffers(GLsizei n) {
+void RenderPipeline::drawBuffers(GLsizei n) {
 	unsigned int attachments[n];
 	for (unsigned int i = 0; i < n; i++)
 		attachments[i] = GL_COLOR_ATTACHMENT0 + i;
