@@ -35,6 +35,7 @@
 		602434481F88F04600DA6CA4 /* libassimp.3.3.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 602434461F88F03B00DA6CA4 /* libassimp.3.3.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		602C98A41FAED44000B69E45 /* Offset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602C98A21FAED44000B69E45 /* Offset.cpp */; };
 		60315E691FC31A13005D6AE0 /* Billboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60315E671FC31A13005D6AE0 /* Billboard.cpp */; };
+		6046466F2027F22C00FB6591 /* RenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6046466D2027F22C00FB6591 /* RenderPass.cpp */; };
 		604B57821F945A84009DE302 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57801F945A84009DE302 /* Model.cpp */; };
 		604B57851F945A92009DE302 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57831F945A92009DE302 /* Mesh.cpp */; };
 		604B57881F94928A009DE302 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604B57861F94928A009DE302 /* Texture.cpp */; };
@@ -137,6 +138,8 @@
 		602C98A31FAED44000B69E45 /* Offset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Offset.hpp; sourceTree = "<group>"; };
 		60315E671FC31A13005D6AE0 /* Billboard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Billboard.cpp; sourceTree = "<group>"; };
 		60315E681FC31A13005D6AE0 /* Billboard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Billboard.hpp; sourceTree = "<group>"; };
+		6046466D2027F22C00FB6591 /* RenderPass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderPass.cpp; sourceTree = "<group>"; };
+		6046466E2027F22C00FB6591 /* RenderPass.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };
 		604B57801F945A84009DE302 /* Model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		604B57811F945A84009DE302 /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Model.hpp; sourceTree = "<group>"; };
 		604B57831F945A92009DE302 /* Mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
@@ -290,6 +293,8 @@
 				602434331F88DA7100DA6CA4 /* Resources.hpp */,
 				602434351F88DCBC00DA6CA4 /* RenderPipeline.cpp */,
 				602434361F88DCBC00DA6CA4 /* RenderPipeline.hpp */,
+				6046466D2027F22C00FB6591 /* RenderPass.cpp */,
+				6046466E2027F22C00FB6591 /* RenderPass.hpp */,
 				600B9A6C1FBADB3C00B1F0D5 /* RenderLayer.cpp */,
 				600B9A6D1FBADB3C00B1F0D5 /* RenderLayer.hpp */,
 				60FA8C751FB5615200E31651 /* ShadowMapping.cpp */,
@@ -519,6 +524,7 @@
 				604B579F1F973FBC009DE302 /* Quad.cpp in Sources */,
 				600B9A551FB8333900B1F0D5 /* Map.cpp in Sources */,
 				60E579FB1FA0BB9B00690EC1 /* Keyframe.cpp in Sources */,
+				6046466F2027F22C00FB6591 /* RenderPass.cpp in Sources */,
 				60FA8C771FB5615200E31651 /* ShadowMapping.cpp in Sources */,
 				601E9EF51FF372EA00C94F8A /* BoneOffset.cpp in Sources */,
 				6082F4B21FA9A11200B177DA /* CameraController.cpp in Sources */,
