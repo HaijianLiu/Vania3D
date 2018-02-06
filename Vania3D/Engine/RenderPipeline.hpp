@@ -11,9 +11,7 @@ private:
 	Quad* quad;
 	std::vector<RenderPass*> renderPasses;
 	
-
 	
-//	FrameBuffer deferredPass, fxPass, ambientPass, lightingPass, shadowPass, ssaoPass, combinePass;
 	unsigned int currentLut;
 
 	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
@@ -26,11 +24,7 @@ public:
 	
 	// render pass setting
 	LightProbe* lightProbe;
-//	Shader* ambientShader;
-//	Shader* lightingShader;
-//	Shader* shadowShader;
-//	Shader* ssaoShader;
-//	Shader* combineShader;
+
 	Shader* lutShader;
 
 	RenderPipeline();
