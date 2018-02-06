@@ -8,12 +8,8 @@ struct FrameBuffer {
 };
 
 class RenderPass {
-	friend class Game;
-	friend class Scene;
-	friend class LutController;
 	friend class RenderPipeline;
 	
-private:
 	std::string name;
 	Shader* shader;
 	FrameBuffer frameBuffer;

@@ -43,6 +43,7 @@ RenderPipeline::~RenderPipeline() {
 < start >
 ------------------------------------------------------------------------------*/
 void RenderPipeline::start() {
+	// init engine members
 	this->game = Game::getInstance();
 	this->quad = game->resources->quad;
 	
