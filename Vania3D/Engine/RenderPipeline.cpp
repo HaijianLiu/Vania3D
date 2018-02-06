@@ -43,9 +43,8 @@ RenderPipeline::~RenderPipeline() {
 < start >
 ------------------------------------------------------------------------------*/
 void RenderPipeline::start() {
-	Game* game = Game::getInstance();
+	this->game = Game::getInstance();
 	this->quad = game->resources->quad;
-	
 	
 	// deferred pass
 	RenderPass* deferredPass = new RenderPass("deferredPass");
@@ -66,7 +65,7 @@ void RenderPipeline::start() {
 
 	// ambient pass
 	RenderPass* ambientPass = new RenderPass("ambientPass");
-	ambientPass->shader = game->resources->getShader("ambient_pass");
+	ambientPass->shader = this->game->resources->getShader("ambient_pass");
 	ambientPass->shader->use();
 	ambientPass->shader->setInt("albedoPass", 0);
 	ambientPass->shader->setInt("normalPass", 1);
@@ -81,7 +80,7 @@ void RenderPipeline::start() {
 
 	// lighting pass
 	RenderPass* lightingPass = new RenderPass("lightingPass");
-	lightingPass->shader = game->resources->getShader("lighting_pass");
+	lightingPass->shader = this->game->resources->getShader("lighting_pass");
 	lightingPass->shader->use();
 	lightingPass->shader->setInt("albedoPass", 0);
 	lightingPass->shader->setInt("normalPass", 1);
@@ -93,7 +92,7 @@ void RenderPipeline::start() {
 
 	// shadow pass
 	RenderPass* shadowPass = new RenderPass("shadowPass");
-	shadowPass->shader = game->resources->getShader("shadow_pass");
+	shadowPass->shader = this->game->resources->getShader("shadow_pass");
 	shadowPass->shader->use();
 	shadowPass->shader->setInt("normalPass", 1);
 	shadowPass->shader->setInt("positionPass", 3);
@@ -104,7 +103,7 @@ void RenderPipeline::start() {
 
 	// ssao pass
 	RenderPass* ssaoPass = new RenderPass("ssaoPass");
-	ssaoPass->shader = game->resources->getShader("ssao_pass");
+	ssaoPass->shader = this->game->resources->getShader("ssao_pass");
 	ssaoPass->shader->use();
 	ssaoPass->shader->setInt("normalPass", 1);
 	ssaoPass->shader->setInt("positionPass", 3);
@@ -117,7 +116,7 @@ void RenderPipeline::start() {
 
 	// combine pass
 	RenderPass* combinePass = new RenderPass("combinePass");
-	combinePass->shader = game->resources->getShader("renderpass_combine");
+	combinePass->shader = this->game->resources->getShader("renderpass_combine");
 	combinePass->shader->use();
 	combinePass->shader->setInt("mrcPass", 2);
 	combinePass->shader->setInt("fxPass", 4);
@@ -132,12 +131,12 @@ void RenderPipeline::start() {
 
 
 	
-	this->lightProbe = game->resources->getLightProbe("hdr");
+	this->lightProbe = this->game->resources->getLightProbe("hdr");
 
 
-	this->lutShader = game->resources->getShader("lut_pass");
+	this->lutShader = this->game->resources->getShader("lut_pass");
 	// default lut
-	this->currentLut = game->resources->getTexture("clut_default_a")->id;
+	this->currentLut = this->game->resources->getTexture("clut_default_a")->id;
 	
 	// hdr
 	glActiveTexture(GL_TEXTURE10);
@@ -164,9 +163,9 @@ void RenderPipeline::addRenderPass(RenderPass* renderPass) {
 < render >
 ------------------------------------------------------------------------------*/
 void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera) {
-	Game* game = Game::getInstance();
-	int width = game->window->screenWidth;
-	int height = game->window->screenHeight;
+
+	int width = this->game->window->screenWidth;
+	int height = this->game->window->screenHeight;
 
 	// deferred pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[0]->frameBuffer.fbo);
@@ -199,7 +198,7 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->renderPasses[2]->shader->use();
 	this->renderPasses[2]->shader->setVec3("cameraPosition", camera->transform->position);
-	game->resources->quad->draw();
+	this->quad->draw();
 
 	// lighting pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[3]->frameBuffer.fbo);
@@ -216,7 +215,7 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 		}
 	}
 	this->renderPasses[3]->shader->setInt("lightSize", lightSize);
-	game->resources->quad->draw();
+	this->quad->draw();
 
 	// shadow pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[4]->frameBuffer.fbo);
@@ -225,7 +224,7 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	this->renderPasses[4]->shader->setMat4("lightSpaceMatrix", game->shadowMapping->lightSpace);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
-	game->resources->quad->draw();
+	this->quad->draw();
 
 	// ssao pass
 	Camera* cameraComponent = camera->getComponent<Camera>();
@@ -235,7 +234,7 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	glm::mat4 normalMatrix = glm::transpose(glm::inverse(glm::mat3(cameraComponent->view)));
 	this->renderPasses[5]->shader->setMat4("normalMatrix", normalMatrix);
 	cameraComponent->setUniforms(this->renderPasses[5]->shader);
-	game->resources->quad->draw();
+	this->quad->draw();
 
 	// combine pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[6]->frameBuffer.fbo);

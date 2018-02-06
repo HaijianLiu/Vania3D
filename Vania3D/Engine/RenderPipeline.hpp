@@ -9,6 +9,7 @@ class RenderPipeline {
 
 private:
 	Quad* quad;
+	Game* game;
 	std::vector<RenderPass*> renderPasses;
 	
 	
