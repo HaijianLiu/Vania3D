@@ -1,38 +1,13 @@
 
 #include "Engine.hpp"
 
-/*------------------------------------------------------------------------------
-< Constructor >
-------------------------------------------------------------------------------*/
-RenderPipeline::RenderPipeline() {
-	Game* game = Game::getInstance();
-	// default shaders
-	this->lightProbe = game->resources->getLightProbe("hdr"); game->resources->getLightProbe("hdr");
-	this->shadowShader = game->resources->getShader("shadow_pass");
-	this->ambientShader = game->resources->getShader("ambient_pass");
-	this->lightingShader = game->resources->getShader("lighting_pass");
-	this->ssaoShader = game->resources->getShader("ssao_pass");
-	this->combineShader = game->resources->getShader("renderpass_combine");
-	this->lutShader = game->resources->getShader("lut_pass");
-	// default lut
-	this->currentLut = game->resources->getTexture("clut_default_a")->id;
-}
-
-
-/*------------------------------------------------------------------------------
-< Desstructor >
-------------------------------------------------------------------------------*/
-RenderPipeline::~RenderPipeline() {
-
-}
-
 std::vector<glm::vec3> genSSAOKernel(unsigned int kernelSize) {
-
+	
 	std::vector<glm::vec3> ssaoKernel;
-
+	
 	std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
 	std::default_random_engine generator;
-
+	
 	for (unsigned int i = 0; i < kernelSize; ++i) {
 		glm::vec3 sample(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, randomFloats(generator));
 		sample = glm::normalize(sample);
@@ -46,12 +21,123 @@ std::vector<glm::vec3> genSSAOKernel(unsigned int kernelSize) {
 	return ssaoKernel;
 }
 
+
+
+/*------------------------------------------------------------------------------
+< Constructor >
+------------------------------------------------------------------------------*/
+RenderPipeline::RenderPipeline() {
+
+}
+
+
+/*------------------------------------------------------------------------------
+< Desstructor >
+------------------------------------------------------------------------------*/
+RenderPipeline::~RenderPipeline() {
+
+}
+
+
 /*------------------------------------------------------------------------------
 < start >
 ------------------------------------------------------------------------------*/
 void RenderPipeline::start() {
 	Game* game = Game::getInstance();
 	this->quad = game->resources->quad;
+	
+	
+	// deferred pass
+	RenderPass* deferredPass = new RenderPass("deferredPass");
+	deferredPass->addColorAttachment(GL_RGB);
+	deferredPass->addColorAttachment(GL_RGB16F);
+	deferredPass->addColorAttachment(GL_RGB);
+	deferredPass->addColorAttachment(GL_RGB16F);
+	deferredPass->addDepthAttachment(GL_DEPTH_COMPONENT24);
+	deferredPass->start();
+	this->addRenderPass(deferredPass); // 0
+	
+	// fx pass
+	RenderPass* fxPass = new RenderPass("fxPass");
+	fxPass->addColorAttachment(GL_RGB);
+	fxPass->addDepthAttachment(GL_DEPTH_COMPONENT24);
+	fxPass->start();
+	this->addRenderPass(fxPass); // 1
+
+	// ambient pass
+	RenderPass* ambientPass = new RenderPass("ambientPass");
+	ambientPass->shader = game->resources->getShader("ambient_pass");
+	ambientPass->shader->use();
+	ambientPass->shader->setInt("albedoPass", 0);
+	ambientPass->shader->setInt("normalPass", 1);
+	ambientPass->shader->setInt("mrcPass", 2);
+	ambientPass->shader->setInt("positionPass", 3);
+	ambientPass->shader->setInt("irradianceMap", 10);
+	ambientPass->shader->setInt("prefilterMap", 11);
+	ambientPass->shader->setInt("brdfLUT", 12);
+	ambientPass->addColorAttachment(GL_RGB);
+	ambientPass->start();
+	this->addRenderPass(ambientPass); // 2
+
+	// lighting pass
+	RenderPass* lightingPass = new RenderPass("lightingPass");
+	lightingPass->shader = game->resources->getShader("lighting_pass");
+	lightingPass->shader->use();
+	lightingPass->shader->setInt("albedoPass", 0);
+	lightingPass->shader->setInt("normalPass", 1);
+	lightingPass->shader->setInt("mrcPass", 2);
+	lightingPass->shader->setInt("positionPass", 3);
+	lightingPass->addColorAttachment(GL_RGB);
+	lightingPass->start();
+	this->addRenderPass(lightingPass); // 3
+
+	// shadow pass
+	RenderPass* shadowPass = new RenderPass("shadowPass");
+	shadowPass->shader = game->resources->getShader("shadow_pass");
+	shadowPass->shader->use();
+	shadowPass->shader->setInt("normalPass", 1);
+	shadowPass->shader->setInt("positionPass", 3);
+	shadowPass->shader->setInt("shadowMap", 4);
+	shadowPass->addColorAttachment(GL_RED);
+	shadowPass->start();
+	this->addRenderPass(shadowPass); // 4
+
+	// ssao pass
+	RenderPass* ssaoPass = new RenderPass("ssaoPass");
+	ssaoPass->shader = game->resources->getShader("ssao_pass");
+	ssaoPass->shader->use();
+	ssaoPass->shader->setInt("normalPass", 1);
+	ssaoPass->shader->setInt("positionPass", 3);
+	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
+	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
+		ssaoPass->shader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
+	ssaoPass->addColorAttachment(GL_RED);
+	ssaoPass->start();
+	this->addRenderPass(ssaoPass); // 5
+
+	// combine pass
+	RenderPass* combinePass = new RenderPass("combinePass");
+	combinePass->shader = game->resources->getShader("renderpass_combine");
+	combinePass->shader->use();
+	combinePass->shader->setInt("mrcPass", 2);
+	combinePass->shader->setInt("fxPass", 4);
+	combinePass->shader->setInt("ambientPass", 5);
+	combinePass->shader->setInt("lightingPass", 6);
+	combinePass->shader->setInt("shadowPass", 7);
+	combinePass->shader->setInt("ssaoPass", 8);
+	combinePass->addColorAttachment(GL_RGB);
+	combinePass->start();
+	this->addRenderPass(combinePass); // 6
+	
+
+
+	
+	this->lightProbe = game->resources->getLightProbe("hdr");
+
+
+	this->lutShader = game->resources->getShader("lut_pass");
+	// default lut
+	this->currentLut = game->resources->getTexture("clut_default_a")->id;
 	
 	// hdr
 	glActiveTexture(GL_TEXTURE10);
@@ -60,95 +146,17 @@ void RenderPipeline::start() {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, this->lightProbe->prefilter);
 	glActiveTexture(GL_TEXTURE12);
 	glBindTexture(GL_TEXTURE_2D, this->lightProbe->brdf);
-
-	// deferred pass
-	glGenFramebuffers(1, &this->deferredPass.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->deferredPass.fbo);
-	this->deferredPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
-	this->deferredPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT1, GL_RGB16F));
-	this->deferredPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT2, GL_RGB));
-	this->deferredPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT3, GL_RGB16F));
-	drawBuffers(4);
-	createDepthAttachment(GL_DEPTH_COMPONENT24);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// fx pass
-	glGenFramebuffers(1, &this->fxPass.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->fxPass.fbo);
-	this->fxPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
-	drawBuffers(1);
-	createDepthAttachment(GL_DEPTH_COMPONENT24);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// ambient pass
-	glGenFramebuffers(1, &this->ambientPass.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->ambientPass.fbo);
-	this->ambientPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
-	drawBuffers(1);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->ambientShader->use();
-	this->ambientShader->setInt("albedoPass", 0);
-	this->ambientShader->setInt("normalPass", 1);
-	this->ambientShader->setInt("mrcPass", 2);
-	this->ambientShader->setInt("positionPass", 3);
-	this->ambientShader->setInt("irradianceMap", 10);
-	this->ambientShader->setInt("prefilterMap", 11);
-	this->ambientShader->setInt("brdfLUT", 12);
-
-	// lighting pass
-	glGenFramebuffers(1, &this->lightingPass.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
-	this->lightingPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
-	drawBuffers(1);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->lightingShader->use();
-	this->lightingShader->setInt("albedoPass", 0);
-	this->lightingShader->setInt("normalPass", 1);
-	this->lightingShader->setInt("mrcPass", 2);
-	this->lightingShader->setInt("positionPass", 3);
-
-	// shadow pass
-	glGenFramebuffers(1, &this->shadowPass.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->shadowPass.fbo);
-	this->shadowPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RED));
-	drawBuffers(1);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->shadowShader->use();
-	this->shadowShader->setInt("normalPass", 1);
-	this->shadowShader->setInt("positionPass", 3);
-	this->shadowShader->setInt("shadowMap", 4);
-
-	// ssao pass
-	glGenFramebuffers(1, &this->ssaoPass.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->ssaoPass.fbo);
-	this->ssaoPass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RED));
-	drawBuffers(1);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->ssaoShader->use();
-	this->ssaoShader->setInt("normalPass", 1);
-	this->ssaoShader->setInt("positionPass", 3);
-	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
-	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
-		this->ssaoShader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
-
-	// combine pass
-	glGenFramebuffers(1, &this->combinePass.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->combinePass.fbo);
-	this->combinePass.textures.push_back(createColorAttachment(GL_COLOR_ATTACHMENT0, GL_RGB));
-	drawBuffers(1);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	this->combineShader->use();
-	this->combineShader->setInt("mrcPass", 2);
-	this->combineShader->setInt("fxPass", 4);
-	this->combineShader->setInt("ambientPass", 5);
-	this->combineShader->setInt("lightingPass", 6);
-	this->combineShader->setInt("shadowPass", 7);
-	this->combineShader->setInt("ssaoPass", 8);
+	
+	
 	
 	// lut pass
 	this->lutShader->use();
 	this->lutShader->setInt("combinePass", 0);
 	this->lutShader->setInt("lut", 1);
+}
+
+void RenderPipeline::addRenderPass(RenderPass* renderPass) {
+	this->renderPasses.push_back(renderPass);
 }
 
 
@@ -161,12 +169,12 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	int height = game->window->screenHeight;
 
 	// deferred pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->deferredPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[0]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	renderLayer->render(camera);
 
 	// fx pass
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->fxPass.fbo);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->renderPasses[1]->frameBuffer.fbo);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBlendFunc(GL_ONE, GL_ONE);
@@ -176,76 +184,88 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// active g-buffer textures
-	for (unsigned int i = 0; i < this->deferredPass.textures.size(); i++) {
+	for (unsigned int i = 0; i < this->renderPasses[0]->frameBuffer.textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, this->deferredPass.textures[i]);
+		glBindTexture(GL_TEXTURE_2D, this->renderPasses[0]->frameBuffer.textures[i]);
 	}
+	
+	
+	
+	
+	
 
 	// ambient pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->ambientPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[2]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->ambientShader->use();
-	this->ambientShader->setVec3("cameraPosition", camera->transform->position);
+	this->renderPasses[2]->shader->use();
+	this->renderPasses[2]->shader->setVec3("cameraPosition", camera->transform->position);
 	game->resources->quad->draw();
 
 	// lighting pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->lightingPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[3]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->lightingShader->use();
-	this->lightingShader->setVec3("cameraPosition", camera->transform->position);
+	this->renderPasses[3]->shader->use();
+	this->renderPasses[3]->shader->setVec3("cameraPosition", camera->transform->position);
 	int lightSize = 0;
 	for (unsigned int i = 0; i < pointLights->size(); i++) {
 		if (!pointLights->at(i)->culling) {
-			this->lightingShader->setVec3(("lightColor[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
-			this->lightingShader->setVec3(("lightPosition[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->gameObject->transform->position);
-			this->lightingShader->setFloat(("lightRadius[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->radius);
+			this->renderPasses[3]->shader->setVec3(("lightColor[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
+			this->renderPasses[3]->shader->setVec3(("lightPosition[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->gameObject->transform->position);
+			this->renderPasses[3]->shader->setFloat(("lightRadius[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->radius);
 			lightSize++;
 		}
 	}
-	this->lightingShader->setInt("lightSize", lightSize);
+	this->renderPasses[3]->shader->setInt("lightSize", lightSize);
 	game->resources->quad->draw();
 
 	// shadow pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->shadowPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[4]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->shadowShader->use();
-	this->shadowShader->setMat4("lightSpaceMatrix", game->shadowMapping->lightSpace);
+	this->renderPasses[4]->shader->use();
+	this->renderPasses[4]->shader->setMat4("lightSpaceMatrix", game->shadowMapping->lightSpace);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
 	game->resources->quad->draw();
 
 	// ssao pass
 	Camera* cameraComponent = camera->getComponent<Camera>();
-	glBindFramebuffer(GL_FRAMEBUFFER, this->ssaoPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[5]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->ssaoShader->use();
+	this->renderPasses[5]->shader->use();
 	glm::mat4 normalMatrix = glm::transpose(glm::inverse(glm::mat3(cameraComponent->view)));
-	this->ssaoShader->setMat4("normalMatrix", normalMatrix);
-	cameraComponent->setUniforms(this->ssaoShader);
+	this->renderPasses[5]->shader->setMat4("normalMatrix", normalMatrix);
+	cameraComponent->setUniforms(this->renderPasses[5]->shader);
 	game->resources->quad->draw();
 
 	// combine pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->combinePass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[6]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->combineShader->use();
+	this->renderPasses[6]->shader->use();
 	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, this->fxPass.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->renderPasses[1]->frameBuffer.textures[0]); // fx
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, this->ambientPass.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->renderPasses[2]->frameBuffer.textures[0]); // ambient
 	glActiveTexture(GL_TEXTURE6);
-	glBindTexture(GL_TEXTURE_2D, this->lightingPass.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->renderPasses[3]->frameBuffer.textures[0]); // lighting
 	glActiveTexture(GL_TEXTURE7);
-	glBindTexture(GL_TEXTURE_2D, this->shadowPass.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->renderPasses[4]->frameBuffer.textures[0]); // shadow
 	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_2D, this->ssaoPass.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->renderPasses[5]->frameBuffer.textures[0]); // ssao
 	this->quad->draw();
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
+	
+	
+	
+	
+	
+	
+	
 	// lut pass
 	this->lutShader->use();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, this->combinePass.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->renderPasses[6]->frameBuffer.textures[0]);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, this->currentLut);
 	
@@ -260,7 +280,7 @@ void RenderPipeline::renderBounding(std::vector<MeshRenderer*>* renderQueue, Gam
 	Game* game = Game::getInstance();
 
 	// bind framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, this->deferredPass.fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[0]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// render bounding box in line mode
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -279,66 +299,9 @@ void RenderPipeline::renderBounding(std::vector<MeshRenderer*>* renderQueue, Gam
 	// bind shader
 	game->resources->getShader("renderpass_color_1_passes")->use();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, this->deferredPass.textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->renderPasses[0]->frameBuffer.textures[0]);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	this->quad->draw();
 }
 
-
-/*------------------------------------------------------------------------------
-< create color attachment >
-------------------------------------------------------------------------------*/
-unsigned int RenderPipeline::createColorAttachment(GLenum attachment, GLint internalFormat) {
-	Game* game = Game::getInstance();
-
-	// create attachment
-	unsigned int colorAttachment;
-	glGenTextures(1, &colorAttachment);
-	glBindTexture(GL_TEXTURE_2D, colorAttachment);
-
-	if (internalFormat == GL_RGB)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	else if (internalFormat == GL_RGB16F)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
-	else if (internalFormat == GL_RGB32F)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, game->window->screenWidth, game->window->screenHeight, 0, GL_RGB, GL_FLOAT, NULL);
-	else if (internalFormat == GL_RED)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, game->window->screenWidth, game->window->screenHeight, 0, GL_RED, GL_FLOAT, NULL);
-	else return -1;
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	// attach texture to framebuffer
-	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, colorAttachment, 0);
-
-	return colorAttachment;
-}
-
-
-/*------------------------------------------------------------------------------
-< create depth attachment >
-------------------------------------------------------------------------------*/
-void RenderPipeline::createDepthAttachment(GLenum internalformat) {
-	Game* game = Game::getInstance();
-
-	unsigned int depthRBO;
-	glGenRenderbuffers(1, &depthRBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, internalformat, game->window->screenWidth, game->window->screenHeight);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
-}
-
-
-/*------------------------------------------------------------------------------
-< set draw buffers >
-------------------------------------------------------------------------------*/
-void RenderPipeline::drawBuffers(GLsizei n) {
-	unsigned int attachments[n];
-	for (unsigned int i = 0; i < n; i++)
-		attachments[i] = GL_COLOR_ATTACHMENT0 + i;
-	glDrawBuffers(n, attachments);
-}

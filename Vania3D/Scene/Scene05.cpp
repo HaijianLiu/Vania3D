@@ -96,6 +96,7 @@ void Scene05::start() {
 	
 	
 	// renderpass
+	/*
 	delete game->renderPipeline;
 	game->renderPipeline = new RenderPipeline();
 	game->resources->loadShader("renderpass_combine_scene04", "./Assets/Shaders/Vertex/quad.vs.glsl", "./Assets/Shaders/RenderPassScene04/renderpass_combine.fs.glsl");
@@ -105,6 +106,7 @@ void Scene05::start() {
 	game->renderPipeline->ambientShader = game->resources->getShader("ambient_pass_scene04");
 	game->renderPipeline->lightingShader = game->resources->getShader("lighting_pass_scene04");
 	game->renderPipeline->start();
+	*/
 	
 	// shadow
 	GameObject* shadowTarget = new GameObject();

@@ -9,24 +9,28 @@ class RenderPipeline {
 
 private:
 	Quad* quad;
-	FrameBuffer deferredPass, fxPass, ambientPass, lightingPass, shadowPass, ssaoPass, combinePass;
+	std::vector<RenderPass*> renderPasses;
+	
+
+	
+//	FrameBuffer deferredPass, fxPass, ambientPass, lightingPass, shadowPass, ssaoPass, combinePass;
 	unsigned int currentLut;
 
 	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
 	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
-	static unsigned int createColorAttachment(GLenum attachment, GLint internalFormat);
-	static void createDepthAttachment(GLenum internalformat);
-	static void drawBuffers(GLsizei n);
-
 public:
+	void addRenderPass(RenderPass* renderPass);
+	
+	
+	
 	// render pass setting
 	LightProbe* lightProbe;
-	Shader* ambientShader;
-	Shader* lightingShader;
-	Shader* shadowShader;
-	Shader* ssaoShader;
-	Shader* combineShader;
+//	Shader* ambientShader;
+//	Shader* lightingShader;
+//	Shader* shadowShader;
+//	Shader* ssaoShader;
+//	Shader* combineShader;
 	Shader* lutShader;
 
 	RenderPipeline();
