@@ -188,4 +188,7 @@ glm::mat4 assignment(const aiMatrix4x4& assimpMatrix);
 glm::mat4 assignment(const aiMatrix3x3& assimpMatrix);
 
 
+std::vector<glm::vec3> genSSAOKernel(unsigned int kernelSize);
+
+
 #endif /* Engine_hpp */

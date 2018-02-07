@@ -11,7 +11,7 @@ class RenderPass {
 	friend class RenderPipeline;
 	
 	std::string name;
-	Shader* shader;
+
 	FrameBuffer frameBuffer;
 	std::vector<GLint> colorAttachments;
 	std::vector<GLenum> depthAttachments;
@@ -20,11 +20,14 @@ class RenderPass {
 	static void createDepthAttachment(GLenum internalformat);
 	static void drawBuffers(GLsizei n);
 	
-	void start();
+
 
 public:
 	RenderPass(std::string name);
 	~RenderPass();
+	
+		void start();
+		Shader* shader;
 	
 	void addColorAttachment(GLint internalFormat);
 	void addDepthAttachment(GLenum internalFormat);
