@@ -24,7 +24,6 @@ void Scene03::start() {
 	Game* game = Game::getInstance();
 	Resources* resources = game->resources;
 	
-	
 	// deferred pass 0
 	RenderPass* deferredPass = new RenderPass("deferredPass");
 	deferredPass->addColorAttachment(GL_RGB);
@@ -41,63 +40,69 @@ void Scene03::start() {
 	game->renderPipeline->addRenderPass(fxPass);
 	
 	// ambient pass 2
+
 	RenderPass* ambientPass = new RenderPass("ambientPass");
-	ambientPass->shader = this->game->resources->getShader("ambient_pass");
-	ambientPass->shader->use();
-	ambientPass->shader->setInt("albedoPass", 0);
-	ambientPass->shader->setInt("normalPass", 1);
-	ambientPass->shader->setInt("mrcPass", 2);
-	ambientPass->shader->setInt("positionPass", 3);
-	ambientPass->shader->setInt("irradianceMap", 10);
-	ambientPass->shader->setInt("prefilterMap", 11);
-	ambientPass->shader->setInt("brdfLUT", 12);
 	ambientPass->addColorAttachment(GL_RGB);
+	Shader* ambientShader = this->game->resources->getShader("ambient_pass");
+	ambientShader->use();
+	ambientShader->setInt("albedoPass", 0);
+	ambientShader->setInt("normalPass", 1);
+	ambientShader->setInt("mrcPass", 2);
+	ambientShader->setInt("positionPass", 3);
+	ambientShader->setInt("irradianceMap", 10);
+	ambientShader->setInt("prefilterMap", 11);
+	ambientShader->setInt("brdfLUT", 12);
+	ambientPass->addShader(ambientShader);
 	game->renderPipeline->addRenderPass(ambientPass);
 	
 	// lighting pass 3
 	RenderPass* lightingPass = new RenderPass("lightingPass");
-	lightingPass->shader = this->game->resources->getShader("lighting_pass");
-	lightingPass->shader->use();
-	lightingPass->shader->setInt("albedoPass", 0);
-	lightingPass->shader->setInt("normalPass", 1);
-	lightingPass->shader->setInt("mrcPass", 2);
-	lightingPass->shader->setInt("positionPass", 3);
 	lightingPass->addColorAttachment(GL_RGB);
+	Shader* lightingShader = this->game->resources->getShader("lighting_pass");
+	lightingShader->use();
+	lightingShader->setInt("albedoPass", 0);
+	lightingShader->setInt("normalPass", 1);
+	lightingShader->setInt("mrcPass", 2);
+	lightingShader->setInt("positionPass", 3);
+	lightingPass->addShader(lightingShader);
 	game->renderPipeline->addRenderPass(lightingPass);
 	
 	// shadow pass 4
 	RenderPass* shadowPass = new RenderPass("shadowPass");
-	shadowPass->shader = this->game->resources->getShader("shadow_pass");
-	shadowPass->shader->use();
-	shadowPass->shader->setInt("normalPass", 1);
-	shadowPass->shader->setInt("positionPass", 3);
-	shadowPass->shader->setInt("shadowMap", 4);
 	shadowPass->addColorAttachment(GL_RED);
+	Shader* shadowShader = this->game->resources->getShader("shadow_pass");
+	shadowShader->use();
+	shadowShader->setInt("normalPass", 1);
+	shadowShader->setInt("positionPass", 3);
+	shadowShader->setInt("shadowMap", 4);
+	shadowPass->addShader(shadowShader);
 	game->renderPipeline->addRenderPass(shadowPass);
 	
 	// ssao pass 5
 	RenderPass* ssaoPass = new RenderPass("ssaoPass");
-	ssaoPass->shader = this->game->resources->getShader("ssao_pass");
-	ssaoPass->shader->use();
-	ssaoPass->shader->setInt("normalPass", 1);
-	ssaoPass->shader->setInt("positionPass", 3);
+	ssaoPass->addColorAttachment(GL_RED);
+	Shader* ssaoShader = this->game->resources->getShader("ssao_pass");
+	ssaoShader->use();
+	ssaoShader->setInt("normalPass", 1);
+	ssaoShader->setInt("positionPass", 3);
 	std::vector<glm::vec3> ssaoKernel = genSSAOKernel(4);
 	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
-		ssaoPass->shader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
-	ssaoPass->addColorAttachment(GL_RED);
+		ssaoShader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
+	ssaoPass->addShader(ssaoShader);
 	game->renderPipeline->addRenderPass(ssaoPass);
 	
 	// combine pass 6
 	RenderPass* combinePass = new RenderPass("combinePass");
-	combinePass->shader = this->game->resources->getShader("renderpass_combine");
-	combinePass->shader->use();
-	combinePass->shader->setInt("mrcPass", 2);
-	combinePass->shader->setInt("fxPass", 4);
-	combinePass->shader->setInt("ambientPass", 5);
-	combinePass->shader->setInt("lightingPass", 6);
-	combinePass->shader->setInt("shadowPass", 7);
-	combinePass->shader->setInt("ssaoPass", 8);
 	combinePass->addColorAttachment(GL_RGB);
+	Shader* combineShader = this->game->resources->getShader("renderpass_combine");
+	combineShader->use();
+	combineShader->setInt("mrcPass", 2);
+	combineShader->setInt("fxPass", 4);
+	combineShader->setInt("ambientPass", 5);
+	combineShader->setInt("lightingPass", 6);
+	combineShader->setInt("shadowPass", 7);
+	combineShader->setInt("ssaoPass", 8);
+	combinePass->addShader(combineShader);
 	game->renderPipeline->addRenderPass(combinePass);
 
 	
