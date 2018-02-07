@@ -14,7 +14,7 @@ RenderPipeline::RenderPipeline() {
 < Desstructor >
 ------------------------------------------------------------------------------*/
 RenderPipeline::~RenderPipeline() {
-
+	deleteVector(this->renderPasses);
 }
 
 
