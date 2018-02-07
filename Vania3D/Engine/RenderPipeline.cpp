@@ -47,7 +47,7 @@ void RenderPipeline::start() {
 	this->game = Game::getInstance();
 	this->quad = game->resources->quad;
 	
-	// deferred pass
+	// deferred pass 0
 	RenderPass* deferredPass = new RenderPass("deferredPass");
 	deferredPass->addColorAttachment(GL_RGB);
 	deferredPass->addColorAttachment(GL_RGB16F);
@@ -55,16 +55,16 @@ void RenderPipeline::start() {
 	deferredPass->addColorAttachment(GL_RGB16F);
 	deferredPass->addDepthAttachment(GL_DEPTH_COMPONENT24);
 	deferredPass->start();
-	this->addRenderPass(deferredPass); // 0
+	this->addRenderPass(deferredPass);
 	
-	// fx pass
+	// fx pass 1
 	RenderPass* fxPass = new RenderPass("fxPass");
 	fxPass->addColorAttachment(GL_RGB);
 	fxPass->addDepthAttachment(GL_DEPTH_COMPONENT24);
 	fxPass->start();
-	this->addRenderPass(fxPass); // 1
+	this->addRenderPass(fxPass);
 
-	// ambient pass
+	// ambient pass 2
 	RenderPass* ambientPass = new RenderPass("ambientPass");
 	ambientPass->shader = this->game->resources->getShader("ambient_pass");
 	ambientPass->shader->use();
@@ -77,9 +77,9 @@ void RenderPipeline::start() {
 	ambientPass->shader->setInt("brdfLUT", 12);
 	ambientPass->addColorAttachment(GL_RGB);
 	ambientPass->start();
-	this->addRenderPass(ambientPass); // 2
+	this->addRenderPass(ambientPass);
 
-	// lighting pass
+	// lighting pass 3
 	RenderPass* lightingPass = new RenderPass("lightingPass");
 	lightingPass->shader = this->game->resources->getShader("lighting_pass");
 	lightingPass->shader->use();
@@ -89,9 +89,9 @@ void RenderPipeline::start() {
 	lightingPass->shader->setInt("positionPass", 3);
 	lightingPass->addColorAttachment(GL_RGB);
 	lightingPass->start();
-	this->addRenderPass(lightingPass); // 3
+	this->addRenderPass(lightingPass);
 
-	// shadow pass
+	// shadow pass 4
 	RenderPass* shadowPass = new RenderPass("shadowPass");
 	shadowPass->shader = this->game->resources->getShader("shadow_pass");
 	shadowPass->shader->use();
@@ -100,9 +100,9 @@ void RenderPipeline::start() {
 	shadowPass->shader->setInt("shadowMap", 4);
 	shadowPass->addColorAttachment(GL_RED);
 	shadowPass->start();
-	this->addRenderPass(shadowPass); // 4
+	this->addRenderPass(shadowPass);
 
-	// ssao pass
+	// ssao pass 5
 	RenderPass* ssaoPass = new RenderPass("ssaoPass");
 	ssaoPass->shader = this->game->resources->getShader("ssao_pass");
 	ssaoPass->shader->use();
@@ -113,9 +113,9 @@ void RenderPipeline::start() {
 		ssaoPass->shader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
 	ssaoPass->addColorAttachment(GL_RED);
 	ssaoPass->start();
-	this->addRenderPass(ssaoPass); // 5
+	this->addRenderPass(ssaoPass);
 
-	// combine pass
+	// combine pass 6
 	RenderPass* combinePass = new RenderPass("combinePass");
 	combinePass->shader = this->game->resources->getShader("renderpass_combine");
 	combinePass->shader->use();
@@ -127,7 +127,7 @@ void RenderPipeline::start() {
 	combinePass->shader->setInt("ssaoPass", 8);
 	combinePass->addColorAttachment(GL_RGB);
 	combinePass->start();
-	this->addRenderPass(combinePass); // 6
+	this->addRenderPass(combinePass);
 	
 
 
@@ -155,6 +155,10 @@ void RenderPipeline::start() {
 	this->lutShader->setInt("lut", 1);
 }
 
+
+/*------------------------------------------------------------------------------
+< add RenderPass >
+------------------------------------------------------------------------------*/
 void RenderPipeline::addRenderPass(RenderPass* renderPass) {
 	this->renderPasses.push_back(renderPass);
 }
