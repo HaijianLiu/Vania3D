@@ -12,7 +12,7 @@ private:
 	
 	static void checkProgram(unsigned int shaderID);
 	static std::string readCode(std::string path);
-	static unsigned int complieShader(unsigned int shaderID, std::vector<std::string>* paths);
+	static unsigned int compileShader(unsigned int shaderID, std::vector<std::string>* paths);
 
 public:
 	unsigned int programID;
@@ -23,7 +23,7 @@ public:
 	// add codes before complie
 	void addVertexCode(std::string path);
 	void addFragmentCode(std::string path);
-	void complie();
+	void compile();
 
 	// activate the shader
 	void use();

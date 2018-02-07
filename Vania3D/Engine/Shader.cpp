@@ -100,14 +100,14 @@ void Shader::setMat4(const char* name, glm::mat4 mat) {
 /*------------------------------------------------------------------------------
 < loadShader >
 ------------------------------------------------------------------------------*/
-void Shader::complie() {
+void Shader::compile() {
 	// create the shaders
 	unsigned int vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
 	// complie
-	vertexShaderID = complieShader(vertexShaderID, &this->vertexPaths);
-	fragmentShaderID = complieShader(fragmentShaderID, &this->fragmentPaths);
+	vertexShaderID = compileShader(vertexShaderID, &this->vertexPaths);
+	fragmentShaderID = compileShader(fragmentShaderID, &this->fragmentPaths);
 
 	// check error
 	checkProgram(vertexShaderID);
@@ -180,7 +180,7 @@ void Shader::loadUniformLocation(const char* path) {
 /*------------------------------------------------------------------------------
 < complie shader >
 ------------------------------------------------------------------------------*/
-unsigned int Shader::complieShader(unsigned int shaderID, std::vector<std::string>* paths) {
+unsigned int Shader::compileShader(unsigned int shaderID, std::vector<std::string>* paths) {
 	// read the shader code from the file
 	std::string shaderCode;
 	for (unsigned int i = 0; i < paths->size(); i++) {

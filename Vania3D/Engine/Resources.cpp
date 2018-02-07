@@ -111,7 +111,7 @@ void Resources::loadShader(const char* name, const char* vertexPath, const char*
 	Shader* shader = new Shader();
 	shader->addVertexCode(vertexPath);
 	shader->addFragmentCode(fragmentPath);
-	shader->complie();
+	shader->compile();
 	this->shaders.insert(std::make_pair(name, shader));
 }
 void Resources::loadShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* functionPath) {
@@ -119,7 +119,7 @@ void Resources::loadShader(const char* name, const char* vertexPath, const char*
 	shader->addVertexCode(vertexPath);
 	shader->addFragmentCode(fragmentPath);
 	shader->addFragmentCode(functionPath);
-	shader->complie();
+	shader->compile();
 	this->shaders.insert(std::make_pair(name, shader));
 }
 void Resources::loadShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* functionPath1, const char* functionPath2) {
@@ -128,7 +128,7 @@ void Resources::loadShader(const char* name, const char* vertexPath, const char*
 	shader->addFragmentCode(fragmentPath);
 	shader->addFragmentCode(functionPath1);
 	shader->addFragmentCode(functionPath2);
-	shader->complie();
+	shader->compile();
 	this->shaders.insert(std::make_pair(name, shader));
 }
 Shader* Resources::getShader(const char* name) {
