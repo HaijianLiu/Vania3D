@@ -83,10 +83,6 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	}
 	
 	
-	
-	
-	
-
 	// ambient pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[2]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -161,7 +157,6 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	glBindTexture(GL_TEXTURE_2D, this->renderPasses[6]->frameBuffer.textures[0]);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, this->currentLut);
-	
 	this->quad->draw();
 }
 
