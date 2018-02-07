@@ -139,6 +139,7 @@ void RenderPipeline::start() {
 < add RenderPass >
 ------------------------------------------------------------------------------*/
 void RenderPipeline::addRenderPass(RenderPass* renderPass) {
+	renderPass->start();
 	this->renderPasses.push_back(renderPass);
 }
 

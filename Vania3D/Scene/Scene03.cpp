@@ -32,14 +32,12 @@ void Scene03::start() {
 	deferredPass->addColorAttachment(GL_RGB);
 	deferredPass->addColorAttachment(GL_RGB16F);
 	deferredPass->addDepthAttachment(GL_DEPTH_COMPONENT24);
-	deferredPass->start();
 	game->renderPipeline->addRenderPass(deferredPass);
 	
 	// fx pass 1
 	RenderPass* fxPass = new RenderPass("fxPass");
 	fxPass->addColorAttachment(GL_RGB);
 	fxPass->addDepthAttachment(GL_DEPTH_COMPONENT24);
-	fxPass->start();
 	game->renderPipeline->addRenderPass(fxPass);
 	
 	// ambient pass 2
@@ -54,7 +52,6 @@ void Scene03::start() {
 	ambientPass->shader->setInt("prefilterMap", 11);
 	ambientPass->shader->setInt("brdfLUT", 12);
 	ambientPass->addColorAttachment(GL_RGB);
-	ambientPass->start();
 	game->renderPipeline->addRenderPass(ambientPass);
 	
 	// lighting pass 3
@@ -66,7 +63,6 @@ void Scene03::start() {
 	lightingPass->shader->setInt("mrcPass", 2);
 	lightingPass->shader->setInt("positionPass", 3);
 	lightingPass->addColorAttachment(GL_RGB);
-	lightingPass->start();
 	game->renderPipeline->addRenderPass(lightingPass);
 	
 	// shadow pass 4
@@ -77,7 +73,6 @@ void Scene03::start() {
 	shadowPass->shader->setInt("positionPass", 3);
 	shadowPass->shader->setInt("shadowMap", 4);
 	shadowPass->addColorAttachment(GL_RED);
-	shadowPass->start();
 	game->renderPipeline->addRenderPass(shadowPass);
 	
 	// ssao pass 5
@@ -90,7 +85,6 @@ void Scene03::start() {
 	for (unsigned int i = 0; i < ssaoKernel.size(); ++i)
 		ssaoPass->shader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
 	ssaoPass->addColorAttachment(GL_RED);
-	ssaoPass->start();
 	game->renderPipeline->addRenderPass(ssaoPass);
 	
 	// combine pass 6
@@ -104,7 +98,6 @@ void Scene03::start() {
 	combinePass->shader->setInt("shadowPass", 7);
 	combinePass->shader->setInt("ssaoPass", 8);
 	combinePass->addColorAttachment(GL_RGB);
-	combinePass->start();
 	game->renderPipeline->addRenderPass(combinePass);
 
 	
