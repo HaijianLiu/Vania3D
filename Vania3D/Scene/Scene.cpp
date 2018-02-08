@@ -82,7 +82,7 @@ void Scene::updateScene() {
 		this->game->shadowMapping->render(&this->shadowQueue);
 
 	// final render
-	this->game->renderPipeline->render(this->renderLayer, this->fxLayer, &this->pointLights, this->mainCamera, this);
+	this->game->renderPipeline->render(this);
 	// this->game->renderPass->renderBounding(&this->renderQueue, this->mainCamera);
 }
 

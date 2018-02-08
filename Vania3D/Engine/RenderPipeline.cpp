@@ -56,7 +56,7 @@ void RenderPipeline::addRenderPass(RenderPass* renderPass) {
 /*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
-void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera, Scene* scene) {
+void RenderPipeline::render(Scene* scene) {
 
 	int width = this->game->window->screenWidth;
 	int height = this->game->window->screenHeight;
@@ -64,7 +64,7 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	// deferred pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[0]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderLayer->render(camera);
+	scene->renderLayer->render(scene->mainCamera);
 
 	// fx pass
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->renderPasses[1]->frameBuffer.fbo);
@@ -72,7 +72,7 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBlendFunc(GL_ONE, GL_ONE);
 	glDepthMask(GL_FALSE);
-	fxLayer->render(camera);
+	scene->fxLayer->render(scene->mainCamera);
 	glDepthMask(GL_TRUE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

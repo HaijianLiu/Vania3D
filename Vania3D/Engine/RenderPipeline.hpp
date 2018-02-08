@@ -13,7 +13,7 @@ class RenderPipeline {
 	
 	unsigned int currentLut;
 
-	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera, Scene* scene);
+	void render(Scene* scene);
 	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
 public:

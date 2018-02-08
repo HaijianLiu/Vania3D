@@ -5,6 +5,7 @@
 class Scene {
 	friend class SceneManager;
 	friend class Shader;
+	friend class RenderPipeline;
 
 	bool started = false;
 
