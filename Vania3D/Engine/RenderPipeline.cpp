@@ -82,47 +82,11 @@ void RenderPipeline::render(Scene* scene) {
 		glBindTexture(GL_TEXTURE_2D, this->renderPasses[0]->frameBuffer.textures[i]);
 	}
 	
+
+	for (unsigned int i = 2; i < this->renderPasses.size(); i++)
+		this->renderPasses[i]->update(scene);
 	
 
-	
-	
-	
-	// ambient pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[2]->frameBuffer.fbo);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->renderPasses[2]->shader->use();
-	this->renderPasses[2]->shader->updateSystemUniforms(scene);
-	this->quad->draw();
-
-	// lighting pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[3]->frameBuffer.fbo);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->renderPasses[3]->shader->use();
-	this->renderPasses[3]->shader->updateSystemUniforms(scene);
-	this->quad->draw();
-
-	// shadow pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[4]->frameBuffer.fbo);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->renderPasses[4]->shader->use();
-	this->renderPasses[4]->shader->updateSystemUniforms(scene);
-	this->renderPasses[4]->update();
-	this->quad->draw();
-
-	// ssao pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[5]->frameBuffer.fbo);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->renderPasses[5]->shader->use();
-	this->renderPasses[5]->shader->updateSystemUniforms(scene);
-	this->quad->draw();
-
-	// combine pass
-	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[6]->frameBuffer.fbo);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->renderPasses[6]->shader->use();
-	this->renderPasses[6]->update();
-	this->quad->draw();
-	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
 	

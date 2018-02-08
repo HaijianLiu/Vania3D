@@ -65,6 +65,7 @@ unsigned int RenderPass::getTexture(unsigned int index) {
 < start render pass >
 ------------------------------------------------------------------------------*/
 void RenderPass::start() {
+	// use framebuffer
 	glGenFramebuffers(1, &this->frameBuffer.fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->frameBuffer.fbo);
 	
@@ -80,19 +81,37 @@ void RenderPass::start() {
 		createDepthAttachment(this->depthAttachments[0]); // only one depth // 
 	}
 	
+	// reset
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+	// get quad
+	Game* game = Game::getInstance();
+	this->quad = game->resources->quad;
 }
 
 
 /*------------------------------------------------------------------------------
 < update render pass >
 ------------------------------------------------------------------------------*/
-void RenderPass::update() {
-	// update dynamic texture attachments
+void RenderPass::update(Scene* scene) {
+	// bind framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, this->frameBuffer.fbo);
+	
+	// clear color
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	// update shader uniforms
+	this->shader->use();
+	this->shader->updateSystemUniforms(scene);
+	
+	// update dynamic texture attachments if have
 	for (unsigned int i = 0; i < this->dynamicTextureAttachments.size(); i++) {
 		glActiveTexture(this->dynamicTextureAttachments[i].unit);
 		glBindTexture(this->dynamicTextureAttachments[i].target, this->dynamicTextureAttachments[i].texture);
 	}
+	
+	// draw
+	this->quad->draw();
 }
 
 

@@ -3,7 +3,7 @@
 #define Shader_hpp
 
 class Shader {
-	friend class RenderPipeline;
+	friend class RenderPass;
 
 	std::vector<std::string> vertexPaths, fragmentPaths;
 	std::unordered_map<std::string, int> uniformLocations;

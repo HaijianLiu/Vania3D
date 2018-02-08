@@ -16,6 +16,7 @@ struct TextureAttachment {
 class RenderPass {
 	friend class RenderPipeline;
 
+	Quad* quad;
 	std::string name;
 	Shader* shader;
 	FrameBuffer frameBuffer;
@@ -28,7 +29,7 @@ class RenderPass {
 	static void drawBuffers(GLsizei n);
 	
 	void start();
-	void update();
+	void update(Scene* scene);
 
 public:
 	RenderPass(std::string name);
