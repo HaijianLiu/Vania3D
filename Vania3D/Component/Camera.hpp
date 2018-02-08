@@ -6,8 +6,8 @@ class Camera : public Component {
 	friend class FrustumCulling;
 	friend class CameraController;
 	friend class RenderPipeline;
-	
-private:
+	friend class Shader;
+
 	// camera attributes
 	float field, ratio, rangeStart, rangeEnd;
 	// uniforms

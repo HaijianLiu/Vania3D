@@ -7,8 +7,8 @@ class ShadowMapping {
 	friend class RenderPipeline;
 	friend class Scene;
 	friend class MeshRenderer;
+	friend class Shader;
 
-private:
 	Game* game;
 	unsigned int fbo, depthMap;
 

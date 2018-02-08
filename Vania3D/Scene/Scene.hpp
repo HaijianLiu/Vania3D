@@ -4,6 +4,7 @@
 
 class Scene {
 	friend class SceneManager;
+	friend class Shader;
 
 	bool started = false;
 

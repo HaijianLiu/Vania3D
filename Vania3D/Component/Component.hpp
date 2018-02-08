@@ -6,6 +6,7 @@ class Component {
 	friend class GameObject;
 	friend class RenderPipeline;
 	friend class Scene;
+	friend class Shader;
 
 protected:
 	Game* game;

@@ -181,8 +181,33 @@ void Shader::loadUniformLocation(const char* path) {
 < update system defined uniforms automatically >
 ------------------------------------------------------------------------------*/
 void Shader::updateSystemUniforms(Scene* scene) {
-	if (this->uniformLocations.find("cameraPosition") != this->uniformLocations.end()) {
+	if (this->uniformLocations.find("cameraPosition") != this->uniformLocations.end())
 		this->setVec3("cameraPosition", scene->mainCamera->transform->position);
+
+	if (this->uniformLocations.find("lightSpaceMatrix") != this->uniformLocations.end()) {
+		Game* game = Game::getInstance();
+		this->setMat4("lightSpaceMatrix", game->shadowMapping->lightSpace);
+	}
+	
+	if (this->uniformLocations.find("normalMatrix") != this->uniformLocations.end()) {
+		Camera* cameraComponent = scene->mainCamera->getComponent<Camera>();
+		glm::mat4 normalMatrix = glm::transpose(glm::inverse(glm::mat3(cameraComponent->view)));
+		this->setMat4("normalMatrix", normalMatrix);
+		cameraComponent->setUniforms(this);
+	}
+	
+	if (this->uniformLocations.find("lightColor[0]") != this->uniformLocations.end()) {
+		std::vector<PointLight*>* pointLights = &scene->pointLights;
+		int lightSize = 0;
+		for (unsigned int i = 0; i < pointLights->size(); i++) {
+			if (!pointLights->at(i)->culling) {
+				this->setVec3(("lightColor[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
+				this->setVec3(("lightPosition[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->gameObject->transform->position);
+				this->setFloat(("lightRadius[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->radius);
+				lightSize++;
+			}
+		}
+		this->setInt("lightSize", lightSize);
 	}
 }
 

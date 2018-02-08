@@ -5,8 +5,8 @@
 class PointLight : public Component {
 	friend class FrustumCulling;
 	friend class RenderPipeline;
-	
-private:
+	friend class Shader;
+
 	bool culling = false;
 
 	void start();

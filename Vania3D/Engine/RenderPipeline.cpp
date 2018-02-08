@@ -87,7 +87,6 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[2]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->renderPasses[2]->shader->use();
-//	this->renderPasses[2]->shader->setVec3("cameraPosition", camera->transform->position);
 	this->renderPasses[2]->shader->updateSystemUniforms(scene);
 	this->quad->draw();
 
@@ -95,36 +94,23 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[3]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->renderPasses[3]->shader->use();
-	this->renderPasses[3]->shader->setVec3("cameraPosition", camera->transform->position);
-	int lightSize = 0;
-	for (unsigned int i = 0; i < pointLights->size(); i++) {
-		if (!pointLights->at(i)->culling) {
-			this->renderPasses[3]->shader->setVec3(("lightColor[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->color * pointLights->at(i)->intensity);
-			this->renderPasses[3]->shader->setVec3(("lightPosition[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->gameObject->transform->position);
-			this->renderPasses[3]->shader->setFloat(("lightRadius[" + std::to_string(lightSize) + "]").c_str(), pointLights->at(i)->radius);
-			lightSize++;
-		}
-	}
-	this->renderPasses[3]->shader->setInt("lightSize", lightSize);
+	this->renderPasses[3]->shader->updateSystemUniforms(scene);
 	this->quad->draw();
 
 	// shadow pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[4]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->renderPasses[4]->shader->use();
-	this->renderPasses[4]->shader->setMat4("lightSpaceMatrix", game->shadowMapping->lightSpace);
+	this->renderPasses[4]->shader->updateSystemUniforms(scene);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
 	this->quad->draw();
 
 	// ssao pass
-	Camera* cameraComponent = camera->getComponent<Camera>();
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[5]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->renderPasses[5]->shader->use();
-	glm::mat4 normalMatrix = glm::transpose(glm::inverse(glm::mat3(cameraComponent->view)));
-	this->renderPasses[5]->shader->setMat4("normalMatrix", normalMatrix);
-	cameraComponent->setUniforms(this->renderPasses[5]->shader);
+	this->renderPasses[5]->shader->updateSystemUniforms(scene);
 	this->quad->draw();
 
 	// combine pass
