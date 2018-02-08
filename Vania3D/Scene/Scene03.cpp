@@ -155,25 +155,25 @@ void Scene03::start() {
 	this->addGameObject("mainCamera", camera);
 	
 	// magic 52
-//	GameObject* magic[52];
-//	Transform* magicTransform[52];
-//	BoneOffset* magicOffset[52];
-//	MeshRenderer* magicMeshRenderer[52];
-//
-//	for (unsigned int i = 0; i < 52; i++) {
-//		magic[i] = new GameObject();
-//		magic[i]->staticObject = false;
-//		magicTransform[i] = magic[i]->addComponent<Transform>();
-//		magicTransform[i]->modelScale = glm::vec3(20 * GLOBAL_SCALE);
-//		magicOffset[i] = magic[i]->addComponent<BoneOffset>();
-//		magicOffset[i]->parent = player;
-//		magicOffset[i]->boneIndex = i;
-//		// for test
-//		magicMeshRenderer[i] = magic[i]->addComponent<MeshRenderer>();
-//		magicMeshRenderer[i]->model = game->resources->getModel("sphere");
-//		magicMeshRenderer[i]->materials.push_back(game->resources->getMaterial("simple"));
-//		this->addGameObject(("magic" + std::to_string(i)).c_str(), magic[i]);
-//	}
+	//	GameObject* magic[52];
+	//	Transform* magicTransform[52];
+	//	BoneOffset* magicOffset[52];
+	//	MeshRenderer* magicMeshRenderer[52];
+	//
+	//	for (unsigned int i = 0; i < 52; i++) {
+	//		magic[i] = new GameObject();
+	//		magic[i]->staticObject = false;
+	//		magicTransform[i] = magic[i]->addComponent<Transform>();
+	//		magicTransform[i]->modelScale = glm::vec3(20 * GLOBAL_SCALE);
+	//		magicOffset[i] = magic[i]->addComponent<BoneOffset>();
+	//		magicOffset[i]->parent = player;
+	//		magicOffset[i]->boneIndex = i;
+	//		// for test
+	//		magicMeshRenderer[i] = magic[i]->addComponent<MeshRenderer>();
+	//		magicMeshRenderer[i]->model = game->resources->getModel("sphere");
+	//		magicMeshRenderer[i]->materials.push_back(game->resources->getMaterial("simple"));
+	//		this->addGameObject(("magic" + std::to_string(i)).c_str(), magic[i]);
+	//	}
 	
 	// magic string
 	GameObject* magic = new GameObject();

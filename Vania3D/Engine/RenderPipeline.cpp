@@ -86,6 +86,7 @@ void RenderPipeline::render(Scene* scene) {
 
 	
 	
+	
 	// ambient pass
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[2]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -106,8 +107,6 @@ void RenderPipeline::render(Scene* scene) {
 	this->renderPasses[4]->shader->use();
 	this->renderPasses[4]->shader->updateSystemUniforms(scene);
 	this->renderPasses[4]->update();
-//	glActiveTexture(GL_TEXTURE4);
-//	glBindTexture(GL_TEXTURE_2D, game->shadowMapping->depthMap);
 	this->quad->draw();
 
 	// ssao pass
@@ -122,16 +121,6 @@ void RenderPipeline::render(Scene* scene) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->renderPasses[6]->shader->use();
 	this->renderPasses[6]->update();
-//	glActiveTexture(GL_TEXTURE4);
-//	glBindTexture(GL_TEXTURE_2D, this->renderPasses[1]->frameBuffer.textures[0]); // fx
-//	glActiveTexture(GL_TEXTURE5);
-//	glBindTexture(GL_TEXTURE_2D, this->renderPasses[2]->frameBuffer.textures[0]); // ambient
-//	glActiveTexture(GL_TEXTURE6);
-//	glBindTexture(GL_TEXTURE_2D, this->renderPasses[3]->frameBuffer.textures[0]); // lighting
-//	glActiveTexture(GL_TEXTURE7);
-//	glBindTexture(GL_TEXTURE_2D, this->renderPasses[4]->frameBuffer.textures[0]); // shadow
-//	glActiveTexture(GL_TEXTURE8);
-//	glBindTexture(GL_TEXTURE_2D, this->renderPasses[5]->frameBuffer.textures[0]); // ssao
 	this->quad->draw();
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
