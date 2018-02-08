@@ -29,6 +29,8 @@ public:
 
 	ShadowMapping();
 	~ShadowMapping();
+	
+	unsigned int getDepthMap();
 };
 
 #endif /* ShadowMapping_hpp */

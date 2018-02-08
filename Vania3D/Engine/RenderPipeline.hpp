@@ -10,7 +10,7 @@ class RenderPipeline {
 	Quad* quad;
 	Game* game;
 	std::vector<RenderPass*> renderPasses;
-	
+
 	unsigned int currentLut;
 
 	void render(Scene* scene);

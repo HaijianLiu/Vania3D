@@ -52,7 +52,7 @@ void ShadowMapping::start() {
 
 
 /*------------------------------------------------------------------------------
- < render >
+< render >
 ------------------------------------------------------------------------------*/
 void ShadowMapping::render(std::vector<MeshRenderer*>* shadowQueue) {
 	// bind framebuffer and view port
@@ -74,4 +74,12 @@ void ShadowMapping::render(std::vector<MeshRenderer*>* shadowQueue) {
 	// reset framebuffer and view port
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, this->game->window->screenWidth, this->game->window->screenHeight);
+}
+
+
+/*------------------------------------------------------------------------------
+< render >
+------------------------------------------------------------------------------*/
+unsigned int ShadowMapping::getDepthMap() {
+	return this->depthMap;
 }

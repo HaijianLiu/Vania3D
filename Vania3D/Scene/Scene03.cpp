@@ -40,7 +40,6 @@ void Scene03::start() {
 	game->renderPipeline->addRenderPass(fxPass);
 	
 	// ambient pass 2
-
 	RenderPass* ambientPass = new RenderPass("ambientPass");
 	ambientPass->addColorAttachment(GL_RGB);
 	Shader* ambientShader = this->game->resources->getShader("ambient_pass");
@@ -70,6 +69,7 @@ void Scene03::start() {
 	// shadow pass 4
 	RenderPass* shadowPass = new RenderPass("shadowPass");
 	shadowPass->addColorAttachment(GL_RED);
+	shadowPass->addDynamicTextureAttachment(GL_TEXTURE4, GL_TEXTURE_2D, game->shadowMapping->getDepthMap());
 	Shader* shadowShader = this->game->resources->getShader("shadow_pass");
 	shadowShader->use();
 	shadowShader->setInt("normalPass", 1);
@@ -94,6 +94,11 @@ void Scene03::start() {
 	// combine pass 6
 	RenderPass* combinePass = new RenderPass("combinePass");
 	combinePass->addColorAttachment(GL_RGB);
+	combinePass->addDynamicTextureAttachment(GL_TEXTURE4, GL_TEXTURE_2D, fxPass->getTexture(0));
+	combinePass->addDynamicTextureAttachment(GL_TEXTURE5, GL_TEXTURE_2D, ambientPass->getTexture(0));
+	combinePass->addDynamicTextureAttachment(GL_TEXTURE6, GL_TEXTURE_2D, lightingPass->getTexture(0));
+	combinePass->addDynamicTextureAttachment(GL_TEXTURE7, GL_TEXTURE_2D, shadowPass->getTexture(0));
+	combinePass->addDynamicTextureAttachment(GL_TEXTURE8, GL_TEXTURE_2D, ssaoPass->getTexture(0));
 	Shader* combineShader = this->game->resources->getShader("renderpass_combine");
 	combineShader->use();
 	combineShader->setInt("mrcPass", 2);

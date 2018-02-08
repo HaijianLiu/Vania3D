@@ -42,6 +42,26 @@ void RenderPass::addShader(Shader* shader) {
 
 
 /*------------------------------------------------------------------------------
+< add dynamic texture attachment >
+------------------------------------------------------------------------------*/
+void RenderPass::addDynamicTextureAttachment(GLenum unit, GLenum target, GLuint texture) {
+	TextureAttachment textureAttachment;
+	textureAttachment.unit = unit;
+	textureAttachment.target = target;
+	textureAttachment.texture = texture;
+	this->dynamicTextureAttachments.push_back(textureAttachment);
+}
+
+
+/*------------------------------------------------------------------------------
+< add dynamic texture attachment >
+------------------------------------------------------------------------------*/
+unsigned int RenderPass::getTexture(unsigned int index) {
+	return this->frameBuffer.textures[index];
+}
+
+
+/*------------------------------------------------------------------------------
 < start render pass >
 ------------------------------------------------------------------------------*/
 void RenderPass::start() {
@@ -61,6 +81,18 @@ void RenderPass::start() {
 	}
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
+/*------------------------------------------------------------------------------
+< update render pass >
+------------------------------------------------------------------------------*/
+void RenderPass::update() {
+	// update dynamic texture attachments
+	for (unsigned int i = 0; i < this->dynamicTextureAttachments.size(); i++) {
+		glActiveTexture(this->dynamicTextureAttachments[i].unit);
+		glBindTexture(this->dynamicTextureAttachments[i].target, this->dynamicTextureAttachments[i].texture);
+	}
 }
 
 
