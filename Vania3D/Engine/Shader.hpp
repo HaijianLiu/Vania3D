@@ -3,16 +3,19 @@
 #define Shader_hpp
 
 class Shader {
-private:
+	friend class RenderPipeline;
+
 	std::vector<std::string> vertexPaths, fragmentPaths;
 	std::unordered_map<std::string, int> uniformLocations;
 	
-	void getUniformLocation(const char* name);
 	void loadUniformLocation(const char* path);
+	void getUniformLocation(const char* name);
 	
 	static void checkProgram(unsigned int shaderID);
 	static std::string readCode(std::string path);
 	static unsigned int compileShader(unsigned int shaderID, std::vector<std::string>* paths);
+	
+	void updateSystemUniforms(Scene* scene);
 
 public:
 	unsigned int programID;

@@ -7,15 +7,13 @@ class RenderPipeline {
 	friend class Scene;
 	friend class LutController;
 
-private:
 	Quad* quad;
 	Game* game;
 	std::vector<RenderPass*> renderPasses;
 	
-	
 	unsigned int currentLut;
 
-	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera);
+	void render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera, Scene* scene);
 	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
 public:

@@ -178,6 +178,16 @@ void Shader::loadUniformLocation(const char* path) {
 
 
 /*------------------------------------------------------------------------------
+< update system defined uniforms automatically >
+------------------------------------------------------------------------------*/
+void Shader::updateSystemUniforms(Scene* scene) {
+	if (this->uniformLocations.find("cameraPosition") != this->uniformLocations.end()) {
+		this->setVec3("cameraPosition", scene->mainCamera->transform->position);
+	}
+}
+
+
+/*------------------------------------------------------------------------------
 < complie shader >
 ------------------------------------------------------------------------------*/
 unsigned int Shader::compileShader(unsigned int shaderID, std::vector<std::string>* paths) {

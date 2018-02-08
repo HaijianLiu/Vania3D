@@ -5,7 +5,6 @@
 class Scene {
 	friend class SceneManager;
 
-private:
 	bool started = false;
 
 	// game objects list
@@ -14,7 +13,7 @@ private:
 	std::unordered_map<const char*, unsigned int> gameObjectsMapping;
 	// render list
 	RenderLayer* renderLayer; // for final render
-    RenderLayer* fxLayer;
+	RenderLayer* fxLayer;
 	std::vector<MeshRenderer*> shadowQueue; // a list for shadow casting game objects
 	std::vector<MeshRenderer*> renderQueue; // a list for renderable game objects for some purpose
 	std::vector<PointLight*> pointLights; // a list for point lights to be calculated

@@ -56,7 +56,7 @@ void RenderPipeline::addRenderPass(RenderPass* renderPass) {
 /*------------------------------------------------------------------------------
 < render >
 ------------------------------------------------------------------------------*/
-void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera) {
+void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std::vector<PointLight*>* pointLights, GameObject* camera, Scene* scene) {
 
 	int width = this->game->window->screenWidth;
 	int height = this->game->window->screenHeight;
@@ -87,7 +87,8 @@ void RenderPipeline::render(RenderLayer* renderLayer, RenderLayer* fxLayer, std:
 	glBindFramebuffer(GL_FRAMEBUFFER, this->renderPasses[2]->frameBuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->renderPasses[2]->shader->use();
-	this->renderPasses[2]->shader->setVec3("cameraPosition", camera->transform->position);
+//	this->renderPasses[2]->shader->setVec3("cameraPosition", camera->transform->position);
+	this->renderPasses[2]->shader->updateSystemUniforms(scene);
 	this->quad->draw();
 
 	// lighting pass
