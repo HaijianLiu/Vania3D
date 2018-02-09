@@ -65,24 +65,28 @@ unsigned int RenderPass::getTexture(unsigned int index) {
 < start render pass >
 ------------------------------------------------------------------------------*/
 void RenderPass::start() {
-	// use framebuffer
-	glGenFramebuffers(1, &this->frameBuffer.fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, this->frameBuffer.fbo);
-	
-	// color attachment
-	for (unsigned int i = 0; i < this->colorAttachments.size(); i++) {
-		unsigned int textureID = createColorAttachment(GL_COLOR_ATTACHMENT0 + i, this->colorAttachments[i]);
-		this->frameBuffer.textures.push_back(textureID);
+	if (this->colorAttachments.size() != 0 || this->depthAttachments.size() != 0) {
+		// generate framebuffer
+		glGenFramebuffers(1, &this->frameBuffer.fbo);
+		glBindFramebuffer(GL_FRAMEBUFFER, this->frameBuffer.fbo);
+		
+		// color attachment
+		for (unsigned int i = 0; i < this->colorAttachments.size(); i++) {
+			unsigned int textureID = createColorAttachment(GL_COLOR_ATTACHMENT0 + i, this->colorAttachments[i]);
+			this->frameBuffer.textures.push_back(textureID);
+		}
+		drawBuffers(this->colorAttachments.size());
+		
+		// depth attachment
+		for (unsigned int i = 0; i < this->depthAttachments.size(); i++) {
+			createDepthAttachment(this->depthAttachments[0]); // only one depth //
+		}
+		
+		// reset
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	} else {
+		this->frameBuffer.fbo = 0;
 	}
-	drawBuffers(this->colorAttachments.size());
-	
-	// depth attachment
-	for (unsigned int i = 0; i < this->depthAttachments.size(); i++) {
-		createDepthAttachment(this->depthAttachments[0]); // only one depth // 
-	}
-	
-	// reset
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
 	// get quad
 	Game* game = Game::getInstance();

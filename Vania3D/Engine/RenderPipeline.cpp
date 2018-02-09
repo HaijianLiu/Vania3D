@@ -36,11 +36,11 @@ void RenderPipeline::start() {
 	glBindTexture(GL_TEXTURE_2D, this->lightProbe->brdf);
 	
 	// default lut pass
-	this->currentLut = this->game->resources->getTexture("clut_default_a")->id;
-	this->lutShader = this->game->resources->getShader("lut_pass");
-	this->lutShader->use();
-	this->lutShader->setInt("combinePass", 0);
-	this->lutShader->setInt("lut", 1);
+//	this->currentLut = this->game->resources->getTexture("clut_default_a")->id;
+//	this->lutShader = this->game->resources->getShader("lut_pass");
+//	this->lutShader->use();
+//	this->lutShader->setInt("combinePass", 0);
+//	this->lutShader->setInt("lut", 1);
 }
 
 
@@ -87,22 +87,16 @@ void RenderPipeline::render(Scene* scene) {
 		this->renderPasses[i]->update(scene);
 	
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
-	
-	
-	
-	
-	
-	
-	
-	// lut pass
-	this->lutShader->use();
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, this->renderPasses[6]->frameBuffer.textures[0]);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, this->currentLut);
-	this->quad->draw();
+//	// lut pass
+//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+//	this->lutShader->use();
+//	glActiveTexture(GL_TEXTURE0);
+//	glBindTexture(GL_TEXTURE_2D, this->renderPasses[6]->frameBuffer.textures[0]);
+//	glActiveTexture(GL_TEXTURE1);
+//	glBindTexture(GL_TEXTURE_2D, this->currentLut);
+//	this->quad->draw();
 }
 
 

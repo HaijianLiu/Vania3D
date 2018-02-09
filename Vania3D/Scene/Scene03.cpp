@@ -109,6 +109,18 @@ void Scene03::start() {
 	combineShader->setInt("ssaoPass", 8);
 	combinePass->addShader(combineShader);
 	game->renderPipeline->addRenderPass(combinePass);
+	
+	
+	// lut final pass 7
+	RenderPass* lutPass = new RenderPass("lutPass");
+	lutPass->addDynamicTextureAttachment(GL_TEXTURE0, GL_TEXTURE_2D, combinePass->getTexture(0));
+	lutPass->addDynamicTextureAttachment(GL_TEXTURE1, GL_TEXTURE_2D, game->resources->getTexture("clut_default_a")->id);
+	Shader* lutShader = game->resources->getShader("lut_pass");
+	lutShader->use();
+	lutShader->setInt("combinePass", 0);
+	lutShader->setInt("lut", 1);
+	lutPass->addShader(lutShader);
+	game->renderPipeline->addRenderPass(lutPass);
 
 	
 	// game controller
