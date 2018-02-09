@@ -11,20 +11,17 @@ class RenderPipeline {
 	Game* game;
 	std::vector<RenderPass*> renderPasses;
 
-	unsigned int currentLut;
-
 	void render(Scene* scene);
 	void renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera);
 
 public:
 	void addRenderPass(RenderPass* renderPass);
 	
-	
+	unsigned int currentLut;
 	
 	// render pass setting
 	LightProbe* lightProbe;
 
-	Shader* lutShader;
 
 	RenderPipeline();
 	~RenderPipeline();
