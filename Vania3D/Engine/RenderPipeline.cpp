@@ -34,13 +34,6 @@ void RenderPipeline::start() {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, this->lightProbe->prefilter);
 	glActiveTexture(GL_TEXTURE12);
 	glBindTexture(GL_TEXTURE_2D, this->lightProbe->brdf);
-	
-	// default lut pass
-//	this->currentLut = this->game->resources->getTexture("clut_default_a")->id;
-//	this->lutShader = this->game->resources->getShader("lut_pass");
-//	this->lutShader->use();
-//	this->lutShader->setInt("combinePass", 0);
-//	this->lutShader->setInt("lut", 1);
 }
 
 
@@ -81,27 +74,14 @@ void RenderPipeline::render(Scene* scene) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, this->renderPasses[0]->frameBuffer.textures[i]);
 	}
-	
 
 	for (unsigned int i = 2; i < this->renderPasses.size(); i++)
 		this->renderPasses[i]->update(scene);
-	
-
-//	// lut pass
-//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//
-//	this->lutShader->use();
-//	glActiveTexture(GL_TEXTURE0);
-//	glBindTexture(GL_TEXTURE_2D, this->renderPasses[6]->frameBuffer.textures[0]);
-//	glActiveTexture(GL_TEXTURE1);
-//	glBindTexture(GL_TEXTURE_2D, this->currentLut);
-//	this->quad->draw();
 }
 
 
 /*------------------------------------------------------------------------------
-< render bounding box >
+< render bounding box > out dated
 ------------------------------------------------------------------------------*/
 void RenderPipeline::renderBounding(std::vector<MeshRenderer*>* renderQueue, GameObject* camera) {
 	Game* game = Game::getInstance();

@@ -20,7 +20,6 @@ public:
 	// render pass setting
 	LightProbe* lightProbe;
 
-
 	RenderPipeline();
 	~RenderPipeline();
 
