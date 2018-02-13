@@ -3,7 +3,6 @@
 #define RenderPipeline_hpp
 
 class RenderPipeline {
-	friend class Game;
 	friend class Scene;
 	friend class LutController;
 
