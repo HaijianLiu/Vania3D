@@ -15,6 +15,7 @@ struct TextureAttachment {
 
 class RenderPass {
 	friend class RenderPipeline;
+	friend class LutController; // for test
 
 	Quad* quad;
 	std::string name;
