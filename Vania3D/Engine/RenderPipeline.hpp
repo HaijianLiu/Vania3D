@@ -15,7 +15,7 @@ class RenderPipeline {
 
 public:
 	void addRenderPass(RenderPass* renderPass);
-	
+
 	// render pass setting
 	LightProbe* lightProbe;
 
