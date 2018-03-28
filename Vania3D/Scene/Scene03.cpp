@@ -23,7 +23,7 @@ Scene03::~Scene03() {
 void Scene03::start() {
 	Game* game = Game::getInstance();
 	Resources* resources = game->resources;
-	
+
 	// deferred pass 0
 	RenderPass* deferredPass = new RenderPass("deferredPass");
 	deferredPass->addColorAttachment(GL_RGB);
@@ -32,13 +32,13 @@ void Scene03::start() {
 	deferredPass->addColorAttachment(GL_RGB16F);
 	deferredPass->addDepthAttachment(GL_DEPTH_COMPONENT24);
 	game->renderPipeline->addRenderPass(deferredPass);
-	
+
 	// fx pass 1
 	RenderPass* fxPass = new RenderPass("fxPass");
 	fxPass->addColorAttachment(GL_RGB);
 	fxPass->addDepthAttachment(GL_DEPTH_COMPONENT24);
 	game->renderPipeline->addRenderPass(fxPass);
-	
+
 	// ambient pass 2
 	RenderPass* ambientPass = new RenderPass("ambientPass");
 	ambientPass->addColorAttachment(GL_RGB);
@@ -53,7 +53,7 @@ void Scene03::start() {
 	ambientShader->setInt("brdfLUT", 12);
 	ambientPass->addShader(ambientShader);
 	game->renderPipeline->addRenderPass(ambientPass);
-	
+
 	// lighting pass 3
 	RenderPass* lightingPass = new RenderPass("lightingPass");
 	lightingPass->addColorAttachment(GL_RGB);
@@ -65,7 +65,7 @@ void Scene03::start() {
 	lightingShader->setInt("positionPass", 3);
 	lightingPass->addShader(lightingShader);
 	game->renderPipeline->addRenderPass(lightingPass);
-	
+
 	// shadow pass 4
 	RenderPass* shadowPass = new RenderPass("shadowPass");
 	shadowPass->addColorAttachment(GL_RED);
@@ -77,7 +77,7 @@ void Scene03::start() {
 	shadowShader->setInt("shadowMap", 4);
 	shadowPass->addShader(shadowShader);
 	game->renderPipeline->addRenderPass(shadowPass);
-	
+
 	// ssao pass 5
 	RenderPass* ssaoPass = new RenderPass("ssaoPass");
 	ssaoPass->addColorAttachment(GL_RED);
@@ -90,7 +90,17 @@ void Scene03::start() {
 		ssaoShader->setVec3(("samples[" + std::to_string(i) + "]").c_str(), ssaoKernel[i]);
 	ssaoPass->addShader(ssaoShader);
 	game->renderPipeline->addRenderPass(ssaoPass);
-	
+
+	// lighting pass 5 .5
+	RenderPass* outlinePass = new RenderPass("outlinePass");
+	outlinePass->addColorAttachment(GL_RGB);
+	Shader* outlineShader = this->game->resources->getShader("outline_pass");
+	outlineShader->use();
+	outlineShader->setInt("normalPass", 1);
+	outlineShader->setInt("positionPass", 3);
+	outlinePass->addShader(outlineShader);
+	game->renderPipeline->addRenderPass(outlinePass);
+
 	// combine pass 6
 	RenderPass* combinePass = new RenderPass("combinePass");
 	combinePass->addColorAttachment(GL_RGB);
@@ -99,6 +109,7 @@ void Scene03::start() {
 	combinePass->addDynamicTextureAttachment(GL_TEXTURE6, GL_TEXTURE_2D, lightingPass->getTexture(0));
 	combinePass->addDynamicTextureAttachment(GL_TEXTURE7, GL_TEXTURE_2D, shadowPass->getTexture(0));
 	combinePass->addDynamicTextureAttachment(GL_TEXTURE8, GL_TEXTURE_2D, ssaoPass->getTexture(0));
+	combinePass->addDynamicTextureAttachment(GL_TEXTURE9, GL_TEXTURE_2D, outlinePass->getTexture(0));
 	Shader* combineShader = this->game->resources->getShader("renderpass_combine");
 	combineShader->use();
 	combineShader->setInt("mrcPass", 2);
@@ -107,10 +118,11 @@ void Scene03::start() {
 	combineShader->setInt("lightingPass", 6);
 	combineShader->setInt("shadowPass", 7);
 	combineShader->setInt("ssaoPass", 8);
+	combineShader->setInt("outlinePass", 9);
 	combinePass->addShader(combineShader);
 	game->renderPipeline->addRenderPass(combinePass);
-	
-	
+
+
 	// lut final pass 7
 	RenderPass* lutPass = new RenderPass("lutPass");
 	lutPass->addDynamicTextureAttachment(GL_TEXTURE0, GL_TEXTURE_2D, combinePass->getTexture(0));
@@ -122,17 +134,17 @@ void Scene03::start() {
 	lutPass->addShader(lutShader);
 	game->renderPipeline->addRenderPass(lutPass);
 
-	
+
 	// game controller
 	GameObject* gameController = new GameObject();
 	gameController->addComponent<LutController>();
 	this->addGameObject("gameController", gameController);
-	
+
 	// camera
 	GameObject* camera = new GameObject();
 	camera->staticObject = false;
 	camera->addComponent<Camera>();
-	
+
 	// player
 	GameObject* player = new GameObject();
 	player->staticObject = false;
@@ -149,7 +161,7 @@ void Scene03::start() {
 	playerMeshRenderer->castShadow = true;
 	this->addGameObject("player", player);
 	game->shadowMapping->target = player;
-	
+
 	// camera target
 	GameObject* cameraTarget = new GameObject();
 	Transform* cameraTargetTransform = cameraTarget->addComponent<Transform>();
@@ -157,7 +169,7 @@ void Scene03::start() {
 	cameraTargetOffset->parent = playerTransform;
 	cameraTargetOffset->offsetPosition = glm::vec3(0, 1, 0);
 	this->addGameObject("cameraTarget", cameraTarget);
-	
+
 	// camera
 	Transform* cameraTransform = camera->addComponent<Transform>();
 	cameraTransform->position = glm::vec3(0.0,1.0,4.0);
@@ -165,7 +177,7 @@ void Scene03::start() {
 	camera->addComponent<FrustumCulling>();
 	this->mainCamera = camera;
 	this->addGameObject("mainCamera", camera);
-	
+
 	// magic 52
 	//	GameObject* magic[52];
 	//	Transform* magicTransform[52];
@@ -186,7 +198,7 @@ void Scene03::start() {
 	//		magicMeshRenderer[i]->materials.push_back(game->resources->getMaterial("simple"));
 	//		this->addGameObject(("magic" + std::to_string(i)).c_str(), magic[i]);
 	//	}
-	
+
 	// magic string
 	GameObject* magic = new GameObject();
 	magic->staticObject = false;
@@ -200,9 +212,9 @@ void Scene03::start() {
 	magicMeshRenderer->model = game->resources->getModel("sphere");
 	magicMeshRenderer->materials.push_back(game->resources->getMaterial("simple"));
 	this->addGameObject("magic", magic);
-	
-	
-	
+
+
+
 	// light
 	GameObject* light[4];
 	for (int i = 0; i < 4; i++) {
@@ -500,8 +512,7 @@ void Scene03::start() {
 	resources->getMaterial("Stairs")->addTexture("albedoMap", resources->getTexture("Stairs_D"));
 	resources->getMaterial("Stairs")->addTexture("normalMap", resources->getTexture("Stairs_N"));
 	resources->getMaterial("Stairs")->addTexture("maskMap", resources->getTexture("Stairs_SRM"));
-	
+
 	Map* map = new Map(this, "./Assets/Models/FantasyDungeon/Maps/Map2.fbx");
 	delete map;
 }
-

@@ -11,6 +11,7 @@ uniform sampler2D ambientPass;
 uniform sampler2D lightingPass;
 uniform sampler2D shadowPass;
 uniform sampler2D ssaoPass;
+uniform sampler2D outlinePass;
 
 
 void main() {
@@ -19,6 +20,7 @@ void main() {
 	vec3 lightingColor = texture(lightingPass, uv).rgb;
 	float shadow = texture(shadowPass, uv).r;
 	float ssao = texture(ssaoPass, uv).r;
+	vec3 outline = texture(outlinePass, uv).rgb;
 
 	float cavity = texture(mrcPass, uv).b;
 
@@ -33,5 +35,5 @@ void main() {
 	color = pow(color, vec3(1.0/2.2));
 
 	// final
-	combinePass = vec4(color, 1.0);
+	combinePass = vec4(outline, 1.0);
 }
